@@ -14,6 +14,7 @@ import datePage from "../../assets/datePage.svg"
 import backIcon from "../../assets/back.svg"
 import searchIcon from "../../assets/search.svg"
 import downIcon from "../../assets/down.svg"
+import logo from "../../assets/logo.png"
 
 const GerenciamentoProdutos = () => {
   const [produtos, setProdutos] = useState([]);
@@ -89,7 +90,7 @@ const GerenciamentoProdutos = () => {
             <div className="w-full h-1/4 bg-orange-principal"></div>
             <div className="relative pt-20 px-2">
               <div className="logo flex items-end  absolute top-[-80px] ">
-                <img src={imgProduto} alt="" />
+                <img src={logo} alt=""  className="w-[130px] rounded-full"/>
                 <h2 className="font-medium py-2 text-xl text-white-principal">Pão de açucar</h2>
               </div>
 
