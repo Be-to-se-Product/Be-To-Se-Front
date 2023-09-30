@@ -169,8 +169,6 @@ const GerenciamentoProdutos = () => {
                 <Card key={indice} product={produto} openModal={openModal} />
               ))}
             </div>
-
-         
           </div>
         </section>
       </main>

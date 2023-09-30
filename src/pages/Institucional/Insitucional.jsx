@@ -51,7 +51,7 @@ const Insitucional = () => {
   ,[userDetails])
 
   return (
-    <div className="">
+    <div >
       <NavbarRoot.Content>
         <NavbarRoot.Menu>
           <NavbarRoot.Item></NavbarRoot.Item>

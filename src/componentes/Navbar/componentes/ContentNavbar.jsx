@@ -4,7 +4,7 @@ import icon from '../../../assets/mingcute_down-fill.svg'
 import Button from '../../Button/Button'
 const ContentNavbar = ({children}) => {
   return (
-    <header className="w-screen bg-black-900 py-[10px] text-white-principal px-[58px] text-2xl gap-y-4 flex flex-col">
+    <header className="w-full bg-black-900 py-[10px] text-white-principal px-[58px] text-2xl gap-y-4 flex flex-col">
     <div className="flex justify-between ">
       <div className="flex items-center font-medium">EasyFind</div>
       <div className="flex w-1/2">
