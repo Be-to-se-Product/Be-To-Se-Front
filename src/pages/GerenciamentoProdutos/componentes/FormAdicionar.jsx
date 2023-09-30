@@ -1,7 +1,9 @@
 import axios from "axios";
 import React from "react";
 import { get, useForm } from "react-hook-form";
-import Input from "../../../componentes/Input/Input";
+import Input from "../../../componentes/Input/componentes/Input";
+import InputRoot from "../../../componentes/Input/InputRoot";
+import Label from "../../../componentes/Input/componentes/Label";
 
 const FormAdicionar = ({fecharModal,getProdutos}) => {
   const { register, handleSubmit } = useForm();
@@ -40,7 +42,9 @@ const FormAdicionar = ({fecharModal,getProdutos}) => {
             <Input nome={"Valor Compra"}  register={register('precoCompra')}  />
             <Input nome={"Valor Venda"}   register={register('precoVenda')} />
           </div>
-          <Input nome={"Categoria"}  register={register('categoria')} />
+          <InputRoot.Input nome={"Categoria"}  register={register('categoria')} >
+           <Label>Categoria</Label> 
+          </InputRoot.Input>
           <Input nome={"Tag"}  register={register('tag')}/>
           <Input nome={"Código SKU"}  register={register('codigoGtin')} />
           <div className="w-full flex flex-col px-2">

@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import Input from "../../../componentes/Input/Input";
+import Input from "../../../componentes/Input/componentes/Input";
 
 const FormUpdate = ({ produtos, id, fecharModal,getProdutos }) => {
   const { handleSubmit, register } = useForm();

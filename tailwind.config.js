@@ -2,7 +2,11 @@
 export default {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
+ 
     extend: {
+      backgroundImage:{
+        'vector':"url('./src/assets/vector.png')",
+      },
       colors: {
         black: {
           100: "#F5F5F5",
