@@ -7,7 +7,6 @@ import men from "../../assets/men.png";
 import family from "../../assets/family.png";
 import woman from "../../assets/woman-desktop.png";
 import axios from "axios";
-import { set } from "react-hook-form";
 import ContainerCard from "../../componentes/CardUser/componentes/ContainerCard";
 
 const Insitucional = () => {
@@ -41,9 +40,15 @@ const Insitucional = () => {
       coordenadasYShow: e.clientY,
     }
     setUserDetails(UserDetails);
-    setIsVisible(!isVisible);
+    setIsVisible(true);
   };
 
+
+window.addEventListener("click", (e) => {
+  
+    setIsVisible(false);
+  
+});
 
   useEffect(() => {
     console.log(userDetails);
