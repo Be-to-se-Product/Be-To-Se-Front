@@ -8,14 +8,16 @@ import family from "../../assets/family.png";
 import woman from "../../assets/woman-desktop.png";
 import axios from "axios";
 import ContainerCard from "../../componentes/CardUser/componentes/ContainerCard";
+import apiGithub from "../../services/apiGithub";
+
 
 const Insitucional = () => {
 
   const [userDetails,setUserDetails] = useState({});
   const [isVisible,setIsVisible] = useState(false);
   const retornarInformacoesUsuario = async(username) => {
-    return axios
-      .get(`https://api.github.com/users/${username}`)
+    return apiGithub
+      .get(`/users/${username}`)
       .then((response) => {
         console.log(response.data);
         return response.data;
