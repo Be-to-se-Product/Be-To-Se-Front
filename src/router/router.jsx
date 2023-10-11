@@ -1,6 +1,7 @@
 import {createBrowserRouter} from "react-router-dom";
 import Insitucional from "../pages/Institucional/Insitucional";
 import GerenciamentoProdutos from "../pages/GerenciamentoProdutos/GerenciamentoProdutos";
+import TelaInicial from "../pages/TelaInicial/TelaInicial";
   
 const router = createBrowserRouter([
     {
@@ -14,6 +15,11 @@ const router = createBrowserRouter([
     {
       path: "*",
       element: <><h2>Teste</h2></>
+    },
+
+    {
+      path: "/TelaInicial",
+      element: <TelaInicial />
     }
     
   ]);
