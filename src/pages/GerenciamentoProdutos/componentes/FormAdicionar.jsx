@@ -5,6 +5,7 @@ import InputRoot from "../../../componentes/Input/InputRoot";
 import Button from "../../../componentes/Button/Button";
 
 import {
+  Autocomplete,
   InputLabel,
   MenuItem,
   Select,
@@ -16,7 +17,7 @@ import {
 } from "@mui/material";
 import StepperRoot from "../../../componentes/Stepper/StepperRoot";
 
-const FormAdicionar = ({ fecharModal, getProdutos,setState }) => {
+const FormAdicionar = ({ fecharModal, getProdutos, setState }) => {
   const [imagens, setImagens] = useState(new Array(4));
 
   const [stateAtual, setStateAtual] = useState(0);
@@ -54,6 +55,8 @@ const FormAdicionar = ({ fecharModal, getProdutos,setState }) => {
   return (
     <>
       <div className=" w-[801px] h-[700px] p-8 bg-white-principal relative rounded-md flex items-center flex-col gap-y-2 justify-around">
+
+        <div className="absolute top-5  right-8 cursor-pointer" onClick={fecharModal}>X</div>
         <StepperRoot.Content>
           <StepperRoot.Step number={1} stateAtual={stateAtual}>
             Informações do produtos
@@ -99,9 +102,7 @@ const FormAdicionar = ({ fecharModal, getProdutos,setState }) => {
                   >
                     <InputRoot.Label>Valor Oferta</InputRoot.Label>
                   </InputRoot.Input>
-                  <div className="h-10">
-                    <Button type="button">Ativar Oferta</Button>
-                  </div>
+                  <div className="h-10"></div>
                 </div>
 
                 <div className="flex flex-col w-full   gap-x-2">
@@ -109,7 +110,6 @@ const FormAdicionar = ({ fecharModal, getProdutos,setState }) => {
                   <Select
                     value={tags[tags.length - 1]}
                     id="demo-simple-select"
-                    label="Tags"
                     className="w-full h-[42px]"
                     {...register("categoria")}
                   >
@@ -118,47 +118,29 @@ const FormAdicionar = ({ fecharModal, getProdutos,setState }) => {
                     <MenuItem value={"Roupa"}>Utensilhos</MenuItem>
                   </Select>
                 </div>
-                <div className="flex flex-col gap-x-2">
+                <div className="flex  w-full flex-col gap-x-2">
                   <InputRoot.Label>Tags ({tags.length}/5)</InputRoot.Label>
-                  <Select
-                    value={tags[tags.length - 1]}
-                    label="Tags"
-                    className="w-full h-[42px]"
-                    onChange={(data) => {
-                      !tags.includes(data.target.value) &&
-                        tags.length <= 5 &&
-                        setTags((prev) => [...prev, data.target.value]);
+                  <Autocomplete
+                    multiple
+                    size="small"
+                    limitTags={5}
+                    className="w-full"
+                    id="multiple-limit-tags"
+                    options={["Pedro", "Rocha"]}
+                    getOptionLabel={(option) => option}
+                    defaultValue={["Pedro"]}
+                    onChange={(event, newValue) => {
+                      setTags(newValue);
                     }}
-                  >
-                    <MenuItem value={"Camiseta"}>Camiseta</MenuItem>
-                    <MenuItem value={"Plastico"}>Plastico</MenuItem>
-                    <MenuItem value={"Roupa"}>Roupa</MenuItem>
-                    <MenuItem value={"Camiseta"}>Camiseta</MenuItem>
-                    <MenuItem value={"Plastico"}>Plastico</MenuItem>
-                    <MenuItem value={"Roupa"}>Roupa</MenuItem>
-                  </Select>
-                  <div className=" flex gap-x-2 mt-2 flex-wrap gap-y-2 relative">
-                    {tags.map((tag, index) => (
-                      <>
-                        <p
-                          className="py-2 pl-2 pr-4 bg-orange-principal rounded text-xs relative"
-                          key={`tags_${tag}`}
-                        >
-                          <span
-                            className="absolute top-[2px] right-[5px]"
-                            onClick={() =>
-                              setTags((prev) =>
-                                prev.filter((element) => element != tag)
-                              )
-                            }
-                          >
-                            X
-                          </span>
-                          {tag}
-                        </p>
-                      </>
-                    ))}
-                  </div>
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        placeholder="Favorites"
+                        {...register("tags")}
+                      />
+                    )}
+                    sx={{ width: "full", height: "42px" }}
+                  />
                 </div>
               </div>
 
@@ -168,7 +150,6 @@ const FormAdicionar = ({ fecharModal, getProdutos,setState }) => {
                   <Select
                     className="h-[42px]"
                     id="demo-simple-select"
-                    label="Tags"
                     {...register("sessao")}
                   >
                     <MenuItem value={"Roupas"}>Teste</MenuItem>
@@ -206,12 +187,17 @@ const FormAdicionar = ({ fecharModal, getProdutos,setState }) => {
           <div className={` ${stateAtual != 1 && "hidden"} `}>
             <div className={`w-full flex flex-col items-center gap-4  `}>
               <div className="w-[280px] flex h-[250px] border rounded items-center justify-center relative">
-                <img
-                  src=""
-                  alt=""
-                  className="h-full w-full  object-cover      "
-                />
+                <img src="" alt="" className="h-full w-full  object-cover  " />
+                <label
+                  htmlFor="imagem1"
+                  className="w-full h-full flex items-center justify-center absolute opacity-0 hover:opacity-100 bg-black-900 bg-opacity-60 z-10 transition-all   cursor-pointer"
+                >
+                  <span className="text-white-principal font-semibold">
+                    Clique aqui para editar
+                  </span>
+                </label>
                 <input
+                  id="imagem1"
                   type="file"
                   className="h-full w-full absolute top-0 opacity-0 "
                   onChange={handleFileChange}
@@ -221,8 +207,17 @@ const FormAdicionar = ({ fecharModal, getProdutos,setState }) => {
               <div className="flex gap-x-4 rounded">
                 <div className="w-[150px] h-[150px]  border rounded relative">
                   <img src="" alt="" className="h-full w-full object-cover" />
+                  <label
+                    htmlFor="imagem2"
+                    className="w-full h-full flex items-center justify-center absolute opacity-0 hover:opacity-100 bg-black-900 bg-opacity-60 z-10 transition-all top-0    cursor-pointer"
+                  >
+                    <span className="text-white-principal font-semibold text-center">
+                      Clique aqui para editar
+                    </span>
+                  </label>
                   <input
                     type="file"
+                    id="imagem2"
                     className="h-full w-full absolute top-0 opacity-0 "
                     onChange={handleFileChange}
                     register={register("imagem2")}
@@ -230,17 +225,36 @@ const FormAdicionar = ({ fecharModal, getProdutos,setState }) => {
                 </div>
                 <div className="w-[150px] h-[150px]  border rounded relative">
                   <img src="" alt="" className="h-full w-full object-cover" />
+                  <label
+                    htmlFor="imagem3"
+                    className="w-full h-full flex items-center justify-center absolute opacity-0 hover:opacity-100 bg-black-900 bg-opacity-60 z-10 transition-all  top-0  cursor-pointer"
+                  >
+                    <span className="text-white-principal font-semibold text-center">
+                      Clique aqui para editar
+                    </span>
+                  </label>
                   <input
                     type="file"
+                    id="imagem3"
                     className="h-full w-full absolute top-0 opacity-0 "
                     onChange={handleFileChange}
                     register={register("imagem3")}
                   />
                 </div>
+
                 <div className="w-[150px] h-[150px]  border rounded relative">
                   <img src="" alt="" className="h-full w-full object-cover" />
+                  <label
+                    htmlFor="imagem4"
+                    className="w-full h-full flex items-center justify-center absolute opacity-0 hover:opacity-100 bg-black-900 bg-opacity-60 z-10 transition-all top-0   cursor-pointer"
+                  >
+                    <span className="text-white-principal font-semibold text-center">
+                      Clique aqui para editar
+                    </span>
+                  </label>
                   <input
                     type="file"
+                    id="imagem4"
                     className="h-full w-full absolute top-0 opacity-0 "
                     onChange={handleFileChange}
                     register={register("imagem4")}
@@ -288,7 +302,8 @@ const FormAdicionar = ({ fecharModal, getProdutos,setState }) => {
               </button>
               <button
                 type="submit"
-                className="px-8 py-2 bg-orange-principal  text-white-principal  font-bold mt-4  rounded " onClick={()=>setState((prev)=>prev+1)}
+                className="px-8 py-2 bg-orange-principal  text-white-principal  font-bold mt-4  rounded "
+                onClick={() => setState((prev) => prev + 1)}
               >
                 Finalizar Cadastro
               </button>
