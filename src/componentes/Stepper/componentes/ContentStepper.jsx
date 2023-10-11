@@ -2,10 +2,8 @@
 
 const ContentStepper = (props) => {
   return (
-    <div className='w-[500px] flex  justify-between relative'>
-        <div className='w-full left-2 h-1 absolute bg-orange-principal top-1/4'></div>
+    <div className='w-[650px] flex  justify-between  relative   after:absolute  after:w-[440px] after:translate-x-[120px]   after:h-[2px]  after:bg-slate-950 after:top-5'>
         {props.children}
-        <NomeComponente/>
     </div>
   )
 }

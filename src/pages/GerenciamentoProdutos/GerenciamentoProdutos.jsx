@@ -20,7 +20,7 @@ const GerenciamentoProdutos = () => {
   const [produtos, setProdutos] = useState([]);
   const [isVisibleModal, setIsVisibleModal] = useState(false);
   const [stateForm, setStateForm] = useState(null);
-
+  const [state,setState] = useState(0);
   const getProdutos = () => {
     axios
       .get("http://localhost:8080/produtos")
@@ -50,7 +50,7 @@ const GerenciamentoProdutos = () => {
     switch (modal) {
       case "add":
         setStateForm(
-          <FormAdicionar fecharModal={closeModal} getProdutos={getProdutos} />
+          <FormAdicionar key={state}  setState={setState} fecharModal={closeModal} getProdutos={getProdutos} />
         );
         break;
       case "update":

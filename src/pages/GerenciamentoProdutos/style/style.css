@@ -1,0 +1,26 @@
+.layoult-product {
+    display: grid;
+    grid-template-areas:
+        'principal principal principal',
+        'fotoOne fotoTwo fotoThree'
+    ;
+
+    
+}
+
+
+.principal{
+    grid-area: principal;
+}
+
+.fotoOne{
+    grid-area: fotoOne;
+}
+
+.fotoTwo{
+    grid-area: fotoTwo;
+}
+
+.fotoThree{
+    grid-area: fotoThree;
+}
