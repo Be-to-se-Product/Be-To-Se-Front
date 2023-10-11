@@ -3,7 +3,16 @@ import React, { useState } from "react";
 import { get, useForm } from "react-hook-form";
 import InputRoot from "../../../componentes/Input/InputRoot";
 import Button from "../../../componentes/Button/Button";
-import DropDown from "../../../componentes/DropDown/DropDown";
+import {
+  InputLabel,
+  MenuItem,
+  Select,
+  Step,
+  StepButton,
+  StepLabel,
+  Stepper,
+} from "@mui/material";
+import StepperRoot from "../../../componentes/Stepper/StepperRoot";
 
 const FormAdicionar = ({ fecharModal, getProdutos }) => {
   const { register, handleSubmit } = useForm();
@@ -28,6 +37,11 @@ const FormAdicionar = ({ fecharModal, getProdutos }) => {
   return (
     <>
       <div className=" w-[801px] p-8 bg-white-principal rounded-md">
+        <StepperRoot.Content>
+          <StepperRoot.Step>Nome</StepperRoot.Step>
+
+          <StepperRoot.Step>Nome</StepperRoot.Step>
+        </StepperRoot.Content>
         <form
           className="flex flex-col items-center h-full  "
           onSubmit={handleSubmit(adicionarProduto)}
@@ -66,42 +80,72 @@ const FormAdicionar = ({ fecharModal, getProdutos }) => {
                 <InputRoot.Label>Categoria</InputRoot.Label>
               </InputRoot.Input>
 
-              <div className="">
-                <DropDown values={["Pedro", "Rocha"]} setValue={setTags}>
-                  Tags
-                </DropDown>
-                <div className="px-4">
-                  {tags.map((tag) => (
-                    <p className="py-1">{tag}</p>
+              <div className="flex flex-col gap-x-2">
+                <InputRoot.Label>Tags ({tags.length}/5)</InputRoot.Label>
+                <Select
+                  value={tags[tags.length - 1]}
+                  id="demo-simple-select"
+                  label="Tags"
+                  className="w-full h-[42px]"
+                  onChange={(data) => {
+                    !tags.includes(data.target.value) &&
+                      tags.length <= 5 &&
+                      setTags((prev) => [...prev, data.target.value]);
+                  }}
+                >
+                  <MenuItem value={"Camiseta"}>Camiseta</MenuItem>
+                  <MenuItem value={"Plastico"}>Plastico</MenuItem>
+                  <MenuItem value={"Roupa"}>Roupa</MenuItem>
+                  <MenuItem value={"Camiseta"}>Camiseta</MenuItem>
+                  <MenuItem value={"Plastico"}>Plastico</MenuItem>
+                  <MenuItem value={"Roupa"}>Roupa</MenuItem>
+                </Select>
+                <div className=" flex gap-x-2 mt-2 flex-wrap gap-y-2 relative">
+                  {tags.map((tag, index) => (
+                    <>
+                      <p
+                        className="py-2 pl-2 pr-4 bg-orange-principal rounded text-xs relative"
+                        key={`tags_${index}`}
+                      >
+                        <span
+                          className="absolute top-[2px] right-[5px]"
+                          onClick={() =>
+                            setTags((prev) =>
+                              prev.filter((element) => element != tag)
+                            )
+                          }
+                        >
+                          X
+                        </span>
+                        {tag}
+                      </p>
+                    </>
                   ))}
                 </div>
               </div>
             </div>
 
-            <div className="w-1/2">
-              <InputRoot.Input register={register("nome")}>
-                <InputRoot.Label>Nome</InputRoot.Label>
-              </InputRoot.Input>
+            <div className="w-1/2 flex flex-col gap-y-4 ">
+              <div className="flex flex-col w-full">
+                <InputRoot.Label>Seção da Loja</InputRoot.Label>
+                <Select className="h-[42px]">
+                  <MenuItem>Teste</MenuItem>
+                </Select>
+              </div>
 
-              <div className="flex w-full">
+              <div className="flex flex-col">
                 <InputRoot.Input
                   nome={"Categoria"}
                   register={register("categoria")}
                 >
-                  <InputRoot.Label>Categoria</InputRoot.Label>
-                </InputRoot.Input>
-                <InputRoot.Input
-                  nome={"Categoria"}
-                  register={register("categoria")}
-                >
-                  <InputRoot.Label>Categoria</InputRoot.Label>
+                  <InputRoot.Label>Código SKU</InputRoot.Label>
                 </InputRoot.Input>
               </div>
               <InputRoot.Input
                 nome={"Categoria"}
                 register={register("categoria")}
               >
-                <InputRoot.Label>Categoria</InputRoot.Label>
+                <InputRoot.Label>Código de barras</InputRoot.Label>
               </InputRoot.Input>
               <InputRoot.Input
                 nome={"Categoria"}
@@ -109,21 +153,6 @@ const FormAdicionar = ({ fecharModal, getProdutos }) => {
               >
                 <InputRoot.Label>Categoria</InputRoot.Label>
               </InputRoot.Input>
-              <InputRoot.Input
-                nome={"Categoria"}
-                register={register("categoria")}
-              >
-                <InputRoot.Label>Categoria</InputRoot.Label>
-              </InputRoot.Input>
-              <div className="w-full flex flex-col px-2">
-                <label htmlFor="" className="mb-2 text-black-800 ">
-                  Descricao
-                </label>
-                <textarea
-                  className="w-full px-1 py-1 resize-none"
-                  {...register("descricao")}
-                ></textarea>
-              </div>
             </div>
           </div>
           <div className="flex gap-x-1">
