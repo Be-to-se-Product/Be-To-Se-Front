@@ -1,5 +1,5 @@
 import {createBrowserRouter} from "react-router-dom";
-import Insitucional from "../pages/Institucional/Insitucional";
+import Insitucional from "../pages/Institucional/Institucional";
 import GerenciamentoProdutos from "../pages/GerenciamentoProdutos/GerenciamentoProdutos";
 import TelaInicial from "../pages/TelaInicial/TelaInicial";
   
