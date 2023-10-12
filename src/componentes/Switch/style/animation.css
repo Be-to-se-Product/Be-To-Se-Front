@@ -1,0 +1,28 @@
+
+
+.btn-check{
+    transition: 0.3s;
+}
+
+.input-check:checked + .content-switch .btn-check{
+  transform: translateX(140%);
+  
+}
+
+.content-switch h2:nth-child(1){
+    opacity: 0;
+    transition: 0.2s;
+}
+
+.input-check:checked + .content-switch h2:nth-child(1){
+    opacity: 1;
+    
+}
+
+.input-check:checked + .content-switch{
+    background-color: #58CC95;
+}
+.content-switch{
+    background-color: #E95F67;
+}
+

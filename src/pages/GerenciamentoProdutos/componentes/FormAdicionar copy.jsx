@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import StepperRoot from "../../../componentes/Stepper/StepperRoot";
 
+
 const FormAdicionar = ({ fecharModal, getProdutos, setState }) => {
   const [imagens, setImagens] = useState(new Array(4));
 
@@ -55,8 +56,12 @@ const FormAdicionar = ({ fecharModal, getProdutos, setState }) => {
   return (
     <>
       <div className=" w-[801px] h-[700px] p-8 bg-white-principal relative rounded-md flex items-center flex-col gap-y-2 justify-around">
-
-        <div className="absolute top-5  right-8 cursor-pointer" onClick={fecharModal}>X</div>
+        <div
+          className="absolute top-5  right-8 cursor-pointer"
+          onClick={fecharModal}
+        >
+          X
+        </div>
         <StepperRoot.Content>
           <StepperRoot.Step number={1} stateAtual={stateAtual}>
             Informações do produtos
@@ -70,6 +75,7 @@ const FormAdicionar = ({ fecharModal, getProdutos, setState }) => {
             Descrição do produto
           </StepperRoot.Step>
         </StepperRoot.Content>
+
         <form
           className="flex flex-col items-center w-full"
           onSubmit={handleSubmit(adicionarProduto)}

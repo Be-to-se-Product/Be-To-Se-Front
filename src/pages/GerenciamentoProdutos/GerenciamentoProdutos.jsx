@@ -2,7 +2,7 @@ import Card from "./componentes/Card";
 import imgProduto from "../../assets/cocacola.svg";
 import Modal from "../../componentes/Modal/Modal";
 
-import FormAdicionar from "./componentes/FormAdicionar";
+import FormAdicionar from "./componentes/FormUpdate";
 import FormUpdate from "./componentes/FormUpdate";
 import ContentDelete from "./componentes/ContentDelete";
 import { useEffect, useState } from "react";
@@ -15,12 +15,15 @@ import backIcon from "../../assets/back.svg";
 import searchIcon from "../../assets/search.svg";
 import downIcon from "../../assets/down.svg";
 import logo from "../../assets/logo.png";
+import { MenuItem, Select } from "@mui/material";
+
 
 const GerenciamentoProdutos = () => {
   const [produtos, setProdutos] = useState([]);
   const [isVisibleModal, setIsVisibleModal] = useState(false);
   const [stateForm, setStateForm] = useState(null);
-  const [state,setState] = useState(0);
+  const [state, setState] = useState(0);
+
   const getProdutos = () => {
     axios
       .get("http://localhost:8080/produtos")
@@ -34,7 +37,6 @@ const GerenciamentoProdutos = () => {
 
   useEffect(() => {
     getProdutos();
-    console.log(produtos);
   }, []);
 
   const openModal = (tipo, id) => {
@@ -50,7 +52,12 @@ const GerenciamentoProdutos = () => {
     switch (modal) {
       case "add":
         setStateForm(
-          <FormAdicionar key={state}  setState={setState} fecharModal={closeModal} getProdutos={getProdutos} />
+          <FormAdicionar
+            key={state}
+            setState={setState}
+            fecharModal={closeModal}
+            getProdutos={getProdutos}
+          />
         );
         break;
       case "update":
@@ -131,26 +138,47 @@ const GerenciamentoProdutos = () => {
               <input
                 type="text"
                 className=" w-full text-base  rounded-lg px-4 py-2  outline-none  bg-transparent"
-              placeholder="Pesquisar produto"/>
+                placeholder="Pesquisar produto"
+              />
             </div>
             <div className="flex gap-x-4">
-              <div className="  relative w-[193px] h-max bg-white-principal rounded-lg  shadow-lg">
-                <div className="absolute right-5 top-0 w-6 h-full flex  items-center justify-center">
-                  <img src={downIcon} alt="" className="w-full " />
-                </div>
-                <input
-                  type="text"
-                  className=" w-full text-base  rounded-lg px-4 py-2 outline-none  bg-transparent"
-                />
+              <div className="   w-[193px] h-max bg-white-principal rounded-lg  shadow-lg">
+                
+                  <Select
+                    
+                    id="demo-simple-select"
+                    renderValue={(data)=>{
+                      if(data.length===0){
+                       return <em>Selecione um taf</em>
+                      }
+                      
+                    }}
+                    className="w-full h-[42px]"
+                  
+                  >
+                    <MenuItem value={"Camiseta"}>Roupas</MenuItem>
+                    <MenuItem value={"Plastico"}>Eletronicos</MenuItem>
+                    <MenuItem value={"Roupa"}>Utensilhos</MenuItem>
+                  </Select>
               </div>
-              <div className="  relative w-[193px] h-max bg-white-principal rounded-lg  shadow-lg">
-                <div className="absolute right-5 top-0 w-6 h-full flex  items-center justify-center">
-                  <img src={downIcon} alt="" className="w-full " />
-                </div>
-                <input
-                  type="text"
-                  className=" w-full text-base  rounded-lg px-4 py-2 outline-none  bg-transparent"
-                />
+
+              <div className="relative w-[193px] h-max bg-white-principal rounded-lg  shadow-lg">
+              <Select
+                    
+                    id="demo-simple-select"
+                    renderValue={(data)=>{
+                      if(data.length===0){
+                       return <em>Selecione um taf</em>
+                      }
+                      
+                    }}
+                    className="w-full h-[42px]"
+                  
+                  >
+                    <MenuItem value={"Camiseta"}>Roupas</MenuItem>
+                    <MenuItem value={"Plastico"}>Eletronicos</MenuItem>
+                    <MenuItem value={"Roupa"}>Utensilhos</MenuItem>
+                  </Select>
               </div>
             </div>
           </div>
@@ -166,9 +194,7 @@ const GerenciamentoProdutos = () => {
             </div>
 
             <div className="content-product flex gap-x-6 gap-y-8 flex-wrap h-full overflow-scroll">
-              {produtos.map((produto, indice) => (
-                <Card key={indice} product={produto} openModal={openModal} />
-              ))}
+              <Card key={1} openModal={openModal} />
             </div>
           </div>
         </section>

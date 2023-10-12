@@ -21,7 +21,7 @@ function deletarProduto() {
 }
   return (
     <>
-      <div className="px-10">
+      <div className="px-10 bg-white-principal py-10">
         <h2 className="text-2xl font-medium">
           Deseja realmente excluir esse produto?
         </h2>
