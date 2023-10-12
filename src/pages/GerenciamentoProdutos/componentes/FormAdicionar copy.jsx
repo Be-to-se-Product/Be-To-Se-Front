@@ -16,9 +16,9 @@ import {
   TextField,
 } from "@mui/material";
 import StepperRoot from "../../../componentes/Stepper/StepperRoot";
-import BotaoSwitch from "../../../componentes/Switch/BotaoSwitch";
 
-const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
+
+const FormAdicionar = ({ fecharModal, getProdutos, setState }) => {
   const [imagens, setImagens] = useState(new Array(4));
 
   const [stateAtual, setStateAtual] = useState(0);
@@ -76,10 +76,6 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
           </StepperRoot.Step>
         </StepperRoot.Content>
 
-        <div className={`flex items-center gap-x-2 justify-end w-11/12`}>
-          Suspender Anuncio
-          <BotaoSwitch />
-        </div>
         <form
           className="flex flex-col items-center w-full"
           onSubmit={handleSubmit(adicionarProduto)}
@@ -315,7 +311,7 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
                 className="px-8 py-2 bg-orange-principal  text-white-principal  font-bold mt-4  rounded "
                 onClick={() => setState((prev) => prev + 1)}
               >
-                Salvar alterações
+                Finalizar Cadastro
               </button>
             </div>
           </div>
@@ -325,4 +321,4 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
   );
 };
 
-export default FormUpdate;
+export default FormAdicionar;
