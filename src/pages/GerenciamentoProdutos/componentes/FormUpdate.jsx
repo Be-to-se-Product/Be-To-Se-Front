@@ -1,19 +1,12 @@
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
-import { get, useForm } from "react-hook-form";
+import React, { useState } from "react";
+import {  useForm } from "react-hook-form";
 import InputRoot from "../../../componentes/Input/InputRoot";
-import Button from "../../../componentes/Button/Button";
 
 import {
   Autocomplete,
-  InputLabel,
   MenuItem,
-  Select,
-  Step,
-  StepButton,
-  StepLabel,
-  Stepper,
-  TextField,
+  Select, TextField
 } from "@mui/material";
 import StepperRoot from "../../../componentes/Stepper/StepperRoot";
 import BotaoSwitch from "../../../componentes/Switch/BotaoSwitch";
