@@ -8,22 +8,23 @@ import BotaoSwitch from "../../../componentes/Switch/BotaoSwitch";
 import SwitchBase from "@mui/material/internal/SwitchBase";
 import RowSessao from "./RowSessao";
 
-const ModalLoja = () => {
+const ModalLoja = ({closeModal,handleSubmit}) => {
   const [rowSessao, setRowSessao] = useState([]);
   const [stateAtual, setStateAtual] = useState(0);
 
   return (
-    <section className="flex flex-col w-[800px]  bg-white-principal gap-y-10 h-[700px] py-20 px-20 ">
-      <div className="absolute top-8 right-12 font-semibold cursor-pointer">
+    <section className="flex flex-col w-[850px]  bg-white-principal gap-y-10 h-[700px] py-20 px-16 ">
+      <div className="absolute top-8 right-12 font-semibold cursor-pointer" onClick={()=>closeModal()}>
         X
       </div>
       <div className="flex flex-col items-center  justify-center w-full gap-y-10">
         <h2 className="text-2xl font-medium">Cadastro de Loja</h2>
-        <StepperRoot.Content>
-          <StepperRoot.Step >Dados da loja</StepperRoot.Step>
-          <StepperRoot.Step>Endereço</StepperRoot.Step>
-          <StepperRoot.Step>Horário de atendimento</StepperRoot.Step>
-          <StepperRoot.Step>Seções</StepperRoot.Step>
+        <StepperRoot.Content percentage={80}>
+          <StepperRoot.Step number={1} stateAtual={stateAtual}>Dados da loja</StepperRoot.Step>
+          <StepperRoot.Step number={2} stateAtual={stateAtual}>Endereço</StepperRoot.Step>
+          <StepperRoot.Step number={3} stateAtual={stateAtual}>Horário de atendimento</StepperRoot.Step>
+          <StepperRoot.Step number={4} stateAtual={stateAtual}>Seções</StepperRoot.Step>
+          <StepperRoot.Step number={5} stateAtual={stateAtual}>Métodos de pagamento</StepperRoot.Step>
         </StepperRoot.Content>
       </div>
       <div className={ ` flex flex-col gap-y-8 ${
@@ -306,7 +307,7 @@ const ModalLoja = () => {
 
       <div className={`${stateAtual != 3 && "hidden"} flex flex-col gap-y-8 `}>
       <div
-        className={`flex flex-col w-10/12  mx-auto h-[300px]   gap-y-4 rounded-lg  `}
+        className={`flex flex-col w-10/12 justify-center  mx-auto h-[300px]   gap-y-4 rounded-lg  `}
       >
         <div className="grid grid-cols-2  gap-4  mx-auto ">
           <div className=" flex items-center   ">

@@ -1,7 +1,7 @@
 import {createBrowserRouter} from "react-router-dom";
 import Insitucional from "../pages/Institucional/Institucional";
 import GerenciamentoProdutos from "../pages/GerenciamentoProdutos/GerenciamentoProdutos";
-import GerencimentoLoja from "../pages/GerencimentoLojas/GerencimentoLoja";
+import GerenciamentoLoja from "../pages/GerencimentoLojas/GerenciamentoLoja";
   
 const router = createBrowserRouter([
     {
@@ -14,7 +14,7 @@ const router = createBrowserRouter([
     },
     {
       path:"/GerenciamentoLojas",
-      element:<GerencimentoLoja/>
+      element:<GerenciamentoLoja/>
     },
 
  
