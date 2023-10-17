@@ -1,5 +1,5 @@
 import react from "react";
-import imgProduto from "..//../../assets/cocacola.svg"
+import imgProduto from "../../../assets/cocacola.svg"
 import { Rating } from "@mui/material";
 import Carro from "../../../assets/carro.svg"
 import Pe from "../../../assets/pe.svg"
