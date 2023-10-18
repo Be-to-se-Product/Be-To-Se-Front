@@ -56,7 +56,7 @@ const CardProdutoIphone = (props) => {
 
                         <div className="">
                             <p className="">
-                                JBL Tune 720BT
+                                IPHONE 15 PRO MAX
                             </p>
                         </div>
                     </div>
