@@ -2,12 +2,15 @@ import react from "react";
 
 const CardLoja = (props) => {
     return (
-        <div className="w-[275px] h-[340px] gap-20 border-2 bg-white-principa">
+        <div className="flex flex-col w-[275px] h-full bg-white-principa gap-16 justify-center items-center">
 
-            <div className="flex w-[271px] h-[97px] bg-cover bg-[url('https://mercadoeconsumo.com.br/wp-content/uploads/2021/02/Fast-Shop-entrega-73-das-compras-online-em-ate-duas-horas-e1691695903443.jpg')] "></div>
-            {/* <div className="flex w-[80px] h-[80px] bg-black-900  "></div> */}
+            <div className="flex flex-col justify-center items-center gap-9 w-[271px] h-[97px]  bg-cover bg-[url('https://mercadoeconsumo.com.br/wp-content/uploads/2021/02/Fast-Shop-entrega-73-das-compras-online-em-ate-duas-horas-e1691695903443.jpg')] ">
+                <div className="flex w-[80px] h-[80px] bg-cover  bg-[url('https://fastshopwr-a.akamaihd.net/assets/images/fast-shop.jpg')]">
 
-            <div className="flex w-auto h-auto justify-center ">
+                </div>
+            </div>
+
+            <div className="flex w-auto h-auto gap-9 justify-center ">
                 <p className="flex text-center text-3xl items-center">
                     Fast Shop
                 </p>
