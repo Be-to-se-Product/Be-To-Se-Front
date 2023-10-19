@@ -5,6 +5,7 @@ import GerenciamentoProdutos from "../pages/GerenciamentoProdutos/GerenciamentoP
 import TelaInicial from "../pages/TelaInicial/TelaInicial";
 
 import GerenciamentoLoja from "../pages/GerencimentoLojas/GerenciamentoLoja";
+import HistoricoVendas from "../pages/HistoricoVendas/HistoricoVendas";
   
 const router = createBrowserRouter([
     {
@@ -19,11 +20,13 @@ const router = createBrowserRouter([
       path:"/GerenciamentoLojas",
       element:<GerenciamentoLoja/>
     },
-
- 
+    {
+      path:"/HistoricoVendas",
+      element:<HistoricoVendas/>
+    },
     {
       path: "*",
-      element: <><h2>Teste</h2></>
+      element: <><h2>Not Found</h2></>
     },
 
     {

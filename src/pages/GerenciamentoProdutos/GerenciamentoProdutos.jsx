@@ -125,7 +125,7 @@ const GerenciamentoProdutos = () => {
                     id="demo-simple-select"
                     renderValue={(data)=>{
                       if(data.length===0){
-                       return <em>Selecione um taf</em>
+                       return <em>Selecione um tag</em>
                       }
                       
                     }}

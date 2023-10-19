@@ -19,7 +19,7 @@ const ModalLoja = ({closeModal,handleSubmit}) => {
       </div>
       <div className="flex flex-col items-center  justify-center w-full gap-y-10">
         <h2 className="text-2xl font-medium">Cadastro de Loja</h2>
-        <StepperRoot.Content percentage={80}>
+        <StepperRoot.Content percentage={90}>
           <StepperRoot.Step number={1} stateAtual={stateAtual}>Dados da loja</StepperRoot.Step>
           <StepperRoot.Step number={2} stateAtual={stateAtual}>Endereço</StepperRoot.Step>
           <StepperRoot.Step number={3} stateAtual={stateAtual}>Horário de atendimento</StepperRoot.Step>
