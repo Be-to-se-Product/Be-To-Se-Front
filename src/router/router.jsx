@@ -6,6 +6,7 @@ import TelaInicial from "../pages/TelaInicial/TelaInicial";
 
 import GerenciamentoLoja from "../pages/GerencimentoLojas/GerenciamentoLoja";
 import HistoricoVendas from "../pages/HistoricoVendas/HistoricoVendas";
+import NotFound from "../pages/NotFound/NotFound";
   
 const router = createBrowserRouter([
     {
@@ -26,7 +27,7 @@ const router = createBrowserRouter([
     },
     {
       path: "*",
-      element: <><h2>Not Found</h2></>
+      element: <NotFound />
     },
 
     {

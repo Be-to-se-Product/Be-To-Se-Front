@@ -6,6 +6,8 @@ import negocioIcon from "../../assets/negocio.svg";
 import shopIcon from "../../assets/shop.svg";
 import datePage from "../../assets/datePage.svg";
 import downIcon from "../../assets/down.svg";
+import { Link } from "react-router-dom";
+
 const MenuComerciante = () => {
   return (
     <aside className="bg-black-900   flex flex-col h-screen min-w-[350px] max-w-[350px]">
@@ -22,22 +24,35 @@ const MenuComerciante = () => {
           <div className="content-option mt-10 px-7 w-full">
             <nav>
               <ul className="flex flex-col gap-4">
+              <Link to="/GerenciamentoProdutos">
                 <li className="text-lg text-white-principal flex gap-x-4 mb-5 items-center">
                   <img src={produtoIcon} alt="" className="w-8" />
                   Gerenciar Produtos
                 </li>
+              </Link>
+              <Link to="/GerenciamentoLojas">
+                <li className="text-lg text-white-principal flex gap-x-4 mb-5 items-center">
+                  <img src={produtoIcon} alt="" className="w-8" />
+                  Gerenciar Lojas
+                </li>
+              </Link>
                 <li className="text-lg text-white-principal flex gap-x-4  mb-5 items-center">
                   <img src={negocioIcon} alt="" className="w-8" />
                   <h2>Análise de negócio</h2>{" "}
                 </li>
-                <li className="text-lg text-white-principal flex gap-x-4 mb-5 items-center">
+                <Link to="/HistoricoVendas">
+                <li className="text-lg text-white-principal flex gap-x-4 mb-5 items-center" onClick={()=>router}  >
                   <img src={shopIcon} alt="" className="w-8" />
                   <h2>Históricos de venda</h2>
                 </li>
+                </Link>
+
+                <Link to="/DadosCadastrais">
                 <li className="text-lg text-white-principal flex gap-x-4 mb-5 items-center">
                   <img src={datePage} alt="" className="w-8" />
                   <h2> Dados cadastrais </h2>
                 </li>
+                </Link>
               </ul>
             </nav>
           </div>
