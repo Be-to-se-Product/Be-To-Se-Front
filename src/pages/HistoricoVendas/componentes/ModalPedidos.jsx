@@ -1,22 +1,26 @@
-import React from 'react'
-import Button from '../../../componentes/Button/Button'
+import React, { useState } from "react";
+import Button from "../../../componentes/Button/Button";
+import Close from "../../../componentes/Close/Close";
+import styled from "../animations/ModalAnimation.module.css";
+import ItemPedido from "./ItemPedido";
 
-const ModalPedidos = () => {
+const ModalPedidos = ({pedidos,isModal,setIsModal,...props}) => {
   return (
-    <div>
-    <div className='w-[379px] flex items-center gap-x-2'>
-        <div className='w-14 flex justify-center'>
-            <img src="/src/assets/cocacola.svg" alt="" />
-        </div>
-        <div>
-            <h3 className='text-base'>Meia Crew</h3>
-            <h4 className='text-xs'>(1 Unidade)</h4>
-            <span className='text-sm'>R$ 99,99 (Unidade)</span>
-        </div>
-        <Button className={"text-xs "}>Ver Item</Button>
-    </div>
-    </div>
-  )
-}
 
-export default ModalPedidos
+    <div className={`flex flex-col border h-screen gap-y-2  fixed rounded-sm bg-white-principal right-0 top-0 ${styled.modal} ${isModal?styled.active:"" } ` }  {...props}>
+      
+      <div className="px-2 py-4 border-b flex justify-between items-center">
+      
+      <h2 className="text-base ">Pedido #223323</h2>
+      <Close onClick={()=>setIsModal(!isModal)}/>
+      </div>
+      <div className="p-2 flex flex-col gap-y-2">
+      
+<ItemPedido/>
+    
+      </div>
+    </div>
+  );
+};
+
+export default ModalPedidos;

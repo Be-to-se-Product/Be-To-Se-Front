@@ -10,6 +10,7 @@ export default {
         'vector':"url('./src/assets/vector.png')",
       },
       colors: {
+        background:"#DDDDDD",
         black: {
           100: "#F5F5F5",
           200: "#EEEEEE",

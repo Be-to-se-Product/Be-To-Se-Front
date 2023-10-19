@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import MenuComerciante from "../../componentes/MenuComerciante/MenuComerciante";
 import BoxComerciante from "../../componentes/BoxComerciante/BoxComerciante";
 import InputRoot from "../../componentes/Input/InputRoot";
 import Button from "../../componentes/Button/Button";
+
 import {
   MenuItem,
+  Pagination,
   Select,
   Table,
   TableBody,
@@ -13,42 +15,159 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
 import ModalPedidos from "./componentes/ModalPedidos";
+import TableRoot from "../../componentes/Table/TableRoot";
 
 const HistoricoVendas = () => {
-  const columns = [];
+  const [isModal, setIsModal] = useState(false);
 
-  const rows = [
-    { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-    { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-    { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-    { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-    { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-    { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-    { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-    { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-    { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
+  const vendas = [
+    {
+      id: 1,
+      data_pedido: "2023-10-18",
+      cpf_comprador: "123.456.789-01",
+      modo_compra: "Online",
+      metodo_pagamento: "Cartão de Crédito",
+      total_compra: 100.0,
+      acoes: "Processar",
+    },
+    {
+      id: 2,
+      data_pedido: "2023-10-19",
+      cpf_comprador: "234.567.890-12",
+      modo_compra: "Presencial",
+      metodo_pagamento: "Dinheiro",
+      total_compra: 75.5,
+      acoes: "Cancelar",
+    },
+    {
+      id: 3,
+      data_pedido: "2023-10-20",
+      cpf_comprador: "345.678.901-23",
+      modo_compra: "Online",
+      metodo_pagamento: "Transferência Bancária",
+      total_compra: 200.25,
+      acoes: "Processar",
+    },
+    {
+      id: 4,
+      data_pedido: "2023-10-21",
+      cpf_comprador: "456.789.012-34",
+      modo_compra: "Presencial",
+      metodo_pagamento: "Cartão de Débito",
+      total_compra: 150.75,
+      acoes: "Enviar Notificação",
+    },
+    {
+      id: 4,
+      data_pedido: "2023-10-21",
+      cpf_comprador: "456.789.012-34",
+      modo_compra: "Presencial",
+      metodo_pagamento: "Cartão de Débito",
+      total_compra: 150.75,
+      acoes: "Enviar Notificação",
+    },
+    {
+      id: 4,
+      data_pedido: "2023-10-21",
+      cpf_comprador: "456.789.012-34",
+      modo_compra: "Presencial",
+      metodo_pagamento: "Cartão de Débito",
+      total_compra: 150.75,
+      acoes: "Enviar Notificação",
+    },
+    {
+      id: 4,
+      data_pedido: "2023-10-21",
+      cpf_comprador: "456.789.012-34",
+      modo_compra: "Presencial",
+      metodo_pagamento: "Cartão de Débito",
+      total_compra: 150.75,
+      acoes: "Enviar Notificação",
+    },
+    {
+      id: 4,
+      data_pedido: "2023-10-21",
+      cpf_comprador: "456.789.012-34",
+      modo_compra: "Presencial",
+      metodo_pagamento: "Cartão de Débito",
+      total_compra: 150.75,
+      acoes: "Enviar Notificação",
+    },
+    {
+      id: 4,
+      data_pedido: "2023-10-21",
+      cpf_comprador: "456.789.012-34",
+      modo_compra: "Presencial",
+      metodo_pagamento: "Cartão de Débito",
+      total_compra: 150.75,
+      acoes: "Enviar Notificação",
+    },
+    {
+      id: 4,
+      data_pedido: "2023-10-21",
+      cpf_comprador: "456.789.012-34",
+      modo_compra: "Presencial",
+      metodo_pagamento: "Cartão de Débito",
+      total_compra: 150.75,
+      acoes: "Enviar Notificação",
+    },
+    {
+      id: 4,
+      data_pedido: "2023-10-21",
+      cpf_comprador: "456.789.012-34",
+      modo_compra: "Presencial",
+      metodo_pagamento: "Cartão de Débito",
+      total_compra: 150.75,
+      acoes: "Enviar Notificação",
+    },
+    {
+      id: 4,
+      data_pedido: "2023-10-21",
+      cpf_comprador: "456.789.012-34",
+      modo_compra: "Presencial",
+      metodo_pagamento: "Cartão de Débito",
+      total_compra: 150.75,
+      acoes: "Enviar Notificação",
+    },
+    {
+      id: 4,
+      data_pedido: "2023-10-21",
+      cpf_comprador: "456.789.012-34",
+      modo_compra: "Presencial",
+      metodo_pagamento: "Cartão de Débito",
+      total_compra: 150.75,
+      acoes: "Enviar Notificação",
+    },
+    {
+      id: 4,
+      data_pedido: "2023-10-21",
+      cpf_comprador: "456.789.012-34",
+      modo_compra: "Presencial",
+      metodo_pagamento: "Cartão de Débito",
+      total_compra: 150.75,
+      acoes: "Enviar Notificação",
+    },
   ];
 
   return (
-    <main className="flex">
+    <main className="flex bg-background">
       <MenuComerciante />
       <BoxComerciante className="flex flex-col pt-10 justify-around">
         <div className="w-full text-center font-semibold mb-4">
           <h2>Históricos de Vendas</h2>
         </div>
 
-        <div className="filter flex gap-x-4 w-full justify-between items-end bg-black-300 px-8 py-4">
-          <div className="flex flex-col">
+        <div className="filter flex gap-x-4 w-full justify-between items-end bg-white-principal px-8 py-4 rounded ">
+          <div className="flex flex-col flex-1">
             <InputRoot.Label>De:</InputRoot.Label>
             <InputRoot.Input
               type="date"
-              className=" bg-white-principal px-1 rounded-md"
+              className=" bg-white-principal  rounded-md"
               placeholder="De: "
             ></InputRoot.Input>
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col flex-1">
             <InputRoot.Label>Até: </InputRoot.Label>
             <InputRoot.Input
               type="date"
@@ -57,161 +176,54 @@ const HistoricoVendas = () => {
             ></InputRoot.Input>
           </div>
 
-          <div className="flex flex-col">
-            <InputRoot.Label>Até: </InputRoot.Label>
-            <Select className="w-40 h-10 bg-white-principal">
+          <div className="flex flex-col flex-[2]">
+            <InputRoot.Label>Status </InputRoot.Label>
+            <Select className="w-full h-10 bg-white-principal">
               <MenuItem>Pedro</MenuItem>
             </Select>
           </div>
 
-          <div className="flex flex-col">
-            <InputRoot.Label>Até: </InputRoot.Label>
-            <Select className="w-40 h-10 bg-white-principal">
+          <div className="flex flex-col flex-[2]">
+            <InputRoot.Label>Forma de pagamento </InputRoot.Label>
+            <Select className="w-full h-10 bg-white-principal">
               <MenuItem>Pedro</MenuItem>
             </Select>
           </div>
 
-          <Button className="w-full bg-green-700 h-max text-white-principal" >Pesquisar</Button> 
+          <Button className=" bg-green-700 h-max text-white-principal w-max">
+            Pesquisar
+          </Button>
         </div>
 
-        <div className="relative">
-          <div className="content-table w-full h-[400px] overflow-scroll ">
-            <div className=" grid grid-cols-[1fr,2fr,2fr,2fr,3fr,2fr,1fr] text-xs border  text-black-900 bg-[#F8F9FA] font-semibold absolute w-full ">
-              <div className="border-r border-gray-200 h-full py-2 px-2   text-center ">ID</div>
-              <div className=" border-r border-gray-200 h-full py-2 px-2 ">DATA PEDIDO</div>
-              <div className="  border-r border-gray-200 py-2 px-2 ">CPF DO COMPRADOR</div>
-              <div className=" border-r border-gray-200  py-2 px-2 ">MODO DE COMPRA</div>
-              <div className=" border-r border-gray-200  py-2 px-2 ">MÉTODO DE PAGAMENTO</div>
-              <div className=" border-r border-gray-200  py-2 px-2 ">TOTAL DE COMPRA</div>
-              <div className="border-r border-gray-200 py-2 px-2 ">AÇÕES</div>
-            </div>
+        <TableRoot.Content>
+          <TableRoot.Header
+            className={"grid-cols-[1fr,1.5fr,2fr,2fr,3fr,2fr,1.5fr]"}
+          >
+            <TableRoot.Cell>ID</TableRoot.Cell>
+            <TableRoot.Cell>DATA PEDIDO</TableRoot.Cell>
+            <TableRoot.Cell>CPF DO COMPRADOR</TableRoot.Cell>
+            <TableRoot.Cell>MODO DE COMPRA</TableRoot.Cell>
+            <TableRoot.Cell>MÉTODO DE PAGAMENTO</TableRoot.Cell>
+            <TableRoot.Cell>TOTAL DE COMPRA</TableRoot.Cell>
+            <TableRoot.Cell>AÇÕES</TableRoot.Cell>
+          </TableRoot.Header>
 
-            <div className="grid grid-cols-[1fr,2fr,2fr,2fr,3fr,2fr,1fr] text-xs border border-gray-200 mt-8">
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2 text-center">1</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">10/08/2023</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">545.123.121-65</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">Pago no site</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">Cartão de crédito</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">R$ 12,00</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">AÇÕES</div>
-            </div>
+          {vendas.map((venda,index) => (
+            <TableRoot.Row className={`grid-cols-[1fr,1.5fr,2fr,2fr,3fr,2fr,1.5fr] ${index%2!=0 ? "bg-[#F8F9FA]" : "bg-white-principal"}`} key={venda.id}>
+              <TableRoot.Cell >{venda.id}</TableRoot.Cell>
+              <TableRoot.Cell>{venda.data_pedido}</TableRoot.Cell>
+              <TableRoot.Cell>{venda.cpf_comprador}</TableRoot.Cell>
+              <TableRoot.Cell>{venda.modo_compra}</TableRoot.Cell>
+              <TableRoot.Cell>{venda.metodo_pagamento}</TableRoot.Cell>
+              <TableRoot.Cell>{venda.total_compra}</TableRoot.Cell>
+              <TableRoot.Cell className="cursor-pointer" onClick={()=>setIsModal(!isModal)}>Detalhes</TableRoot.Cell>
+            </TableRoot.Row>
+          ))}
 
-            <div className="grid grid-cols-[1fr,2fr,2fr,2fr,3fr,2fr,1fr] text-xs border border-gray-200 ">
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2 text-center">1</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">10/08/2023</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">545.123.121-65</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">Pago no site</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">Cartão de crédito</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">R$ 12,00</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">AÇÕES</div>
-            </div>
+        </TableRoot.Content>
+        <Pagination count={10} shape="rounded"  className="mx-auto"/>
 
-            <div className="grid grid-cols-[1fr,2fr,2fr,2fr,3fr,2fr,1fr] text-xs border border-gray-200 ">
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2 text-center">1</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">10/08/2023</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">545.123.121-65</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">Pago no site</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">Cartão de crédito</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">R$ 12,00</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">AÇÕES</div>
-            </div>
-
-            <div className="grid grid-cols-[1fr,2fr,2fr,2fr,3fr,2fr,1fr] text-xs border border-gray-200 ">
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2 text-center">1</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">10/08/2023</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">545.123.121-65</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">Pago no site</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">Cartão de crédito</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">R$ 12,00</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">AÇÕES</div>
-            </div>
-
-            <div className="grid grid-cols-[1fr,2fr,2fr,2fr,3fr,2fr,1fr] text-xs border border-gray-200 ">
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2 text-center">1</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">10/08/2023</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">545.123.121-65</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">Pago no site</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">Cartão de crédito</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">R$ 12,00</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">AÇÕES</div>
-            </div>
-
-            <div className="grid grid-cols-[1fr,2fr,2fr,2fr,3fr,2fr,1fr] text-xs border border-gray-200 ">
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2 text-center">1</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">10/08/2023</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">545.123.121-65</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">Pago no site</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">Cartão de crédito</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">R$ 12,00</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">AÇÕES</div>
-            </div>
-
-            <div className="grid grid-cols-[1fr,2fr,2fr,2fr,3fr,2fr,1fr] text-xs border border-gray-200 ">
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2 text-center">1</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">10/08/2023</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">545.123.121-65</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">Pago no site</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">Cartão de crédito</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">R$ 12,00</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">AÇÕES</div>
-            </div>
-
-            <div className="grid grid-cols-[1fr,2fr,2fr,2fr,3fr,2fr,1fr] text-xs border border-gray-200 ">
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2 text-center">1</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">10/08/2023</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">545.123.121-65</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">Pago no site</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">Cartão de crédito</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">R$ 12,00</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">AÇÕES</div>
-            </div>
-
-            <div className="grid grid-cols-[1fr,2fr,2fr,2fr,3fr,2fr,1fr] text-xs border border-gray-200 ">
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2 text-center">1</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">10/08/2023</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">545.123.121-65</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">Pago no site</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">Cartão de crédito</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">R$ 12,00</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">AÇÕES</div>
-            </div>
-
-            <div className="grid grid-cols-[1fr,2fr,2fr,2fr,3fr,2fr,1fr] text-xs border border-gray-200 ">
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2 text-center">1</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">10/08/2023</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">545.123.121-65</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">Pago no site</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">Cartão de crédito</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">R$ 12,00</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">AÇÕES</div>
-            </div>
-
-            <div className="grid grid-cols-[1fr,2fr,2fr,2fr,3fr,2fr,1fr] text-xs border border-gray-200 ">
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2 text-center">1</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">10/08/2023</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">545.123.121-65</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">Pago no site</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">Cartão de crédito</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">R$ 12,00</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">AÇÕES</div>
-            </div>
-
-            <div className="grid grid-cols-[1fr,2fr,2fr,2fr,3fr,2fr,1fr] text-xs border border-gray-200 ">
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2 text-center">1</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">10/08/2023</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">545.123.121-65</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">Pago no site</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">Cartão de crédito</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">R$ 12,00</div>
-              <div className=" text-base border-r border-gray-200 h-full py-2 px-2">AÇÕES</div>
-            </div>
-
-            
-<ModalPedidos/>
-
-
-          </div>
-        </div>
+        <ModalPedidos setIsModal={setIsModal} isModal={isModal} />
       </BoxComerciante>
     </main>
   );
