@@ -7,6 +7,7 @@ import TelaInicial from "../pages/TelaInicial/TelaInicial";
 import GerenciamentoLoja from "../pages/GerencimentoLojas/GerenciamentoLoja";
 import HistoricoVendas from "../pages/HistoricoVendas/HistoricoVendas";
 import NotFound from "../pages/NotFound/NotFound";
+import Login from "../pages/Login/Login";
   
 const router = createBrowserRouter([
     {
@@ -33,7 +34,12 @@ const router = createBrowserRouter([
     {
       path: "/TelaInicial",
       element: <TelaInicial />
+    },
+    {
+      path:"/Login",
+      element:<Login/>
     }
+
     
   ]);
 

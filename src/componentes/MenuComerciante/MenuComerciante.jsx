@@ -6,9 +6,15 @@ import negocioIcon from "../../assets/negocio.svg";
 import shopIcon from "../../assets/shop.svg";
 import datePage from "../../assets/datePage.svg";
 import downIcon from "../../assets/down.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const MenuComerciante = () => {
+const navigate = useNavigate();
+  const logout = () => {
+    sessionStorage.removeItem("TOKEN");
+    sessionStorage.removeItem("USUARIO");
+    navigate("/");
+  }
   return (
     <aside className="bg-black-900   flex flex-col h-screen min-w-[350px] max-w-[350px]">
       <div className="h-full w-full">
@@ -59,7 +65,7 @@ const MenuComerciante = () => {
         </div>
       </div>
 
-      <div className="w-100 flex px-7 mb-8 cursor-pointer text-xl text-white-principal gap-x-4">
+      <div className="w-100 flex px-7 mb-8 cursor-pointer text-xl text-white-principal gap-x-4" onClick={logout}>
         <img src={backIcon} alt="" className="w-6" />
         Sair
       </div>

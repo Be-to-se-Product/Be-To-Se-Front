@@ -1,41 +1,52 @@
 import axios from "axios";
 import React, { useState } from "react";
-import {  useForm } from "react-hook-form";
+import { Form, useForm } from "react-hook-form";
 import InputRoot from "../../../componentes/Input/InputRoot";
 
-import {
-  Autocomplete,
-  MenuItem,
-  Select, TextField
-} from "@mui/material";
+import { Autocomplete, MenuItem, Select, TextField } from "@mui/material";
 import StepperRoot from "../../../componentes/Stepper/StepperRoot";
 import BotaoSwitch from "../../../componentes/Switch/BotaoSwitch";
+import api from "../../../services/api";
+import { converterInputImageToBase64 } from "../../../utils/conversores";
 
 const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
-  const [imagens, setImagens] = useState(new Array(4));
-
   const [stateAtual, setStateAtual] = useState(0);
-  const { register, reset, handleSubmit } = useForm();
+  const [tagsBanco, setTagsBanco] = useState([
+    { id: 1, nome: "teste" },
+    { id: 2, nome: "teste2" },
+  ]);
+  const { register, handleSubmit } = useForm();
   const [tags, setTags] = useState([]);
 
-  const handleFileChange = (e) => {
-    const reader = new FileReader();
-    const element = e.target.offsetParent.firstChild;
+  const [productDetails, setProductDetails] = useState({
+    tags: [],
+    imagens: {},
+  });
 
-    reader.onload = function (event) {
-      setImagens([event.target.result]);
-      element.src = event.target.result;
-    };
-    reader.readAsDataURL(e.target.files[0]);
+  const setImageProduto = ({ evento, imagem }) => {
+    setProductDetails((prev) => {
+      const copy = { ...prev };
+      copy.imagens[evento?.target.id] = imagem;
+      console.log(copy);
+      return { ...copy };
+    });
+  };
+
+  const getSessao = () => {
+    api.get("/sessao").then((res) => {
+      console.log(res.data);
+    });
   };
 
   const adicionarProduto = (data) => {
-    data.urlImagem = "sdsds";
-    console.log(data);
-    axios
-      .post("http://localhost:8080/produtos", data)
+    const produto = {
+      ...data,
+      ...productDetails,
+    };
+
+    api
+      .post("/produtos", produto)
       .then((res) => {
-        console.log(res.data);
         getProdutos();
       })
       .catch((err) => {
@@ -43,7 +54,6 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
       });
 
     getProdutos();
-    fecharModal();
   };
 
   return (
@@ -94,14 +104,14 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
                 <div className="flex w-full  items-end gap-x-2">
                   <InputRoot.Input
                     placeholder="R$ 12,00"
-                    register={register("valorTotal")}
+                    register={register("precoTotal")}
                   >
                     <InputRoot.Label>Valor Total</InputRoot.Label>
                   </InputRoot.Input>
 
                   <InputRoot.Input
                     placeholder="R$ 12,00"
-                    register={register("valorOferta")}
+                    register={register("precoOferta")}
                   >
                     <InputRoot.Label>Valor Oferta</InputRoot.Label>
                   </InputRoot.Input>
@@ -116,32 +126,41 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
                     className="w-full h-[42px]"
                     {...register("categoria")}
                   >
-                    <MenuItem value={"Camiseta"}>Roupas</MenuItem>
-                    <MenuItem value={"Plastico"}>Eletronicos</MenuItem>
-                    <MenuItem value={"Roupa"}>Utensilhos</MenuItem>
+                    <MenuItem value={"Roupas"}>Roupas</MenuItem>
+                    <MenuItem value={"Eletronicos"}>Eletronicos</MenuItem>
+                    <MenuItem value={"Utensilhos"}>Utensilhos</MenuItem>
                   </Select>
                 </div>
                 <div className="flex  w-full flex-col gap-x-2">
-                  <InputRoot.Label>Tags ({tags.length}/5)</InputRoot.Label>
+                  <InputRoot.Label>
+                    Tags ({productDetails.tags?.length}/5)
+                    {console.log(productDetails.tags)}
+                  </InputRoot.Label>
                   <Autocomplete
                     multiple
                     size="small"
                     limitTags={5}
                     className="w-full"
                     id="multiple-limit-tags"
-                    options={["Pedro", "Rocha"]}
+                    options={tagsBanco.map((option) => option.nome)}
                     getOptionLabel={(option) => option}
-                    defaultValue={["Pedro"]}
                     onChange={(event, newValue) => {
-                      setTags(newValue);
+                      setProductDetails((prev) => {
+                        const valores = [...newValue];
+                        const copy = { ...prev };
+                        //Copilot: Preciso pegar a tag e achar o id dela
+                        const tagsId = valores.map(
+                          (element) =>
+                            tagsBanco.find((tag) => tag.nome == element)?.id
+                        );
+                        console.log(tagsId);
+                        copy.tags = tagsId;
+                        return { ...copy };
+                      });
                     }}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        placeholder="Favorites"
-                        {...register("tags")}
-                      />
-                    )}
+                    renderInput={(params) => {
+                      return <TextField {...params} placeholder="Favorites" />;
+                    }}
                     sx={{ width: "full", height: "42px" }}
                   />
                 </div>
@@ -162,7 +181,7 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
                 <div className="flex flex-col">
                   <InputRoot.Input
                     nome={"Categoria"}
-                    register={register("codigoSKU")}
+                    register={register("codigoSku")}
                   >
                     <InputRoot.Label>Código SKU</InputRoot.Label>
                   </InputRoot.Input>
@@ -190,7 +209,11 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
           <div className={` ${stateAtual != 1 && "hidden"} `}>
             <div className={`w-full flex flex-col items-center gap-4  `}>
               <div className="w-[280px] flex h-[250px] border rounded items-center justify-center relative">
-                <img src="" alt="" className="h-full w-full  object-cover  " />
+                <img
+                  src={productDetails.imagens?.imagem1}
+                  alt=""
+                  className="h-full w-full  object-cover  "
+                />
                 <label
                   htmlFor="imagem1"
                   className="w-full h-full flex items-center justify-center absolute opacity-0 hover:opacity-100 bg-black-900 bg-opacity-60 z-10 transition-all   cursor-pointer"
@@ -203,13 +226,18 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
                   id="imagem1"
                   type="file"
                   className="h-full w-full absolute top-0 opacity-0 "
-                  onChange={handleFileChange}
-                  register={register("imagem1")}
+                  onChange={(e) =>
+                    converterInputImageToBase64(e, setImageProduto)
+                  }
                 />
               </div>
               <div className="flex gap-x-4 rounded">
                 <div className="w-[150px] h-[150px]  border rounded relative">
-                  <img src="" alt="" className="h-full w-full object-cover" />
+                  <img
+                    src={productDetails.imagens?.imagem2}
+                    alt=""
+                    className="h-full w-full object-cover"
+                  />
                   <label
                     htmlFor="imagem2"
                     className="w-full h-full flex items-center justify-center absolute opacity-0 hover:opacity-100 bg-black-900 bg-opacity-60 z-10 transition-all top-0    cursor-pointer"
@@ -222,12 +250,17 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
                     type="file"
                     id="imagem2"
                     className="h-full w-full absolute top-0 opacity-0 "
-                    onChange={handleFileChange}
-                    register={register("imagem2")}
+                    onChange={(e) =>
+                      converterInputImageToBase64(e, setImageProduto)
+                    }
                   />
                 </div>
                 <div className="w-[150px] h-[150px]  border rounded relative">
-                  <img src="" alt="" className="h-full w-full object-cover" />
+                  <img
+                    src={productDetails.imagens?.imagem3}
+                    alt=""
+                    className="h-full w-full object-cover"
+                  />
                   <label
                     htmlFor="imagem3"
                     className="w-full h-full flex items-center justify-center absolute opacity-0 hover:opacity-100 bg-black-900 bg-opacity-60 z-10 transition-all  top-0  cursor-pointer"
@@ -240,13 +273,18 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
                     type="file"
                     id="imagem3"
                     className="h-full w-full absolute top-0 opacity-0 "
-                    onChange={handleFileChange}
-                    register={register("imagem3")}
+                    onChange={(e) =>
+                      converterInputImageToBase64(e, setImageProduto)
+                    }
                   />
                 </div>
 
                 <div className="w-[150px] h-[150px]  border rounded relative">
-                  <img src="" alt="" className="h-full w-full object-cover" />
+                  <img
+                    src={productDetails.imagens?.imagem4}
+                    alt=""
+                    className="h-full w-full object-cover"
+                  />
                   <label
                     htmlFor="imagem4"
                     className="w-full h-full flex items-center justify-center absolute opacity-0 hover:opacity-100 bg-black-900 bg-opacity-60 z-10 transition-all top-0   cursor-pointer"
@@ -259,8 +297,9 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
                     type="file"
                     id="imagem4"
                     className="h-full w-full absolute top-0 opacity-0 "
-                    onChange={handleFileChange}
-                    register={register("imagem4")}
+                    onChange={(e) =>
+                      converterInputImageToBase64(e, setImageProduto)
+                    }
                   />
                 </div>
               </div>
@@ -293,6 +332,7 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
                 cols="30"
                 rows="10"
                 className=" border border-gray-800 w-full resize-none outline-none p-4 rounded"
+                {...register("descricao")}
               ></textarea>
             </div>
             <div className="flex w-full gap-x-4 justify-center">

@@ -10,10 +10,10 @@ import axios from "axios";
 
 import searchIcon from "../../assets/search.svg";
 
-
 import { MenuItem, Select } from "@mui/material";
 import MenuComerciante from "../../componentes/MenuComerciante/MenuComerciante";
 
+import api from "../../services/api";
 
 const GerenciamentoProdutos = () => {
   const [produtos, setProdutos] = useState([]);
@@ -22,8 +22,8 @@ const GerenciamentoProdutos = () => {
   const [state, setState] = useState(0);
 
   const getProdutos = () => {
-    axios
-      .get("http://localhost:8080/produtos")
+    api
+      .get("/produtos")
       .then((res) => {
         setProdutos(res.data.length == 0 ? [] : res.data);
       })
@@ -84,7 +84,7 @@ const GerenciamentoProdutos = () => {
   return (
     <>
       <main className="flex h-screen bg-black-300">
-      <MenuComerciante  />
+        <MenuComerciante />
 
         <section className="w-full  text-2xl mx-[33px]">
           <div className="flex py-20 justify-between ">
@@ -100,42 +100,35 @@ const GerenciamentoProdutos = () => {
             </div>
             <div className="flex gap-x-4">
               <div className="   w-[193px] h-max bg-white-principal rounded-lg  shadow-lg">
-                
-                  <Select
-                    
-                    id="demo-simple-select"
-                    renderValue={(data)=>{
-                      if(data.length===0){
-                       return <em>Selecione um taf</em>
-                      }
-                      
-                    }}
-                    className="w-full h-[42px]"
-                  
-                  >
-                    <MenuItem value={"Camiseta"}>Roupas</MenuItem>
-                    <MenuItem value={"Plastico"}>Eletronicos</MenuItem>
-                    <MenuItem value={"Roupa"}>Utensilhos</MenuItem>
-                  </Select>
+                <Select
+                  id="demo-simple-select"
+                  renderValue={(data) => {
+                    if (data.length === 0) {
+                      return <em>Selecione um taf</em>;
+                    }
+                  }}
+                  className="w-full h-[42px]"
+                >
+                  <MenuItem value={"Camiseta"}>Roupas</MenuItem>
+                  <MenuItem value={"Plastico"}>Eletronicos</MenuItem>
+                  <MenuItem value={"Roupa"}>Utensilhos</MenuItem>
+                </Select>
               </div>
 
               <div className="relative w-[193px] h-max bg-white-principal rounded-lg  shadow-lg">
-              <Select
-                    
-                    id="demo-simple-select"
-                    renderValue={(data)=>{
-                      if(data.length===0){
-                       return <em>Selecione um tag</em>
-                      }
-                      
-                    }}
-                    className="w-full h-[42px]"
-                  
-                  >
-                    <MenuItem value={"Camiseta"}>Roupas</MenuItem>
-                    <MenuItem value={"Plastico"}>Eletronicos</MenuItem>
-                    <MenuItem value={"Roupa"}>Utensilhos</MenuItem>
-                  </Select>
+                <Select
+                  id="demo-simple-select"
+                  renderValue={(data) => {
+                    if (data.length === 0) {
+                      return <em>Selecione um tag</em>;
+                    }
+                  }}
+                  className="w-full h-[42px]"
+                >
+                  <MenuItem value={"Camiseta"}>Roupas</MenuItem>
+                  <MenuItem value={"Plastico"}>Eletronicos</MenuItem>
+                  <MenuItem value={"Roupa"}>Utensilhos</MenuItem>
+                </Select>
               </div>
             </div>
           </div>
@@ -151,7 +144,16 @@ const GerenciamentoProdutos = () => {
             </div>
 
             <div className="content-product flex gap-x-6 gap-y-8 flex-wrap h-full overflow-scroll">
-              <Card key={1} openModal={openModal} />
+              {produtos.map((produto) => (
+                <Card
+                  key={produto.id}
+                  id={produto.id}
+                  nome={produto.nome}
+                  preco={produto.preco}
+                  img={imgProduto}
+                  openModal={openModal}
+                />
+              ))}
             </div>
           </div>
         </section>
