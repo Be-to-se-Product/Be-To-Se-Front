@@ -3,6 +3,7 @@ import Insitucional from "../pages/Institucional/Institucional";
 import GerenciamentoProdutos from "../pages/GerenciamentoProdutos/GerenciamentoProdutos";
 
 import TelaInicial from "../pages/TelaInicial/TelaInicial";
+import TelaPesquisa from "../pages/TelaPesquisa/TelaPesquisa";
 
 import GerenciamentoLoja from "../pages/GerencimentoLojas/GerenciamentoLoja";
 import HistoricoVendas from "../pages/HistoricoVendas/HistoricoVendas";
@@ -33,6 +34,11 @@ const router = createBrowserRouter([
     {
       path: "/TelaInicial",
       element: <TelaInicial />
+    },
+
+    {
+      path: "/TelaPesquisa",
+      element: <TelaPesquisa />
     }
     
   ]);
