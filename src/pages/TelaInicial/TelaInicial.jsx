@@ -35,16 +35,16 @@ function TelaInicial(props) {
 
             <main className="flex pt-[48px] flex-col items-center gap-[48px]">
                 <main className="flex w-auto flex-col items-center gap-[48px]">
-                    <div className="flex flex-row w-full justify-between items-center align-top">
-                        <div className="flex flex-col items-center justify-center">
+                    <div className="flex flex-row w-full justify-between items-center">
+                        <div className="flex flex-row m-auto items-center justify-center">
                             <h2 className="flex gap-[8px] text-4xl font-medium leading-[60px] text-center">
                                 Mais vendidos da Região
-                                <p className="flex gap-[50px] justify-content items-center text-sm">
+                                <p className="flex justify-content items-center text-sm text-sky-500 underline">
                                     Ver mais produtos
                                 </p>
                             </h2>
                         </div>
-                        <div className="flex w-[200px] justify-end items-center gap-3">
+                        <div className="flex w-[225px] justify-center items-center gap-3 scroll-px-4">
                             <p className="flex gap-[3px] items-center text-sm ">
                                 Ver no mapa
                                 <BotaoSwitch></BotaoSwitch>
@@ -52,7 +52,6 @@ function TelaInicial(props) {
                         </div>
                     </div>
                     <div className="flex flex-col items-center gap-[48px] w-full justify-between">
-
 
                         <div className="w-auto mx-auto pl-3 pr-3 py-4 gap-3 flex justify-content align-center">
                             <CardProduto></CardProduto>
