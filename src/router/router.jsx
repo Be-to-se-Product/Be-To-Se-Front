@@ -1,4 +1,4 @@
-import {createBrowserRouter} from "react-router-dom";
+import {createBrowserRouter, useNavigate} from "react-router-dom";
 import Insitucional from "../pages/Institucional/Institucional";
 import GerenciamentoProdutos from "../pages/GerenciamentoProdutos/GerenciamentoProdutos";
 
@@ -8,6 +8,21 @@ import GerenciamentoLoja from "../pages/GerencimentoLojas/GerenciamentoLoja";
 import HistoricoVendas from "../pages/HistoricoVendas/HistoricoVendas";
 import NotFound from "../pages/NotFound/NotFound";
 import Login from "../pages/Login/Login";
+import api from "../services/api";
+
+// api.interceptors.response.use(
+//   (response) => {
+//     return response;
+//   },
+//   (error) => {
+
+//     if (error.response || error.response.status === 401 || sessionStorage.getItem("TOKEN") === null) {
+//       const navigate = useNavigate();
+//       navigate('/login');
+//     }
+//     return Promise.reject(error);
+//   }
+// );
   
 const router = createBrowserRouter([
     {

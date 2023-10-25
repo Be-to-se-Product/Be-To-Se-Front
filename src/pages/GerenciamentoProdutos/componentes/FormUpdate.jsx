@@ -1,6 +1,5 @@
-import axios from "axios";
-import React, { useState } from "react";
-import { Form, useForm } from "react-hook-form";
+import React, { useEffect, useState } from "react";
+import { set, useForm } from "react-hook-form";
 import InputRoot from "../../../componentes/Input/InputRoot";
 
 import { Autocomplete, MenuItem, Select, TextField } from "@mui/material";
@@ -8,44 +7,86 @@ import StepperRoot from "../../../componentes/Stepper/StepperRoot";
 import BotaoSwitch from "../../../componentes/Switch/BotaoSwitch";
 import api from "../../../services/api";
 import { converterInputImageToBase64 } from "../../../utils/conversores";
+import { MENSAGENS } from "../../../utils/dicionarioRespostas";
+import { toast } from "react-toastify";
 
-const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
+const FormUpdate = ({ fecharModal, getProdutos, setState,produto }) => {
   const [stateAtual, setStateAtual] = useState(0);
-  const [tagsBanco, setTagsBanco] = useState([
-    { id: 1, nome: "teste" },
-    { id: 2, nome: "teste2" },
-  ]);
-  const { register, handleSubmit } = useForm();
-  const [tags, setTags] = useState([]);
-
-  const [productDetails, setProductDetails] = useState({
-    tags: [],
-    imagens: {},
+  const [infoBanco, setInfoBanco] = useState({
+    sessoes: [],
+    tag: [],
   });
 
-  const setImageProduto = ({ evento, imagem }) => {
-    setProductDetails((prev) => {
-      const copy = { ...prev };
-      copy.imagens[evento?.target.id] = imagem;
-      console.log(copy);
-      return { ...copy };
+  const { register, handleSubmit } = useForm();
+
+const [productDetails,setProductDetails] = useState({
+  imagens:{
+    imagem1: produto?.imagens?.imagem1,
+    imagem2: produto?.imagens?.imagem2,
+    imagem3: produto?.imagens?.imagem3,
+    imagem4: produto?.imagens?.imagem4,
+  },
+  tag: produto?.tag ? [...produto?.tag] : [],
+});
+
+  const [productDefault,setProductDefault] =useState({
+    id: produto?.id,
+    nome: produto?.nome,
+    precoTotal: produto?.preco  ,
+    precoOferta: produto?.precoOferta,
+    categoria: produto?.categoria,
+    secao: produto?.secao,
+    codigoSku: produto?.codigoSku,
+    codigoBarras: produto?.codigoBarras,
+    descricao: produto?.descricao,
+    tag: produto?.tag ? [...produto?.tag] : null,
+    imagens: produto?.imagens ? [...produto?.imagens] : null
+  });
+
+  useEffect(() => {
+    getSessao();
+  }, []);
+
+  const handleImageChange = (e, id) => {
+    converterInputImageToBase64(e, (objeto) => {
+      const { imagem } = objeto;
+      setProductDefault((prev) => ({
+        ...prev,
+        imagens: {
+          ...prev.imagens,
+          [id]: imagem,
+        },
+      }));
     });
   };
 
   const getSessao = () => {
-    api.get("/sessao").then((res) => {
-      console.log(res.data);
-    });
+    api
+      .get("/secoes")
+      .then((res) => {
+        if (res.status == 200) {
+          setInfoBanco((prev) => {
+            const copy = { ...prev };
+            copy.sessoes = res.data;
+            return { ...copy};
+          });
+        }
+      })
+      .catch((err) => {
+        fecharModal();
+        toast(MENSAGENS.usuarios[err.message]);
+      });
   };
 
-  const adicionarProduto = (data) => {
+  const atualizarProduto = (data) => {
     const produto = {
       ...data,
-      ...productDetails,
+      ...productDetails.imagens,
     };
+    produto.tag = [...productDetails.tag];
 
     api
-      .post("/produtos", produto)
+      .put("/produtos/"+productDefault.id, produto)
       .then((res) => {
         getProdutos();
       })
@@ -85,7 +126,7 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
         </div>
         <form
           className="flex flex-col items-center w-full"
-          onSubmit={handleSubmit(adicionarProduto)}
+          onSubmit={handleSubmit(atualizarProduto)}
         >
           <div
             className={`flex  flex-col items-center ${
@@ -96,6 +137,7 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
               <div className="w-1/2 flex flex-col gap-y-4">
                 <InputRoot.Input
                   placeholder="Nome do produto"
+                  defaultValue={productDefault.nome}
                   register={register("nome")}
                 >
                   <InputRoot.Label>Nome</InputRoot.Label>
@@ -105,6 +147,7 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
                   <InputRoot.Input
                     placeholder="R$ 12,00"
                     register={register("precoTotal")}
+                    defaultValue={productDefault.precoTotal}
                   >
                     <InputRoot.Label>Valor Total</InputRoot.Label>
                   </InputRoot.Input>
@@ -112,6 +155,7 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
                   <InputRoot.Input
                     placeholder="R$ 12,00"
                     register={register("precoOferta")}
+                    defaultValue={productDefault.precoOferta}
                   >
                     <InputRoot.Label>Valor Oferta</InputRoot.Label>
                   </InputRoot.Input>
@@ -121,9 +165,10 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
                 <div className="flex flex-col w-full   gap-x-2">
                   <InputRoot.Label>Categoria</InputRoot.Label>
                   <Select
-                    value={tags[tags.length - 1]}
                     id="demo-simple-select"
                     className="w-full h-[42px]"
+                    value={productDefault.categoria}
+                    name="categoria"
                     {...register("categoria")}
                   >
                     <MenuItem value={"Roupas"}>Roupas</MenuItem>
@@ -133,28 +178,38 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
                 </div>
                 <div className="flex  w-full flex-col gap-x-2">
                   <InputRoot.Label>
-                    Tags ({productDetails.tags?.length}/5)
-                    {console.log(productDetails.tags)}
+                    tag ({productDetails.tag?.length}/5)
                   </InputRoot.Label>
                   <Autocomplete
                     multiple
                     size="small"
-                    limitTags={5}
+                    limittag={5}
                     className="w-full"
-                    id="multiple-limit-tags"
-                    options={tagsBanco.map((option) => option.nome)}
+                    id="multiple-limit-tag"
+                    options={infoBanco.tag.map((option) => option.descricao)}
                     getOptionLabel={(option) => option}
+                    defaultValue={productDetails.tag.map(
+                      (option) => option.descricao
+                    )}
                     onChange={(event, newValue) => {
-                      setProductDetails((prev) => {
-                        const valores = [...newValue];
+                      setProductDefault((prev) => {
+                        const valor = [...newValue];
                         const copy = { ...prev };
                         //Copilot: Preciso pegar a tag e achar o id dela
-                        const tagsId = valores.map(
-                          (element) =>
-                            tagsBanco.find((tag) => tag.nome == element)?.id
-                        );
-                        console.log(tagsId);
-                        copy.tags = tagsId;
+                        const tagId = valor.map((element) => {
+                          const tagId = infoBanco.tag.find(
+                            (tag) => tag.descricao === element
+                          );
+                          if (tagId) {
+                            return {
+                              id: tagId.id,
+                              descricao: tagId.descricao,
+                            };
+                          }
+                          return { valor };
+                        });
+
+                        copy.tag = tagId;
                         return { ...copy };
                       });
                     }}
@@ -172,9 +227,15 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
                   <Select
                     className="h-[42px]"
                     id="demo-simple-select"
-                    {...register("sessao")}
+                    defaultValue={"SampleDescricao"}
+                    {...register("secao")}
+                   
                   >
-                    <MenuItem value={"Roupas"}>Teste</MenuItem>
+                    {infoBanco.sessoes.map((option) => (
+                      <MenuItem key={option.id} value={option.id}>
+                        {option.descricao}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </div>
 
@@ -182,12 +243,13 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
                   <InputRoot.Input
                     nome={"Categoria"}
                     register={register("codigoSku")}
+                    defaultValue={productDefault.codigoSku}
                   >
                     <InputRoot.Label>Código SKU</InputRoot.Label>
                   </InputRoot.Input>
                 </div>
                 <InputRoot.Input
-                  nome={"Categoria"}
+                  defaultValue={productDefault.codigoBarras}
                   register={register("codigoBarras")}
                 >
                   <InputRoot.Label>Código de barras</InputRoot.Label>
@@ -226,9 +288,7 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
                   id="imagem1"
                   type="file"
                   className="h-full w-full absolute top-0 opacity-0 "
-                  onChange={(e) =>
-                    converterInputImageToBase64(e, setImageProduto)
-                  }
+                  onChange={(e) => handleImageChange(e, "imagem1")}
                 />
               </div>
               <div className="flex gap-x-4 rounded">
@@ -250,9 +310,7 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
                     type="file"
                     id="imagem2"
                     className="h-full w-full absolute top-0 opacity-0 "
-                    onChange={(e) =>
-                      converterInputImageToBase64(e, setImageProduto)
-                    }
+                    onChange={(e) => handleImageChange(e, "imagem2")}
                   />
                 </div>
                 <div className="w-[150px] h-[150px]  border rounded relative">
@@ -273,9 +331,7 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
                     type="file"
                     id="imagem3"
                     className="h-full w-full absolute top-0 opacity-0 "
-                    onChange={(e) =>
-                      converterInputImageToBase64(e, setImageProduto)
-                    }
+                    onChange={(e) => handleImageChange(e, "imagem3")}
                   />
                 </div>
 
@@ -297,9 +353,7 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
                     type="file"
                     id="imagem4"
                     className="h-full w-full absolute top-0 opacity-0 "
-                    onChange={(e) =>
-                      converterInputImageToBase64(e, setImageProduto)
-                    }
+                    onChange={(e) => handleImageChange(e, "imagem4")}
                   />
                 </div>
               </div>
@@ -332,6 +386,7 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
                 cols="30"
                 rows="10"
                 className=" border border-gray-800 w-full resize-none outline-none p-4 rounded"
+                defaultValue={productDefault.descricao}
                 {...register("descricao")}
               ></textarea>
             </div>

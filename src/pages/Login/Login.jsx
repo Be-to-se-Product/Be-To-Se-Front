@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import api from "../../services/api";
 import InputRoot from "../../componentes/Input/InputRoot";
 import Button from "../../componentes/Button/Button";
@@ -7,35 +7,29 @@ import { useNavigate } from "react-router-dom";
 import BoxImages from "./componentes/BoxImages";
 import { ToastContainer, toast } from "react-toastify";
 import { injectStyle } from "react-toastify/dist/inject-style";
+import { MENSAGENS } from "../../utils/dicionarioRespostas";
 
 const Login = () => {
   injectStyle();
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const [erro, setErro] = useState("");
-  const [carregando, setCarregando] = useState(false);
   const navigate = useNavigate();
-  const teste = useState("");
   const carrossel = useRef(null);
-
   let itemAtual = 1;
 
   const logar = async () => {
-    setCarregando(true);
-    setErro("");
+    const loading = toast.loading("Carregando...");
     if (!email || !senha) {
       toast.error("Email e senha são obrigatórios");
-      setCarregando(false);
+      toast.dismiss(loading);
       return;
     }
-    const loading = toast.loading("Carregando...");
 
     api
       .post("/usuarios/login", { email, senha })
       .then((resposta) => {
         toast.dismiss(loading);
         if (resposta.data.error) {
-          setErro(resposta.data.message);
           toast.error(resposta.data.message);
           return;
         }
@@ -59,8 +53,10 @@ const Login = () => {
 
       .catch((erro) => {
         toast.dismiss(loading);
-        if (erro.response.status == 401) {
-          toast.error("Email ou senha incorretos");
+        if (erro?.response?.data) {
+          toast.error(MENSAGENS.usuarios[erro.response.data.message]);
+        } else {
+          toast.error(MENSAGENS.usuarios[erro.message]);
         }
       });
   };
@@ -102,6 +98,7 @@ const Login = () => {
       className="w-screen h-screen flex  
     100 "
     >
+
       <aside className="w-1/2 flex justify-center   relative ">
         <div
           className="flex overflow-x-scroll h-screen   overflow-y-auto scrollbar-hide "
@@ -142,6 +139,7 @@ const Login = () => {
             </BoxImages>
           </div>
           <div className="flex-shrink-0 w-full relative ">
+           
             <img
               src="/src/assets/foto-login-3.jpg"
               alt=""
@@ -154,7 +152,8 @@ const Login = () => {
           </div>
         </div>
       </aside>
-      <div className="w-1/2 flex items-center justify-center">
+      <div className="w-1/2 flex flex-col h-full items-center justify-center relative">
+      <div className="absolute">sdsdsdsdsd</div>
         <div className="flex flex-col w-7/12 max-w-lg  items-center   gap-y-5 ">
           <div className="text-center flex flex-col gap-y-2">
             <img
@@ -168,11 +167,17 @@ const Login = () => {
           <Button className="rounded-full  w-8/12  h-max  border-[1px] bg-transparent font-normal  hover:bg-orange-principal hover:text-white-principal transition-colors    border-orange-300">
             Fazer Login com o Google
           </Button>
-
+          <div className="relative w-full">
+            <h2 className="bg-white-principal text-center  relative z-10 w-max mx-auto px-4   ">
+              Ou entre com seu e-mail
+            </h2>
+            <div className="w-full h-[1px] bg-black-800 absolute left-0 top-1/2  "></div>
+          </div>
           <div className="w-full flex flex-col gap-x-2">
             <InputRoot.Label>{TEXTS.TITLES.LOGIN}</InputRoot.Label>
             <InputRoot.Input
               type="email"
+              placeholder={TEXTS.PLACEHOLDERS.EMAIL}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
@@ -181,6 +186,7 @@ const Login = () => {
             <InputRoot.Label>{TEXTS.TITLES.SENHA}</InputRoot.Label>
             <InputRoot.Input
               type="password"
+              placeholder={TEXTS.PLACEHOLDERS.PASSWORD}
               onChange={(e) => setSenha(e.target.value)}
             />
             {}

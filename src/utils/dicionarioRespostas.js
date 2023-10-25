@@ -1,9 +1,11 @@
-const mensagens = {
+export const MENSAGENS = {
 
     usuarios:{
-    "user.notFound": "Usuário não encontrado",
-    "user.alreadyExists": "Usuário já existe",
-    "user.created": "Usuário criado com sucesso"
+    "Usuario não encontrado": "O email e a senha estão inválidos",
+    "Usuario já existe ": "Usuário já existe",
+    "Usuario criado com sucesso": "Usuário criado com sucesso",
+    "Network Error": "Erro de conexão com o servidor",
+    "Bad credentials": "Login e/ou senha inválidos ",
     },
 
     gerais:{

@@ -2,7 +2,7 @@ import Card from "./componentes/Card";
 import imgProduto from "../../assets/cocacola.svg";
 import Modal from "../../componentes/Modal/Modal";
 
-import FormAdicionar from "./componentes/FormUpdate";
+import FormAdicionar from "./componentes/FormAdicionar";
 import FormUpdate from "./componentes/FormUpdate";
 import ContentDelete from "./componentes/ContentDelete";
 import { useEffect, useState } from "react";
@@ -30,6 +30,7 @@ const GerenciamentoProdutos = () => {
       .catch((err) => {
         console.log(err);
       });
+      console.log(produtos);
   };
 
   useEffect(() => {
@@ -58,12 +59,12 @@ const GerenciamentoProdutos = () => {
         );
         break;
       case "update":
+        console.log(produtos.find((produto) => produto.id === id));
         setStateForm(
           <FormUpdate
             fecharModal={closeModal}
-            produtos={produtos}
+            produto={produtos.find((produto) => produto.id === id)}
             getProdutos={getProdutos}
-            id={id}
           />
         );
         break;
@@ -147,10 +148,7 @@ const GerenciamentoProdutos = () => {
               {produtos.map((produto) => (
                 <Card
                   key={produto.id}
-                  id={produto.id}
-                  nome={produto.nome}
-                  preco={produto.preco}
-                  img={imgProduto}
+                  produto={produto}
                   openModal={openModal}
                 />
               ))}

@@ -1,5 +1,6 @@
 import axios from "axios";
 import React from "react";
+import api from "../../../services/api";
 
 
 
@@ -9,7 +10,7 @@ import React from "react";
 const ContentDelete = ({id,fecharModal,getProdutos}) => {
 
 function deletarProduto() {
-    axios.delete(`http://localhost:8080/produtos/${id}`)
+    api.delete(`/produtos/${id}`)
     .then((res)=>{
         console.log(res.data);
         fecharModal();
