@@ -1,5 +1,5 @@
 import react from "react";
-import imgProduto from "../../../assets/FoneDeOuvido.png"
+import imgProduto from "../../../assets/iphone.jpg"
 import { Rating } from "@mui/material";
 import Carro from "../../../assets/carro.svg"
 import Pe from "../../../assets/pe.svg"
@@ -9,7 +9,7 @@ import Shop from "../../../assets/shop.svg"
 
 
 
-const CardProdutoFoneOuvido = (props) => {
+const CardProdutoIphone = (props) => {
     return (
         <div className="w-[250px] h-[539px] gap-20 p-4 border-2 rounded-md bg-white-principal flex-start flex-colrounded-md">
             <div className="h-[150px] rounded-md ">
@@ -44,19 +44,19 @@ const CardProdutoFoneOuvido = (props) => {
                     <div className="flex gap-auto flex-col justify-between items-start">
                         <div className="">
                             <p className="line-through">
-                                R$ 329,40
+                                R$ 7.299
                             </p>
                         </div>
 
                         <div className="">
                             <p className="text-4xl font-medium">
-                                R$ 255,99
+                               R$ 6.500
                             </p>
                         </div>
 
                         <div className="">
                             <p className="">
-                                JBL Tune 720BT
+                                IPHONE 15 PRO MAX
                             </p>
                         </div>
                     </div>
@@ -86,4 +86,4 @@ const CardProdutoFoneOuvido = (props) => {
     )
 }
 
-export default CardProdutoFoneOuvido;
+export default CardProdutoIphone;

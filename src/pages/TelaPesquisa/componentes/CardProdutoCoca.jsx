@@ -1,5 +1,5 @@
 import react from "react";
-import imgProduto from "../../../assets/FoneDeOuvido.png"
+import imgProduto from "../../../assets/cocacolaCardProduto.jpg"
 import { Rating } from "@mui/material";
 import Carro from "../../../assets/carro.svg"
 import Pe from "../../../assets/pe.svg"
@@ -9,7 +9,7 @@ import Shop from "../../../assets/shop.svg"
 
 
 
-const CardProdutoFoneOuvido = (props) => {
+const CardProdutoCocaCola = (props) => {
     return (
         <div className="w-[250px] h-[539px] gap-20 p-4 border-2 rounded-md bg-white-principal flex-start flex-colrounded-md">
             <div className="h-[150px] rounded-md ">
@@ -23,18 +23,18 @@ const CardProdutoFoneOuvido = (props) => {
 
                         <div className="flex w-[147px] items-start">
                             <p className="text-sm font-normal leading-[15px] tracking-tight uppercase">
-                                ELETRÔNICOS
+                                BEBIDAS
                             </p>
                         </div>
 
                         <div className="flex items-center ">
                             <p className="text-base font-normal leading-[15px] tracking-tight uppercase">
-                                5.0
+                                3.0
                             </p>
 
                             <Rating
                                 nome="text-feedback"
-                                value={5}
+                                value={3}
                                 readOnly
                                 size="small"
                             />
@@ -44,19 +44,19 @@ const CardProdutoFoneOuvido = (props) => {
                     <div className="flex gap-auto flex-col justify-between items-start">
                         <div className="">
                             <p className="line-through">
-                                R$ 329,40
+                                R$ 40,90
                             </p>
                         </div>
 
                         <div className="">
                             <p className="text-4xl font-medium">
-                                R$ 255,99
+                                R$ 43,97
                             </p>
                         </div>
 
                         <div className="">
                             <p className="">
-                                JBL Tune 720BT
+                                Coca-Cola - 2L
                             </p>
                         </div>
                     </div>
@@ -69,15 +69,15 @@ const CardProdutoFoneOuvido = (props) => {
 
                     <div className="text-sm size-8 gap-8 flex justify-center align-center">
                         <p className="">
-                            30 min
+                            13 min
                         </p>
 
                         <p>
-                            15 min
+                            13 min
                         </p>
 
                         <p>
-                            10 min
+                            13 min
                         </p>
                     </div>
                 </div>
@@ -86,4 +86,4 @@ const CardProdutoFoneOuvido = (props) => {
     )
 }
 
-export default CardProdutoFoneOuvido;
+export default CardProdutoCocaCola;
