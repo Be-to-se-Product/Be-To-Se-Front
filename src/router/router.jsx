@@ -8,6 +8,7 @@ import TelaPesquisa from "../pages/TelaPesquisa/TelaPesquisa";
 import GerenciamentoLoja from "../pages/GerencimentoLojas/GerenciamentoLoja";
 import HistoricoVendas from "../pages/HistoricoVendas/HistoricoVendas";
 import NotFound from "../pages/NotFound/NotFound";
+import TelaCatalogo from "../pages/TelaCatalogoLoja/TelaCatalogo";
   
 const router = createBrowserRouter([
     {
@@ -39,6 +40,11 @@ const router = createBrowserRouter([
     {
       path: "/TelaPesquisa",
       element: <TelaPesquisa />
+    },
+
+    {
+      path: "/TelaCatalogo",
+      element: <TelaCatalogo />
     }
     
   ]);
