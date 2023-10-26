@@ -12,8 +12,8 @@ const CardOfertaFoneOuvido = (props) => {
                     </div>
                 </div>
                 <div className="flex items-center gap-[36px]">
-                    <div className="flex w-auto h-[190px]">
-                        <img src={imgProduto} alt="" />
+                    <div className="flex">
+                        <img src={imgProduto} alt="" className="w-[190px] h-[190px]"/>
                     </div>
 
                     <div className="flex w-[281px] flex-col items-start">

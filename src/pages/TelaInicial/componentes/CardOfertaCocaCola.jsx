@@ -13,8 +13,8 @@ const CardOfertaCocaCola = (props) => {
                     </div>
                 </div>
                 <div className="flex items-center gap-[36px]">
-                    <div className="flex w-[148px] h-[275px]">
-                        <img src={imgProduto} alt="" />
+                    <div className="flex">
+                        <img src={imgProduto} alt="" className="w-auto h-auto"/>
                     </div>
 
                     <div className="flex w-[281px] flex-col items-start">
