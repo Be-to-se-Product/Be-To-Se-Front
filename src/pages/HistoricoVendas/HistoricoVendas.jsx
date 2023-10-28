@@ -59,7 +59,7 @@ const HistoricoVendas = () => {
       acoes: "Enviar Notificação",
     },
     {
-      id: 4,
+      id: 5,
       data_pedido: "2023-10-21",
       cpf_comprador: "456.789.012-34",
       modo_compra: "Presencial",
@@ -68,7 +68,7 @@ const HistoricoVendas = () => {
       acoes: "Enviar Notificação",
     },
     {
-      id: 4,
+      id: 6,
       data_pedido: "2023-10-21",
       cpf_comprador: "456.789.012-34",
       modo_compra: "Presencial",
@@ -77,7 +77,7 @@ const HistoricoVendas = () => {
       acoes: "Enviar Notificação",
     },
     {
-      id: 4,
+      id: 7,
       data_pedido: "2023-10-21",
       cpf_comprador: "456.789.012-34",
       modo_compra: "Presencial",
@@ -86,7 +86,7 @@ const HistoricoVendas = () => {
       acoes: "Enviar Notificação",
     },
     {
-      id: 4,
+      id: 8,
       data_pedido: "2023-10-21",
       cpf_comprador: "456.789.012-34",
       modo_compra: "Presencial",
@@ -95,7 +95,7 @@ const HistoricoVendas = () => {
       acoes: "Enviar Notificação",
     },
     {
-      id: 4,
+      id: 9,
       data_pedido: "2023-10-21",
       cpf_comprador: "456.789.012-34",
       modo_compra: "Presencial",
@@ -104,7 +104,7 @@ const HistoricoVendas = () => {
       acoes: "Enviar Notificação",
     },
     {
-      id: 4,
+      id: 10,
       data_pedido: "2023-10-21",
       cpf_comprador: "456.789.012-34",
       modo_compra: "Presencial",
@@ -113,7 +113,7 @@ const HistoricoVendas = () => {
       acoes: "Enviar Notificação",
     },
     {
-      id: 4,
+      id: 11,
       data_pedido: "2023-10-21",
       cpf_comprador: "456.789.012-34",
       modo_compra: "Presencial",
@@ -122,7 +122,7 @@ const HistoricoVendas = () => {
       acoes: "Enviar Notificação",
     },
     {
-      id: 4,
+      id: 12,
       data_pedido: "2023-10-21",
       cpf_comprador: "456.789.012-34",
       modo_compra: "Presencial",
@@ -131,7 +131,7 @@ const HistoricoVendas = () => {
       acoes: "Enviar Notificação",
     },
     {
-      id: 4,
+      id: 13,
       data_pedido: "2023-10-21",
       cpf_comprador: "456.789.012-34",
       modo_compra: "Presencial",
@@ -140,7 +140,7 @@ const HistoricoVendas = () => {
       acoes: "Enviar Notificação",
     },
     {
-      id: 4,
+      id: 14,
       data_pedido: "2023-10-21",
       cpf_comprador: "456.789.012-34",
       modo_compra: "Presencial",
