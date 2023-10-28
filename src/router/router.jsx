@@ -10,6 +10,7 @@ import HistoricoVendas from "../pages/HistoricoVendas/HistoricoVendas";
 import NotFound from "../pages/NotFound/NotFound";
 import Login from "../pages/Login/Login";
 import api from "../services/api";
+import PedidosComerciante from "../pages/PedidosComerciante/PedidosComerciante";
 
 // api.interceptors.response.use(
 //   (response) => {
@@ -59,7 +60,12 @@ const router = createBrowserRouter([
     {
       path: "/TelaPesquisa",
       element: <TelaPesquisa />
+    },
+    {
+      path: "/comerciante/pedidos",
+      element: <PedidosComerciante/>
     }
+
 
     
   ]);
