@@ -9,13 +9,189 @@ import {
   Select,
 } from "@mui/material";
 import Button from "../../componentes/Button/Button";
+import CardPedidoComerciante from "./componentes/CardPedidoComerciante";
+
+
+const pedidos = [
+    {
+        "nome": "009",
+        "tempo": "1h 15min",
+        "status": "concluído",
+        "cpf": "222.333.444-55",
+        "metodoPagamento": "Transferência bancária",
+        "valorTotal": "80.75",
+        "modoCompra": "Presencial"
+    },
+    {
+        "nome": "010",
+        "tempo": "2h 45min",
+        "status": "pendente",
+        "cpf": "888.555.666-77",
+        "metodoPagamento": "Cartão de crédito",
+        "valorTotal": "180.25",
+        "modoCompra": "Online"
+    },
+    {
+        "nome": "011",
+        "tempo": "3h 30min",
+        "status": "preparação",
+        "cpf": "333.999.777-00",
+        "metodoPagamento": "Dinheiro",
+        "valorTotal": "300.50",
+        "modoCompra": "Presencial"
+    },
+    {
+        "nome": "012",
+        "tempo": "1h 30min",
+        "status": "concluído",
+        "cpf": "666.444.222-11",
+        "metodoPagamento": "Boleto bancário",
+        "valorTotal": "90.10",
+        "modoCompra": "Online"
+    },
+    {
+        "nome": "013",
+        "tempo": "2h",
+        "status": "pendente",
+        "cpf": "555.777.999-00",
+        "metodoPagamento": "Pix",
+        "valorTotal": "200.75",
+        "modoCompra": "Presencial"
+    },
+    {
+        "nome": "014",
+        "tempo": "1h 45min",
+        "status": "preparação",
+        "cpf": "111.888.555-66",
+        "metodoPagamento": "Cartão de débito",
+        "valorTotal": "150.20",
+        "modoCompra": "Online"
+    },
+    {
+        "nome": "015",
+        "tempo": "2h 15min",
+        "status": "concluído",
+        "cpf": "777.666.555-44",
+        "metodoPagamento": "Transferência bancária",
+        "valorTotal": "170.90",
+        "modoCompra": "Presencial"
+    },
+    {
+        "nome": "016",
+        "tempo": "1h 30min",
+        "status": "pendente",
+        "cpf": "444.999.888-77",
+        "metodoPagamento": "Boleto bancário",
+        "valorTotal": "120.50",
+        "modoCompra": "Online"
+    },
+    {
+        "nome": "017",
+        "tempo": "2h 30min",
+        "status": "preparação",
+        "cpf": "222.444.666-88",
+        "metodoPagamento": "Pix",
+        "valorTotal": "250.00",
+        "modoCompra": "Presencial"
+    },
+    {
+        "nome": "018",
+        "tempo": "1h 15min",
+        "status": "concluído",
+        "cpf": "888.777.999-00",
+        "metodoPagamento": "Cartão de crédito",
+        "valorTotal": "80.75",
+        "modoCompra": "Online"
+    },
+    {
+        "nome": "019",
+        "tempo": "2h 45min",
+        "status": "pendente",
+        "cpf": "333.555.777-00",
+        "metodoPagamento": "Dinheiro",
+        "valorTotal": "180.25",
+        "modoCompra": "Presencial"
+    },
+    {
+        "nome": "020",
+        "tempo": "3h 30min",
+        "status": "preparação",
+        "cpf": "666.888.999-00",
+        "metodoPagamento": "Transferência bancária",
+        "valorTotal": "300.50",
+        "modoCompra": "Online"
+    },
+    {
+        "nome": "021",
+        "tempo": "1h 30min",
+        "status": "concluído",
+        "cpf": "111.444.777-00",
+        "metodoPagamento": "Boleto bancário",
+        "valorTotal": "90.10",
+        "modoCompra": "Presencial"
+    },
+    {
+        "nome": "022",
+        "tempo": "2h",
+        "status": "pendente",
+        "cpf": "555.666.999-00",
+        "metodoPagamento": "Pix",
+        "valorTotal": "200.75",
+        "modoCompra": "Online"
+    },
+    {
+        "nome": "023",
+        "tempo": "1h 45min",
+        "status": "preparação",
+        "cpf": "888.444.222-11",
+        "metodoPagamento": "Cartão de débito",
+        "valorTotal": "150.20",
+        "modoCompra": "Presencial"
+    },
+    {
+        "nome": "024",
+        "tempo": "2h 15min",
+        "status": "concluído",
+        "cpf": "777.555.666-44",
+        "metodoPagamento": "Boleto bancário",
+        "valorTotal": "170.90",
+        "modoCompra": "Online"
+    },
+    {
+        "nome": "025",
+        "tempo": "1h 30min",
+        "status": "pendente",
+        "cpf": "444.666.999-88",
+        "metodoPagamento": "Pix",
+        "valorTotal": "120.50",
+        "modoCompra": "Presencial"
+    },
+    {
+        "nome": "026",
+        "tempo": "2h 30min",
+        "status": "preparação",
+        "cpf": "222.888.777-00",
+        "metodoPagamento": "Cartão de crédito",
+        "valorTotal": "250.00",
+        "modoCompra": "Online"
+    },
+    {
+        "nome": "027",
+        "tempo": "1h 15min",
+        "status": "concluído",
+        "cpf": "777.999.555-66",
+        "metodoPagamento": "Dinheiro",
+        "valorTotal": "80.75",
+        "modoCompra": "Presencial"
+    }
+]
 
 const PedidosComerciante = () => {
   return (
-    <main className="w-full h-screen flex">
+    <main className="w-full h-screen flex bg-background">
       <MenuComerciante />
 
-      <BoxComerciante className="flex flex-col pt-10 justify-around">
+      <BoxComerciante className="flex flex-col pt-10 gap-y-10 " >
         <div className="w-full text-center flex flex-col     font-semibold mb-0 gap-y-4">
           <h2>Pedidos</h2>
 
@@ -71,31 +247,12 @@ const PedidosComerciante = () => {
           </div>
         </div>
 
-        <div>
-          <div className="border">
-            <div className="flex justify-between border-b border-gray-200 px-8 py-4  items-center">
-              <h3 className="text-base">Pedido - Há um minuto</h3>
-              <div>
-                <Select className="h-10" >
-                  <MenuItem value={"Camiseta"}>Roupas</MenuItem>
-                  <MenuItem value={"Plastico"}>Eletronicos</MenuItem>
-                  <MenuItem value={"Roupa"}>Utensilhos</MenuItem>
-                </Select>
-              </div>
-            </div>
+        <div className=" flex flex-col overflow-auto gap-y-6">
 
-            <div className="flex text-base justify-between px-8 py-4">
-              <div className="flex flex-col gap-y-4">
-                <span>CPF DO COMPRADOR: 123.132.131-65</span>
-                <span>Método de pagamento</span>
-                <span>Valor Total: R$ 12,00</span>
-              </div>
-              <div className="flex flex-col justify-between items-end">
-                Modo de compra: Pagamento no site
-                <Button className="h-max w-max">Itens do pedido</Button>
-              </div>
-            </div>
-          </div>
+            {pedidos.map((pedido) => (
+                <CardPedidoComerciante pedido={pedido} key={`${pedido.nome}`} />
+            ))}
+                
         </div>
       </BoxComerciante>
     </main>
