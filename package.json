@@ -29,7 +29,8 @@
     "react-toastify": "^9.1.3",
     "slick-carousel": "^1.8.1",
     "sort-by": "^0.0.2",
-    "tailwind-scrollbar-hide": "^1.1.7"
+    "tailwind-scrollbar-hide": "^1.1.7",
+    "toast": "^0.5.4"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

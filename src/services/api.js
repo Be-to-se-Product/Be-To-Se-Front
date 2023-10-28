@@ -1,10 +1,13 @@
 import axios from "axios";
 
 
-
+const ips={
+    cesar:'10.18.6.54',
+    local:'localhost'
+}
 
 const api = axios.create({
-    baseURL: 'http://10.18.6.54:8080',
+    baseURL: `http://${ips.local}:8080`,
     timeout: 5000,
 });
 

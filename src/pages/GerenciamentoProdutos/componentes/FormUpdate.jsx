@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import InputRoot from "../../../componentes/Input/InputRoot";
 
 import { Autocomplete, MenuItem, Select, TextField } from "@mui/material";
@@ -21,12 +21,12 @@ const FormUpdate = ({ fecharModal, getProdutos, setState,produto }) => {
 
 const [productDetails,setProductDetails] = useState({
   imagens:{
-    imagem1: produto?.imagens?.imagem1,
-    imagem2: produto?.imagens?.imagem2,
-    imagem3: produto?.imagens?.imagem3,
-    imagem4: produto?.imagens?.imagem4,
+    imagem1: produto && produto.imagens && produto.imagens.imagem1,
+    imagem2: produto && produto.imagens && produto.imagens.imagem2,
+    imagem3: produto && produto.imagens && produto.imagens.imagem3,
+    imagem4: produto && produto.imagens && produto.imagens.imagem4,
   },
-  tag: produto?.tag ? [...produto?.tag] : [],
+  tag: produto && produto.tag ? [...produto.tag] : [],
 });
 
   const [productDefault,setProductDefault] =useState({
@@ -40,7 +40,7 @@ const [productDetails,setProductDetails] = useState({
     codigoBarras: produto?.codigoBarras,
     descricao: produto?.descricao,
     tag: produto?.tag ? [...produto?.tag] : null,
-    imagens: produto?.imagens ? [...produto?.imagens] : null
+    imagens: produto?.imagens ? {...produto?.imagens} : null
   });
 
   useEffect(() => {
@@ -227,7 +227,7 @@ const [productDetails,setProductDetails] = useState({
                   <Select
                     className="h-[42px]"
                     id="demo-simple-select"
-                    defaultValue={"SampleDescricao"}
+                    defaultValue={productDefault.secao.id}
                     {...register("secao")}
                    
                   >

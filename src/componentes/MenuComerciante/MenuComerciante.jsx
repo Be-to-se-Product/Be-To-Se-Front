@@ -47,7 +47,7 @@ const navigate = useNavigate();
                   <h2>Análise de negócio</h2>{" "}
                 </li>
                 <Link to="/HistoricoVendas">
-                <li className="text-lg text-white-principal flex gap-x-4 mb-5 items-center" onClick={()=>router}  >
+                <li className="text-lg text-white-principal flex gap-x-4 mb-5 items-center"   >
                   <img src={shopIcon} alt="" className="w-8" />
                   <h2>Históricos de venda</h2>
                 </li>

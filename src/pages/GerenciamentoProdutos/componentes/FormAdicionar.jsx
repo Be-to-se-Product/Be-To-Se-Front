@@ -70,6 +70,8 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
       .post("/produtos ", produto)
       .then((res) => {
         getProdutos();
+        toast.success("Produto adicionado com sucesso!");
+        fecharModal();
       })
       .catch((err) => {
         console.log(err.status);
@@ -198,6 +200,7 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
                   <Select
                     className="h-[42px]"
                     id="demo-simple-select"
+                    
                     {...register("secao")}
                   >
                     {infoBanco.sessoes.map((option) => (

@@ -1,19 +1,17 @@
 import Card from "./componentes/Card";
-import imgProduto from "../../assets/cocacola.svg";
 import Modal from "../../componentes/Modal/Modal";
-
 import FormAdicionar from "./componentes/FormAdicionar";
 import FormUpdate from "./componentes/FormUpdate";
 import ContentDelete from "./componentes/ContentDelete";
 import { useEffect, useState } from "react";
-import axios from "axios";
-
 import searchIcon from "../../assets/search.svg";
-
 import { MenuItem, Select } from "@mui/material";
 import MenuComerciante from "../../componentes/MenuComerciante/MenuComerciante";
-
 import api from "../../services/api";
+import { ToastContainer, toast } from "react-toastify";
+import { injectStyle } from "react-toastify/dist/inject-style";
+
+injectStyle();
 
 const GerenciamentoProdutos = () => {
   const [produtos, setProdutos] = useState([]);
@@ -21,19 +19,23 @@ const GerenciamentoProdutos = () => {
   const [stateForm, setStateForm] = useState(null);
   const [state, setState] = useState(0);
 
+
+
   const getProdutos = () => {
+    toast.loading("Carregando...");
     api
       .get("/produtos")
       .then((res) => {
+        toast.dismiss();
         setProdutos(res.data.length == 0 ? [] : res.data);
       })
       .catch((err) => {
         console.log(err);
       });
-      console.log(produtos);
   };
 
   useEffect(() => {
+
     getProdutos();
   }, []);
 
@@ -157,6 +159,7 @@ const GerenciamentoProdutos = () => {
         </section>
       </main>
       <Modal isVisible={isVisibleModal}>{stateForm}</Modal>
+      <ToastContainer />
     </>
   );
 };
