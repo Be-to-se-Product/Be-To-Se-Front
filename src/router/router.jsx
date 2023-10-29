@@ -5,6 +5,7 @@ import GerenciamentoProdutos from "../pages/GerenciamentoProdutos/GerenciamentoP
 import TelaInicial from "../pages/TelaInicial/TelaInicial";
 import TelaPesquisa from "../pages/TelaPesquisa/TelaPesquisa";
 import TelaProduto from "../pages/TelaProduto/TelaProduto";
+import DadosUsuario from "../pages/DadosUsuario/DadosUsuario"
 
 import GerenciamentoLoja from "../pages/GerencimentoLojas/GerenciamentoLoja";
 import HistoricoVendas from "../pages/HistoricoVendas/HistoricoVendas";
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
     {
       path: "/TelaProduto",
       element: <TelaProduto />
+    },
+    {
+      path: "/DadosUsuario",
+      element: <DadosUsuario />
     }
     
   ]);

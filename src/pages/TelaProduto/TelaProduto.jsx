@@ -1,5 +1,4 @@
 import NavbarRoot from "../../componentes/Navbar/NavbarRoot"
-import React, { useEffect } from 'react';
 import star from "../../assets/star.svg"
 import car from "../../assets/car-black.svg";
 import bike from "../../assets/bike-black.svg";
@@ -29,10 +28,10 @@ function TelaProduto(){
                             <img src={jbl} alt="" />
                         </div>
                         <div className="flex flex-row gap-x-2">
-                            <img src={jbl} alt="" className="h-24" />
-                            <img src={jbl1} alt="" className="h-24" />
-                            <img src={jbl2} alt="" className="h-24" />
-                            <img src={jbl3} alt="" className="h-24" />
+                            <img src={jbl} alt="" className="h-24 border-solid border-2 border-stroke-principal rounded-lg" />
+                            <img src={jbl1} alt="" className="h-24 border-solid border-2 border-stroke-principal rounded-lg" />
+                            <img src={jbl2} alt="" className="h-24 border-solid border-2 border-stroke-principal rounded-lg" />
+                            <img src={jbl3} alt="" className="h-24 border-solid border-2 border-stroke-principal rounded-lg" />
                         </div>
                         <div className="flex flex-col pt-[80px] max-w-md gap-y-6">
                             <h2 className="text-2xl">Descrição</h2>
@@ -47,8 +46,14 @@ function TelaProduto(){
                         <div className="flex flex-col gap-y-6">
                             <h2 className="text-2xl font-medium">Fone de Ouvido JBL Tune 720BT</h2>
                             <p className="text-5xl	">RS299,00</p>
-                            <div className="flex flex-row gap-x-1">
-                                <img src={star} alt="" className="w-4 h-4" />
+                            <div className="flex flex-row gap-x-2">
+                                <div className="flex flex-row gap-x-1">
+                                    <img src={star} alt="" className="w-4 h-4" />
+                                    <img src={star} alt="" className="w-4 h-4" />
+                                    <img src={star} alt="" className="w-4 h-4" />
+                                    <img src={star} alt="" className="w-4 h-4" />
+                                    <img src={star} alt="" className="w-4 h-4" />
+                                </div>
                                 <p>(4,6)</p>
                             </div>
                             <p className="text-2xl">Tempo do percurso</p>
@@ -73,8 +78,8 @@ function TelaProduto(){
                             </div>
                         </div>
                         <div className="flex pt-[40px] flex-col gap-y-4">
-                            <button className="bg-orange-400 py-2 text-2xl font-medium rounded-lg">Reservar na loja</button>
-                            <button className="bg-orange-400 py-2 text-2xl font-medium rounded-lg">Guardar no carrinho</button>
+                            <button className="bg-orange-principal py-2 text-2xl font-medium rounded-lg">Reservar na loja</button>
+                            <button className=" bg-orange_opacity-principal py-2 text-2xl font-medium rounded-lg">Guardar no carrinho</button>
                         </div>
                         <div className="flex flex-col gap-y-9">
                             <div className="flex flex-col pt-[52px] gap-y-4">
@@ -126,7 +131,7 @@ function TelaProduto(){
                         <div className="flex flex-col gap-y-10">
                             <div className="flex flex-col gap-y-2">
                                 <p>Adicione um comentário</p>
-                                <textarea name="" id="" placeholder="Digite aqui" cols="65" rows="3" className="rounded-lg px-4 py-2"></textarea>
+                                <textarea name="" id="" placeholder="Digite aqui" cols="65" rows="3" className="rounded-lg px-4 py-2 border-solid border-2 border-stroke-principal"></textarea>
                             </div>
                                 <button className="bg-orange-400 px-4 py-2 ml-auto font-medium rounded-lg">Publicar</button>
                         </div>
