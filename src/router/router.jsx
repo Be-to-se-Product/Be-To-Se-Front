@@ -9,22 +9,11 @@ import GerenciamentoLoja from "../pages/GerencimentoLojas/GerenciamentoLoja";
 import HistoricoVendas from "../pages/HistoricoVendas/HistoricoVendas";
 import NotFound from "../pages/NotFound/NotFound";
 import Login from "../pages/Login/Login";
-import api from "../services/api";
+
 import PedidosComerciante from "../pages/PedidosComerciante/PedidosComerciante";
+import PedidosUsuario from "../pages/PedidosUsuario/PedidosUsuario";
 
-// api.interceptors.response.use(
-//   (response) => {
-//     return response;
-//   },
-//   (error) => {
 
-//     if (error.response || error.response.status === 401 || sessionStorage.getItem("TOKEN") === null) {
-//       const navigate = useNavigate();
-//       navigate('/login');
-//     }
-//     return Promise.reject(error);
-//   }
-// );
   
 const router = createBrowserRouter([
     {
@@ -64,6 +53,10 @@ const router = createBrowserRouter([
     {
       path: "/comerciante/pedidos",
       element: <PedidosComerciante/>
+    },
+    {
+      path: "/usuario/pedidos",
+      element: <PedidosUsuario/>
     }
 
 

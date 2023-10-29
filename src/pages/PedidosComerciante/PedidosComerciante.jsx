@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import MenuComerciante from "../../componentes/MenuComerciante/MenuComerciante";
 import BoxComerciante from "../../componentes/BoxComerciante/BoxComerciante";
 import {
@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import Button from "../../componentes/Button/Button";
 import CardPedidoComerciante from "./componentes/CardPedidoComerciante";
+import ModalPedidos from "../HistoricoVendas/componentes/ModalPedidos";
 
 
 const pedidos = [
@@ -187,6 +188,11 @@ const pedidos = [
 ]
 
 const PedidosComerciante = () => {
+
+  const [modal, setModal] = useState({
+    isAtivo: false,
+    pedido: {},
+  });
   return (
     <main className="w-full h-screen flex bg-background">
       <MenuComerciante />
@@ -250,12 +256,24 @@ const PedidosComerciante = () => {
         <div className=" flex flex-col overflow-auto gap-y-6">
 
             {pedidos.map((pedido) => (
-                <CardPedidoComerciante pedido={pedido} key={`${pedido.nome}`} />
+                <CardPedidoComerciante pedido={pedido} key={`${pedido.nome}`} onClick={
+                  ()=>setModal(prev=>{
+                    const el = {...prev};
+
+                    el.isAtivo = !el.isAtivo;
+                    el.pedido = pedido;
+                    return el;
+                })
+              } />
             ))}
                 
         </div>
       </BoxComerciante>
+
+
+      <ModalPedidos  modal={modal} setModal={setModal} />
     </main>
+    
   );
 };
 
