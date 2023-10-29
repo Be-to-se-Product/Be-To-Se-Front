@@ -10,7 +10,7 @@ const ContentNavbar = ({children}) => {
     <div className="flex justify-between ">
       <div className="flex items-center font-medium">EasyFind</div>
       <div className="flex w-1/2">
-        <InputRoot.Input className="text-black-900 pl-4 pr-10  py-1 text-xl w-full mb-0 rounded outline-none">
+        <InputRoot.Input className="text-black-900 pl-4 pr-10  py-1 text-base w-full mb-0 rounded outline-none h-10 ">
           <InputRoot.Icon>
             <img src={icon} alt="" className="w-5 " />
           </InputRoot.Icon>

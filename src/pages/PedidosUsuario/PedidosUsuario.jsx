@@ -92,7 +92,7 @@ const PedidosUsuario = () => {
             </div>
           </div>
 
-          <div className="w-full flex  flex-wrap gap-y-8 gap-x-16">
+          <div className="w-full flex  flex-wrap gap-y-8 gap-x-10">
             <CardLojaRoot.Content className={"flex-shrink-0"}>
               <CardLojaRoot.Header>
                 <div className="flex gap-x-2">
