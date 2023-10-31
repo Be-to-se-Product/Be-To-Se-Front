@@ -1,0 +1,13 @@
+.pop-up{
+    transform: translateX(-100%);
+    animation: pop-up 1s ease-in-out alternate;
+}
+
+@keyframes pop-up {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}

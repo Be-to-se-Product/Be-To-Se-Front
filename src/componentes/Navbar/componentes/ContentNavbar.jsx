@@ -2,7 +2,9 @@ import React from 'react'
 import InputRoot from '../../Input/InputRoot'
 import icon from '../../../assets/mingcute_down-fill.svg'
 import Button from '../../Button/Button'
+import { useNavigate } from 'react-router-dom'
 const ContentNavbar = ({children}) => {
+  const navigate = useNavigate();
   return (
     <header className="w-full bg-black-900 py-[10px] text-white-principal px-[58px] text-2xl gap-y-4 flex flex-col">
     <div className="flex justify-between ">
@@ -15,7 +17,7 @@ const ContentNavbar = ({children}) => {
         </InputRoot.Input>
       </div>
       <div className="flex gap-x-3">
-        <Button>
+        <Button onClick={()=>navigate("/login")}>
             Login
         </Button>
        <Button>
