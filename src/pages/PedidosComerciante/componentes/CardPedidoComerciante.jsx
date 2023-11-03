@@ -4,6 +4,7 @@ import Button from '../../../componentes/Button/Button';
 import moment from 'moment';
 
 const CardPedidoComerciante = ({pedido,...props}) => {
+  
   return (
     <div className="border rounded-lg bg-white-principal shadow-lg">
       <div className="flex justify-between border-b border-gray-200 px-8 py-4  items-center">
@@ -14,10 +15,15 @@ const CardPedidoComerciante = ({pedido,...props}) => {
             id="demo-simple-select"
             defaultValue={pedido.status}
             name="status"
+            
           >
-            <MenuItem value={"pendente"}>Pendente</MenuItem>
-            <MenuItem value={"ENTREGUE"}>ENTREGUE</MenuItem>
-            <MenuItem value={"reprovado"}>Reprovado</MenuItem>
+            <MenuItem value={"PENDENTE"}>Pendente</MenuItem>
+            <MenuItem value={"ENTREGUE"}>Entregue</MenuItem>
+            <MenuItem value={"AGUARDANDO_RETIRADA"}>Agurdando Retirada</MenuItem>
+            <MenuItem value={"PREPARO"}>Em Preparo</MenuItem>
+            <MenuItem value={"CANCELADO"}>Cancelar</MenuItem>
+
+
           </Select>
         </div>
       </div>
@@ -28,10 +34,11 @@ const CardPedidoComerciante = ({pedido,...props}) => {
           <span>Valor Total: R${pedido.itens.reduce((accumulator,element)=> accumulator + element.valor,0)}</span>
         </div>
         <div className="flex flex-col justify-between items-end">
-          Modo de compra: {pedido.tipoPagamento}
+          Modo de compra: {pedido?.tipoPagamento}
           <Button className="h-max w-max " {...props}>Itens do pedido</Button>
         </div>
       </div>
+
     </div>
   );
 };

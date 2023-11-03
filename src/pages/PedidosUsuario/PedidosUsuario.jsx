@@ -1,11 +1,61 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NavbarRoot from "../../componentes/Navbar/NavbarRoot";
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import InputRoot from "../../componentes/Input/InputRoot";
 import CardLojaRoot from "../../componentes/CardLoja/CardLojaRoot";
 import Button from "../../componentes/Button/Button";
+import api from "../../services/api";
+import moment from "moment";
 
 const PedidosUsuario = () => {
+  const [pedidos, setPedidos] = useState([]);
+  const [status, setStatus] = useState("PENDENTE");
+
+  const getPedidos = () => {
+    
+    api
+      .get("/pedidos/consumidor?status=" + status)
+      .then((response) => {
+        setPedidos([]);
+        response.data.forEach((pedido) => {
+          
+          const pedidoDto = {
+            id: pedido.id,
+            data: pedido.dataPedido,
+            status: pedido.statusPedido,
+            metodoPagamento: pedido.metodoPagamento,
+            tipoPagamento: pedido.isPagamentoOnline ? "Online" : "Presencial",
+            estabelecimento: {
+              nome: pedido.estabelecimento.nome,
+              endereco: {
+                numero: pedido.estabelecimento.endereco.numero,
+                rua: pedido.estabelecimento.endereco.rua,
+                bairro: pedido.estabelecimento.endereco.bairro,
+              },
+            },
+            itens: pedido.itens.map((item) => {
+              return {
+                id: item.id,
+                nome: item.produtoNome,
+                quantidade: item.quantidade,
+                valor: item.preco,
+              };
+            }),
+          };
+
+
+          setPedidos((prev)=>[...prev, pedidoDto]);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getPedidos();
+  }, [status]);
+
   return (
     <>
       <NavbarRoot.Content>
@@ -24,9 +74,11 @@ const PedidosUsuario = () => {
                   aria-labelledby="demo-row-radio-buttons-group-label"
                   name="row-radio-buttons-group"
                   className="flex gap-x-4"
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value)}
                 >
                   <FormControlLabel
-                    value="pendente"
+                    value="PENDENTE"
                     control={
                       <Radio
                         sx={{
@@ -40,7 +92,7 @@ const PedidosUsuario = () => {
                     label="Pendentes"
                   />
                   <FormControlLabel
-                    value="aprovados"
+                    value="ENTREGUE"
                     control={
                       <Radio
                         sx={{
@@ -54,7 +106,7 @@ const PedidosUsuario = () => {
                     label="Aprovados"
                   />
                   <FormControlLabel
-                    value="Todos"
+                    value=""
                     control={
                       <Radio
                         sx={{
@@ -68,7 +120,7 @@ const PedidosUsuario = () => {
                     label="Todos"
                   />
                   <FormControlLabel
-                    value="reprovado"
+                    value="CANCELADO"
                     control={
                       <Radio
                         sx={{
@@ -79,7 +131,7 @@ const PedidosUsuario = () => {
                         }}
                       />
                     }
-                    label="Reprovados"
+                    label="Cancelados"
                   />
                 </RadioGroup>
               </div>
@@ -87,319 +139,60 @@ const PedidosUsuario = () => {
 
             <div className="flex h-max  w-1/3  ">
               <InputRoot.Input className={"h-9"}>
-                <InputRoot.Icon><img src="/src/assets/search.svg" /></InputRoot.Icon>
+                <InputRoot.Icon>
+                  <img src="/src/assets/search.svg" />
+                </InputRoot.Icon>
               </InputRoot.Input>
             </div>
           </div>
 
           <div className="w-full flex  flex-wrap gap-y-8 gap-x-10">
-            <CardLojaRoot.Content className={"flex-shrink-0"}>
-              <CardLojaRoot.Header>
-                <div className="flex gap-x-2">
-                  <img src="/src/assets/down.svg" alt="" className="w-6 " />
-                  <div>
-                    <h2 className="text-xs font-semibold">Montech</h2>
-                    <p className="text-xs">Rua Visconde de Inhaúma, N° 431</p>
+            {pedidos.map((pedido) => (
+              <CardLojaRoot.Content className={"flex-shrink-0"} key={pedido.id}>
+                <CardLojaRoot.Header>
+                  <div className="flex gap-x-2">
+                    <img src="/src/assets/down.svg" alt="" className="w-6 " />
+                    <div>
+                      <h2 className="text-xs font-semibold">{pedido.estabelecimento.nome}</h2>
+                      <p className="text-xs">{`${pedido.estabelecimento.endereco.rua}, N°${pedido.estabelecimento.endereco.numero}`} </p>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-x-2 ">
-                  <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
-                  <h3 className=" text-xs">Pendente</h3>
-                </div>
-              </CardLojaRoot.Header>
-
-              <CardLojaRoot.ContentInfo>
-                <div className="flex flex-col gap-y-1">
-                  <CardLojaRoot.Row
-                    label={"Data do pedido"}
-                    texto={"20/08/2023 - 13:59"}
-                  />
-                  <CardLojaRoot.Row
-                    label={"Modo de compra"}
-                    texto={"Pagamento na loja"}
-                  />
-                </div>
-                <div className="flex flex-col gap-y-1">
-                  <CardLojaRoot.Row
-                    label={"Método de compra"}
-                    texto={"Cartão de débito"}
-                  />
-                </div>
-              </CardLojaRoot.ContentInfo>
-              <CardLojaRoot.Footer>
-                <div className="flex justify-between items-center w-full">
-                  <span className="text-xs">Preço total: R$12,00</span>
-                  <Button className=" text-white-principal text-xs">
-                    Ver itens da compra
-                  </Button>
-                </div>
-              </CardLojaRoot.Footer>
-            </CardLojaRoot.Content>
-
-
-            <CardLojaRoot.Content className={"flex-shrink-0"}>
-              <CardLojaRoot.Header>
-                <div className="flex gap-x-2">
-                  <img src="/src/assets/down.svg" alt="" className="w-6 " />
-                  <div>
-                    <h2 className="text-xs font-semibold">Montech</h2>
-                    <p className="text-xs">Rua Visconde de Inhaúma, N° 431</p>
+                  <div className="flex items-center gap-x-2 ">
+                    <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
+                    <h3 className=" text-xs">{pedido.status}</h3>
                   </div>
-                </div>
-                <div className="flex items-center gap-x-2 ">
-                  <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
-                  <h3 className=" text-xs">Pendente</h3>
-                </div>
-              </CardLojaRoot.Header>
+                </CardLojaRoot.Header>
 
-              <CardLojaRoot.ContentInfo>
-                <div className="flex flex-col gap-y-1">
-                  <CardLojaRoot.Row
-                    label={"Data do pedido"}
-                    texto={"20/08/2023 - 13:59"}
-                  />
-                  <CardLojaRoot.Row
-                    label={"Modo de compra"}
-                    texto={"Pagamento na loja"}
-                  />
-                </div>
-                <div className="flex flex-col gap-y-1">
-                  <CardLojaRoot.Row
-                    label={"Método de compra"}
-                    texto={"Cartão de débito"}
-                  />
-                </div>
-              </CardLojaRoot.ContentInfo>
-              <CardLojaRoot.Footer>
-                <div className="flex justify-between items-center w-full">
-                  <span className="text-xs">Preço total: R$12,00</span>
-                  <Button className=" text-white-principal text-xs">
-                    Ver itens da compra
-                  </Button>
-                </div>
-              </CardLojaRoot.Footer>
-            </CardLojaRoot.Content>
-
-
-            <CardLojaRoot.Content className={"flex-shrink-0"}>
-              <CardLojaRoot.Header>
-                <div className="flex gap-x-2">
-                  <img src="/src/assets/down.svg" alt="" className="w-6 " />
-                  <div>
-                    <h2 className="text-xs font-semibold">Montech</h2>
-                    <p className="text-xs">Rua Visconde de Inhaúma, N° 431</p>
+                <CardLojaRoot.ContentInfo>
+                  <div className="flex flex-col gap-y-1">
+                    <CardLojaRoot.Row
+                      label={"Data do pedido"}
+                      texto={moment(pedido.data, "YYYY-MM-DDHH:mm:ss").format("DD/MM/YYYY - HH:mm")}
+                    />
+                    <CardLojaRoot.Row
+                      label={"Modo de compra"}
+                      texto={pedido.tipoPagamento}
+                    />
                   </div>
-                </div>
-                <div className="flex items-center gap-x-2 ">
-                  <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
-                  <h3 className=" text-xs">Pendente</h3>
-                </div>
-              </CardLojaRoot.Header>
-
-              <CardLojaRoot.ContentInfo>
-                <div className="flex flex-col gap-y-1">
-                  <CardLojaRoot.Row
-                    label={"Data do pedido"}
-                    texto={"20/08/2023 - 13:59"}
-                  />
-                  <CardLojaRoot.Row
-                    label={"Modo de compra"}
-                    texto={"Pagamento na loja"}
-                  />
-                </div>
-                <div className="flex flex-col gap-y-1">
-                  <CardLojaRoot.Row
-                    label={"Método de compra"}
-                    texto={"Cartão de débito"}
-                  />
-                </div>
-              </CardLojaRoot.ContentInfo>
-              <CardLojaRoot.Footer>
-                <div className="flex justify-between items-center w-full">
-                  <span className="text-xs">Preço total: R$12,00</span>
-                  <Button className=" text-white-principal text-xs">
-                    Ver itens da compra
-                  </Button>
-                </div>
-              </CardLojaRoot.Footer>
-            </CardLojaRoot.Content>
-
-            <CardLojaRoot.Content className={"flex-shrink-0"}>
-              <CardLojaRoot.Header>
-                <div className="flex gap-x-2">
-                  <img src="/src/assets/down.svg" alt="" className="w-6 " />
-                  <div>
-                    <h2 className="text-xs font-semibold">Montech</h2>
-                    <p className="text-xs">Rua Visconde de Inhaúma, N° 431</p>
+                  <div className="flex flex-col gap-y-1">
+                    <CardLojaRoot.Row
+                      label={"Método de compra"}
+                      texto={pedido.metodoPagamento}
+                    />
                   </div>
-                </div>
-                <div className="flex items-center gap-x-2 ">
-                  <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
-                  <h3 className=" text-xs">Pendente</h3>
-                </div>
-              </CardLojaRoot.Header>
-
-              <CardLojaRoot.ContentInfo>
-                <div className="flex flex-col gap-y-1">
-                  <CardLojaRoot.Row
-                    label={"Data do pedido"}
-                    texto={"20/08/2023 - 13:59"}
-                  />
-                  <CardLojaRoot.Row
-                    label={"Modo de compra"}
-                    texto={"Pagamento na loja"}
-                  />
-                </div>
-                <div className="flex flex-col gap-y-1">
-                  <CardLojaRoot.Row
-                    label={"Método de compra"}
-                    texto={"Cartão de débito"}
-                  />
-                </div>
-              </CardLojaRoot.ContentInfo>
-              <CardLojaRoot.Footer>
-                <div className="flex justify-between items-center w-full">
-                  <span className="text-xs">Preço total: R$12,00</span>
-                  <Button className=" text-white-principal text-xs">
-                    Ver itens da compra
-                  </Button>
-                </div>
-              </CardLojaRoot.Footer>
-            </CardLojaRoot.Content>
-
-            <CardLojaRoot.Content className={"flex-shrink-0"}>
-              <CardLojaRoot.Header>
-                <div className="flex gap-x-2">
-                  <img src="/src/assets/down.svg" alt="" className="w-6 " />
-                  <div>
-                    <h2 className="text-xs font-semibold">Montech</h2>
-                    <p className="text-xs">Rua Visconde de Inhaúma, N° 431</p>
+                </CardLojaRoot.ContentInfo>
+                <CardLojaRoot.Footer>
+                  <div className="flex justify-between items-center w-full">
+                    <span className="text-xs">Preço total: R${
+                    pedido.itens.reduce((accumulator,element)=>accumulator +element.valor,0).toFixed(2)
+                    }</span>
+                    <Button className=" text-white-principal text-xs">
+                      Ver itens da compra
+                    </Button>
                   </div>
-                </div>
-                <div className="flex items-center gap-x-2 ">
-                  <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
-                  <h3 className=" text-xs">Pendente</h3>
-                </div>
-              </CardLojaRoot.Header>
-
-              <CardLojaRoot.ContentInfo>
-                <div className="flex flex-col gap-y-1">
-                  <CardLojaRoot.Row
-                    label={"Data do pedido"}
-                    texto={"20/08/2023 - 13:59"}
-                  />
-                  <CardLojaRoot.Row
-                    label={"Modo de compra"}
-                    texto={"Pagamento na loja"}
-                  />
-                </div>
-                <div className="flex flex-col gap-y-1">
-                  <CardLojaRoot.Row
-                    label={"Método de compra"}
-                    texto={"Cartão de débito"}
-                  />
-                </div>
-              </CardLojaRoot.ContentInfo>
-              <CardLojaRoot.Footer>
-                <div className="flex justify-between items-center w-full">
-                  <span className="text-xs">Preço total: R$12,00</span>
-                  <Button className=" text-white-principal text-xs">
-                    Ver itens da compra
-                  </Button>
-                </div>
-              </CardLojaRoot.Footer>
-            </CardLojaRoot.Content>
-
-
-
-            <CardLojaRoot.Content className={"flex-shrink-0"}>
-              <CardLojaRoot.Header>
-                <div className="flex gap-x-2">
-                  <img src="/src/assets/down.svg" alt="" className="w-6 " />
-                  <div>
-                    <h2 className="text-xs font-semibold">Montech</h2>
-                    <p className="text-xs">Rua Visconde de Inhaúma, N° 431</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-x-2 ">
-                  <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
-                  <h3 className=" text-xs">Pendente</h3>
-                </div>
-              </CardLojaRoot.Header>
-
-              <CardLojaRoot.ContentInfo>
-                <div className="flex flex-col gap-y-1">
-                  <CardLojaRoot.Row
-                    label={"Data do pedido"}
-                    texto={"20/08/2023 - 13:59"}
-                  />
-                  <CardLojaRoot.Row
-                    label={"Modo de compra"}
-                    texto={"Pagamento na loja"}
-                  />
-                </div>
-                <div className="flex flex-col gap-y-1">
-                  <CardLojaRoot.Row
-                    label={"Método de compra"}
-                    texto={"Cartão de débito"}
-                  />
-                </div>
-              </CardLojaRoot.ContentInfo>
-              <CardLojaRoot.Footer>
-                <div className="flex justify-between items-center w-full">
-                  <span className="text-xs">Preço total: R$12,00</span>
-                  <Button className=" text-white-principal text-xs">
-                    Ver itens da compra
-                  </Button>
-                </div>
-              </CardLojaRoot.Footer>
-            </CardLojaRoot.Content>
-
-
-            <CardLojaRoot.Content className={"flex-shrink-0"}>
-              <CardLojaRoot.Header>
-                <div className="flex gap-x-2">
-                  <img src="/src/assets/down.svg" alt="" className="w-6 " />
-                  <div>
-                    <h2 className="text-xs font-semibold">Montech</h2>
-                    <p className="text-xs">Rua Visconde de Inhaúma, N° 431</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-x-2 ">
-                  <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
-                  <h3 className=" text-xs">Pendente</h3>
-                </div>
-              </CardLojaRoot.Header>
-
-              <CardLojaRoot.ContentInfo>
-                <div className="flex flex-col gap-y-1">
-                  <CardLojaRoot.Row
-                    label={"Data do pedido"}
-                    texto={"20/08/2023 - 13:59"}
-                  />
-                  <CardLojaRoot.Row
-                    label={"Modo de compra"}
-                    texto={"Pagamento na loja"}
-                  />
-                </div>
-                <div className="flex flex-col gap-y-1">
-                  <CardLojaRoot.Row
-                    label={"Método de compra"}
-                    texto={"Cartão de débito"}
-                  />
-                </div>
-              </CardLojaRoot.ContentInfo>
-              <CardLojaRoot.Footer>
-                <div className="flex justify-between items-center w-full">
-                  <span className="text-xs">Preço total: R$12,00</span>
-                  <Button className=" text-white-principal text-xs">
-                    Ver itens da compra
-                  </Button>
-                </div>
-              </CardLojaRoot.Footer>
-            </CardLojaRoot.Content>
-
-
+                </CardLojaRoot.Footer>
+              </CardLojaRoot.Content>
+            ))}
           </div>
         </div>
       </div>
