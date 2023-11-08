@@ -23,8 +23,7 @@ const GerenciamentoProdutos = () => {
 
   const getProdutos = () => {
     toast.loading("Carregando...");
-    api
-      .get("/produtos")
+    api.get("/produtos")
       .then((res) => {
         toast.dismiss();
         setProdutos(res.data.length == 0 ? [] : res.data);
