@@ -18,6 +18,14 @@ const PedidosUsuario = () => {
     AGUARDANDO_RETIRADA: "bg-yellow-400",
   };
 
+  const nomeStatus = {
+    PENDENTE: "Pendente",
+    PREPARO: "Em preparação",
+    ENTREGUE: "Aprovado",
+    CANCELADO: "Cancelado",
+    AGUARDANDO_RETIRADA: "Aguardando Retirada",
+  }
+
   const [isLoading, setIsLoading] = useState(false);
   const [pedidos, setPedidos] = useState([]);
   const [pedidosFiltrados, setPedidosFiltrados] = useState([]);
@@ -270,13 +278,13 @@ const PedidosUsuario = () => {
                             statusColors[pedido.status]
                           }`}
                         ></div>
-                        <h3 className="text-xs">{pedido.status}</h3>
+                        <h3 className="text-xs">{nomeStatus[pedido.status]}</h3>
                       </div>
                     </CardLojaRoot.Header>
 
                     <CardLojaRoot.ContentInfo>
                       <div className="flex flex-col gap-y-1">
-                        <CardLojaRoot.Row
+                        <CardLojaRoot.Row 
                           label={"Data do pedido"}
                           texto={moment(
                             pedido.data,
