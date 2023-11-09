@@ -7,7 +7,6 @@ import Modal from "../../componentes/Modal/Modal";
 
 import ModalLoja from "./componentes/ModalLoja";
 
-
 const GerenciamentoLoja = () => {
   const [isVisibleModal, setIsVisibleModal] = useState(false);
   const [isVisibleModalDelete, setIsVisibleModalDelete] = useState(false);
@@ -29,11 +28,16 @@ const GerenciamentoLoja = () => {
 
         <div className=" mx-auto w-full flex flex-wrap gap-y-10 justify-center gap-x-5 relative ">
           <CardLojaRoot.Content>
-            <CardLojaRoot.Header
-              icon={down}
-              nome={"Montech"}
-              status={"Pendente"}
-            />
+            <CardLojaRoot.Header>
+              <div className="flex gap-x-2">
+                <img src={""} alt="" />
+                <h2 className="text-base font-normal">Montech</h2>
+              </div>
+              <div className="flex items-center gap-x-2 ">
+                <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
+                <h3 className=" text-xs">Pendente </h3>
+              </div>
+            </CardLojaRoot.Header>
 
             <CardLojaRoot.ContentInfo>
               <div className="flex flex-col gap-y-1">
@@ -62,194 +66,6 @@ const GerenciamentoLoja = () => {
                   alt=""
                   onClick={() => setIsVisibleModalDelete(!isVisibleModalDelete)}
                 />
-              </div>
-
-              <div>
-                <Button className={"rounded-lg"}>Gerenciar</Button>
-              </div>
-            </CardLojaRoot.Footer>
-          </CardLojaRoot.Content>
-
-          <CardLojaRoot.Content>
-            <CardLojaRoot.Header
-              icon={down}
-              nome={"Montech"}
-              status={"Pendente"}
-            />
-
-            <CardLojaRoot.ContentInfo>
-              <div className="flex flex-col gap-y-1">
-                <CardLojaRoot.Row label={"Logradouro"} texto={"1195383389"} />
-                <CardLojaRoot.Row label={"Cidade"} texto={"1195383389"} />
-                <CardLojaRoot.Row label={"Telefone"} texto={"1195383389"} />
-              </div>
-              <div className="flex flex-col gap-y-1">
-                <CardLojaRoot.Row
-                  label={"Produtos Cadastrados"}
-                  texto={"1195383389"}
-                />
-                <CardLojaRoot.Row
-                  label={"Promoções ativas"}
-                  texto={"1195383389"}
-                />
-                <CardLojaRoot.Row label={"Segmento"} texto={"1195383389"} />
-              </div>
-            </CardLojaRoot.ContentInfo>
-
-            <CardLojaRoot.Footer>
-              <div className="">
-                <span className="text-base">I</span>
-                <span className="text-base">A</span>
-              </div>
-
-              <div>
-                <Button className={"rounded-lg"}>Gerenciar</Button>
-              </div>
-            </CardLojaRoot.Footer>
-          </CardLojaRoot.Content>
-
-          <CardLojaRoot.Content>
-            <CardLojaRoot.Header
-              icon={down}
-              nome={"Montech"}
-              status={"Pendente"}
-            />
-
-            <CardLojaRoot.ContentInfo>
-              <div className="flex flex-col gap-y-1">
-                <CardLojaRoot.Row label={"Logradouro"} texto={"1195383389"} />
-                <CardLojaRoot.Row label={"Cidade"} texto={"1195383389"} />
-                <CardLojaRoot.Row label={"Telefone"} texto={"1195383389"} />
-              </div>
-              <div className="flex flex-col gap-y-1">
-                <CardLojaRoot.Row
-                  label={"Produtos Cadastrados"}
-                  texto={"1195383389"}
-                />
-                <CardLojaRoot.Row
-                  label={"Promoções ativas"}
-                  texto={"1195383389"}
-                />
-                <CardLojaRoot.Row label={"Segmento"} texto={"1195383389"} />
-              </div>
-            </CardLojaRoot.ContentInfo>
-
-            <CardLojaRoot.Footer>
-              <div className="">
-                <span className="text-base">I</span>
-                <span className="text-base">A</span>
-              </div>
-
-              <div>
-                <Button className={"rounded-lg"}>Gerenciar</Button>
-              </div>
-            </CardLojaRoot.Footer>
-          </CardLojaRoot.Content>
-          <CardLojaRoot.Content>
-            <CardLojaRoot.Header
-              icon={down}
-              nome={"Montech"}
-              status={"Pendente"}
-            />
-
-            <CardLojaRoot.ContentInfo>
-              <div className="flex flex-col gap-y-1">
-                <CardLojaRoot.Row label={"Logradouro"} texto={"1195383389"} />
-                <CardLojaRoot.Row label={"Cidade"} texto={"1195383389"} />
-                <CardLojaRoot.Row label={"Telefone"} texto={"1195383389"} />
-              </div>
-              <div className="flex flex-col gap-y-1">
-                <CardLojaRoot.Row
-                  label={"Produtos Cadastrados"}
-                  texto={"1195383389"}
-                />
-                <CardLojaRoot.Row
-                  label={"Promoções ativas"}
-                  texto={"1195383389"}
-                />
-                <CardLojaRoot.Row label={"Segmento"} texto={"1195383389"} />
-              </div>
-            </CardLojaRoot.ContentInfo>
-
-            <CardLojaRoot.Footer>
-              <div className="">
-                <span className="text-base">I</span>
-                <span className="text-base">A</span>
-              </div>
-
-              <div>
-                <Button className={"rounded-lg"}>Gerenciar</Button>
-              </div>
-            </CardLojaRoot.Footer>
-          </CardLojaRoot.Content>
-          <CardLojaRoot.Content>
-            <CardLojaRoot.Header
-              icon={down}
-              nome={"Montech"}
-              status={"Pendente"}
-            />
-
-            <CardLojaRoot.ContentInfo>
-              <div className="flex flex-col gap-y-1">
-                <CardLojaRoot.Row label={"Logradouro"} texto={"1195383389"} />
-                <CardLojaRoot.Row label={"Cidade"} texto={"1195383389"} />
-                <CardLojaRoot.Row label={"Telefone"} texto={"1195383389"} />
-              </div>
-              <div className="flex flex-col gap-y-1">
-                <CardLojaRoot.Row
-                  label={"Produtos Cadastrados"}
-                  texto={"1195383389"}
-                />
-                <CardLojaRoot.Row
-                  label={"Promoções ativas"}
-                  texto={"1195383389"}
-                />
-                <CardLojaRoot.Row label={"Segmento"} texto={"1195383389"} />
-              </div>
-            </CardLojaRoot.ContentInfo>
-
-            <CardLojaRoot.Footer>
-              <div className="">
-                <span className="text-base">I</span>
-                <span className="text-base">A</span>
-              </div>
-
-              <div>
-                <Button className={"rounded-lg"}>Gerenciar</Button>
-              </div>
-            </CardLojaRoot.Footer>
-          </CardLojaRoot.Content>
-
-          <CardLojaRoot.Content>
-            <CardLojaRoot.Header
-              icon={down}
-              nome={"Montech"}
-              status={"Pendente"}
-            />
-
-            <CardLojaRoot.ContentInfo>
-              <div className="flex flex-col gap-y-1">
-                <CardLojaRoot.Row label={"Logradouro"} texto={"1195383389"} />
-                <CardLojaRoot.Row label={"Cidade"} texto={"1195383389"} />
-                <CardLojaRoot.Row label={"Telefone"} texto={"1195383389"} />
-              </div>
-              <div className="flex flex-col gap-y-1">
-                <CardLojaRoot.Row
-                  label={"Produtos Cadastrados"}
-                  texto={"1195383389"}
-                />
-                <CardLojaRoot.Row
-                  label={"Promoções ativas"}
-                  texto={"1195383389"}
-                />
-                <CardLojaRoot.Row label={"Segmento"} texto={"1195383389"} />
-              </div>
-            </CardLojaRoot.ContentInfo>
-
-            <CardLojaRoot.Footer>
-              <div className="">
-                <span className="text-base">I</span>
-                <span className="text-base">A</span>
               </div>
 
               <div>

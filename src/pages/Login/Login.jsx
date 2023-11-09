@@ -74,7 +74,6 @@ const Login = () => {
 
   const nextItemCarrossel = (itemsCarrossel) => {
     if (itemAtual < itemsCarrossel) {
-      console.log(itemAtual);
       carrossel.current.style.scrollBehavior = "smooth";
       carrossel.current.scrollLeft = carrossel.current.clientWidth * itemAtual;
       itemAtual++;
