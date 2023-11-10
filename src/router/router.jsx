@@ -12,6 +12,7 @@ import Login from "../pages/Login/Login";
 
 import PedidosComerciante from "../pages/PedidosComerciante/PedidosComerciante";
 import PedidosUsuario from "../pages/PedidosUsuario/PedidosUsuario";
+import MapaInterativo from "../pages/MapaInterativo/MapaInterativo";
 
 
   
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
     {
       path: "/usuario/pedidos",
       element: <PedidosUsuario/>
+    },
+    {
+      path:"/mapa",
+      element:<MapaInterativo/>
     }
 
 
