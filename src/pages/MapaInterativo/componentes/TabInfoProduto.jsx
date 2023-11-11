@@ -1,63 +1,16 @@
-import { Avatar, Rating, Tab, Tabs } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Tab, Tabs } from "@mui/material";
+import React, { useState } from "react";
 import Avaliacao from "../../../componentes/Avaliacao/Avaliacao";
-import LanguageIcon from '@mui/icons-material/Language';
-import RoomIcon from '@mui/icons-material/Room';
-import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
-import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
+import LanguageIcon from "@mui/icons-material/Language";
+import RoomIcon from "@mui/icons-material/Room";
+import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+import QueryBuilderIcon from "@mui/icons-material/QueryBuilder";
 import ModalHorario from "../../../componentes/ModalHorario/ModalHorario";
+import ContentAvaliacao from "./ContentAvaliacao";
+import InfoLoja from "./InfoLoja";
 
 const TabInfoProduto = () => {
-
-
   const [currentPage, setCurrentPage] = useState(0);
-  const agenda = [
-    {
-      dia: "Segunda Feira",
-      horarioComeco: "15:00",
-      horarioFim: "16:00",
-    },
-    {
-      dia: "Terça Feira",
-      horarioComeco: "15:00",
-      horarioFim: "16:00",
-    },
-    {
-      dia: "Quarta Feira",
-      horarioComeco: "15:00",
-      horarioFim: "16:00",
-    },
-    {
-      dia: "Quinta Feira",
-      horarioComeco: "15:00",
-      horarioFim: "16:00",
-    },
-    {
-      dia: "Sexta Feira",
-      horarioComeco: "15:00",
-      horarioFim: "16:00",
-    },
-    {
-      dia: "Sábado",
-      horarioComeco: "15:00",
-      horarioFim: "16:00",
-    },
-    {
-      dia: "Domingo",
-      horarioComeco: "15:00",
-      horarioFim: "16:00",
-    },
-    {
-      dia: "Feriados",
-      horarioComeco: "15:00",
-      horarioFim: "16:00",
-    },
-  ];
-
-
-
-
-  const [showModalHorario,setShowModalHorario] = useState(false)
 
   return (
     <>
@@ -77,6 +30,9 @@ const TabInfoProduto = () => {
           <Tab
             label="Sobre"
             sx={{
+              "& ": {
+                color: "#fff ",
+              },
               "&.Mui-selected": {
                 color: "#FF8C00",
               },
@@ -86,6 +42,9 @@ const TabInfoProduto = () => {
           <Tab
             label="Avaliações"
             sx={{
+              "& ": {
+                color: "#fff ",
+              },
               "&.Mui-selected": {
                 color: "#FF8C00",
               },
@@ -96,6 +55,9 @@ const TabInfoProduto = () => {
           <Tab
             label="Loja"
             sx={{
+              "& ": {
+                color: "#fff ",
+              },
               "&.Mui-selected": {
                 color: "#FF8C00",
               },
@@ -130,59 +92,87 @@ const TabInfoProduto = () => {
       )}
 
       {currentPage == 1 && (
-        <div className="px-5 h-20 flex  p-4">
-          <div className="flex flex-col h-60 gap-y-4 overflow-auto py-4  ">
-            <Avaliacao
-              avaliacao={{
-                nome: "João Silva",
-                stars: 3,
-                comentario:
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae quam vitae nunc aliquam aliquam.",
-              }}
-            />
-            <Avaliacao
-              avaliacao={{
-                nome: "João Silva",
-                stars: 3,
-                comentario:
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae quam vitae nunc aliquam aliquam.",
-              }}
-            />
-          </div>
-        </div>
+        <ContentAvaliacao>
+          <Avaliacao
+            avaliacao={{
+              nome: "João Silva",
+              stars: 3,
+              comentario:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae quam vitae nunc aliquam aliquam.",
+            }}
+          />
+          <Avaliacao
+            avaliacao={{
+              nome: "João Silva",
+              stars: 3,
+              comentario:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae quam vitae nunc aliquam aliquam.",
+            }}
+          />
+
+          <Avaliacao
+            avaliacao={{
+              nome: "João Silva",
+              stars: 3,
+              comentario:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae quam vitae nunc aliquam aliquam.",
+            }}
+          />
+
+          <Avaliacao
+            avaliacao={{
+              nome: "João Silva",
+              stars: 3,
+              comentario:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae quam vitae nunc aliquam aliquam.",
+            }}
+          />
+
+          <Avaliacao
+            avaliacao={{
+              nome: "João Silva",
+              stars: 3,
+              comentario:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae quam vitae nunc aliquam aliquam.",
+            }}
+          />
+          <Avaliacao
+            avaliacao={{
+              nome: "João Silva",
+              stars: 3,
+              comentario:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae quam vitae nunc aliquam aliquam.",
+            }}
+          />
+          <Avaliacao
+            avaliacao={{
+              nome: "João Silva",
+              stars: 3,
+              comentario:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae quam vitae nunc aliquam aliquam.",
+            }}
+          />
+
+          <Avaliacao
+            avaliacao={{
+              nome: "João Silva",
+              stars: 3,
+              comentario:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae quam vitae nunc aliquam aliquam.",
+            }}
+          />
+
+          <Avaliacao
+            avaliacao={{
+              nome: "João Silva",
+              stars: 3,
+              comentario:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae quam vitae nunc aliquam aliquam.",
+            }}
+          />
+        </ContentAvaliacao>
       )}
-      {currentPage == 2 && (
-        <div className="flex flex-col p-5 py-8 gap-y-7 ">
-          <div className="flex gap-x-4 items-center ">
-          <RoomIcon sx={{
-            "fontSize":"40px"
-          }}/>
-            <h3 className="text-base">Avenida Paulista, 1234</h3>
-          </div>
-
-          <div className="flex gap-x-4 items-center relative">
-           <QueryBuilderIcon sx={{
-            "fontSize":"40px"
-          }}/>
-            <h3 className="text-base cursor-pointer" onClick={()=>setShowModalHorario(!showModalHorario)}>Fechado abre seg 8:00 {">"}</h3>
-            <ModalHorario agendas={agenda} show={showModalHorario} className={"right-[-200px] transition "}/>
-          </div>
-
-          <div className="flex gap-x-4 items-center ">
-            <LocalPhoneIcon sx={{
-            "fontSize":"40px"
-          }}/>
-            <h3 className="text-base">(11) 95383-3389</h3>
-          </div>
-
-          <div className="flex gap-x-4 items-center ">
-            <LanguageIcon sx={{
-            "fontSize":"40px"
-          }}/>
-            <h3 className="text-base">www.google.com</h3>
-          </div>
-        </div>
-      )}
+      {currentPage == 2 && <InfoLoja />}
     </>
   );
 };

@@ -16,7 +16,7 @@ const ModalHorario = ({ show, agendas, className }) => {
 
   return (
     <div
-      className={`w-80 full rounded p-5 absolute shadow-xl top-[-350px] bg-white-principal border transition-opacity ${
+      className={`w-80 full rounded p-5 absolute shadow-xl top-[-350px] bg-white-principal border transition-opacity text-black-900 ${
         !show && "invisible"
       } ${!show && "opacity-0"}  ${className}`}
     >

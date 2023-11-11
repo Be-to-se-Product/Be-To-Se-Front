@@ -20,6 +20,9 @@ const Rota = () => {
           }}
       >
         <Tab icon={<DirectionsCarFilledIcon />}   sx={{
+          "&":{
+            color:"#fff"
+          },
           "&.Mui-selected": {
             color: "#FF8C00",
           },
@@ -27,6 +30,9 @@ const Rota = () => {
         onClick={() => setCurrentPage(0)}
         />
         <Tab icon={<DirectionsBikeIcon />}  sx={{
+          "&":{
+            color:"#fff"
+          },
           "&.Mui-selected": {
             color: "#FF8C00",
           },
@@ -35,6 +41,9 @@ const Rota = () => {
         onClick={() => setCurrentPage(1)}
         />
         <Tab icon={<DirectionsWalkIcon />}  sx={{
+          "&":{
+            color:"#fff"
+          },
           "&.Mui-selected": {
             color: "#FF8C00",
           },
