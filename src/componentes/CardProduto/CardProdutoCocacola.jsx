@@ -1,10 +1,10 @@
 import react from "react";
-import imgProduto from "../../../assets/cocacolaCardProduto.jpg"
+import imgProduto from "../../assets/cocacola.svg"
 import { Rating } from "@mui/material";
-import Carro from "../../../assets/carro.svg"
-import Pe from "../../../assets/pe.svg"
-import Bike from "../../../assets/bike.svg"
-import Shop from "../../../assets/shop.svg"
+import Carro from "../../assets/carro.svg"
+import Pe from "../../assets/pe.svg"
+import Bike from "../../assets/bike.svg"
+import Shop from "../../assets/shop.svg"
 
 
 
