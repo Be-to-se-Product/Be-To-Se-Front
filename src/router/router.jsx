@@ -22,15 +22,15 @@ const router = createBrowserRouter([
       element: <Insitucional />
     },
     {
-      path: "/GerenciamentoProdutos",
+      path: "/comerciante/produtos",
       element: <GerenciamentoProdutos />
     },
     {
-      path:"/GerenciamentoLojas",
+      path:"/comerciante/lojas",
       element:<GerenciamentoLoja/>
     },
     {
-      path:"/HistoricoVendas",
+      path:"/comerciante/historico",
       element:<HistoricoVendas/>
     },
     {
@@ -39,16 +39,16 @@ const router = createBrowserRouter([
     },
 
     {
-      path: "/TelaInicial",
+      path: "/index",
       element: <TelaInicial />
     },
     {
-      path:"/Login",
+      path:"/login",
       element:<Login/>
     },
 
     {
-      path: "/TelaPesquisa",
+      path: "/pesquisa",
       element: <TelaPesquisa />
     },
     {
