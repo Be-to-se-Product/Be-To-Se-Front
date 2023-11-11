@@ -5,6 +5,8 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import CardProduto from "../../componentes/CardProduto/CardProdutoCocacola";
 import axios from "axios";
 
+import BarProduto from "./componentes/BarProduto";
+
 const MapaInterativo = () => {
   // Chave de acesso ao Mapbox - Coloque sua chave de acesso no arquivo .env
   const API_KEY = import.meta.env.VITE_MAPBOX_TOKEN;
@@ -159,15 +161,9 @@ const MapaInterativo = () => {
 
   return (
     <div className="flex">
+      {/* <BarLoja/> */}
+      <BarProduto/>
 
-        <div className="w-1/4 h-screen bg-white-principal fixed z-10">
-        <div>
-            <div className=""></div>
-            <div></div>
-        </div>
-        </div>
-
-        
       <div ref={mapContainerRef} className="w-full h-screen"></div>
     </div>
   );
