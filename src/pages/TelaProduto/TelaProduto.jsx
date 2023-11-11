@@ -11,8 +11,79 @@ import fast from "../../assets/fastshop.png"
 import pix from "../../assets/pix.png"
 import dinheiro from "../../assets/dinheiro.png"
 import cartao from "../../assets/cartao.png"
+import { data } from "jquery";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import api from "../../services/api";
+import CardAvaliacao from "./componentes/CardAvaliacao";
 
 function TelaProduto(){
+  const [produtos, setProdutos] = useState([]);
+  const [metodos, setMetodos] = useState([]);
+  const [avaliacoes, setAvalicoes] = useState([]);
+  const [qtd, setQtd] = useState(1);
+
+//NAVIGATE
+    const getProduto = () => {
+        toast.loading("Carregando...");
+        api.get("/produtos/1")
+          .then((res) => {
+            toast.dismiss();
+            setProdutos(res.data.length == 0 ? [] : res.data);
+            console.log(res.data);
+        })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
+    
+      useEffect(() => {
+    
+        getProduto();
+      }, []);
+
+      const getMetodoPagamento = () => {
+        toast.loading("Carregando...");
+        api.get("/produtos/2")
+          .then((res) => {
+            toast.dismiss();
+            setProdutos(res.data.length == 0 ? [] : res.data);
+            console.log(res.data);
+        })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
+    
+      useEffect(() => {
+    
+        getProduto();
+      }, []);
+
+      const aumentarQuantidade =()=>{
+        setQtd(qtd+1);
+      }
+
+      const getAvaliacao = () => {
+        toast.loading("Carregando...");
+        api.get("/avaliacoes/1")
+          .then((res) => {
+            toast.dismiss();
+            setAvalicoes(res.data.length == 0 ? [] : res.data);
+            console.log(res.data);
+        })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
+    
+      useEffect(() => {
+    
+        getAvaliacao();
+      }, []);
+
+
+      const nomeEmpresa = produtos.secao && produtos.secao.estabelecimento && produtos.secao.estabelecimento.nome;
 
     return(
         <div>
@@ -35,17 +106,14 @@ function TelaProduto(){
                         </div>
                         <div className="flex flex-col pt-[80px] max-w-md gap-y-6">
                             <h2 className="text-2xl">Descrição</h2>
-                            <p className="text-justify">
-                            Produto de ótima qualidade pensando sempre no seu
-                            conforto e bem estar meus amigos esse produto é para você acredite. Qualquer dúvida entra em contato comigo
-                            </p>
+                            <p className="text-justify">{produtos.descricao}</p>
                         </div>
                     </div>
                     
                     <div>
                         <div className="flex flex-col gap-y-6">
-                            <h2 className="text-2xl font-medium">Fone de Ouvido JBL Tune 720BT</h2>
-                            <p className="text-5xl	">RS299,00</p>
+                            <h2 className="text-2xl font-medium">{produtos.nome}</h2>
+                            <p className="text-5xl	">RS {produtos.preco}</p>
                             <div className="flex flex-row gap-x-2">
                                 <div className="flex flex-row gap-x-1">
                                     <img src={star} alt="" className="w-4 h-4" />
@@ -73,8 +141,9 @@ function TelaProduto(){
                             </div>
                             <div className="flex flex-row gap-x-2 items-center">
                                 <p className="text-base">Quantidade</p>
-                                <input className="px-4 py-2 w-32 rounded-lg" type="text" value="0 Unidades" />
-                                <button>+</button>
+                                <input className="px-4 py-2 w-16
+                                 rounded-lg" type="text" value={qtd} />
+                                <button onClick={aumentarQuantidade}>+</button>
                             </div>
                         </div>
                         <div className="flex pt-[40px] flex-col gap-y-4">
@@ -85,7 +154,7 @@ function TelaProduto(){
                             <div className="flex flex-col pt-[52px] gap-y-4">
                                 <div className="flex flex-row gap-x-12 items-center">
                                     <img src={fast} alt="" className="rounded-full" />
-                                    <p className="text-4xl font-medium">FastShop</p>
+                                    <p className="text-3xl font-medium max-w-min">{nomeEmpresa}</p>
                                 </div>
                                 <div className="flex flex-row gap-x-2">
                                     <div className=" flex flex-row gap-x-1">
@@ -136,7 +205,7 @@ function TelaProduto(){
                                 <button className="bg-orange-400 px-4 py-2 ml-auto font-medium rounded-lg">Publicar</button>
                         </div>
                     </div>
-                    <div className="flex flex-row justify-between">
+                    <div className="flex flex-row justify-between gap-80">
                         <div className=" flex flex-col">
                             <p>Notas dos clientes</p>
                             <div className="flex flex-row">
@@ -146,42 +215,19 @@ function TelaProduto(){
                                 </div>
                             </div>
                         </div>
-                        <div className="flex flex-col justify-start gap-y-8">
+                        <div className="flex flex-col justify-start gap-y-8 w-full">
                             <select className="bg-orange-400 px-2 py-2  font-medium rounded-full w-32" name="" id="">
                                 <option value="">Ordernar</option>
                                 <option value="">Maior nota</option>
                                 <option value="">Menor nota</option>
                             </select>
-                            <div className="flex flex-col">
-                                <div className="flex flex-row gap-x-1">
-                                    <img src={star} alt="" className="h-2.5 mb-2"/>
-                                    <img src={star} alt="" className="h-2.5 mb-2"/>
-                                    <img src={star} alt="" className="h-2.5 mb-2"/>
-                                    <img src={star} alt="" className="h-2.5 mb-2"/>
-                                    <img src={star} alt="" className="h-2.5 mb-2"/>
-                                </div>
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem </p>
-                            </div>
-                            <div className="flex flex-col">
-                                <div className="flex flex-row gap-x-1">
-                                    <img src={star} alt="" className="h-2.5 mb-2"/>
-                                    <img src={star} alt="" className="h-2.5 mb-2"/>
-                                    <img src={star} alt="" className="h-2.5 mb-2"/>
-                                    <img src={star} alt="" className="h-2.5 mb-2"/>
-                                    <img src={star} alt="" className="h-2.5 mb-2"/>
-                                </div>
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem </p>
-                            </div>
-                            <div className="flex flex-col">
-                                <div className="flex flex-row gap-x-1">
-                                    <img src={star} alt="" className="h-2.5 mb-2"/>
-                                    <img src={star} alt="" className="h-2.5 mb-2"/>
-                                    <img src={star} alt="" className="h-2.5 mb-2"/>
-                                    <img src={star} alt="" className="h-2.5 mb-2"/>
-                                    <img src={star} alt="" className="h-2.5 mb-2"/>
-                                </div>
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem </p>
-                            </div>
+                            {avaliacoes.map((avaliacao) => (
+                                <CardAvaliacao
+                                    key={avaliacao.id}
+                                    comentario={avaliacao.comentario}
+                                    estrela={avaliacao.qtdEstrela}
+                                />
+                            ))}
                         </div>
                     </div>
                 </div>
