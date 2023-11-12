@@ -12,21 +12,12 @@ import GerenciamentoLoja from "../pages/GerencimentoLojas/GerenciamentoLoja";
 import HistoricoVendas from "../pages/HistoricoVendas/HistoricoVendas";
 import NotFound from "../pages/NotFound/NotFound";
 import Login from "../pages/Login/Login";
-import api from "../services/api";
 
-// api.interceptors.response.use(
-//   (response) => {
-//     return response;
-//   },
-//   (error) => {
+import PedidosComerciante from "../pages/PedidosComerciante/PedidosComerciante";
+import PedidosUsuario from "../pages/PedidosUsuario/PedidosUsuario";
+import MapaInterativo from "../pages/MapaInterativo/MapaInterativo";
 
-//     if (error.response || error.response.status === 401 || sessionStorage.getItem("TOKEN") === null) {
-//       const navigate = useNavigate();
-//       navigate('/login');
-//     }
-//     return Promise.reject(error);
-//   }
-// );
+
   
 const router = createBrowserRouter([
     {
@@ -75,7 +66,20 @@ const router = createBrowserRouter([
     {
       path: "/CompraProduto",
       element: <CompraProduto />
+    },
+    {
+      path: "/comerciante/pedidos",
+      element: <PedidosComerciante/>
+    },
+    {
+      path: "/usuario/pedidos",
+      element: <PedidosUsuario/>
+    },
+    {
+      path:"/mapa",
+      element:<MapaInterativo/>
     }
+
 
     
   ]);

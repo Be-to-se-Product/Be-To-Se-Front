@@ -11,38 +11,20 @@ import fast from "../../assets/fastshop.png"
 import pix from "../../assets/pix.png"
 import dinheiro from "../../assets/dinheiro.png"
 import cartao from "../../assets/cartao.png"
-import { data } from "jquery";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import api from "../../services/api";
 import CardAvaliacao from "./componentes/CardAvaliacao";
+import Avaliacao from "../../componentes/Avaliacao/Avaliacao";
+import CardMetodo from "./componentes/CardMetodo";
 
 function TelaProduto(){
   const [produtos, setProdutos] = useState([]);
-  const [metodos, setMetodos] = useState([]);
   const [avaliacoes, setAvalicoes] = useState([]);
   const [qtd, setQtd] = useState(1);
 
 //NAVIGATE
     const getProduto = () => {
-        toast.loading("Carregando...");
-        api.get("/produtos/1")
-          .then((res) => {
-            toast.dismiss();
-            setProdutos(res.data.length == 0 ? [] : res.data);
-            console.log(res.data);
-        })
-          .catch((err) => {
-            console.log(err);
-          });
-      };
-    
-      useEffect(() => {
-    
-        getProduto();
-      }, []);
-
-      const getMetodoPagamento = () => {
         toast.loading("Carregando...");
         api.get("/produtos/2")
           .then((res) => {
@@ -85,6 +67,9 @@ function TelaProduto(){
 
       const nomeEmpresa = produtos.secao && produtos.secao.estabelecimento && produtos.secao.estabelecimento.nome;
 
+      const metodosEmpresa = produtos.secao && produtos.secao.estabelecimento && produtos.secao.estabelecimento.idMetodo;
+      console.log(metodosEmpresa);
+      
     return(
         <div>
             <NavbarRoot.Content>
@@ -170,15 +155,11 @@ function TelaProduto(){
                             <div className="flex flex-col gap-y-4">
                                 <p className="text-base">Meios de pagamento na loja</p>
                                 <div className="flex flex-row gap-x-12">
-                                    <div className="bg-black-100 px-8 py-2 drop-shadow-lg rounded-lg">
-                                        <img src={dinheiro} alt="" className="h-8" />
-                                    </div>
-                                    <div className="bg-black-100 px-8 py-2 drop-shadow-lg rounded-lg">
-                                        <img src={cartao} alt="" className="h-8" />
-                                    </div>
-                                    <div className="bg-black-100 px-8 py-2 drop-shadow-lg rounded-lg">
-                                        <img src={pix} alt="" className="h-8"/>
-                                    </div>
+                                    {metodosEmpresa && metodosEmpresa.map((metodo) => (
+                                        <CardMetodo
+                                            metodo={metodo}
+                                        />
+                                    ))}
                                 </div>
                             </div>
                             <button className="bg-black-100 px-8 py-2 drop-shadow-lg rounded-lg text-blue-900">Ver catálogo completo de produtos</button>
@@ -227,7 +208,13 @@ function TelaProduto(){
                                     comentario={avaliacao.comentario}
                                     estrela={avaliacao.qtdEstrela}
                                 />
-                            ))}
+                                ))}
+                                
+                            {avaliacoes.map((avaliacao) => (
+                                <Avaliacao
+                                />
+                                
+                                ))}
                         </div>
                     </div>
                 </div>
