@@ -1,6 +1,3 @@
-import api from "../services/api";
-
-
 
 export const isPermited = (usuario) => {
   const userDetailsCrypt = descriptografar(sessionStorage?.USERDETAILS);
@@ -11,6 +8,8 @@ export const isPermited = (usuario) => {
   console.log(tipoUsuario);
   return tipoUsuario === usuario;
 };
+
+
 
 export const criptografar = (infoUser) => {
   const infoUserCriptografada = btoa(infoUser);

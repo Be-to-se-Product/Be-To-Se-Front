@@ -62,8 +62,8 @@ const navigate = useNavigate();
 
                 <Link to="/comerciante/pedidos">
                 <li className="text-lg text-white-principal flex gap-x-4 mb-5 items-center">
-                  <img src={datePage} alt="" className="w-8" />
-                  <h2> Pedidos </h2>
+                  <img src="/src/assets/pedidoicon.svg" alt="" className="w-8" />
+                  <h2>Pedidos</h2>
                 </li>
                 </Link>
               </ul>

@@ -15,15 +15,12 @@ import PedidosUsuario from "../pages/PedidosUsuario/PedidosUsuario";
 import MapaInterativo from "../pages/MapaInterativo/MapaInterativo";
 import { isPermited } from "../utils/Autheticated";
 
-
 const PrivateRoute = ({ element, usuario, ...rest }) => {
   if (!isPermited(usuario)) {
     return <NotFound />;
   }
   return element;
 };
-
-
 
 const router = createBrowserRouter([
   {
