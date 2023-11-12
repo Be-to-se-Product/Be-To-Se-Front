@@ -4,6 +4,7 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import CardProduto from "../../componentes/CardProduto/CardProdutoCocacola";
 import axios from "axios";
+import FilterBar from "./componentes/FilterBar";
 
 import BarProduto from "./componentes/BarProduto";
 
