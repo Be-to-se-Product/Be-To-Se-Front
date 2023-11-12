@@ -163,7 +163,7 @@ const MapaInterativo = () => {
     <div className="flex">
       {/* <BarLoja/> */}
       <BarProduto/>
-
+      <FilterBar />
       <div ref={mapContainerRef} className="w-full h-screen"></div>
     </div>
   );
