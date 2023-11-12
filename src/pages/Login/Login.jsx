@@ -3,11 +3,12 @@ import api from "../../services/api";
 import InputRoot from "../../componentes/Input/InputRoot";
 import Button from "../../componentes/Button/Button";
 import { TEXTS } from "../../utils/text-placeholders";
-import { useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import BoxImages from "./componentes/BoxImages";
 import { ToastContainer, toast } from "react-toastify";
 import { injectStyle } from "react-toastify/dist/inject-style";
 import { MENSAGENS } from "../../utils/dicionarioRespostas";
+import { criptografar } from "../../utils/Autheticated";
 
 const Login = () => {
   injectStyle();
@@ -33,21 +34,13 @@ const Login = () => {
           toast.error(resposta.data.message);
           return;
         }
-        sessionStorage.setItem("TOKEN", resposta.data.token);
-        sessionStorage.setItem(
-          "USUARIO",
-          JSON.stringify(resposta.data.usuario)
-        );
-
+      const usuario = resposta.data;
+        sessionStorage.setItem("USERDETAILS", criptografar(JSON.stringify(usuario)));
+        toast.success("Seu login foi realizado com sucesso!",{autoClose:2000});
         setTimeout(() => {
-          navigate("/GerenciamentoProdutos");
-        }, 3000);
-        toast.success("Login realizado com sucesso!", {
-          autoClose: 2000,
-        });
 
-        setTimeout(() => {
-          navigate("/GerenciamentoProdutos");
+        if (usuario.tipoUsuario === "CONSUMIDOR") navigate("/index");
+          else navigate("/comerciante/produtos");
         }, 3000);
       })
 
@@ -97,7 +90,6 @@ const Login = () => {
       className="w-screen h-screen flex  
     100 "
     >
-
       <aside className="w-1/2 flex justify-center   relative ">
         <div
           className="flex overflow-x-scroll h-screen   overflow-y-auto scrollbar-hide "
@@ -138,7 +130,6 @@ const Login = () => {
             </BoxImages>
           </div>
           <div className="flex-shrink-0 w-full relative ">
-           
             <img
               src="/src/assets/foto-login-3.jpg"
               alt=""
@@ -152,7 +143,7 @@ const Login = () => {
         </div>
       </aside>
       <div className="w-1/2 flex flex-col h-full items-center justify-center relative">
-      <div className="absolute">sdsdsdsdsd</div>
+        <div className="absolute">sdsdsdsdsd</div>
         <div className="flex flex-col w-7/12 max-w-lg  items-center   gap-y-5 ">
           <div className="text-center flex flex-col gap-y-2">
             <img
@@ -163,7 +154,7 @@ const Login = () => {
             <h2 className="text-3xl font-medium">Bem vindo a EasyFind</h2>
             <p className="text-xl">Conectando você ao comercio local</p>
           </div>
-          <Button className="rounded-full  w-8/12  h-max  border-[1px] bg-transparent font-normal  hover:bg-orange-principal hover:text-white-principal transition-colors    border-orange-300">
+          <Button className="rounded-full  w-8/12  h-max  border-[1px] bg-transparent font-normal  hover:bg-orange-principal hover:text-white-principal transition-colors    border-orange-300" >
             Fazer Login com o Google
           </Button>
           <div className="relative w-full">

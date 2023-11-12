@@ -1,5 +1,4 @@
 
-
 // FUNÇÃO PARA CONVERTER OBJETO FILE EM BASE 64
 export function converterInputImageToBase64 (event,callback) {
     const reader = new FileReader();
