@@ -11,8 +11,7 @@ import { Link, useNavigate } from "react-router-dom";
 const MenuComerciante = () => {
 const navigate = useNavigate();
   const logout = () => {
-    sessionStorage.removeItem("TOKEN");
-    sessionStorage.removeItem("USUARIO");
+    sessionStorage.clear()
     navigate("/");
   }
   return (
@@ -30,13 +29,13 @@ const navigate = useNavigate();
           <div className="content-option mt-10 px-7 w-full">
             <nav>
               <ul className="flex flex-col gap-4">
-              <Link to="/GerenciamentoProdutos">
+              <Link to="/comerciante/produtos">
                 <li className="text-lg text-white-principal flex gap-x-4 mb-5 items-center">
                   <img src={produtoIcon} alt="" className="w-8" />
                   Gerenciar Produtos
                 </li>
               </Link>
-              <Link to="/GerenciamentoLojas">
+              <Link to="/comerciante/lojas">
                 <li className="text-lg text-white-principal flex gap-x-4 mb-5 items-center">
                   <img src={produtoIcon} alt="" className="w-8" />
                   Gerenciar Lojas
@@ -46,17 +45,25 @@ const navigate = useNavigate();
                   <img src={negocioIcon} alt="" className="w-8" />
                   <h2>Análise de negócio</h2>{" "}
                 </li>
-                <Link to="/HistoricoVendas">
+                <Link to="/comerciante/historico">
                 <li className="text-lg text-white-principal flex gap-x-4 mb-5 items-center"   >
                   <img src={shopIcon} alt="" className="w-8" />
                   <h2>Históricos de venda</h2>
                 </li>
                 </Link>
 
-                <Link to="/DadosCadastrais">
+                <Link to="/comerciante/vendas">
                 <li className="text-lg text-white-principal flex gap-x-4 mb-5 items-center">
                   <img src={datePage} alt="" className="w-8" />
                   <h2> Dados cadastrais </h2>
+                </li>
+                </Link>
+
+
+                <Link to="/comerciante/pedidos">
+                <li className="text-lg text-white-principal flex gap-x-4 mb-5 items-center">
+                  <img src="/src/assets/pedidoicon.svg" alt="" className="w-8" />
+                  <h2>Pedidos</h2>
                 </li>
                 </Link>
               </ul>

@@ -6,7 +6,6 @@ import CardProduto from "../../componentes/CardProduto/CardProdutoCocacola";
 import axios from "axios";
 
 import BarProduto from "./componentes/BarProduto";
-import BarLoja from "./componentes/BarLoja";
 
 const MapaInterativo = () => {
   // Chave de acesso ao Mapbox - Coloque sua chave de acesso no arquivo .env
