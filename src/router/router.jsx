@@ -71,7 +71,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/usuario/pedidos",
-    element: <PrivateRoute usuario="usuario" element={<PedidosUsuario />} />,
+    element: <PrivateRoute usuario="consumidor" element={<PedidosUsuario />} />,
   },
   {
     path: "/mapa",
