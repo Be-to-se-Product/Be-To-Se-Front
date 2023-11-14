@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MenuComerciante from "../../componentes/MenuComerciante/MenuComerciante";
 import BoxComerciante from "../../componentes/BoxComerciante/BoxComerciante";
 import InputRoot from "../../componentes/Input/InputRoot";
 import Button from "../../componentes/Button/Button";
+import api from "../../services/api";
+import { ToastContainer, toast } from "react-toastify";
+
 
 import {
   MenuItem,
@@ -20,135 +23,33 @@ import TableRoot from "../../componentes/Table/TableRoot";
 
 const HistoricoVendas = () => {
   const [isModal, setIsModal] = useState(false);
+  const [vendas, setVendas] = useState([]);
+  const [page, setPage] = useState(0);
+  const [size, setSize] = useState(10);
 
-  const vendas = [
-    {
-      id: 1,
-      data_pedido: "2023-10-18",
-      cpf_comprador: "123.456.789-01",
-      modo_compra: "Online",
-      metodo_pagamento: "Cartão de Crédito",
-      total_compra: 100.0,
-      acoes: "Processar",
-    },
-    {
-      id: 2,
-      data_pedido: "2023-10-19",
-      cpf_comprador: "234.567.890-12",
-      modo_compra: "Presencial",
-      metodo_pagamento: "Dinheiro",
-      total_compra: 75.5,
-      acoes: "Cancelar",
-    },
-    {
-      id: 3,
-      data_pedido: "2023-10-20",
-      cpf_comprador: "345.678.901-23",
-      modo_compra: "Online",
-      metodo_pagamento: "Transferência Bancária",
-      total_compra: 200.25,
-      acoes: "Processar",
-    },
-    {
-      id: 4,
-      data_pedido: "2023-10-21",
-      cpf_comprador: "456.789.012-34",
-      modo_compra: "Presencial",
-      metodo_pagamento: "Cartão de Débito",
-      total_compra: 150.75,
-      acoes: "Enviar Notificação",
-    },
-    {
-      id: 5,
-      data_pedido: "2023-10-21",
-      cpf_comprador: "456.789.012-34",
-      modo_compra: "Presencial",
-      metodo_pagamento: "Cartão de Débito",
-      total_compra: 150.75,
-      acoes: "Enviar Notificação",
-    },
-    {
-      id: 6,
-      data_pedido: "2023-10-21",
-      cpf_comprador: "456.789.012-34",
-      modo_compra: "Presencial",
-      metodo_pagamento: "Cartão de Débito",
-      total_compra: 150.75,
-      acoes: "Enviar Notificação",
-    },
-    {
-      id: 7,
-      data_pedido: "2023-10-21",
-      cpf_comprador: "456.789.012-34",
-      modo_compra: "Presencial",
-      metodo_pagamento: "Cartão de Débito",
-      total_compra: 150.75,
-      acoes: "Enviar Notificação",
-    },
-    {
-      id: 8,
-      data_pedido: "2023-10-21",
-      cpf_comprador: "456.789.012-34",
-      modo_compra: "Presencial",
-      metodo_pagamento: "Cartão de Débito",
-      total_compra: 150.75,
-      acoes: "Enviar Notificação",
-    },
-    {
-      id: 9,
-      data_pedido: "2023-10-21",
-      cpf_comprador: "456.789.012-34",
-      modo_compra: "Presencial",
-      metodo_pagamento: "Cartão de Débito",
-      total_compra: 150.75,
-      acoes: "Enviar Notificação",
-    },
-    {
-      id: 10,
-      data_pedido: "2023-10-21",
-      cpf_comprador: "456.789.012-34",
-      modo_compra: "Presencial",
-      metodo_pagamento: "Cartão de Débito",
-      total_compra: 150.75,
-      acoes: "Enviar Notificação",
-    },
-    {
-      id: 11,
-      data_pedido: "2023-10-21",
-      cpf_comprador: "456.789.012-34",
-      modo_compra: "Presencial",
-      metodo_pagamento: "Cartão de Débito",
-      total_compra: 150.75,
-      acoes: "Enviar Notificação",
-    },
-    {
-      id: 12,
-      data_pedido: "2023-10-21",
-      cpf_comprador: "456.789.012-34",
-      modo_compra: "Presencial",
-      metodo_pagamento: "Cartão de Débito",
-      total_compra: 150.75,
-      acoes: "Enviar Notificação",
-    },
-    {
-      id: 13,
-      data_pedido: "2023-10-21",
-      cpf_comprador: "456.789.012-34",
-      modo_compra: "Presencial",
-      metodo_pagamento: "Cartão de Débito",
-      total_compra: 150.75,
-      acoes: "Enviar Notificação",
-    },
-    {
-      id: 14,
-      data_pedido: "2023-10-21",
-      cpf_comprador: "456.789.012-34",
-      modo_compra: "Presencial",
-      metodo_pagamento: "Cartão de Débito",
-      total_compra: 150.75,
-      acoes: "Enviar Notificação",
-    },
-  ];
+  const fetchHistoricoVendas = () => {
+    toast.loading("Carregando histórico de vendas...");
+
+    api.get(`/historico-vendas/1?page=${page}&size=${size}`)
+      .then(response => {
+        toast.dismiss();
+        if (response.data.length === 0) {
+          toast.info("Nenhuma venda encontrada.");
+        }
+        console.log(response.data);
+        setVendas(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+        toast.dismiss();
+        toast.error("Erro ao carregar o histórico de vendas.");
+      });
+  };
+
+  useEffect(() => {
+    fetchHistoricoVendas();
+  }, [page, size]);
+
 
   return (
     <main className="flex bg-background">
@@ -196,9 +97,7 @@ const HistoricoVendas = () => {
         </div>
 
         <TableRoot.Content>
-          <TableRoot.Header
-            className={"grid-cols-[1fr,1.5fr,2fr,2fr,3fr,2fr,1.5fr]"}
-          >
+          <TableRoot.Header className={"grid-cols-[1fr,1.5fr,2fr,2fr,3fr,2fr,1.5fr]"}>
             <TableRoot.Cell>ID</TableRoot.Cell>
             <TableRoot.Cell>DATA PEDIDO</TableRoot.Cell>
             <TableRoot.Cell>CPF DO COMPRADOR</TableRoot.Cell>
@@ -208,20 +107,19 @@ const HistoricoVendas = () => {
             <TableRoot.Cell>AÇÕES</TableRoot.Cell>
           </TableRoot.Header>
 
-          {vendas.map((venda,index) => (
-            <TableRoot.Row className={`grid-cols-[1fr,1.5fr,2fr,2fr,3fr,2fr,1.5fr] ${index%2!=0 ? "bg-[#F8F9FA]" : "bg-white-principal"}`} key={venda.id}>
-              <TableRoot.Cell >{venda.id}</TableRoot.Cell>
-              <TableRoot.Cell>{venda.data_pedido}</TableRoot.Cell>
-              <TableRoot.Cell>{venda.cpf_comprador}</TableRoot.Cell>
-              <TableRoot.Cell>{venda.modo_compra}</TableRoot.Cell>
-              <TableRoot.Cell>{venda.metodo_pagamento}</TableRoot.Cell>
-              <TableRoot.Cell>{venda.total_compra}</TableRoot.Cell>
-              <TableRoot.Cell className="cursor-pointer" onClick={()=>setIsModal(!isModal)}>Detalhes</TableRoot.Cell>
+          {vendas.map((venda, index) => (
+            <TableRoot.Row key={venda.id} className={`grid-cols-[1fr,1.5fr,2fr,2fr,3fr,2fr,1.5fr] ${index % 2 !== 0 ? "bg-[#F8F9FA]" : "bg-white-principal"}`}>
+              <TableRoot.Cell>{venda.id}</TableRoot.Cell>
+              <TableRoot.Cell>{venda.pedido.dataHoraPedido}</TableRoot.Cell>
+              <TableRoot.Cell>{venda.pedido.cpfCliente}</TableRoot.Cell>
+              <TableRoot.Cell>{venda.pedido.isPagamentoOnline ? "Online" : "Offline"}</TableRoot.Cell>
+              <TableRoot.Cell>{venda.nomeMetodoPagamento}</TableRoot.Cell>
+              <TableRoot.Cell>R$ {venda.valor.toFixed(2)}</TableRoot.Cell>
+              <TableRoot.Cell className="cursor-pointer" onClick={() => { }}>Detalhes</TableRoot.Cell>
             </TableRoot.Row>
           ))}
-
         </TableRoot.Content>
-        <Pagination count={10} shape="rounded"  className="mx-auto"/>
+        <Pagination count={10} shape="rounded" className="mx-auto" />
 
         <ModalPedidos setIsModal={setIsModal} isModal={isModal} />
       </BoxComerciante>
