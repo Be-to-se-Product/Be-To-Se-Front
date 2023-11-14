@@ -108,16 +108,17 @@ const HistoricoVendas = () => {
           </TableRoot.Header>
 
           {vendas.map((venda, index) => (
-            <TableRoot.Row key={venda.id} className={`grid-cols-[1fr,1.5fr,2fr,2fr,3fr,2fr,1.5fr] ${index % 2 !== 0 ? "bg-[#F8F9FA]" : "bg-white-principal"}`}>
+             <TableRoot.Row className={`grid-cols-[1fr,1.5fr,2fr,2fr,3fr,2fr,1.5fr] ${index%2!=0 ? "bg-[#F8F9FA]" : "bg-white-principal"}`} key={venda.id}>
               <TableRoot.Cell>{venda.id}</TableRoot.Cell>
               <TableRoot.Cell>{venda.pedido.dataHoraPedido}</TableRoot.Cell>
               <TableRoot.Cell>{venda.pedido.cpfCliente}</TableRoot.Cell>
               <TableRoot.Cell>{venda.pedido.isPagamentoOnline ? "Online" : "Offline"}</TableRoot.Cell>
               <TableRoot.Cell>{venda.nomeMetodoPagamento}</TableRoot.Cell>
               <TableRoot.Cell>R$ {venda.valor.toFixed(2)}</TableRoot.Cell>
-              <TableRoot.Cell className="cursor-pointer" onClick={() => { }}>Detalhes</TableRoot.Cell>
+              <TableRoot.Cell className="cursor-pointer" onClick={()=>setIsModal(isModal)}>Detalhes</TableRoot.Cell>
             </TableRoot.Row>
           ))}
+
         </TableRoot.Content>
         <Pagination count={10} shape="rounded" className="mx-auto" />
 

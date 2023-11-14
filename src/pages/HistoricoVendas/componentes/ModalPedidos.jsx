@@ -14,7 +14,7 @@ const ModalPedidos = ({ modal, setModal }) => {
     <div className="modal-class">
       <h2>Pedido - {modal?.pedido?.id}</h2>
       <Close onClick={handleClose} />
-      {modal?.pedido?.itens?.map((item) => (
+      {modal?.pedido?.itens.map((item) => (
         <ItemPedido product={item} key={item.id} />
       ))}
     </div>
