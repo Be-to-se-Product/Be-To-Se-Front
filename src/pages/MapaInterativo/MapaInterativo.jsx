@@ -2,16 +2,18 @@ import { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import CardProduto from "../../componentes/CardProduto/CardProdutoCocacola";
 import axios from "axios";
 import FilterBar from "./componentes/FilterBar";
-
+import "./mapaStyle.css"
 import BarProduto from "./componentes/BarProduto";
+import CardMapa from "./componentes/CardMapa";
 
 const MapaInterativo = () => {
   // Chave de acesso ao Mapbox - Coloque sua chave de acesso no arquivo .env
   const API_KEY = import.meta.env.VITE_MAPBOX_TOKEN;
   const mapContainerRef = useRef(null);
+
+  const [produtoSelecionado, setProdutoSelecionado] = useState(null);
 
   const [mapStyle, setMapStyle] = useState(
     "mapbox://styles/mapbox/streets-v11"
@@ -46,19 +48,45 @@ const MapaInterativo = () => {
   // Função para criar o marcador
   const criarMarcador = (map, coordenada, componente) => {
     const maker = new mapboxgl.Marker();
-    const popUp = new mapboxgl.Popup({ offset: 25 });
+    const popUp = new mapboxgl.Popup({ offset: 25,autoClose:true,closeButton:false });
     const popUpNode = document.createElement("div");
     const portal = ReactDOM.createPortal(componente, popUpNode);
     ReactDOM.render(portal, popUpNode);
     popUp.setDOMContent(popUpNode);
+    popUp.setMaxWidth("none");
+    popUp.setOffset([0, -15]);
+    popUpNode.style.width = "100%"
+    ;
     maker.setLngLat(coordenada);
     maker.setPopup(popUp);
+    
     maker.getElement().addEventListener("click", () => {
       getRoute(originCoordinates, coordenada, map);
     });
     return maker;
   };
 
+
+
+  useEffect(() => {
+    if(originCoordinates.lat && originCoordinates.lon){
+      pullLocationCurrent()
+    }
+
+    return () => {
+      setOriginCoordinates({})
+    }
+  
+  }, []);
+
+  const pullLocationCurrent = async () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+    setOriginCoordinates( {
+      lat:position.coords.latitude,
+      lon:position.coords.longitude
+    }
+    )})
+  };
   // Função para buscar as rotas entre os dois pontos
   const getRoute = async (origin, destination, map) => {
     console.log(origin, destination);
@@ -134,7 +162,7 @@ const MapaInterativo = () => {
 
       // Gerar marcadores baseado na função de marcadores aleatórios
       marcadores.forEach((coordenada) => {
-        const maker = criarMarcador(map, coordenada, <CardProduto />);
+        const maker = criarMarcador(map, coordenada, <CardMapa />);
         maker.addTo(map);
       });
 
@@ -158,12 +186,14 @@ const MapaInterativo = () => {
         },
       });
     });
-  }, [mapStyle, routerCoordinates]);
+    
+    
+  }, [routerCoordinates, originCoordinates]);
 
   return (
     <div className="flex">
       {/* <BarLoja/> */}
-      <BarProduto/>
+      <BarProduto />
       <FilterBar />
       <div ref={mapContainerRef} className="w-full h-screen"></div>
     </div>
