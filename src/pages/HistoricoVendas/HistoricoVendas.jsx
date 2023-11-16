@@ -26,6 +26,10 @@ const HistoricoVendas = () => {
   const [vendas, setVendas] = useState([]);
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(10);
+  const [metodosPagamentos, setMetodosPagamentos] = useState([]);
+  const [metodoPagamentoSelecionado, setMetodoPagamentoSelecionado] = useState('');
+  const [showOptions, setShowOptions] = useState();
+  const [pedidoSelecionadoIndex, setPedidoSelecionadoIndex] = useState(null);
 
   const fetchHistoricoVendas = () => {
     toast.loading("Carregando histórico de vendas...");
@@ -36,7 +40,6 @@ const HistoricoVendas = () => {
         if (response.data.length === 0) {
           toast.info("Nenhuma venda encontrada.");
         }
-        console.log(response.data);
         setVendas(response.data);
       })
       .catch(error => {
@@ -44,6 +47,34 @@ const HistoricoVendas = () => {
         toast.dismiss();
         toast.error("Erro ao carregar o histórico de vendas.");
       });
+  };
+
+  useEffect(() => {
+    getMetodosPagamento();
+  }, []);
+
+  const getMetodosPagamento = () => {
+    toast.loading("Carregando métodos de pagamento...");
+
+    api.get(`historico-vendas/1/metodos-pagamento`)
+      .then(response => {
+        console.log(response.data);
+        setMetodosPagamentos(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+        toast.dismiss();
+        toast.error("Erro ao carregar os métodos de pagamento.");
+      });
+  };
+
+  const handleSelectClick = () => {
+    setShowOptions(true);
+  };
+
+  const handleSelectChange = (event) => {
+    setMetodoPagamentoSelecionado(event.target.value);
+    setShowOptions(false);
   };
 
   useEffect(() => {
@@ -80,14 +111,24 @@ const HistoricoVendas = () => {
           <div className="flex flex-col flex-[2]">
             <InputRoot.Label>Status </InputRoot.Label>
             <Select className="w-full h-10 bg-white-principal">
-              <MenuItem>Pedro</MenuItem>
+              <MenuItem>Entregue</MenuItem>
             </Select>
           </div>
 
           <div className="flex flex-col flex-[2]">
             <InputRoot.Label>Forma de pagamento </InputRoot.Label>
-            <Select className="w-full h-10 bg-white-principal">
-              <MenuItem>Pedro</MenuItem>
+            <Select
+              className="w-full h-10 bg-white-principal"
+              value={metodoPagamentoSelecionado}
+              onChange={handleSelectChange}
+              onClick={handleSelectClick}
+              open={showOptions}
+            >
+              {metodosPagamentos.map((metodo) => (
+                <MenuItem key={metodo.id} value={metodo.descricao}>
+                  {metodo.descricao}
+                </MenuItem>
+              ))}
             </Select>
           </div>
 
@@ -108,21 +149,27 @@ const HistoricoVendas = () => {
           </TableRoot.Header>
 
           {vendas.map((venda, index) => (
-             <TableRoot.Row className={`grid-cols-[1fr,1.5fr,2fr,2fr,3fr,2fr,1.5fr] ${index%2!=0 ? "bg-[#F8F9FA]" : "bg-white-principal"}`} key={venda.id}>
+            <TableRoot.Row className={`grid-cols-[1fr,1.5fr,2fr,2fr,3fr,2fr,1.5fr] ${index % 2 != 0 ? "bg-[#F8F9FA]" : "bg-white-principal"}`} key={venda.id}>
               <TableRoot.Cell>{venda.id}</TableRoot.Cell>
               <TableRoot.Cell>{venda.pedido.dataHoraPedido}</TableRoot.Cell>
               <TableRoot.Cell>{venda.pedido.cpfCliente}</TableRoot.Cell>
-              <TableRoot.Cell>{venda.pedido.isPagamentoOnline ? "Online" : "Offline"}</TableRoot.Cell>
+              <TableRoot.Cell>{venda.pedido.isPagamentoOnline ? "Online" : "Presencial"}</TableRoot.Cell>
               <TableRoot.Cell>{venda.nomeMetodoPagamento}</TableRoot.Cell>
               <TableRoot.Cell>R$ {venda.valor.toFixed(2)}</TableRoot.Cell>
-              <TableRoot.Cell className="cursor-pointer" onClick={()=>setIsModal(isModal)}>Detalhes</TableRoot.Cell>
+              <TableRoot.Cell className="cursor-pointer" onClick={() => {setPedidoSelecionadoIndex(index)
+              setIsModal(!isModal)} }>Detalhes</TableRoot.Cell>
             </TableRoot.Row>
           ))}
-
         </TableRoot.Content>
-        <Pagination count={10} shape="rounded" className="mx-auto" />
-
-        <ModalPedidos setIsModal={setIsModal} isModal={isModal} />
+        {isModal && (
+          <ModalPedidos
+            setIsModal={setIsModal}
+            isModal={isModal}
+            pedidos={vendas}
+            pedidoSelecionadoIndex={pedidoSelecionadoIndex}
+          />
+        )}
+        <Pagination count={page + 1} shape="rounded" className="mx-auto" />
       </BoxComerciante>
     </main>
   );

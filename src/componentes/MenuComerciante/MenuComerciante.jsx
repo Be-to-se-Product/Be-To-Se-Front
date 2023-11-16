@@ -45,7 +45,7 @@ const navigate = useNavigate();
                   <img src={negocioIcon} alt="" className="w-8" />
                   <h2>Análise de negócio</h2>{" "}
                 </li>
-                <Link to="/comerciante/historico">
+                <Link to="/comerciante/vendas">
                 <li className="text-lg text-white-principal flex gap-x-4 mb-5 items-center"   >
                   <img src={shopIcon} alt="" className="w-8" />
                   <h2>Históricos de venda</h2>
