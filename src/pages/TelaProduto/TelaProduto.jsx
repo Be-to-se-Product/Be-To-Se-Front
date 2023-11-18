@@ -17,58 +17,120 @@ import api from "../../services/api";
 import CardAvaliacao from "./componentes/CardAvaliacao";
 import Avaliacao from "../../componentes/Avaliacao/Avaliacao";
 import CardMetodo from "./componentes/CardMetodo";
+import {descriptografar} from "../../utils/Autheticated"
+import StarAvaliacao from "./componentes/StarAvaliacao"
 
 function TelaProduto(){
-  const [produtos, setProdutos] = useState([]);
-  const [avaliacoes, setAvalicoes] = useState([]);
-  const [qtd, setQtd] = useState(1);
 
-//NAVIGATE
+    const [produtos, setProdutos] = useState([]);
+    const [avaliacoes, setAvalicoes] = useState([]);
+    const [qtd, setQtd] = useState(1);
+    const produtoId = 1;
+    const [userId, setUserId] = useState(null);
+    const [comentario, setComentario] = useState('');
+    const [qtdEstrela, setQtdEstrela] = useState(null);
+    const [mediaAvaliacao, setMediaAvaliacao] = useState(0);
+    const nomeEmpresa = produtos?.secao?.estabelecimento?.nome;
+    const metodosEmpresa = produtos?.secao?.estabelecimento?.idMetodo;
+
+
+    console.log(mediaAvaliacao);
+
+    const adicionarProduto= ()=>{
+
+        let consumidor = userId;
+        let quantidade = qtd;
+        let produto = produtoId
+
+        const data ={
+             quantidade,
+             produto,
+             consumidor,
+        };
+     
+        console.log(data);
+        toast.loading("Carregando...");
+        api.post("/carrinhos", data).then((response) => {
+            toast.dismiss();
+        }).catch((error) => {
+            toast.dismiss();
+        });
+    }
+
+    const adicionarAvaliacao = () =>{
+
+        let consumidor = userId;
+        let produto = produtoId
+        
+        const data = {
+            qtdEstrela,
+            comentario,
+            consumidor,
+            produto
+        };
+        console.log(data);
+
+        api.post("/avaliacoes", data).then((response) => {
+            toast.dismiss();
+        }).catch((error) => {
+            toast.dismiss();
+        }).finally(()=>{
+            getAvaliacao();
+            calcularMediaAvaliacao();
+        });
+    }
+
     const getProduto = () => {
         toast.loading("Carregando...");
-        api.get("/produtos/2")
-          .then((res) => {
+        api.get("/produtos/6").then((res) => {
             toast.dismiss();
             setProdutos(res.data.length == 0 ? [] : res.data);
-            console.log(res.data);
-        })
-          .catch((err) => {
-            console.log(err);
-          });
-      };
+        }).catch((err) => {
+        });
+    };
     
-      useEffect(() => {
-    
-        getProduto();
-      }, []);
-
-      const aumentarQuantidade =()=>{
-        setQtd(qtd+1);
-      }
-
-      const getAvaliacao = () => {
+    const getAvaliacao = () => {
         toast.loading("Carregando...");
-        api.get("/avaliacoes/1")
-          .then((res) => {
+        api.get("/avaliacoes/1").then((res) => {
             toast.dismiss();
             setAvalicoes(res.data.length == 0 ? [] : res.data);
-            console.log(res.data);
-        })
-          .catch((err) => {
-            console.log(err);
-          });
-      };
+        }).catch((err) => {
+            //console.log(err);
+        });
+    };
+
+    const calcularMediaAvaliacao = () => {
+        let soma = 0;
     
-      useEffect(() => {
+        for (let i = 0; i < avaliacoes.length; i++) {
+          soma += avaliacoes[i].qtdEstrela;
+        }
     
+        setMediaAvaliacao(soma/avaliacoes.length);
+    };
+    
+    const aumentarQuantidade =()=>{
+        setQtd(qtd+1);
+    };
+
+    const handleRatingChange = (novaClassificacao) => {
+        setQtdEstrela(novaClassificacao);
+    };
+
+    useEffect(() => {
+        const userDetailsCrypt = descriptografar(sessionStorage?.USERDETAILS);
+        const { userId } = JSON.parse(userDetailsCrypt);
+        setUserId( userId );
         getAvaliacao();
-      }, []);
+        getProduto();
+    }, []);
 
-
-      const nomeEmpresa = produtos.secao && produtos.secao.estabelecimento && produtos.secao.estabelecimento.nome;
-
-      const metodosEmpresa = produtos.secao && produtos.secao.estabelecimento && produtos.secao.estabelecimento.idMetodo;
-      console.log(metodosEmpresa);
+    useEffect(() => {
+        // ... (código existente)
+    
+        calcularMediaAvaliacao();
+    }, [avaliacoes]);
+    
       
     return(
         <div>
@@ -80,10 +142,10 @@ function TelaProduto(){
             <main className="flex pt-[85px] flex-col" style={{backgroundColor:"#EAEAEA" }}>
                 <div className="flex flex-row justify-between mx-auto gap-x-40">
                     <div className="flex flex-col">
-                        <div>
+                        <div id="imagem_destaque">
                             <img src={jbl} alt="" />
                         </div>
-                        <div className="flex flex-row gap-x-2">
+                        <div className="flex flex-row gap-x-2" id="imagem_adicional">
                             <img src={jbl} alt="" className="h-24 border-solid border-2 border-stroke-principal rounded-lg" />
                             <img src={jbl1} alt="" className="h-24 border-solid border-2 border-stroke-principal rounded-lg" />
                             <img src={jbl2} alt="" className="h-24 border-solid border-2 border-stroke-principal rounded-lg" />
@@ -133,7 +195,7 @@ function TelaProduto(){
                         </div>
                         <div className="flex pt-[40px] flex-col gap-y-4">
                             <button className="bg-orange-principal py-2 text-2xl font-medium rounded-lg">Reservar na loja</button>
-                            <button className=" bg-orange_opacity-principal py-2 text-2xl font-medium rounded-lg">Guardar no carrinho</button>
+                            <button className=" bg-orange_opacity-principal py-2 text-2xl font-medium rounded-lg" onClick={adicionarProduto}>Guardar no carrinho</button>
                         </div>
                         <div className="flex flex-col gap-y-9">
                             <div className="flex flex-col pt-[52px] gap-y-4">
@@ -171,19 +233,17 @@ function TelaProduto(){
                         <div className="flex flex-col gap-y-8">
                             <h2 className="text-base">Adicione uma nota</h2>
                             <div className="flex flex-row gap-x-2">
-                                <img src={star} alt="" className="w-6 h-6"/>
-                                <img src={star} alt="" className="w-6 h-6"/>
-                                <img src={star} alt="" className="w-6 h-6"/>
-                                <img src={star} alt="" className="w-6 h-6"/>
-                                <img src={star} alt="" className="w-6 h-6"/>
+                                <StarAvaliacao onRatingChange={handleRatingChange}/>
                             </div>
                         </div>
                         <div className="flex flex-col gap-y-10">
                             <div className="flex flex-col gap-y-2">
                                 <p>Adicione um comentário</p>
-                                <textarea name="" id="" placeholder="Digite aqui" cols="65" rows="3" className="rounded-lg px-4 py-2 border-solid border-2 border-stroke-principal"></textarea>
+                                <textarea name="" id="comentario_avaliacao" placeholder="Digite aqui" cols="65" rows="3" className="rounded-lg px-4 py-2 border-solid border-2 border-stroke-principal"
+                                onChange={(e) => setComentario(e.target.value)}></textarea>
                             </div>
-                                <button className="bg-orange-400 px-4 py-2 ml-auto font-medium rounded-lg">Publicar</button>
+                                <button className="bg-orange-400 px-4 py-2 ml-auto font-medium rounded-lg"
+                                onClick={adicionarAvaliacao}>Publicar</button>
                         </div>
                     </div>
                     <div className="flex flex-row justify-between gap-80">
@@ -191,7 +251,7 @@ function TelaProduto(){
                             <p>Notas dos clientes</p>
                             <div className="flex flex-row">
                                 <div className="flex flex-row items-end	gap-x-2">
-                                    <p className="text-4xl">4,2</p>
+                                    <p className="text-4xl">{mediaAvaliacao.toFixed(1)}</p>
                                     <img src={star} alt="" className="h-2.5 mb-2"/>
                                 </div>
                             </div>
@@ -208,12 +268,6 @@ function TelaProduto(){
                                     comentario={avaliacao.comentario}
                                     estrela={avaliacao.qtdEstrela}
                                 />
-                                ))}
-                                
-                            {avaliacoes.map((avaliacao) => (
-                                <Avaliacao
-                                />
-                                
                                 ))}
                         </div>
                     </div>

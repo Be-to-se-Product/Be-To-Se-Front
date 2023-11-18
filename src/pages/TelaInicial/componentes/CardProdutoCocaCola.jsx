@@ -5,13 +5,15 @@ import Carro from "../../../assets/carro.svg"
 import Pe from "../../../assets/pe.svg"
 import Bike from "../../../assets/bike.svg"
 import Shop from "../../../assets/shop.svg"
+import { useNavigate } from "react-router";
 
 
 
 
 const CardProdutoCocaCola = (props) => {
+  const navigate = useNavigate();
     return (
-        <div className="w-[250px] h-[539px] gap-20 p-4 border-2 rounded-md bg-white-principal flex-start flex-colrounded-md">
+        <div className="w-[250px] h-[539px] gap-20 p-4 border-2 rounded-md bg-white-principal flex-start flex-colrounded-md" onClick={()=>navigate("/TelaProduto")}>
             <div className="h-[150px] rounded-md ">
                 <div className="rounded-full bg-orange-principal w-7 h-7 text-center flex items-center justify-center ">
                     <img src={Shop} alt="" />

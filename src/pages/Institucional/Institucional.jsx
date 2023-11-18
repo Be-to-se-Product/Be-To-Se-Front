@@ -6,8 +6,7 @@ import city from "../../assets/city.png";
 import men from "../../assets/men.png";
 import family from "../../assets/family.png";
 import woman from "../../assets/woman-desktop.png";
-import axios from "axios";
-import ContainerCard from "../../componentes/CardUser/componentes/ContainerCard";
+import ContainerCard from "../../componentes/CardUser/ContainerCard";
 import apiGithub from "../../services/apiGithub";
 
 
