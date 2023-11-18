@@ -1,20 +1,15 @@
 import { Tab, Tabs } from "@mui/material";
 import React, { useState } from "react";
 import Avaliacao from "../../../componentes/Avaliacao/Avaliacao";
-import LanguageIcon from "@mui/icons-material/Language";
-import RoomIcon from "@mui/icons-material/Room";
-import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
-import QueryBuilderIcon from "@mui/icons-material/QueryBuilder";
-import ModalHorario from "../../../componentes/ModalHorario/ModalHorario";
 import ContentAvaliacao from "./ContentAvaliacao";
 import InfoLoja from "./InfoLoja";
 
-const TabInfoProduto = () => {
+const TabInfoProduto = ({produtoSelecionado}) => {
   const [currentPage, setCurrentPage] = useState(0);
 
   return (
     <>
-      <div className="flex w-full justify-center gap-x-4 p-5 overflow-scroll">
+      <div className="flex w-full justify-center gap-x-4 p-5 overflow-scroll scrollbar-hide">
         <Tabs
           value={currentPage}
           sx={{
@@ -71,14 +66,7 @@ const TabInfoProduto = () => {
         <div className="p-5">
           <h2 className="font-medium text-xl mb-4">Coca Cola</h2>
           <p className="text-xs">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque
-            dignissimos suscipit vel ducimus, laborum sit? Quaerat veniam sed
-            reiciendis, cum, debitis saepe quae corporis eveniet voluptatem
-            beatae asperiores tenetur recusandae. Magnam sapiente autem natus
-            architecto culpa. Quisquam maxime rem sunt dolor, rerum veniam
-            laborum voluptate beatae velit quaerat expedita necessitatibus saepe
-            tenetur similique esse officiis delectus ducimus. Facilis,
-            repellendus porro?
+           {produtoSelecionado?.descricao}
           </p>
 
           <h3 className="mt-5 mb-4">Caracteristicas</h3>
@@ -93,86 +81,21 @@ const TabInfoProduto = () => {
 
       {currentPage == 1 && (
         <ContentAvaliacao>
-          <Avaliacao
+          {produtoSelecionado.avaliacao.map((avaliacao) => (
+            <Avaliacao
             avaliacao={{
-              nome: "João Silva",
-              stars: 3,
-              comentario:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae quam vitae nunc aliquam aliquam.",
+              nome: avaliacao.usuario,
+              stars: avaliacao.qtdEstrela,
+              comentario:avaliacao.descricao,
+              data: avaliacao.data
             }}
           />
-          <Avaliacao
-            avaliacao={{
-              nome: "João Silva",
-              stars: 3,
-              comentario:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae quam vitae nunc aliquam aliquam.",
-            }}
-          />
-
-          <Avaliacao
-            avaliacao={{
-              nome: "João Silva",
-              stars: 3,
-              comentario:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae quam vitae nunc aliquam aliquam.",
-            }}
-          />
-
-          <Avaliacao
-            avaliacao={{
-              nome: "João Silva",
-              stars: 3,
-              comentario:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae quam vitae nunc aliquam aliquam.",
-            }}
-          />
-
-          <Avaliacao
-            avaliacao={{
-              nome: "João Silva",
-              stars: 3,
-              comentario:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae quam vitae nunc aliquam aliquam.",
-            }}
-          />
-          <Avaliacao
-            avaliacao={{
-              nome: "João Silva",
-              stars: 3,
-              comentario:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae quam vitae nunc aliquam aliquam.",
-            }}
-          />
-          <Avaliacao
-            avaliacao={{
-              nome: "João Silva",
-              stars: 3,
-              comentario:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae quam vitae nunc aliquam aliquam.",
-            }}
-          />
-
-          <Avaliacao
-            avaliacao={{
-              nome: "João Silva",
-              stars: 3,
-              comentario:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae quam vitae nunc aliquam aliquam.",
-            }}
-          />
-
-          <Avaliacao
-            avaliacao={{
-              nome: "João Silva",
-              stars: 3,
-              comentario:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae quam vitae nunc aliquam aliquam.",
-            }}
-          />
+          ))}
+          
+          
         </ContentAvaliacao>
       )}
-      {currentPage == 2 && <InfoLoja />}
+      {currentPage == 2 && <InfoLoja produtoSelecionado={produtoSelecionado} />}
     </>
   );
 };

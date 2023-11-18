@@ -1,5 +1,5 @@
 import { Rating } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../../../componentes/Button/Button";
 import TabInfoProduto from "./TabInfoProduto";
 import Rota from "./Rota";
@@ -10,23 +10,45 @@ import DirectionsCarFilledIcon from "@mui/icons-material/DirectionsCarFilled";
 import DirectionsBikeIcon from "@mui/icons-material/DirectionsBike";
 import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
 
-const BarProduto = () => {
+const BarProduto = ({setDestination,profiles,setModePercurssion,rotas,produtoSelecionado}) => {
   const [isTracaRota, setIsTracaRota] = useState(false);
-  const [isShow, setIsShow] = useState(false);
+
+
+const trackerRouter = () => {
+  if(isTracaRota==true){
+    setIsTracaRota(false)
+    return
+  }
+  setDestination({lat:produtoSelecionado.estabelecimento.endereco.latitude,lon:produtoSelecionado.estabelecimento.endereco.longitude})
+  setModePercurssion(profiles[0]);
+  setIsTracaRota(true)
+}
+
+
+
+useEffect(() => {
+  if(isTracaRota){
+    setIsTracaRota(false);
+  }
+},[produtoSelecionado])
+
+
+
+
   return (
-    <ContentBar>
+    <>
       <BannerImage img={"/src/assets/men.png"}></BannerImage>
       <div className="flex justify-between p-5 ">
         <div className=" flex flex-col gap-y-2">
           <div className="flex gap-x-4 items-center">
             <h2 className="text-xl font-medium">
-              Coca Cola 2 Litros - R$12,99
+              {produtoSelecionado?.nome}
             </h2>
           </div>
-          <h3>Eletronicos</h3>
+          <h3>{produtoSelecionado?.categoria}</h3>
           <span className="flex gap-x-2 items-center">
-            <span>4,7</span>
-            <Rating nome="text-feedback" value={3} readOnly size="small" />
+            <span>{produtoSelecionado.mediaAvaliacao}</span>
+            <Rating nome="text-feedback" value={Number(produtoSelecionado.mediaAvaliacao)} readOnly size="small" />
           </span>
         </div>
         <Button className={" rounded-full"}>Reservar</Button>
@@ -74,14 +96,14 @@ const BarProduto = () => {
           </h3>
           <Button
             className={"bg-orange-principal rounded-full   "}
-            onClick={() => setIsTracaRota(!isTracaRota)}
+            onClick={trackerRouter}
           >
             {">"}
           </Button>
         </div>
       </div>
-      {isTracaRota ? <Rota /> : <TabInfoProduto />}
-    </ContentBar>
+      {isTracaRota ? <Rota  profiles={profiles} setModePercurssion={setModePercurssion} rotas={rotas} produtoSelecionado={produtoSelecionado}  /> : <TabInfoProduto produtoSelecionado={produtoSelecionado} />}
+    </>
   );
 };
 
