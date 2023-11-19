@@ -4,50 +4,26 @@ import LanguageIcon from "@mui/icons-material/Language";
 import RoomIcon from "@mui/icons-material/Room";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import QueryBuilderIcon from "@mui/icons-material/QueryBuilder";
+import moment from "moment";
+import { converterDiaSemana } from "../../../utils/conversores";
 
-const InfoLoja = (estabelecimento) => {
-  const agenda = [
-    {
-      dia: "Segunda Feira",
-      horarioComeco: "15:00",
-      horarioFim: "16:00",
-    },
-    {
-      dia: "Terça Feira",
-      horarioComeco: "15:00",
-      horarioFim: "16:00",
-    },
-    {
-      dia: "Quarta Feira",
-      horarioComeco: "15:00",
-      horarioFim: "16:00",
-    },
-    {
-      dia: "Quinta Feira",
-      horarioComeco: "15:00",
-      horarioFim: "16:00",
-    },
-    {
-      dia: "Sexta Feira",
-      horarioComeco: "15:00",
-      horarioFim: "16:00",
-    },
-    {
-      dia: "Sábado",
-      horarioComeco: "15:00",
-      horarioFim: "16:00",
-    },
-    {
-      dia: "Domingo",
-      horarioComeco: "15:00",
-      horarioFim: "16:00",
-    },
-    {
-      dia: "Feriados",
-      horarioComeco: "15:00",
-      horarioFim: "16:00",
-    },
-  ];
+const InfoLoja = ({ produtoSelecionado }) => {
+  const { agenda } = produtoSelecionado.estabelecimento;
+
+  const calcularTempo = (horarioInicio, horarioFim) => {
+    const dataTimeAtual = moment();
+    const horarioInicioMoment = moment(horarioInicio, "HH:mm:ss");
+    const horarioFimMoment = moment(horarioFim, "HH:mm:ss");
+    return dataTimeAtual.isBetween(horarioInicioMoment, horarioFimMoment);
+  };
+
+  const diaAtual = () =>
+    agenda.find((element) => {
+      return (
+        converterDiaSemana[moment().format("dddd")].toLowerCase() ==
+        element.dia.toLowerCase()
+      );
+    });
 
   const [showModalHorario, setShowModalHorario] = useState(false);
   return (
@@ -58,7 +34,7 @@ const InfoLoja = (estabelecimento) => {
             fontSize: "40px",
           }}
         />
-        <h3 className="text-base">Avenida Paulista, 1234</h3>
+        <h3 className="text-base">{produtoSelecionado.estabelecimento.endereco.rua}, {produtoSelecionado.estabelecimento.endereco.bairro} - N° {produtoSelecionado.estabelecimento.endereco.numero} </h3>
       </div>
 
       <div className="flex gap-x-4 items-center relative">
@@ -77,7 +53,15 @@ const InfoLoja = (estabelecimento) => {
             }
           }}
         >
-          Fechado abre seg 8:00 {">"}
+          {calcularTempo(diaAtual().horarioInicio, diaAtual().horarioFim) ? (
+            <span className="font-semibold text-green-500">Aberto {">"}</span>
+          ) : (
+            <span className="font-medium text-red-500">
+              Fechado, abre as{" "}
+              {moment(diaAtual().horarioInicio, "HH:mm:ss").format("HH:mm")}{" "}
+              {">"}
+            </span>
+          )}
         </h3>
       </div>
       <ModalHorario
@@ -91,7 +75,9 @@ const InfoLoja = (estabelecimento) => {
             fontSize: "40px",
           }}
         />
-        <h3 className="text-base">(11) 95383-3389</h3>
+        <h3 className="text-base">
+          {produtoSelecionado.estabelecimento.telefone}
+        </h3>
       </div>
 
       <div className="flex gap-x-4 items-center ">
@@ -100,7 +86,7 @@ const InfoLoja = (estabelecimento) => {
             fontSize: "40px",
           }}
         />
-        <h3 className="text-base">www.google.com</h3>
+        <h3 className="text-base">{produtoSelecionado.estabelecimento.site}</h3>
       </div>
     </div>
   );

@@ -5,8 +5,8 @@ const BannerImage = ({img}) => {
     <div className=" w-full h-[200px] ">
       <img
         src={img}
-        alt=""
         className="h-full w-full object-cover"
+        onError="this.src = '/src/assets/NotFound.png'"
       />
       
     </div>
