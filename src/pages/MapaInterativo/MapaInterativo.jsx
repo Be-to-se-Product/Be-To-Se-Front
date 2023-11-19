@@ -252,7 +252,7 @@ const MapaInterativo = () => {
 
   return (
     <div className="flex">
-      {/* <BarLoja/> */}
+    
       <ContentBar show={show} setShow={setShow}>
         <BarProduto
           setDestination={setDestination}

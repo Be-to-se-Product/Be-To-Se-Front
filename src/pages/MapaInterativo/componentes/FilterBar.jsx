@@ -13,7 +13,7 @@ const FilterBar = ({getProduto}) => {
     
   return (
     <div className="fixed right-10 top-3 z-10 flex flex-col gap-y-4">
-      <Button className="" onClick={()=>setShowFilter(!showFilter)}>Todos os filtros</Button>
+      <Button className="bg-orange-principal" onClick={()=>setShowFilter(!showFilter)}>Todos os filtros</Button>
       <div className={`p-5 bg-black-900 text-white-principal h-0   rounded ${showFilter ? "h-[415px]" : " invisible opacity-0"} overflow-auto transition-all duration-150 w-full`}>
         <ul className="flex flex-col gap-y-4">
           <li className="flex gap-x-2">

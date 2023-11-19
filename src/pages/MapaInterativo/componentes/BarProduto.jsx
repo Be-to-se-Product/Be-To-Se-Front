@@ -15,7 +15,7 @@ const BarProduto = ({setDestination,profiles,setModePercurssion,rotas,produtoSel
 
 
 const trackerRouter = () => {
-  if(isTracaRota==true){
+  if(isTracaRota){
     setIsTracaRota(false)
     return
   }
@@ -33,11 +33,11 @@ useEffect(() => {
 },[produtoSelecionado])
 
 
-
+const produtoImagens = produtoSelecionado?.imagens?.length>0 ? produtoSelecionado?.imagens[0] : ""
 
   return (
     <>
-      <BannerImage img={"/src/assets/men.png"}></BannerImage>
+      <BannerImage img={produtoImagens }></BannerImage>
       <div className="flex justify-between p-5 ">
         <div className=" flex flex-col gap-y-2">
           <div className="flex gap-x-4 items-center">

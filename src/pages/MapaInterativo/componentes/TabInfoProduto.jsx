@@ -18,10 +18,10 @@ const TabInfoProduto = ({produtoSelecionado}) => {
             },
 
             "& .MuiTabs-scroller": {
-              overflow: "scroll !important",
+              overflow: "hidden !important",
             },
           }}
-        >
+        className="scrollbar-hide">
           <Tab
             label="Sobre"
             sx={{
@@ -81,7 +81,7 @@ const TabInfoProduto = ({produtoSelecionado}) => {
 
       {currentPage == 1 && (
         <ContentAvaliacao>
-          {produtoSelecionado.avaliacao.map((avaliacao) => (
+          {produtoSelecionado?.avaliacao?.map((avaliacao) => (
             <Avaliacao
             avaliacao={{
               nome: avaliacao.usuario,
@@ -89,9 +89,13 @@ const TabInfoProduto = ({produtoSelecionado}) => {
               comentario:avaliacao.descricao,
               data: avaliacao.data
             }}
+
+            
           />
+
+
           ))}
-          
+          {(produtoSelecionado.avaliacao?.length<=0 ) && (<>Não há avaliações  por enquanto</>)}
           
         </ContentAvaliacao>
       )}
