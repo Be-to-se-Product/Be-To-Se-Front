@@ -32,9 +32,11 @@ function TelaProduto(){
     const [mediaAvaliacao, setMediaAvaliacao] = useState(0);
     const nomeEmpresa = produtos?.secao?.estabelecimento?.nome;
     const metodosEmpresa = produtos?.secao?.estabelecimento?.idMetodo;
+    const [imagemDestaque, setImagemDestaque] = useState(jbl);
 
-
-    console.log(mediaAvaliacao);
+    const mudarImagem = (novaImagem) => {
+        setImagemDestaque(novaImagem);
+    };
 
     const adicionarProduto= ()=>{
 
@@ -126,8 +128,6 @@ function TelaProduto(){
     }, []);
 
     useEffect(() => {
-        // ... (código existente)
-    
         calcularMediaAvaliacao();
     }, [avaliacoes]);
     
@@ -143,13 +143,17 @@ function TelaProduto(){
                 <div className="flex flex-row justify-between mx-auto gap-x-40">
                     <div className="flex flex-col">
                         <div id="imagem_destaque">
-                            <img src={jbl} alt="" />
+                            <img src={imagemDestaque} alt="" />
                         </div>
                         <div className="flex flex-row gap-x-2" id="imagem_adicional">
-                            <img src={jbl} alt="" className="h-24 border-solid border-2 border-stroke-principal rounded-lg" />
-                            <img src={jbl1} alt="" className="h-24 border-solid border-2 border-stroke-principal rounded-lg" />
-                            <img src={jbl2} alt="" className="h-24 border-solid border-2 border-stroke-principal rounded-lg" />
-                            <img src={jbl3} alt="" className="h-24 border-solid border-2 border-stroke-principal rounded-lg" />
+                            <img src={jbl} alt="" className="h-24 border-solid border-2 border-stroke-principal rounded-lg"
+                            onClick={() => mudarImagem(jbl)} />
+                            <img src={jbl1} alt="" className="h-24 border-solid border-2 border-stroke-principal rounded-lg"
+                            onClick={() => mudarImagem(jbl1)} />
+                            <img src={jbl2} alt="" className="h-24 border-solid border-2 border-stroke-principal rounded-lg" 
+                            onClick={() => mudarImagem(jbl2)}/>
+                            <img src={jbl3} alt="" className="h-24 border-solid border-2 border-stroke-principal rounded-lg"
+                            onClick={() => mudarImagem(jbl3)} />
                         </div>
                         <div className="flex flex-col pt-[80px] max-w-md gap-y-6">
                             <h2 className="text-2xl">Descrição</h2>
