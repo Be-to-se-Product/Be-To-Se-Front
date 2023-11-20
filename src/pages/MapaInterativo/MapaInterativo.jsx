@@ -2,92 +2,112 @@ import { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import CardProduto from "../../componentes/CardProduto/CardProdutoCocacola";
 import axios from "axios";
-
+import FilterBar from "./componentes/FilterBar";
+import "./mapaStyle.css";
 import BarProduto from "./componentes/BarProduto";
+import CardMapa from "./componentes/CardMapa";
 
+import api from "../../services/api";
+import ContentBar from "./componentes/ContentBar";
+import { set } from "react-hook-form";
+ // Chave de acesso ao Mapbox - Coloque sua chave de acesso no arquivo .env
+ const API_KEY = import.meta.env.VITE_MAPBOX_TOKEN;
+mapboxgl.accessToken = API_KEY;
 const MapaInterativo = () => {
-  // Chave de acesso ao Mapbox - Coloque sua chave de acesso no arquivo .env
-  const API_KEY = import.meta.env.VITE_MAPBOX_TOKEN;
+  const map = useRef(null);
   const mapContainerRef = useRef(null);
 
-  const [mapStyle, setMapStyle] = useState(
-    "mapbox://styles/mapbox/streets-v11"
+
+  const [show, setShow] = useState(false);
+
+  const [originCoordinates, setOriginCoordinates] = useState({ lat: null, lon:null }
   );
+  const [destination, setDestination] = useState({lat: null,lon: null});
+  const [rotas, setRotas] = useState([]);
 
-  // Função para gerar coordenadas aleatórias
-  const gerarCoordenadaAleatoria = () => {
-    // Limites aproximados para a região de São Paulo
-    const minLatitude = -23.950088; // Latitude sul
-    const maxLatitude = -23.473297; // Latitude norte
-    const minLongitude = -46.825662; // Longitude oeste
-    const maxLongitude = -46.365583; // Longitude leste
-    const latitude = minLatitude + Math.random() * (maxLatitude - minLatitude);
-    const longitude =
-      minLongitude + Math.random() * (maxLongitude - minLongitude);
-
-    return { lat: latitude, lon: longitude };
+  const [produtoSelecionado, setProdutoSelecionado] = useState({});
+  const [produtos, setProdutos] = useState([]);
+   
+  const profiles = {
+    CAR: "driving-traffic",
+    BIKE: "cycling",
+    PEOPLE: "walking",
   };
+  const [modePercurssion, setModePercurssion] = useState(profiles.PEOPLE);
 
-  // Estado para armazenar as coordenadas de origem
-  const [originCoordinates, setOriginCoordinates] = useState(
-    //latitude e longitude do centro de são paulo
-    { lat: -23.5505199, lon: -46.6333094 }
-  );
 
-  // Estado para armazenar as coordenadas de destino
-  const [destination, setDestination] = useState();
 
-  // Estado para armazenar as coordenadas da rota
-  const [routerCoordinates, setRouterCoordinates] = useState([]);
 
   // Função para criar o marcador
-  const criarMarcador = (map, coordenada, componente) => {
+  const criarMarcador = (coordenada) => {
     const maker = new mapboxgl.Marker();
-    const popUp = new mapboxgl.Popup({ offset: 25 });
+    maker.setLngLat(coordenada);
+    return maker;
+  };
+
+
+  // Função para criar o popUp
+  const criarPopUp = (componente) => {
+    const popUp = new mapboxgl.Popup({
+      offset: 25,
+      autoClose: true,
+      closeButton: false,
+    });
     const popUpNode = document.createElement("div");
     const portal = ReactDOM.createPortal(componente, popUpNode);
     ReactDOM.render(portal, popUpNode);
     popUp.setDOMContent(popUpNode);
-    maker.setLngLat(coordenada);
-    maker.setPopup(popUp);
-    maker.getElement().addEventListener("click", () => {
-      getRoute(originCoordinates, coordenada, map);
+    popUp.setMaxWidth("none");
+    popUp.setOffset([0, -15]);
+    popUpNode.style.width = "100%";
+    return popUp;
+  };
+
+  const pullLocationCurrent = async () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      setOriginCoordinates({
+        lat: position.coords.latitude,
+        lon: position.coords.longitude,
+      });
     });
-    return maker;
   };
 
   // Função para buscar as rotas entre os dois pontos
-  const getRoute = async (origin, destination, map) => {
-    console.log(origin, destination);
+  const getRoute = async (origin, destination) => {
+    if (!origin?.lat || !origin?.lon) {
+      return;
+    }
     // Requisição para a API do Mapbox
-    const query = await axios.get(
-      `https://api.mapbox.com/directions/v5/mapbox/cycling/${origin.lon},${origin.lat};${destination.lon},${destination.lat}?geometries=geojson&access_token=${API_KEY}`
+    const response = await axios.get(
+      `https://api.mapbox.com/directions/v5/mapbox/${modePercurssion}/${origin.lon},${origin.lat};${destination.lon},${destination.lat}`,
+      {
+        params: {
+          geometries: "geojson",
+          access_token: API_KEY,
+          steps: true,
+          language: "pt-BR",
+        },
+      }
     );
 
-    // Buscar as coordenadas da rota
-    const data = query.data.routes[0];
+    return response.data.routes;
+  };
 
-    // Atualizar o estado com as coordenadas da rota
-    const route = data.geometry.coordinates;
-
-    // Atualizar o estado com as coordenadas da rota
+  const trackerRouterMap = (coordenadas) => {
     const geojson = {
       type: "Feature",
       properties: {},
       geometry: {
         type: "LineString",
-        coordinates: route,
+        coordinates: coordenadas,
       },
     };
-
-    //Se a rota já existir, atualizar, senão criar
-    if (map.getSource("route")) {
-      map.getSource("route").setData(geojson);
+    if (map.current.getSource("route")) {
+      map.current.getSource("route").setData(geojson);
     } else {
       //Traçar linha entre os dois pontos
-      map.addLayer({
+      map.current.addLayer({
         id: "route",
         type: "line",
         source: {
@@ -107,38 +127,37 @@ const MapaInterativo = () => {
     }
   };
 
+
+
+  // Fazer get dos produtos
+
+
+  // Carregar mapa com ponto inicial baseado na localização atual do usuário
   useEffect(() => {
     //Criar instância do mapa
-    mapboxgl.accessToken = API_KEY;
-    const map = new mapboxgl.Map({
+    map.current = new mapboxgl.Map({
       container: mapContainerRef.current,
-      style: mapStyle,
-      center: gerarCoordenadaAleatoria(),
-      zoom: 9,
+      style: "mapbox://styles/mapbox/streets-v11",
+      center: [originCoordinates.lon, originCoordinates.lat],
+      zoom: 10,
     });
     // GERAR MARCADORES ALEATÓRIOS
-
+   
+   
     // Capturar evento de carregamento do mapa
-    map.on("load", () => {
-      // Busca as rotas entre os dois pontos
-      getRoute(originCoordinates, destination, map);
-
+    map.current.on("load", () => {
       // Gerar 10 marcadores aleatórios
-      const marcadores = Array.from({ length: 10 }, () =>
-        gerarCoordenadaAleatoria()
-      );
 
+      
       // Adicionar controle de navegação
-      map.addControl(new mapboxgl.NavigationControl(), "bottom-right");
+      map.current.addControl(new mapboxgl.NavigationControl(), "bottom-right");
 
-      // Gerar marcadores baseado na função de marcadores aleatórios
-      marcadores.forEach((coordenada) => {
-        const maker = criarMarcador(map, coordenada, <CardProduto />);
-        maker.addTo(map);
-      });
-
+      // const produtos = getProduto();
+      // Gerar marcadores baseado nos dados que o banco esta me retornando
+     
+      plotarMarcadores(produtos, map);
       // Adicionar marcador de origem
-      map.addLayer({
+      map.current.addLayer({
         id: "origin",
         type: "circle",
         source: {
@@ -156,14 +175,97 @@ const MapaInterativo = () => {
           "circle-color": "#3887be",
         },
       });
+
     });
-  }, [mapStyle, routerCoordinates]);
+    return () => {
+      map.current.remove();
+    };
+  }, [originCoordinates, produtos]);
+
+  // Carregar trajeto quando o destinho ou o modo do percurso muda
+  useEffect(() => {
+    (async () => {
+      const router = await getRoute(originCoordinates, destination);
+      if (!router) return;
+      const coordinates = router[0].geometry.coordinates;
+      console.log(router);
+      setRotas(router[0].legs[0].steps);
+      trackerRouterMap(coordinates);
+      return () => {
+        setRotas([]);
+      };
+    })();
+  }, [destination, modePercurssion]);
+
+  // Carregar Localização atual do usuário
+
+  useEffect(() => {
+    if (!originCoordinates.lat && !originCoordinates.lon) {
+      pullLocationCurrent();
+    }
+
+    return () => {
+      setOriginCoordinates({});
+    };
+  }, []);
+
+
+  
+  useEffect(() => {
+    if (!originCoordinates.lat || !originCoordinates.lon) return;
+    getProduto({
+      distancia: 50,
+      metodoPagamento: null,
+    });
+  }, [ originCoordinates]);
+
+  const getProduto = async (filtro) => {
+     const response = await api.get("/produtos/mapa", {
+      params: {
+        latitude: originCoordinates.lat,
+        longitude: originCoordinates.lon,
+        distancia: filtro.distancia,
+        nome: null,
+        metodoPagamento: filtro.metodoPagamento,
+      },
+    });
+    setProdutos(response.data);
+  };
+
+  const plotarMarcadores = (produtos, map) => {
+    produtos?.forEach((element) => {
+      const { latitude, longitude } = element.estabelecimento.endereco;
+      const maker = criarMarcador({ lat: latitude, lon: longitude });
+      const popUp = criarPopUp(
+        <CardMapa
+          produto={element}
+          onClick={() => {
+            setProdutoSelecionado(element);
+            setShow(!show);
+          }}
+        />
+      );
+      maker.setPopup(popUp);
+      maker.addTo(map.current);
+    });
+  };
 
   return (
     <div className="flex">
-      {/* <BarLoja/> */}
-      <BarProduto/>
+    
+      <ContentBar show={show} setShow={setShow}>
+        <BarProduto
+          setDestination={setDestination}
+          profiles={profiles}
+          setModePercurssion={setModePercurssion}
+          rotas={rotas}
+         
+          produtoSelecionado={produtoSelecionado}
+          show={true}
+        />
+      </ContentBar>
 
+      <FilterBar  getProduto={getProduto} />
       <div ref={mapContainerRef} className="w-full h-screen"></div>
     </div>
   );

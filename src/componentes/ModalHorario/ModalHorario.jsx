@@ -2,17 +2,10 @@ import React from "react";
 import QueryBuilderIcon from "@mui/icons-material/QueryBuilder";
 import moment from "moment";
 import RowHorario from "./componentes/RowHorario";
+import { converterDiaSemana } from "../../utils/conversores";
 
 const ModalHorario = ({ show, agendas, className }) => {
-  const converterDiaSemana = {
-    Sunday: "Domingo",
-    Monday: "Segunda Feira",
-    Tuesday: "Terça Feira",
-    Wednesday: "Quarta Feira",
-    Thursday: "Quinta Feira",
-    Friday: "Sexta Feira",
-    Saturday: "Sábado",
-  };
+  
 
   return (
     <div
@@ -27,7 +20,7 @@ const ModalHorario = ({ show, agendas, className }) => {
       {agendas.map((element) => (
         <div className="flex justify-between p-2 border-b mt-2 border-black-400">
           <RowHorario
-            isAtual={converterDiaSemana[moment().format("dddd")] == element.dia}
+            isAtual={converterDiaSemana[moment().format("dddd")].toLowerCase() == element.dia.toLowerCase()}
             agenda={element}
           />
         </div>

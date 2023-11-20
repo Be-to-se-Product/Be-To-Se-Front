@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import QueryBuilderIcon from "@mui/icons-material/QueryBuilder";
+import moment from "moment";
 
 const RowHorario = ({agenda,isAtual}) => {
   
@@ -15,7 +16,7 @@ const RowHorario = ({agenda,isAtual}) => {
       </span>}
       <span> {agenda?.dia} </span>
       </div>
-      <span>{agenda?.horarioComeco} - {agenda?.horarioFim}</span>
+      <span>{moment(agenda?.horarioInicio,"HH:mm:ss").format("HH:mm")} - {moment(agenda?.horarioFim,"HH:mm:ss").format("HH:mm")}</span>
     </div>
   );
 };
