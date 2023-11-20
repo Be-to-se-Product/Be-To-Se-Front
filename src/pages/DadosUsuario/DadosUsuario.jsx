@@ -54,9 +54,9 @@ function DadosUsuario() {
 
   useEffect(() => {
     const userDetailsCrypt = descriptografar(sessionStorage?.USERDETAILS);
-    const { userId } = JSON.parse(userDetailsCrypt);
-    setUserId( userId );
-    getConsumidores(userId);
+    const { id } = JSON.parse(userDetailsCrypt);
+    setUserId( id );
+    getConsumidores(id);
   }, []);
 
   return (
@@ -81,7 +81,7 @@ function DadosUsuario() {
               name="nome"
               className="w-5/5 px-4 py-2 rounded-lg border-solid border-2 border-stroke-principal"
               type="text"
-              value={consumidores.nome ||""}
+              value={consumidores.nome}
               onChange={handleChange}
             />
           </div>

@@ -12,7 +12,8 @@ import pix from "../../assets/pix.png"
 import dinheiro from "../../assets/dinheiro.png"
 import cartao from "../../assets/cartao.png"
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import { injectStyle } from "react-toastify/dist/inject-style";
 import api from "../../services/api";
 import CardAvaliacao from "./componentes/CardAvaliacao";
 import Avaliacao from "../../componentes/Avaliacao/Avaliacao";
@@ -21,7 +22,7 @@ import {descriptografar} from "../../utils/Autheticated"
 import StarAvaliacao from "./componentes/StarAvaliacao"
 
 function TelaProduto(){
-
+    injectStyle();
     const [produtos, setProdutos] = useState([]);
     const [avaliacoes, setAvalicoes] = useState([]);
     const [qtd, setQtd] = useState(1);
@@ -49,13 +50,13 @@ function TelaProduto(){
              produto,
              consumidor,
         };
-     
-        console.log(data);
+        const loading = toast.loading("Carregando...");
         toast.loading("Carregando...");
         api.post("/carrinhos", data).then((response) => {
-            toast.dismiss();
+            toast.dismiss(loading);
+            toast.success("Produto adicionado ao carrinho!",{autoClose:2000});
         }).catch((error) => {
-            toast.dismiss();
+            toast.dismiss(loading);
         });
     }
 
@@ -70,13 +71,17 @@ function TelaProduto(){
             consumidor,
             produto
         };
-        console.log(data);
 
+        const loading = toast.loading("Carregando...");
+        toast.loading("Carregando...");
         api.post("/avaliacoes", data).then((response) => {
-            toast.dismiss();
+            toast.dismiss(loading);
+            toast.success("Avaliação adicionada com sucesso!",{autoClose:2000});
         }).catch((error) => {
-            toast.dismiss();
+            toast.dismiss(loading);
+            toast.error("Falha ao adicionar avaliação!",{autoClose:2000});
         }).finally(()=>{
+            toast.dismiss(loading);
             getAvaliacao();
             calcularMediaAvaliacao();
         });
@@ -121,8 +126,8 @@ function TelaProduto(){
 
     useEffect(() => {
         const userDetailsCrypt = descriptografar(sessionStorage?.USERDETAILS);
-        const { userId } = JSON.parse(userDetailsCrypt);
-        setUserId( userId );
+        const { id } = JSON.parse(userDetailsCrypt);
+        setUserId( id );
         getAvaliacao();
         getProduto();
     }, []);
