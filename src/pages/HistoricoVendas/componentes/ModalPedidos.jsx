@@ -6,11 +6,7 @@ import ItemPedido from "./ItemPedido";
 import { is } from "@react-spring/shared";
 
 const ModalPedidos = ({ pedidos, isModal, setIsModal, pedidoSelecionadoIndex, ...props }) => {
-  useEffect(() => {
-    console.log(pedidos);
-    console.log("--------");
-    console.log(pedidoSelecionadoIndex);
-  }, []);
+
   return (
     <div
       className={`flex flex-col border h-screen gap-y-2 fixed rounded-sm bg-white-principal right-0 top-0 

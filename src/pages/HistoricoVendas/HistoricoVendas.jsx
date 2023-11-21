@@ -5,6 +5,7 @@ import InputRoot from "../../componentes/Input/InputRoot";
 import Button from "../../componentes/Button/Button";
 import api from "../../services/api";
 import { ToastContainer, toast } from "react-toastify";
+import { format } from 'date-fns';
 
 
 import {
@@ -20,6 +21,7 @@ import {
 } from "@mui/material";
 import ModalPedidos from "./componentes/ModalPedidos";
 import TableRoot from "../../componentes/Table/TableRoot";
+import { get } from "react-hook-form";
 
 const HistoricoVendas = () => {
   const [isModal, setIsModal] = useState(false);
@@ -30,11 +32,20 @@ const HistoricoVendas = () => {
   const [metodoPagamentoSelecionado, setMetodoPagamentoSelecionado] = useState('');
   const [showOptions, setShowOptions] = useState();
   const [pedidoSelecionadoIndex, setPedidoSelecionadoIndex] = useState(null);
+  const [de, setDe] = useState(null);
+  const [ate, setAte] = useState(null);
+  const [status, setStatus] = useState(null);
+  const statusOptions = ['Entregue', 'Aguardando Retirada', 'Pendente', 'Preparo', 'Cancelado'];
 
   const fetchHistoricoVendas = () => {
     toast.loading("Carregando histórico de vendas...");
-
-    api.get(`/historico-vendas/1?page=${page}&size=${size}`)
+    api.get(`/historico-vendas/1`, {
+      params:
+      {
+        page: page,
+        size: size
+      }
+    })
       .then(response => {
         toast.dismiss();
         if (response.data.length === 0) {
@@ -53,12 +64,46 @@ const HistoricoVendas = () => {
     getMetodosPagamento();
   }, []);
 
-  const getMetodosPagamento = () => {
-    toast.loading("Carregando métodos de pagamento...");
+  const params = {
+    de: de,
+    ate: ate,
+    status: status,
+    metodoPagamento: metodoPagamentoSelecionado,
+    page: page,
+    size: size,
+  };
 
+  useEffect(() => {
+    console.log(de);
+    console.log(ate);
+    console.log(status);
+    console.log(metodoPagamentoSelecionado);
+    console.log(vendas);
+  }, [de, ate, status, metodoPagamentoSelecionado]);
+
+
+
+  const getHistoricoVendasFiltrado = () => {
+    api.get(`/historico-vendas/filtro/1 `, { params })
+      .then(response => {
+        toast.dismiss();
+        if (response.data?.length === 0) {
+          toast.info("Nenhuma venda encontrada.");
+        }
+        console.log(response.data);
+        setVendas(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+        toast.dismiss();
+        toast.error("Erro ao carregar o histórico de vendas.");
+      });
+  }
+
+  const getMetodosPagamento = () => {
+    toast.loading("Carregan do métodos de pagamento...");
     api.get(`historico-vendas/1/metodos-pagamento`)
       .then(response => {
-        console.log(response.data);
         setMetodosPagamentos(response.data);
       })
       .catch(error => {
@@ -77,6 +122,25 @@ const HistoricoVendas = () => {
     setShowOptions(false);
   };
 
+  const handleDeChange = (event) => {
+    const formattedDate = format(new Date(event.target.value), 'yyyy-MM-dd');
+    setDe(formattedDate);
+  };
+
+  const handleAteChange = (event) => {
+    const formattedDate = format(new Date(event.target.value), 'yyyy-MM-dd');
+    setAte(formattedDate);
+  };
+
+  const handleStatusChange = (event) => {
+    setStatus(event.target.value);
+  };
+
+  const handlePesquisarClick = () => {
+    getHistoricoVendasFiltrado();
+  };
+
+
   useEffect(() => {
     fetchHistoricoVendas();
   }, [page, size]);
@@ -87,7 +151,7 @@ const HistoricoVendas = () => {
       <MenuComerciante />
       <BoxComerciante className="flex flex-col pt-10 justify-around">
         <div className="w-full text-center font-semibold mb-4">
-          <h2>Históricos de Vendas</h2>
+          <h2>Histórico de Vendas</h2>
         </div>
 
         <div className="filter flex gap-x-4 w-full justify-between items-end bg-white-principal px-8 py-4 rounded ">
@@ -95,8 +159,9 @@ const HistoricoVendas = () => {
             <InputRoot.Label>De:</InputRoot.Label>
             <InputRoot.Input
               type="date"
-              className=" bg-white-principal  rounded-md"
+              className="bg-white-principal rounded-md"
               placeholder="De: "
+              onChange={handleDeChange}
             ></InputRoot.Input>
           </div>
           <div className="flex flex-col flex-1">
@@ -105,13 +170,19 @@ const HistoricoVendas = () => {
               type="date"
               className=" bg-white-principal px-1 rounded-md"
               placeholder="De: "
+              onChange={handleAteChange}
             ></InputRoot.Input>
           </div>
 
           <div className="flex flex-col flex-[2]">
             <InputRoot.Label>Status </InputRoot.Label>
-            <Select className="w-full h-10 bg-white-principal">
-              <MenuItem>Entregue</MenuItem>
+
+            <Select className="w-full h-10 bg-white-principal" onChange={handleStatusChange} value={status}>
+              {statusOptions.map((statusOption, index) => (
+                <MenuItem key={index} value={statusOption}>
+                  {statusOption || 'Selecione um status'}
+                </MenuItem>
+              ))}
             </Select>
           </div>
 
@@ -132,7 +203,8 @@ const HistoricoVendas = () => {
             </Select>
           </div>
 
-          <Button className=" bg-green-700 h-max text-white-principal w-max">
+          <Button className=" bg-green-700 h-max text-white-principal w-max"
+            onClick={handlePesquisarClick}>
             Pesquisar
           </Button>
         </div>
@@ -156,8 +228,10 @@ const HistoricoVendas = () => {
               <TableRoot.Cell>{venda.pedido.isPagamentoOnline ? "Online" : "Presencial"}</TableRoot.Cell>
               <TableRoot.Cell>{venda.nomeMetodoPagamento}</TableRoot.Cell>
               <TableRoot.Cell>R$ {venda.valor.toFixed(2)}</TableRoot.Cell>
-              <TableRoot.Cell className="cursor-pointer" onClick={() => {setPedidoSelecionadoIndex(index)
-              setIsModal(!isModal)} }>Detalhes</TableRoot.Cell>
+              <TableRoot.Cell className="cursor-pointer" onClick={() => {
+                setPedidoSelecionadoIndex(index)
+                setIsModal(!isModal)
+              }}>Detalhes</TableRoot.Cell>
             </TableRoot.Row>
           ))}
         </TableRoot.Content>
@@ -169,7 +243,10 @@ const HistoricoVendas = () => {
             pedidoSelecionadoIndex={pedidoSelecionadoIndex}
           />
         )}
-        <Pagination count={page + 1} shape="rounded" className="mx-auto" />
+        <Pagination count={vendas.totalPages} page={page + 1} shape="rounded" className="mx-auto"
+          onChange={(event, value) => setPage(value - 1)}
+        />
+
       </BoxComerciante>
     </main>
   );
