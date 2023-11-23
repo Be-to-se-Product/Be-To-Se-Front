@@ -178,7 +178,11 @@ const MapaInterativo = () => {
 
     });
     return () => {
-      map.current.remove();
+      console.log("Destruindo mapa....");
+      if(map.current  ){
+        map.current.remove();
+      }
+           
     };
   }, [originCoordinates, produtos]);
 
@@ -229,6 +233,7 @@ const MapaInterativo = () => {
         metodoPagamento: filtro.metodoPagamento,
       },
     });
+    console.log(response.data);
     setProdutos(response.data);
   };
 

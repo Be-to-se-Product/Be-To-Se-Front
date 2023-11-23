@@ -83,6 +83,7 @@ const TabInfoProduto = ({produtoSelecionado}) => {
         <ContentAvaliacao>
           {produtoSelecionado?.avaliacao?.map((avaliacao) => (
             <Avaliacao
+            key={avaliacao.id}
             avaliacao={{
               nome: avaliacao.usuario,
               stars: avaliacao.qtdEstrela,

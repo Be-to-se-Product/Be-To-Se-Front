@@ -41,3 +41,14 @@ export const converterDiaSemana = {
   Friday: "Sexta-Feira",
   Saturday: "Sábado",
 };
+
+
+export const conversorTime = (segundos) => {
+  console.log(segundos);
+
+  const horas = Math.floor(segundos / 3600);
+  const minutos = Math.floor((segundos % 3600) / 60);
+
+
+  return `${horas>0 ? horas+"h":""} ${minutos}min`;
+}
