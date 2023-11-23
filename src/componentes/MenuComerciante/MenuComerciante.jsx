@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import backIcon from "../../assets/back.svg";
 import logo from "../../assets/logo.png";
 import produtoIcon from "../../assets/product-icon.svg";
@@ -7,22 +7,53 @@ import shopIcon from "../../assets/shop.svg";
 import datePage from "../../assets/datePage.svg";
 import downIcon from "../../assets/down.svg";
 import { Link, useNavigate } from "react-router-dom";
+import { descriptografar } from "../../utils/Autheticated";
+import api from "../../services/api";
+import { ToastContainer, toast } from "react-toastify";
 
 const MenuComerciante = () => {
-  const navigate = useNavigate();
+
+  const idEstabelecimento = descriptografar(sessionStorage.getItem("ID"));
+  const [user, setUser] = useState({}); 
+  const [logoEstabelecimento, setLogo] = useState(logo);
+  console.log(idEstabelecimento);
+  toast.loading("Carregando...");
+
+  const getEstabelecimento = () => {
+    api
+      .get("/estabelecimentos/" + idEstabelecimento)
+      .then((resposta) => {
+        toast.dismiss();
+
+        setUser(resposta.data);
+        setLogo("data:image/jpeg;base64," + resposta.data.imagens[0])
+        console.log(resposta.data);
+      })
+
+      .catch((erro) => {
+        console.log(erro)
+      });
+  }
+
+  useEffect(() => {
+    getEstabelecimento();
+  }, []);
+    
+  
+const navigate = useNavigate();
   const logout = () => {
     sessionStorage.clear();
     navigate("/");
   };
   return (
-    <aside className="bg-black-900   flex flex-col h-screen min-w-[350px] max-w-[350px]">
+    <aside className="bg-black-900 fixed flex flex-col h-screen min-w-[350px] max-w-[350px]">
       <div className="h-full w-full">
         <div className="w-full h-1/4 bg-orange-principal"></div>
         <div className="relative pt-20 px-2">
           <div className="logo flex items-end  absolute top-[-80px] ">
-            <img src={logo} alt="" className="w-[130px] rounded-full" />
-            <h2 className="font-medium py-2 text-xl text-white-principal">
-              Pão de açucar
+            <img src={logoEstabelecimento} alt="" className="w-[130px] rounded-full" />
+            <h2 className="font-medium py-2 text-base text-white-principal">
+              {user.nome}
             </h2>
           </div>
 

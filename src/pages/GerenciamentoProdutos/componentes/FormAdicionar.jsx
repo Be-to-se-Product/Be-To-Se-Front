@@ -9,6 +9,7 @@ import api from "../../../services/api";
 import { converterInputImageToBase64 } from "../../../utils/conversores";
 import { MENSAGENS } from "../../../utils/dicionarioRespostas";
 import { toast } from "react-toastify";
+import { descriptografar } from "../../../utils/Autheticated";
 
 const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
   const [stateAtual, setStateAtual] = useState(0);
@@ -26,6 +27,7 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
 
   useEffect(() => {
     getSessao();
+    getTag();
   }, []);
 
   const handleImageChange = (e, id) => {
@@ -41,9 +43,30 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
     });
   };
 
+  const idEstabelecimento = descriptografar(sessionStorage.getItem("ID"));
+
+  const getTag = () => {
+    api
+      .get("/tags")
+      .then((res) => {
+        if (res.status == 200) {
+          setInfoBanco((prev) => {
+            const copy = { ...prev };
+            copy.tag = res.data;
+            console.log(res.data)
+            return { ...copy };
+          });
+        }
+      })
+      .catch((err) => {
+        fecharModal();
+        toast.error(MENSAGENS.usuarios[err.message]);
+      });
+  };
+
   const getSessao = () => {
     api
-      .get("/secoes")
+      .get("/secoes/estabelecimento/" + idEstabelecimento)
       .then((res) => {
         if (res.status == 200) {
           setInfoBanco((prev) => {
@@ -62,15 +85,25 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
   const adicionarProduto = (data) => {
     const produto = {
       ...data,
-      ...productDetails.imagens,
+      //...productDetails.imagens
     };
-    produto.tag = [...productDetails.tag];
+
+
+    produto.imagens = Object.values(productDetails.imagens);
+    produto.tag = [...productDetails.tag];    
+
+    let requestBody = new FormData()
+    requestBody.append('imagem', produto.imagens[0])
+    requestBody.append('produto', JSON.stringify(requestBody.append('imagem', produto.imagens[0])))
+    
+    console.log(requestBody)
 
     api
-      .post("/produtos ", produto)
+      .post("/produtos ", requestBody)
       .then((res) => {
         getProdutos();
         toast.success("Produto adicionado com sucesso!");
+        console.log(res.data)
         fecharModal();
       })
       .catch((err) => {
@@ -152,46 +185,7 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
                     <MenuItem value={"Utensilhos"}>Utensilhos</MenuItem>
                   </Select>
                 </div>
-                <div className="flex  w-full flex-col gap-x-2">
-                  <InputRoot.Label>
-                    tag ({productDetails.tag?.length}/5)
-                  </InputRoot.Label>
-                  <Autocomplete
-                    multiple
-                    size="small"
-                    limittag={5}
-                    className="w-full"
-                    id="multiple-limit-tag"
-                    options={infoBanco.tag.map((option) => option.descricao)}
-                    getOptionLabel={(option) => option}
-                    onChange={(event, newValue) => {
-                      setProductDetails((prev) => {
-                        const valor = [...newValue];
-                        const copy = { ...prev };
-                        //Copilot: Preciso pegar a tag e achar o id dela
-                        const tagId = valor.map((element) => {
-                          const tagId = infoBanco.tag.find(
-                            (tag) => tag.descricao === element
-                          );
-                          if (tagId) {
-                            return {
-                              id: tagId.id,
-                              descricao: tagId.descricao,
-                            };
-                          }
-                          return { valor };
-                        });
-
-                        copy.tag = tagId;
-                        return { ...copy };
-                      });
-                    }}
-                    renderInput={(params) => {
-                      return <TextField {...params} placeholder="Favorites" />;
-                    }}
-                    sx={{ width: "full", height: "42px" }}
-                  />
-                </div>
+                
               </div>
 
               <div className="w-1/2 flex flex-col gap-y-4 ">
@@ -227,6 +221,44 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
                 </InputRoot.Input>
               </div>
             </div>
+            <div className="flex  w-full flex-col gap-x-2">
+                  <InputRoot.Label>
+                    Tag ({productDetails.tag?.length}/5)
+                  </InputRoot.Label>
+                  <Autocomplete
+                    multiple
+                    size="small"
+                    limittag={5}
+                    className="w-full"
+                    id="multiple-limit-tag"
+                    options={infoBanco.tag.map((option) => option.descricao)}
+                    getOptionLabel={(option) => option}
+                    onChange={(event, newValue) => {
+                      setProductDetails((prev) => {
+                        const valor = [...newValue];
+                        const copy = { ...prev };
+                        //Copilot: Preciso pegar a tag e achar o id dela
+                        const tagId = valor.map((element) => {
+                          const tagId = infoBanco.tag.find(
+                            (tag) => tag.descricao === element
+                          );
+                          if (tagId) {
+                            return tagId.id
+                          }
+                          return { valor };
+                        });
+
+                        copy.tag = tagId;
+                        console.log(copy.tag);
+                        return { ...copy };
+                      });
+                    }}
+                    renderInput={(params) => {
+                      return <TextField {...params} placeholder="Favorites" />;
+                    }}
+                    sx={{ width: "full", height: "42px" }}
+                  />
+                </div>
 
             <div className="flex gap-x-4">
               <button

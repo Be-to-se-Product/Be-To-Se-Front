@@ -9,6 +9,7 @@ import api from "../../../services/api";
 import { converterInputImageToBase64 } from "../../../utils/conversores";
 import { MENSAGENS } from "../../../utils/dicionarioRespostas";
 import { toast } from "react-toastify";
+import { descriptografar } from "../../../utils/Autheticated";
 
 const FormUpdate = ({ fecharModal, getProdutos, setState,produto }) => {
   const [stateAtual, setStateAtual] = useState(0);
@@ -19,12 +20,14 @@ const FormUpdate = ({ fecharModal, getProdutos, setState,produto }) => {
 
   const { register, handleSubmit } = useForm();
 
+  const idEstabelecimento = descriptografar(sessionStorage.getItem("ID"));
+
 const [productDetails,setProductDetails] = useState({
   imagens:{
-    imagem1: produto && produto.imagens && produto.imagens.imagem1,
-    imagem2: produto && produto.imagens && produto.imagens.imagem2,
-    imagem3: produto && produto.imagens && produto.imagens.imagem3,
-    imagem4: produto && produto.imagens && produto.imagens.imagem4,
+    imagem1: produto && produto.imagens && produto.imagens[0],
+    imagem2: produto && produto.imagens && produto.imagens[1],
+    imagem3: produto && produto.imagens && produto.imagens[2],
+    imagem4: produto && produto.imagens && produto.imagens[3],
   },
   tag: produto && produto.tag ? [...produto.tag] : [],
 });
@@ -40,7 +43,7 @@ const [productDetails,setProductDetails] = useState({
     codigoBarras: produto?.codigoBarras,
     descricao: produto?.descricao,
     tag: produto?.tag ? [...produto?.tag] : null,
-    imagens: produto?.imagens ? {...produto?.imagens} : null
+    imagens: produto?.imagens ? [...produto?.imagens] : null
   });
 
   useEffect(() => {
@@ -62,7 +65,7 @@ const [productDetails,setProductDetails] = useState({
 
   const getSessao = () => {
     api
-      .get("/secoes")
+      .get("/secoes/estabelecimento/" + idEstabelecimento)
       .then((res) => {
         if (res.status == 200) {
           setInfoBanco((prev) => {
@@ -81,9 +84,11 @@ const [productDetails,setProductDetails] = useState({
   const atualizarProduto = (data) => {
     const produto = {
       ...data,
-      ...productDetails.imagens,
+      //...productDetails.imagens,
     };
+    produto.imagens = Object.values(productDetails.imagens);
     produto.tag = [...productDetails.tag];
+    console.log(produto);
 
     api
       .put("/produtos/"+productDefault.id, produto)

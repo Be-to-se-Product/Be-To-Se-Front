@@ -10,6 +10,7 @@ import MenuComerciante from "../../componentes/MenuComerciante/MenuComerciante";
 import api from "../../services/api";
 import { ToastContainer, toast } from "react-toastify";
 import { injectStyle } from "react-toastify/dist/inject-style";
+import { descriptografar } from "../../utils/Autheticated";
 
 injectStyle();
 
@@ -18,16 +19,17 @@ const GerenciamentoProdutos = () => {
   const [isVisibleModal, setIsVisibleModal] = useState(false);
   const [stateForm, setStateForm] = useState(null);
   const [state, setState] = useState(0);
-
+  const idEstabelecimento = descriptografar(sessionStorage.getItem("ID"));
 
 
   const getProdutos = () => {
     toast.loading("Carregando...");
     api
-      .get("/produtos")
+      .get("/produtos/estabelecimento/" + idEstabelecimento)
       .then((res) => {
         toast.dismiss();
         setProdutos(res.data.length == 0 ? [] : res.data);
+        
       })
       .catch((err) => {
         console.log(err);
@@ -88,7 +90,7 @@ const GerenciamentoProdutos = () => {
     <>
       <main className="flex h-screen bg-black-300">
         <MenuComerciante />
-
+        <div className="h-screen min-w-[350px] max-w-[350px] bg-gray-300"></div>
         <section className="w-full  text-2xl mx-[33px]">
           <div className="flex py-20 justify-between ">
             <div className="  relative w-[346px] h-max bg- bg-white-principal rounded-lg  shadow-lg">
@@ -148,11 +150,14 @@ const GerenciamentoProdutos = () => {
 
             <div className="content-product flex gap-x-6 gap-y-8 flex-wrap h-full overflow-scroll">
               {produtos.map((produto) => (
+                produto.isAtivo ?
+                  
                 <Card
                   key={produto.id}
                   produto={produto}
                   openModal={openModal}
-                />
+                /> : null
+                
               ))}
             </div>
           </div>
