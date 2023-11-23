@@ -143,7 +143,6 @@ const Login = () => {
         </div>
       </aside>
       <div className="w-1/2 flex flex-col h-full items-center justify-center relative">
-        <div className="absolute">sdsdsdsdsd</div>
         <div className="flex flex-col w-7/12 max-w-lg  items-center   gap-y-5 ">
           <div className="text-center flex flex-col gap-y-2">
             <img
