@@ -5,6 +5,8 @@ import GerenciamentoProdutos from "../pages/GerenciamentoProdutos/GerenciamentoP
 import TelaInicial from "../pages/TelaInicial/TelaInicial";
 import TelaPesquisa from "../pages/TelaPesquisa/TelaPesquisa";
 
+import BreadCrumbCadastroCliente from "../componentes/CadastroComerciante/BreadCrumbCadastroCliente";
+import CadastroComerciante from "../componentes/CadastroComerciante/CadastroComerciante";
 import GerenciamentoLoja from "../pages/GerencimentoLojas/GerenciamentoLoja";
 import HistoricoVendas from "../pages/HistoricoVendas/HistoricoVendas";
 import NotFound from "../pages/NotFound/NotFound";
@@ -30,6 +32,14 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/cadastro/comerciante",
+    element: <CadastroComerciante />,
+  },
+  {
+    path: "/cadastro/bread",
+    element: <BreadCrumbCadastroCliente />,
   },
   {
     path: "/comerciante/produtos",
