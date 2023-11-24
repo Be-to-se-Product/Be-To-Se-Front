@@ -3,7 +3,7 @@ import React from "react";
 function BreadCrumbCadastroCliente(){
     return(
         <>
-        <nav className="text-sm" aria-label="Breadcrumb">
+        <nav className="text-sm w-100" aria-label="Breadcrumb">
             <ol className="list-none p-0 inline-flex">
                 <li className="flex items-center">
                     <span className="text-gray-500">Passo 1</span>
@@ -17,9 +17,9 @@ function BreadCrumbCadastroCliente(){
                     </svg>
                 </li>
                 <li className="flex items-center">
-                    <span className="text-gray-700 font-medium">Passo 2</span>
+                    <span className="text-gray-500 ">Passo 2</span>
                     <svg
-                    className="fill-current w-3 h-3 mx-2"
+                    className="fill-current w-3 h-3 mx-2 text-gray-500"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     >
@@ -29,6 +29,11 @@ function BreadCrumbCadastroCliente(){
                 </li>
                     <li className="flex items-center">
                     <span className="text-gray-500">Passo 3</span>
+                    <svg
+                    className="fill-current w-3 h-3 mx-2 text-gray-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    ></svg>
                 </li>
             </ol>
         </nav>
