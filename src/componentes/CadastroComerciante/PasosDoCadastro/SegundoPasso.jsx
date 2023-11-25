@@ -33,7 +33,7 @@ const SegundoPasso = ({ formData, onNext,onBack, onFormChange })=>{
                     value={formData.logradouro} onChange={(e)=>handleChange('logradouro',e)}
                     name="logradouro"
                     className="mt-1 p-2 w-full border rounded-md"
-                    placeholder="Digite seu logradouro"
+                    placeholder="Av, Rua, etc..."
                     />
                 </div>
 
@@ -47,7 +47,7 @@ const SegundoPasso = ({ formData, onNext,onBack, onFormChange })=>{
                     value={formData.numero} onChange={(e)=>handleChange('numero',e)}
                     name="numero"
                     className="mt-1 p-2 w-full border rounded-md"
-                    placeholder="Digite sua numero"
+                    placeholder="Digite o número do seu endereço"
                     />
                 </div>
 
@@ -61,7 +61,7 @@ const SegundoPasso = ({ formData, onNext,onBack, onFormChange })=>{
                     value={formData.bairro} onChange={(e)=>handleChange('bairro',e)}
                     name="bairro"
                     className="mt-1 p-2 w-full border rounded-md"
-                    placeholder="Digite sua bairro"
+                    placeholder="Digite o nome de seu bairro."
                     />
                 </div>
 
@@ -75,7 +75,7 @@ const SegundoPasso = ({ formData, onNext,onBack, onFormChange })=>{
                     value={formData.cidade} onChange={(e)=>handleChange('cidade',e)}
                     name="cidade"
                     className="mt-1 p-2 w-full border rounded-md"
-                    placeholder="Digite sua cidade"
+                    placeholder="Cidade "
                     />
                 </div>
 
@@ -89,7 +89,7 @@ const SegundoPasso = ({ formData, onNext,onBack, onFormChange })=>{
                     value={formData.estado} onChange={(e)=>handleChange('estado',e)}
                     name="estado"
                     className="mt-1 p-2 w-full border rounded-md"
-                    placeholder="Digite sua estado"
+                    placeholder="Estado"
                     />
                 </div>
                 <div className="w-100 flex justify-between">

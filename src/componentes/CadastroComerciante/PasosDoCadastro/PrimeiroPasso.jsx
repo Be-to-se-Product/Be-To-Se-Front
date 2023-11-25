@@ -35,7 +35,7 @@ const PrimeiroPasso = ({ formData, onNext, onFormChange })=>{
                     value={formData.cpf} onChange={(e)=>handleChange('cpf',e)}
                     name="cpf"
                     className="mt-1 p-2 w-full border rounded-md"
-                    placeholder="Digite seu cpf"
+                    placeholder="Digite seu CPF"
                     />
                 </div>
 
@@ -49,7 +49,7 @@ const PrimeiroPasso = ({ formData, onNext, onFormChange })=>{
                     value={formData.cnpj} onChange={(e)=>handleChange('cnpj',e)}
                     name="cnpj"
                     className="mt-1 p-2 w-full border rounded-md"
-                    placeholder="Digite seu cnpj"
+                    placeholder="Digite o CNPJ da empresa"
                     />
                 </div>
 

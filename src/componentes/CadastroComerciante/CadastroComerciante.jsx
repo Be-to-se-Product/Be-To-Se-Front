@@ -3,6 +3,7 @@ import React,{ useState } from "react";
 import NavbarRoot from "../../componentes/Navbar/NavbarRoot";
 // import BreadCrumbCadastroCliente from "./Breadcrumbs/BreadCrumbCadastroCliente";
 import Breadcrumb from "./Breadcrumbs/Breadcrumb";
+// Informações abaixo essenciais para renderização dos componentes de cadastro
 import PrimeiroPasso from "./PasosDoCadastro/PrimeiroPasso";
 import SegundoPasso from "./PasosDoCadastro/SegundoPasso";
 import TerceiroPasso from "./PasosDoCadastro/TerceiroPasso";
@@ -60,7 +61,7 @@ const CadastroComerciante = () => {
                 {currentStep === 0 && <PrimeiroPasso formData={formData} onNext={handleNext} onFormChange={handleFormChange} />}
                 {currentStep === 1 && <SegundoPasso formData={formData} onNext={handleNext} onBack={handleBack} onFormChange={handleFormChange} />}
                 {currentStep === 2 && <TerceiroPasso formData={formData} onNext={handleNext} onBack={handleBack} onFormChange={handleFormChange}  />}
-                {currentStep === 3 && <UltimoPasso formData={formData} onNext={handleNext} onFormChange={handleFormChange} />}
+                
                 
         </div>
     </div>
