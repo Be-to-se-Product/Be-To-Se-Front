@@ -100,6 +100,12 @@ const PedidosUsuario = () => {
   return (
     <>
       <NavbarRoot.Content>
+        <NavbarRoot.ContentTop>
+          <NavbarRoot.Logo/>
+          <NavbarRoot.Pesquisa/>
+          {sessionStorage.USERDETAILS ? (<Authenticated/>) : (<NavbarRoot.Sign/>)}
+          
+        </NavbarRoot.ContentTop>
         <NavbarRoot.Menu>
           <NavbarRoot.Item></NavbarRoot.Item>
         </NavbarRoot.Menu>

@@ -7,13 +7,11 @@ import shopIcon from "../../assets/shop.svg";
 import datePage from "../../assets/datePage.svg";
 import downIcon from "../../assets/down.svg";
 import { Link, useNavigate } from "react-router-dom";
+import { logout } from "../../utils/utils";
 
 const MenuComerciante = () => {
   const navigate = useNavigate();
-  const logout = () => {
-    sessionStorage.clear();
-    navigate("/");
-  };
+  
   return (
     <aside className="bg-black-900   flex flex-col h-screen min-w-[350px] max-w-[350px]">
       <div className="h-full w-full">
@@ -77,7 +75,7 @@ const MenuComerciante = () => {
 
       <button
         className="w-100 flex px-7 mb-8 cursor-pointer text-xl text-white-principal gap-x-4"
-        onClick={logout}
+        onClick={()=>logout(navigate)}
         type="button"
       >
         <img src={backIcon} alt="" className="w-6" /> Sair

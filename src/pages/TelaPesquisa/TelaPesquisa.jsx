@@ -8,11 +8,17 @@ function TelaPesquisa(props) {
 
     return (
         <div >
-            <NavbarRoot.Content>
-                <NavbarRoot.Menu>
-                    <NavbarRoot.Item></NavbarRoot.Item>
-                </NavbarRoot.Menu>
-            </NavbarRoot.Content>
+  <NavbarRoot.Content>
+        <NavbarRoot.ContentTop>
+          <NavbarRoot.Logo/>
+          <NavbarRoot.Pesquisa/>
+          {sessionStorage.USERDETAILS ? (<Authenticated/>) : (<NavbarRoot.Sign/>)}
+          
+        </NavbarRoot.ContentTop>
+        <NavbarRoot.Menu>
+          <NavbarRoot.Item></NavbarRoot.Item>
+        </NavbarRoot.Menu>
+      </NavbarRoot.Content>
 
             <main className="flex pt-[48px] flex-col items-center gap-[48px]">
                 <main className="flex w-auto flex-col items-center gap-[48px]">

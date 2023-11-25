@@ -14,6 +14,7 @@ import PedidosComerciante from "../pages/PedidosComerciante/PedidosComerciante";
 import PedidosUsuario from "../pages/PedidosUsuario/PedidosUsuario";
 import MapaInterativo from "../pages/MapaInterativo/MapaInterativo";
 import { isPermited } from "../utils/Autheticated";
+import CadastroUsuario from "../pages/CadastroUsuario/CadastroUsuario";
 
 const PrivateRoute = ({ element, usuario, ...rest }) => {
   if (!isPermited(usuario)) {
@@ -77,6 +78,10 @@ const router = createBrowserRouter([
     path: "/mapa",
     element: <MapaInterativo />,
   },
+  {
+    path: "/usuario/cadastro",
+    element: <CadastroUsuario />,
+  }
 ]);
 
 export default router;
