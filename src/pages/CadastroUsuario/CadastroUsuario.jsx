@@ -13,22 +13,33 @@ import {
   removerMascaraTelefone,
 } from "../../utils/formatadores";
 import { criptografar } from "../../utils/Autheticated";
-import { useNavigate } from "react-router-dom";
 
+import {  useNavigate } from "react-router-dom";
 const CadastroUsuario = () => {
   const [stateAtual, setStateAtual] = useState(0);
   const [data, setData] = useState({});
+  const [isAvancar, setIsAvancar] = useState(false);
+  const [isRetroceder, setIsRetroceder] = useState(false);
 
   const navigate = useNavigate();
 
-  const avancar = (data) => {
-    setData((prevState) => ({ ...prevState, ...data }));
-    if (stateAtual < steps.length - 2) {
-      setStateAtual(stateAtual + 1);
+  const avancar = () => {
+    if(steps.length-1 == stateAtual+1) {
+      saveUser(data);
       return;
-    }
-    saveUser(data);
+    };
+      setStateAtual(stateAtual + 1);
+      setIsAvancar(false);
+      
   };
+
+  const saveLocalStorage = (data) => {
+    setData((prevState) => ({ ...prevState, ...data }));
+    if(isAvancar) avancar();
+    if(isRetroceder) retroceder();
+  }
+  
+  
 
   const saveUser = (dataFunction) => {
     const dataMerge = { ...data, ...dataFunction };
@@ -51,7 +62,7 @@ const CadastroUsuario = () => {
       .post("/consumidores", dataRequest)
       .then((response) => {
         if (response.status == 201) {
-          sessionStorage.setItem("USERDETAILS", criptografar(response.data));
+          sessionStorage.setItem("USERDETAILS", criptografar(JSON.stringify(response.data)));
           setStateAtual(stateAtual + 1);
 
           setTimeout(() => {
@@ -66,20 +77,21 @@ const CadastroUsuario = () => {
 
   const retroceder = () => {
     setStateAtual(stateAtual - 1);
+    setIsRetroceder(false);
   };
 
   const steps = [
-    <Step1 getDataForm={avancar} data={data}>
+    <Step1 getDataForm={saveLocalStorage} data={data}>
       <div className="flex w-10/12 mx-auto justify-center mt-8 gap-x-5">
-        <Button>Avançar</Button>
+        <Button onClick={()=>setIsAvancar(true)}>Avançar</Button>
       </div>
     </Step1>,
-    <Step2 getDataForm={avancar} data={data}>
+    <Step2 getDataForm={saveLocalStorage} data={data}>
       <div className="flex w-10/12 mx-auto justify-center mt-8 gap-x-5">
-        <Button type="button" onClick={retroceder}>
+        <Button  onClick={()=>setIsRetroceder(true)}>
           Retroceder
         </Button>
-        <Button>Cadastrar</Button>
+        <Button onClick={()=>setIsAvancar(true)}>Cadastrar</Button>
       </div>
     </Step2>,
     <div className="flex flex-col w-9/12 mx-auto justify-center items-center mt-20 gap-y-5 bg-white-principal py-20 rounded">

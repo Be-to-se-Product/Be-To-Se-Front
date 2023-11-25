@@ -31,11 +31,12 @@ const Login = () => {
       .then((resposta) => {
         toast.dismiss(loading);
         if (resposta.data.error) {
+          console.log("Entrou aqui");
           toast.error(resposta.data.message);
           return;
         }
       const usuario = resposta.data;
-        sessionStorage.setItem("USERDETAILS", criptografar(JSON.stringify(usuario)));
+        sessionStorage.USERDETAILS= criptografar(JSON.stringify(usuario));
         toast.success("Seu login foi realizado com sucesso!",{autoClose:2000});
         setTimeout(() => {
 

@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import InputRoot from "../../../componentes/Input/InputRoot";
 import { validarEmail } from "../../../utils/validadores";
 
 const Step2 = ({ getDataForm,children,data}) => {
   const { register, formState, handleSubmit,getValues } = useForm();
+
+useEffect(()=>console.log(data),[])
 
   const getData = (data) => {
     getDataForm(data);
@@ -38,6 +40,7 @@ const Step2 = ({ getDataForm,children,data}) => {
     <form
       className={`flex flex-col gap-y-4 bg-white-principal p-10 rounded-sm `}
       onSubmit={handleSubmit(getData)}
+        autocomplete={"off"}
     >
       <div>
         <InputRoot.Input
@@ -84,6 +87,7 @@ const Step2 = ({ getDataForm,children,data}) => {
             message[formState?.errors?.confSenha?.type]}
         </span>
       </div>
+      
      {children}
     </form>
   );
