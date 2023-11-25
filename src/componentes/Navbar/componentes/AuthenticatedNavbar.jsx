@@ -4,7 +4,7 @@ import { logout } from '../../../utils/utils'
 import { ArrowDropDown, ArrowDropDownCircle, DownhillSkiing } from '@mui/icons-material'
 import { descriptografar } from '../../../utils/Autheticated'
 import {useNavigate} from 'react-router-dom'
-const Authenticated = () => {
+const AuthenticatedNavbar = () => {
     const navigate = useNavigate();
     const dadosUsuario = JSON.parse(descriptografar(sessionStorage.getItem('USERDETAILS')));
     useEffect(()=>{
@@ -30,4 +30,4 @@ const Authenticated = () => {
   )
 }
 
-export default Authenticated
+export default AuthenticatedNavbar

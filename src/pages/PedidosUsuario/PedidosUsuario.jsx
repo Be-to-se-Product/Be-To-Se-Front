@@ -103,7 +103,7 @@ const PedidosUsuario = () => {
         <NavbarRoot.ContentTop>
           <NavbarRoot.Logo/>
           <NavbarRoot.Pesquisa/>
-          {sessionStorage.USERDETAILS ? (<Authenticated/>) : (<NavbarRoot.Sign/>)}
+          {sessionStorage.USERDETAILS ? (<NavbarRoot.Authenticated/>) : (<NavbarRoot.Sign/>)}
           
         </NavbarRoot.ContentTop>
         <NavbarRoot.Menu>

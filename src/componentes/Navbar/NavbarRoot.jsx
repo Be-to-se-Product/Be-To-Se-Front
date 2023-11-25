@@ -5,6 +5,7 @@ import SignNavbar from "./componentes/SignNavbar";
 import LogoNavbar from "./componentes/LogoNavbar";
 import ContentTopNavbar from "./componentes/ContentTopNavbar";
 import PesquisaNavbar from "./componentes/PesquisaNavbar";
+import AuthenticatedNavbar from "./componentes/AuthenticatedNavbar";
 
 
 const NavbarRoot =  {
@@ -15,7 +16,8 @@ const NavbarRoot =  {
     Sign:SignNavbar,
     Logo:LogoNavbar,
     ContentTop:ContentTopNavbar,
-    Pesquisa:PesquisaNavbar
+    Pesquisa:PesquisaNavbar,
+    Authenticated:AuthenticatedNavbar,
   
 };
 
