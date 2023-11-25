@@ -1,54 +1,115 @@
 import React from "react";
 
-function SegundoPasso(){
+const SegundoPasso = ({ formData, onNext,onBack, onFormChange })=>{
+
+    const handleChange = (field, event) => {
+        onFormChange(field, event.target.value);
+        };
     return(
         <>
+            <h3>Endereço : <br /> <br /></h3>
             <form>
                 <div className="mb-4">
-                    <label htmlFor="nome" className="block text-sm font-medium text-gray-600">
-                    Nome:
+                    <label htmlFor="cep" className="block text-sm font-medium text-gray-600">
+                    CEP:
                     </label>
                     <input
                     type="text"
-                    id="nome"
-                    name="nome"
+                    id="cep"
+                    value={formData.cep} onChange={(e)=>handleChange('cep',e)}
+                    name="cep"
                     className="mt-1 p-2 w-full border rounded-md"
-                    placeholder="Digite seu nome"
+                    placeholder="Digite seu cep"
                     />
                 </div>
 
                 <div className="mb-4">
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-600">
-                    Email:
+                    <label htmlFor="logradouro" className="block text-sm font-medium text-gray-600">
+                    Logradouro:
                     </label>
                     <input
-                    type="email"
-                    id="email"
-                    name="email"
+                    type="text"
+                    id="logradouro"
+                    value={formData.logradouro} onChange={(e)=>handleChange('logradouro',e)}
+                    name="logradouro"
                     className="mt-1 p-2 w-full border rounded-md"
-                    placeholder="Digite seu email"
+                    placeholder="Digite seu logradouro"
                     />
                 </div>
 
                 <div className="mb-6">
-                    <label htmlFor="senha" className="block text-sm font-medium text-gray-600">
-                    Senha:
+                    <label htmlFor="numero" className="block text-sm font-medium text-gray-600">
+                    Número:
                     </label>
                     <input
-                    type="password"
-                    id="senha"
-                    name="senha"
+                    type="text"
+                    id="numero"
+                    value={formData.numero} onChange={(e)=>handleChange('numero',e)}
+                    name="numero"
                     className="mt-1 p-2 w-full border rounded-md"
-                    placeholder="Digite sua senha"
+                    placeholder="Digite sua numero"
                     />
                 </div>
 
-                <button
-                    type="submit"
-                    className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
-                >
-                    Cadastrar
-                </button>
+                <div className="mb-6">
+                    <label htmlFor="bairro" className="block text-sm font-medium text-gray-600">
+                    Bairro:
+                    </label>
+                    <input
+                    type="text"
+                    id="bairro"
+                    value={formData.bairro} onChange={(e)=>handleChange('bairro',e)}
+                    name="bairro"
+                    className="mt-1 p-2 w-full border rounded-md"
+                    placeholder="Digite sua bairro"
+                    />
+                </div>
+
+                <div className="mb-6">
+                    <label htmlFor="cidade" className="block text-sm font-medium text-gray-600">
+                    Cidade:
+                    </label>
+                    <input
+                    type="text"
+                    id="cidade"
+                    value={formData.cidade} onChange={(e)=>handleChange('cidade',e)}
+                    name="cidade"
+                    className="mt-1 p-2 w-full border rounded-md"
+                    placeholder="Digite sua cidade"
+                    />
+                </div>
+
+                <div className="mb-6">
+                    <label htmlFor="estado" className="block text-sm font-medium text-gray-600">
+                    Estado:
+                    </label>
+                    <input
+                    type="text"
+                    id="estado"
+                    value={formData.estado} onChange={(e)=>handleChange('estado',e)}
+                    name="estado"
+                    className="mt-1 p-2 w-full border rounded-md"
+                    placeholder="Digite sua estado"
+                    />
+                </div>
+                <div className="w-100 flex justify-between">
+
+                    <button
+                        type="submit"
+                        className="w-100 text-sm px-4 py-2 h-full font-semibold rounded border border-orange-400  hover:bg-orange-principal hover:text-white-principal transition-all undefined"
+                        onClick={onBack}
+                    >   
+                        Voltar
+                    </button>
+                    <button
+                        type="submit"
+                        className="w-100 text-sm px-4 py-2 h-full font-semibold rounded border border-orange-400  hover:bg-orange-principal hover:text-white-principal transition-all undefined"
+                        onClick={onNext}
+                    >   
+                        Próximo
+                    </button>
+                
+                </div>
             
             </form>
         </>

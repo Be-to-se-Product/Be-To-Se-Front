@@ -5,7 +5,7 @@ import GerenciamentoProdutos from "../pages/GerenciamentoProdutos/GerenciamentoP
 import TelaInicial from "../pages/TelaInicial/TelaInicial";
 import TelaPesquisa from "../pages/TelaPesquisa/TelaPesquisa";
 
-import BreadCrumbCadastroCliente from "../componentes/CadastroComerciante/BreadCrumbCadastroCliente";
+import BreadCrumbCadastroCliente from "../componentes/CadastroComerciante/Breadcrumbs/BreadCrumbCadastroCliente";
 import CadastroComerciante from "../componentes/CadastroComerciante/CadastroComerciante";
 import GerenciamentoLoja from "../pages/GerencimentoLojas/GerenciamentoLoja";
 import HistoricoVendas from "../pages/HistoricoVendas/HistoricoVendas";
