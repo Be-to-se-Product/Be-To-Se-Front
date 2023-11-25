@@ -15,6 +15,7 @@ import {
 import { criptografar } from "../../utils/Autheticated";
 
 import {  useNavigate } from "react-router-dom";
+import NavbarRoot from "../../componentes/Navbar/NavbarRoot";
 const CadastroUsuario = () => {
   const [stateAtual, setStateAtual] = useState(0);
   const [data, setData] = useState({});
@@ -106,11 +107,17 @@ const CadastroUsuario = () => {
 
   return (
     <>
-      <Navbar.Content>
-        <Navbar.Menu>
-          <Navbar.Item />
-        </Navbar.Menu>
-      </Navbar.Content>
+      <NavbarRoot.Content>
+        <NavbarRoot.ContentTop>
+          <NavbarRoot.Logo/>
+          <NavbarRoot.Pesquisa/>
+          {sessionStorage.USERDETAILS ? (<Authenticated/>) : (<NavbarRoot.Sign/>)}
+          
+        </NavbarRoot.ContentTop>
+        <NavbarRoot.Menu>
+          <NavbarRoot.Item></NavbarRoot.Item>
+        </NavbarRoot.Menu>
+      </NavbarRoot.Content>
 
       <main className="w-full h-[89vh] bg-black-200 flex justify-center ">
         <div className={`w-2/5  px-10 py-10 `}>
