@@ -1,5 +1,8 @@
-const validarCpf = (value) => {
-  cpf = cpf.replace(/\D/g, "");
+import { removerMascaraCpf } from "./formatadores";
+
+export const validarCpf = (value) => {
+  let cpf = removerMascaraCpf(value);
+  console.log(cpf);
 
   if (cpf.length !== 11) {
     return false;
@@ -31,3 +34,10 @@ const validarCpf = (value) => {
 
   return true;
 };
+
+export const validarEmail = (value) => {
+  const emailRegex = new RegExp(
+    "^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$"
+  );
+  return emailRegex.test(value);
+}
