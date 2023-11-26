@@ -12,7 +12,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CardOfertaCocaCola from "./componentes/CardOfertaCocaCola";
 import CardProdutoIphone from "./componentes/CardProdutoIphone";
-import Authenticated from "../../componentes/Navbar/componentes/Authenticated";
+
 
 function TelaInicial(props) {
   const settings = {
