@@ -38,6 +38,7 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
         imagens: {
           ...prev.imagens,
           [id]: imagem,
+          //[id] : e.target.files[0],
         },
       }));
     });
@@ -60,7 +61,7 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
       })
       .catch((err) => {
         fecharModal();
-        toast.error(MENSAGENS.usuarios[err.message]);
+        //toast.error(MENSAGENS.usuarios[err.message]);
       });
   };
 
@@ -78,7 +79,7 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
       })
       .catch((err) => {
         fecharModal();
-        toast(MENSAGENS.usuarios[err.message]);
+        //toast(MENSAGENS.usuarios[err.message]);
       });
   };
 
@@ -93,16 +94,18 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
     produto.tag = [...productDetails.tag];    
 
     let requestBody = new FormData()
-    requestBody.append('imagem', produto.imagens[0])
-    requestBody.append('produto', JSON.stringify(requestBody.append('imagem', produto.imagens[0])))
+
+    requestBody.append('imagens', produto.imagens[0])
+    requestBody.append('produto', JSON.stringify(produto))
     
+    console.log("requestBody")
     console.log(requestBody)
 
     api
       .post("/produtos ", requestBody)
       .then((res) => {
         getProdutos();
-        toast.success("Produto adicionado com sucesso!");
+        //toast.success("Produto adicionado com sucesso!");
         console.log(res.data)
         fecharModal();
       })

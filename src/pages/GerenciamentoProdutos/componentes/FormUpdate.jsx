@@ -18,9 +18,9 @@ const FormUpdate = ({ fecharModal, getProdutos, setState,produto }) => {
     tag: [],
   });
 
-  const { register, handleSubmit } = useForm();
+const { register, handleSubmit } = useForm();
 
-  const idEstabelecimento = descriptografar(sessionStorage.getItem("ID"));
+const idEstabelecimento = descriptografar(sessionStorage.getItem("ID"));
 
 const [productDetails,setProductDetails] = useState({
   imagens:{
@@ -48,19 +48,40 @@ const [productDetails,setProductDetails] = useState({
 
   useEffect(() => {
     getSessao();
+    getTag();
   }, []);
 
   const handleImageChange = (e, id) => {
-    converterInputImageToBase64(e, (objeto) => {
-      const { imagem } = objeto;
+    // converterInputImageToBase64(e, (objeto) => {
+    //   const { imagem } = objeto;
       setProductDefault((prev) => ({
         ...prev,
         imagens: {
           ...prev.imagens,
-          [id]: imagem,
+          //[id]: imagem,
+          [id]: e.target.files[0],
         },
       }));
-    });
+    //});
+  };
+
+  const getTag = () => {
+    api
+      .get("/tags")
+      .then((res) => {
+        if (res.status == 200) {
+          setInfoBanco((prev) => {
+            const copy = { ...prev };
+            copy.tag = res.data;
+            console.log(res.data)
+            return { ...copy };
+          });
+        }
+      })
+      .catch((err) => {
+        fecharModal();
+        //toast.error(MENSAGENS.usuarios[err.message]);
+      });
   };
 
   const getSessao = () => {
@@ -181,7 +202,45 @@ const [productDetails,setProductDetails] = useState({
                     <MenuItem value={"Utensilhos"}>Utensilhos</MenuItem>
                   </Select>
                 </div>
-                <div className="flex  w-full flex-col gap-x-2">
+
+              </div>
+
+              <div className="w-1/2 flex flex-col gap-y-4 ">
+                <div className="flex flex-col w-full">
+                  <InputRoot.Label>Seção da Loja</InputRoot.Label>
+                  <Select
+                    className="h-[42px]"
+                    id="demo-simple-select"
+                    defaultValue={productDefault.secao.id}
+                    {...register("secao")}
+                   
+                  >
+                    {infoBanco.sessoes.map((option) => (
+                      <MenuItem key={option.id} value={option.id}>
+                        {option.descricao}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </div>
+
+                <div className="flex flex-col">
+                  <InputRoot.Input
+                    nome={"Categoria"}
+                    register={register("codigoSku")}
+                    defaultValue={productDefault.codigoSku}
+                  >
+                    <InputRoot.Label>Código SKU</InputRoot.Label>
+                  </InputRoot.Input>
+                </div>
+                <InputRoot.Input
+                  defaultValue={productDefault.codigoBarras}
+                  register={register("codigoBarras")}
+                >
+                  <InputRoot.Label>Código de barras</InputRoot.Label>
+                </InputRoot.Input>
+              </div>
+            </div>
+            <div className="flex  w-full flex-col gap-x-2">
                   <InputRoot.Label>
                     tag ({productDetails.tag?.length}/5)
                   </InputRoot.Label>
@@ -224,43 +283,6 @@ const [productDetails,setProductDetails] = useState({
                     sx={{ width: "full", height: "42px" }}
                   />
                 </div>
-              </div>
-
-              <div className="w-1/2 flex flex-col gap-y-4 ">
-                <div className="flex flex-col w-full">
-                  <InputRoot.Label>Seção da Loja</InputRoot.Label>
-                  <Select
-                    className="h-[42px]"
-                    id="demo-simple-select"
-                    defaultValue={productDefault.secao.id}
-                    {...register("secao")}
-                   
-                  >
-                    {infoBanco.sessoes.map((option) => (
-                      <MenuItem key={option.id} value={option.id}>
-                        {option.descricao}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </div>
-
-                <div className="flex flex-col">
-                  <InputRoot.Input
-                    nome={"Categoria"}
-                    register={register("codigoSku")}
-                    defaultValue={productDefault.codigoSku}
-                  >
-                    <InputRoot.Label>Código SKU</InputRoot.Label>
-                  </InputRoot.Input>
-                </div>
-                <InputRoot.Input
-                  defaultValue={productDefault.codigoBarras}
-                  register={register("codigoBarras")}
-                >
-                  <InputRoot.Label>Código de barras</InputRoot.Label>
-                </InputRoot.Input>
-              </div>
-            </div>
 
             <div className="flex gap-x-4">
               <button

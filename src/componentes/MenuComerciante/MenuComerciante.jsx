@@ -17,13 +17,13 @@ const MenuComerciante = () => {
   const [user, setUser] = useState({}); 
   const [logoEstabelecimento, setLogo] = useState(logo);
   console.log(idEstabelecimento);
-  toast.loading("Carregando...");
+  //toast.loading("Carregando...");
 
   const getEstabelecimento = () => {
     api
       .get("/estabelecimentos/" + idEstabelecimento)
       .then((resposta) => {
-        toast.dismiss();
+        //toast.dismiss();
 
         setUser(resposta.data);
         setLogo("data:image/jpeg;base64," + resposta.data.imagens[0])
