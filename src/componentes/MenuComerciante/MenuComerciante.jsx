@@ -13,10 +13,10 @@ import { ToastContainer, toast } from "react-toastify";
 
 const MenuComerciante = () => {
 
-  const idEstabelecimento = descriptografar(sessionStorage.getItem("ID"));
+  const idEstabelecimento = 1;
   const [user, setUser] = useState({}); 
   const [logoEstabelecimento, setLogo] = useState(logo);
-  console.log(idEstabelecimento);
+
   //toast.loading("Carregando...");
 
   const getEstabelecimento = () => {
@@ -24,7 +24,6 @@ const MenuComerciante = () => {
       .get("/estabelecimentos/" + idEstabelecimento)
       .then((resposta) => {
         //toast.dismiss();
-
         setUser(resposta.data);
         setLogo("data:image/jpeg;base64," + resposta.data.imagens[0])
         console.log(resposta.data);

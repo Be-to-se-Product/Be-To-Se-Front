@@ -36,11 +36,6 @@ const Login = () => {
         }
       const usuario = resposta.data;
 
-        sessionStorage.setItem("ID", criptografar(usuario.id));
-        sessionStorage.setItem("TIPO_USUARIO", criptografar(usuario.tipoUsuario));
-        sessionStorage.setItem("TOKEN", criptografar(usuario.token));
-
-
         sessionStorage.setItem("USERDETAILS", criptografar(JSON.stringify(usuario)));
         toast.success("Seu login foi realizado com sucesso!",{autoClose:2000});
         setTimeout(() => {  

@@ -7,13 +7,7 @@ import Button from "../../componentes/Button/Button";
 import {
   MenuItem,
   Pagination,
-  Select,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
+  Select
 } from "@mui/material";
 import ModalPedidos from "./componentes/ModalPedidos";
 import TableRoot from "../../componentes/Table/TableRoot";

@@ -54,7 +54,7 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
           setInfoBanco((prev) => {
             const copy = { ...prev };
             copy.tag = res.data;
-            console.log(res.data)
+            console.log(res.data);
             return { ...copy };
           });
         }
@@ -83,31 +83,38 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
       });
   };
 
+
+  const salvarImagens = (imagens,idProduto) => {
+
+    requestBody.append("imagens", imagens);
+    api.post("/produtos/imagens/"+idProduto, imagens)
+    .then((res) => {
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  };
+
   const adicionarProduto = (data) => {
     const produto = {
       ...data,
       //...productDetails.imagens
     };
 
+    delete produto.imagem1;
+    delete produto.imagem2;
+    delete produto.imagem3;
+    delete produto.imagem4;
 
-    produto.imagens = Object.values(productDetails.imagens);
-    produto.tag = [...productDetails.tag];    
-
-    let requestBody = new FormData()
-
-    requestBody.append('imagens', produto.imagens[0])
-    requestBody.append('produto', JSON.stringify(produto))
+    produto.tag = [...productDetails.tag];
     
-    console.log("requestBody")
-    console.log(requestBody)
-
     api
-      .post("/produtos ", requestBody)
+      .post("/produtos ", produto)
       .then((res) => {
         getProdutos();
-        //toast.success("Produto adicionado com sucesso!");
-        console.log(res.data)
-        fecharModal();
+        toast.success("Produto adicionado com sucesso!");
+        salvarImagens(data.imagem1,res.data.id);
       })
       .catch((err) => {
         console.log(err.status);
@@ -139,7 +146,6 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
           </StepperRoot.Step>
         </StepperRoot.Content>
 
-     
         <form
           className="flex flex-col items-center w-full"
           onSubmit={handleSubmit(adicionarProduto)}
@@ -188,7 +194,6 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
                     <MenuItem value={"Utensilhos"}>Utensilhos</MenuItem>
                   </Select>
                 </div>
-                
               </div>
 
               <div className="w-1/2 flex flex-col gap-y-4 ">
@@ -197,7 +202,6 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
                   <Select
                     className="h-[42px]"
                     id="demo-simple-select"
-                    
                     {...register("secao")}
                   >
                     {infoBanco.sessoes.map((option) => (
@@ -225,43 +229,43 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
               </div>
             </div>
             <div className="flex  w-full flex-col gap-x-2">
-                  <InputRoot.Label>
-                    Tag ({productDetails.tag?.length}/5)
-                  </InputRoot.Label>
-                  <Autocomplete
-                    multiple
-                    size="small"
-                    limittag={5}
-                    className="w-full"
-                    id="multiple-limit-tag"
-                    options={infoBanco.tag.map((option) => option.descricao)}
-                    getOptionLabel={(option) => option}
-                    onChange={(event, newValue) => {
-                      setProductDetails((prev) => {
-                        const valor = [...newValue];
-                        const copy = { ...prev };
-                        //Copilot: Preciso pegar a tag e achar o id dela
-                        const tagId = valor.map((element) => {
-                          const tagId = infoBanco.tag.find(
-                            (tag) => tag.descricao === element
-                          );
-                          if (tagId) {
-                            return tagId.id
-                          }
-                          return { valor };
-                        });
+              <InputRoot.Label>
+                Tag ({productDetails.tag?.length}/5)
+              </InputRoot.Label>
+              <Autocomplete
+                multiple
+                size="small"
+                limittag={5}
+                className="w-full"
+                id="multiple-limit-tag"
+                options={infoBanco.tag.map((option) => option.descricao)}
+                getOptionLabel={(option) => option}
+                onChange={(event, newValue) => {
+                  setProductDetails((prev) => {
+                    const valor = [...newValue];
+                    const copy = { ...prev };
+                    //Copilot: Preciso pegar a tag e achar o id dela
+                    const tagId = valor.map((element) => {
+                      const tagId = infoBanco.tag.find(
+                        (tag) => tag.descricao === element
+                      );
+                      if (tagId) {
+                        return tagId.id;
+                      }
+                      return { valor };
+                    });
 
-                        copy.tag = tagId;
-                        console.log(copy.tag);
-                        return { ...copy };
-                      });
-                    }}
-                    renderInput={(params) => {
-                      return <TextField {...params} placeholder="Favorites" />;
-                    }}
-                    sx={{ width: "full", height: "42px" }}
-                  />
-                </div>
+                    copy.tag = tagId;
+                    console.log(copy.tag);
+                    return { ...copy };
+                  });
+                }}
+                renderInput={(params) => {
+                  return <TextField {...params} placeholder="Favorites" />;
+                }}
+                sx={{ width: "full", height: "42px" }}
+              />
+            </div>
 
             <div className="flex gap-x-4">
               <button
@@ -295,6 +299,7 @@ const FormUpdate = ({ fecharModal, getProdutos, setState }) => {
                   type="file"
                   className="h-full w-full absolute top-0 opacity-0 "
                   onChange={(e) => handleImageChange(e, "imagem1")}
+                  {...register("imagem1")}
                 />
               </div>
               <div className="flex gap-x-4 rounded">
