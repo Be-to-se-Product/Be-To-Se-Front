@@ -5,6 +5,7 @@ import { ArrowDropDown, ArrowDropDownCircle, DownhillSkiing } from '@mui/icons-m
 import { descriptografar } from '../../../utils/Autheticated'
 import {useNavigate} from 'react-router-dom'
 const AuthenticatedNavbar = () => {
+    const tipoUsuario = JSON.parse(descriptografar(sessionStorage.getItem('USERDETAILS')))?.tipoUsuario;
     const navigate = useNavigate();
     const dadosUsuario = JSON.parse(descriptografar(sessionStorage.getItem('USERDETAILS')));
     useEffect(()=>{
@@ -19,7 +20,13 @@ const AuthenticatedNavbar = () => {
        <ArrowDropDownCircle onClick={()=>setIsShow(!isShow)}/>
         <div className={`text-base absolute left-[-20px] top-10 w-max z-10 bg-white-principal text-black-900 rounded px-3 py-3 border ${!isShow && "hidden"} `}>
             <ul className='flex flex-col gap-y-2 '>
-                <li><Link to={"/usuario/pedidos"} className='cursor-pointer'>Compras</Link></li>
+                {
+                
+                tipoUsuario?.toLowerCase() == "consumidor" && (<li><Link to={"/usuario/pedidos"} className='cursor-pointer'>Compras</Link></li>)}
+                {
+                tipoUsuario?.toLowerCase() == "comerciante" && (<li><Link to={"/comerciante/lojas"} className='cursor-pointer'>Minhas Lojas</Link></li>)
+                }
+
                 <li><Link to={"/usuario/pedidos"} className='cursor-pointer'>Dados Cadastrais </Link></li>
                 <li onClick={()=>logout(navigate)} className='cursor-pointer'>Sair</li>
             </ul>
