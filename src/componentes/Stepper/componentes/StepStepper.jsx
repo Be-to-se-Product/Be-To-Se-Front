@@ -2,12 +2,6 @@ import React, { useEffect } from "react";
 
 const StepStepper = (props) => {
 
-  useEffect(() => {
-    console.log(props.number);
-    console.log(props.stateAtual);
-    console.log(props.number==props.stateAtual);
-  }
-  ,[]) 
   return (
     <>
       <div className="flex flex-col justify-center items-center z-[2] relative">
