@@ -154,7 +154,6 @@ const GerenciamentoProdutos = () => {
   }
 
   useEffect(() => {
-
     getProdutos();
   }, []);
 
