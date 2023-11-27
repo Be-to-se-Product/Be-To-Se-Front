@@ -85,8 +85,6 @@ function DadosComerciante() {
       console.error(error);
     }
   };
-  
-  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -108,7 +106,6 @@ function DadosComerciante() {
     });
   };
   
-
   useEffect(() => {
     const userDetailsCrypt = descriptografar(sessionStorage?.USERDETAILS);
     console.log(userDetailsCrypt);

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import arrow from "../../assets/arrow.svg";
 import pix from "../../assets/pix.png"
 import carrinho from "../../assets/pedido_feito.png"
+import {descriptografar} from "../../utils/Autheticated"
 
 function Compra() {
     const [showOverlay, setShowOverlay] = useState(false);
@@ -11,6 +12,7 @@ function Compra() {
     const [showMetodosAceito, setShowMetodosAceito] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
     const [showDivOverlay, setDivOverlay] = useState(true);
+    const [userId, setUserId] = useState(null);
 
     const handleOptionChange = (option) => {
         setSelectedOption(option);
@@ -56,8 +58,14 @@ function Compra() {
         justifyContent: 'space-around',
         alignItems: 'center',
         width: '100%',
-      };
+    };
 
+    useEffect(() => {
+        const userDetailsCrypt = descriptografar(sessionStorage?.USERDETAILS);
+        console.log(userDetailsCrypt);
+        const { id } = JSON.parse(userDetailsCrypt);
+        setUserId(id);
+    }, []);
 
     return (
         <div className="flex flex-row">
