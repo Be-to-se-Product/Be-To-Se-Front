@@ -1,6 +1,17 @@
 import React from "react";
 
 const SegundoPasso = ({ formData, onNext,onBack, onFormChange })=>{
+    const formatCEP = (value) => {
+        // Remove caracteres não numéricos
+        const onlyNumbers = value.replace(/[^\d]/g, '');
+
+        // Formatação dinâmica enquanto o usuário digita
+        if (onlyNumbers.length <= 5) {
+            return onlyNumbers;
+        } else {
+            return `${onlyNumbers.slice(0, 5)}-${onlyNumbers.slice(5,8)}`;
+        }
+        };
 
     const handleChange = (field, event) => {
         onFormChange(field, event.target.value);
@@ -16,7 +27,7 @@ const SegundoPasso = ({ formData, onNext,onBack, onFormChange })=>{
                     <input
                     type="text"
                     id="cep"
-                    value={formData.cep} onChange={(e)=>handleChange('cep',e)}
+                    value={formatCEP(formData.cep)} onChange={(e)=>handleChange('cep',e)}
                     name="cep"
                     className="mt-1 p-2 w-full border rounded-md"
                     placeholder="Digite seu cep"

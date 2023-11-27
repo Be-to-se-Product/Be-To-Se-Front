@@ -12,6 +12,7 @@ const CadastroComerciante = () => {
     const [currentStep, setCurrentStep] = useState(0);
     const [formData, setFormData] = useState({
         cnpj: '',
+        cpf:'',
         razaoSocial: '',
         telefone: '',
         tipoEmpresa: '',
@@ -48,9 +49,15 @@ const CadastroComerciante = () => {
         <div className=" flex flex-col items-center justify-center">
 
         <NavbarRoot.Content>
-            <NavbarRoot.Menu>
-                <NavbarRoot.Item></NavbarRoot.Item>
-            </NavbarRoot.Menu>
+        <NavbarRoot.ContentTop>
+            <NavbarRoot.Logo/>
+            <NavbarRoot.Pesquisa/>
+            {/* {sessionStorage.USERDETAILS ? (<NavbarRoot.Authenticated/>) : (<NavbarRoot.Sign/>)} */}
+
+        </NavbarRoot.ContentTop>
+        <NavbarRoot.Menu>
+            <NavbarRoot.Item></NavbarRoot.Item>
+        </NavbarRoot.Menu>
         </NavbarRoot.Content>
         
             <div className="m-6 bg-white p-10 rounded shadow-md w-100 mx-auto">

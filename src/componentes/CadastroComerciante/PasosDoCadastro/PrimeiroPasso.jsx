@@ -2,11 +2,71 @@ import React from "react";
 
 
 const PrimeiroPasso = ({ formData, onNext, onFormChange })=>{
+    //Inclusão de máscaras para melhor exibição dos dados.
+    const formatCPF = (value) => {
+        // Remove caracteres não numéricos
+        const onlyNumbers = value.replace(/[^\d]/g, '');
+
+        // Formatação dinâmica enquanto o usuário digita
+        if (onlyNumbers.length <= 3) {
+            return onlyNumbers;
+        } else if (onlyNumbers.length <= 6) {
+            return `${onlyNumbers.slice(0, 3)}.${onlyNumbers.slice(3)}`;
+        } else if (onlyNumbers.length <= 9) {
+            return `${onlyNumbers.slice(0, 3)}.${onlyNumbers.slice(3, 6)}.${onlyNumbers.slice(6)}`;
+        } else {
+            return `${onlyNumbers.slice(0, 3)}.${onlyNumbers.slice(3, 6)}.${onlyNumbers.slice(6, 9)}-${onlyNumbers.slice(9,11)}`;
+        }
+    };
+
+    const formatCNPJ = (value) => {
+        // Remove caracteres não numéricos
+        const onlyNumbers = value.replace(/[^\d]/g, '');
+
+        // Formatação dinâmica enquanto o usuário digita
+        if (onlyNumbers.length <= 2) {
+            return onlyNumbers;
+        } else if (onlyNumbers.length <= 5) {
+            return `${onlyNumbers.slice(0, 2)}.${onlyNumbers.slice(2)}`;
+        } else if (onlyNumbers.length <= 8) {
+            return `${onlyNumbers.slice(0, 2)}.${onlyNumbers.slice(2, 5)}.${onlyNumbers.slice(5)}`;
+        } else if (onlyNumbers.length <= 12) {
+            return `${onlyNumbers.slice(0, 2)}.${onlyNumbers.slice(2, 5)}.${onlyNumbers.slice(5, 8)}/${onlyNumbers.slice(8)}`;
+        } else {
+            return `${onlyNumbers.slice(0, 2)}.${onlyNumbers.slice(2, 5)}.${onlyNumbers.slice(5, 8)}/${onlyNumbers.slice(8, 12)}-${onlyNumbers.slice(12,14)}`;
+        }
+    };
+
+    const formatTelefone = (value) => {
+        // Remove caracteres não numéricos
+        const onlyNumbers = value.replace(/[^\d]/g, '');
+
+        // Formatação dinâmica enquanto o usuário digita
+        if (onlyNumbers.length <= 2) {
+            return onlyNumbers;
+        } else if (onlyNumbers.length <= 6) {
+            return `(${onlyNumbers.slice(0, 2)}) ${onlyNumbers.slice(2)}`;
+        } else if (onlyNumbers.length <= 10) {
+            return `(${onlyNumbers.slice(0, 2)}) ${onlyNumbers.slice(2, 6)}-${onlyNumbers.slice(6)}`;
+        } else {
+          // Você pode adicionar mais formatações conforme necessário
+            return `(${onlyNumbers.slice(0, 2)}) ${onlyNumbers.slice(2, 6)}-${onlyNumbers.slice(6, 11)}`;
+        }
+    };
 
     const handleChange = (field, event) => {
         onFormChange(field, event.target.value);
         };
         console.log('Estado formData em PrimeiroPasso:', formData);
+
+    const handleChangeCPF = (e) => {
+        // Remover traços e pontos antes de chamar a função handleChange
+        const valueSemMascara = e.target.value.replace(/[.-]/g, '');
+    
+        // Chama a função handleChange com o valor sem máscara
+        handleChange('cpf', valueSemMascara);
+        };
+
     return(
         <>
             <h3>Dados empresariais: <br /> <br /></h3>
@@ -32,7 +92,7 @@ const PrimeiroPasso = ({ formData, onNext, onFormChange })=>{
                     <input
                     type="text"
                     id="cpf"
-                    value={formData.cpf} onChange={(e)=>handleChange('cpf',e)}
+                    value={formatCPF(formData.cpf)} onChange={(e)=>handleChange('cpf',e)}
                     name="cpf"
                     className="mt-1 p-2 w-full border rounded-md"
                     placeholder="Digite seu CPF"
@@ -46,10 +106,24 @@ const PrimeiroPasso = ({ formData, onNext, onFormChange })=>{
                     <input
                     type="text"
                     id="cnpj"
-                    value={formData.cnpj} onChange={(e)=>handleChange('cnpj',e)}
+                    value={formatCNPJ(formData.cnpj)} onChange={(e)=>handleChange('cnpj',e)}
                     name="cnpj"
                     className="mt-1 p-2 w-full border rounded-md"
                     placeholder="Digite o CNPJ da empresa"
+                    />
+                </div>
+
+                <div className="mb-6">
+                    <label htmlFor="telefone" className="block text-sm font-medium text-gray-600">
+                    Telefone / Celular:
+                    </label>
+                    <input
+                    type="text"
+                    id="telefone"
+                    value={formatTelefone(formData.telefone)} onChange={(e)=>handleChange('telefone',e)}
+                    name="telefone"
+                    className="mt-1 p-2 w-full border rounded-md"
+                    placeholder="Digite o telefone da empresa"
                     />
                 </div>
 
