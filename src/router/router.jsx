@@ -4,6 +4,11 @@ import GerenciamentoProdutos from "../pages/GerenciamentoProdutos/GerenciamentoP
 
 import TelaInicial from "../pages/TelaInicial/TelaInicial";
 import TelaPesquisa from "../pages/TelaPesquisa/TelaPesquisa";
+import TelaProduto from "../pages/TelaProduto/TelaProduto";
+import DadosUsuario from "../pages/DadosUsuario/DadosUsuario"
+import CompraProduto from "../pages/CompraProduto/CompraProduto"
+import Compra from "../pages/Compra/Compra";
+import DadosComerciante from "../pages/DadosComerciante/DadosComerciante";
 
 import BreadCrumbCadastroCliente from "../componentes/CadastroComerciante/Breadcrumbs/BreadCrumbCadastroCliente";
 import CadastroComerciante from "../componentes/CadastroComerciante/CadastroComerciante";
@@ -70,6 +75,26 @@ const router = createBrowserRouter([
     element: <TelaInicial />,
   },
 
+  {
+    path: "/TelaProduto/:id",
+    element: <TelaProduto />
+  },
+  {
+    path: "/usuarios/dados",
+    element: <DadosUsuario />
+  },
+  {
+    path: "/comerciante/dados",
+    element: <DadosComerciante />
+  },
+  {
+    path: "/CompraProduto",
+    element: <CompraProduto />
+  },
+  {
+    path: "/compra",
+    element: <Compra/>
+  },
   {
     path: "/pesquisa",
     element: <TelaPesquisa />,

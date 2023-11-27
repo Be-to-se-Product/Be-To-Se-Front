@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 
 const CardItemVenda = ({produto}) => {
+  console.log(produto);
   const navigate = useNavigate();
   return (
     <div className="w-full py-4 px-4 text-lg border-b flex justify-between items-center">
@@ -15,7 +16,7 @@ const CardItemVenda = ({produto}) => {
           <h3 className="text-xs font-normal">R$ {produto.valor.toFixed(2)}</h3>
         </div>
       </div>
-      <Button  className=" text-black-900 py-3 h-max " onClick={()=>navigate("/TelaProduto",{id:produto.id})}>Ver item</Button>
+      <Button  className=" text-black-900 py-3 h-max " onClick={()=>navigate(`/TelaProduto/${produto.id}`)}>Ver item</Button>
     </div>
   );
 };
