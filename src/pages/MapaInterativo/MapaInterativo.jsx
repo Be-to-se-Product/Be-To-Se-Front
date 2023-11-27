@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -134,6 +134,8 @@ const MapaInterativo = () => {
 
   // Carregar mapa com ponto inicial baseado na localização atual do usuário
   useEffect(() => {
+    
+    map?.current?.remove();
     //Criar instância do mapa
     map.current = new mapboxgl.Map({
       container: mapContainerRef.current,
@@ -177,9 +179,7 @@ const MapaInterativo = () => {
       });
 
     });
-    return () => {
-      map.current.remove();
-    };
+   
   }, [originCoordinates, produtos]);
 
   // Carregar trajeto quando o destinho ou o modo do percurso muda
@@ -229,6 +229,7 @@ const MapaInterativo = () => {
         metodoPagamento: filtro.metodoPagamento,
       },
     });
+    console.log(response.data);
     setProdutos(response.data);
   };
 

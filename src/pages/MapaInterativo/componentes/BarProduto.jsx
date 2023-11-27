@@ -9,6 +9,7 @@ import ItemDeslocamento from "./ItemDeslocamento";
 import DirectionsCarFilledIcon from "@mui/icons-material/DirectionsCarFilled";
 import DirectionsBikeIcon from "@mui/icons-material/DirectionsBike";
 import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
+import { conversorTime } from "../../../utils/conversores";
 
 const BarProduto = ({setDestination,profiles,setModePercurssion,rotas,produtoSelecionado}) => {
   const [isTracaRota, setIsTracaRota] = useState(false);
@@ -42,13 +43,16 @@ const produtoImagens = produtoSelecionado?.imagens?.length>0 ? produtoSelecionad
         <div className=" flex flex-col gap-y-2">
           <div className="flex gap-x-4 items-center">
             <h2 className="text-xl font-medium">
-              {produtoSelecionado?.nome}
+              {produtoSelecionado?.nome} - {
+
+              }
             </h2>
           </div>
           <h3>{produtoSelecionado?.categoria}</h3>
           <span className="flex gap-x-2 items-center">
             <span>{produtoSelecionado.mediaAvaliacao}</span>
             <Rating nome="text-feedback" value={Number(produtoSelecionado.mediaAvaliacao)} readOnly size="small" />
+            {produtoSelecionado?.avaliacao?.length>0  ? <span>({produtoSelecionado?.avaliacao?.length})</span> : <span>(0)</span>}
           </span>
         </div>
         <Button className={" rounded-full"}>Reservar</Button>
@@ -56,7 +60,7 @@ const produtoImagens = produtoSelecionado?.imagens?.length>0 ? produtoSelecionad
 
       <div className="w-full p-4  flex justify-center gap-x-10 ">
         <ItemDeslocamento
-          time="2 Min"
+          time={conversorTime(produtoSelecionado?.estabelecimento?.tempoBike)}
           icon={
             <DirectionsBikeIcon
               sx={{
@@ -67,7 +71,7 @@ const produtoImagens = produtoSelecionado?.imagens?.length>0 ? produtoSelecionad
           }
         />
         <ItemDeslocamento
-          time="2 Min"
+          time={conversorTime(produtoSelecionado?.estabelecimento?.tempoCarro)}
           icon={
             <DirectionsCarFilledIcon
               sx={{
@@ -78,7 +82,7 @@ const produtoImagens = produtoSelecionado?.imagens?.length>0 ? produtoSelecionad
           }
         />
         <ItemDeslocamento
-          time="2 Min"
+          time={conversorTime(produtoSelecionado?.estabelecimento?.tempoPessoa)}
           icon={
             <DirectionsWalkIcon
               sx={{
