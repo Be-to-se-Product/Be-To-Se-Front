@@ -7,11 +7,13 @@ import api from "../../services/api";
 import {descriptografar} from "../../utils/Autheticated"
 import { ToastContainer, toast } from "react-toastify";
 import { injectStyle } from "react-toastify/dist/inject-style";
+import axios from 'axios';
 
 function DadosComerciante() {
   injectStyle();
   const [divAtual, setDivAtual] = useState("div1");
   const [comerciante, setComerciantes] = useState({});
+  const [endereco, setEnderecos] = useState([]);
   const [userId, setUserId] = useState(null);
   const navigate = useNavigate();
   const [ball1Color, setBall1Color] = useState("orange-principal");
@@ -26,6 +28,65 @@ function DadosComerciante() {
       }).catch((err) => {
       });
   };
+
+  const atualizarComerciante = () =>{
+    let cnpj = comerciante.cnpj;
+    let nome = comerciante.nome;
+    let razaoSocial =comerciante.razaoSocial;
+    let email = comerciante.email;
+    let cep = comerciante?.endereco?.cep;
+    cep = cep.replace(/-/g, '');
+    let numero = comerciante?.endereco?.numero;
+    const data = {
+      cnpj,
+      nome,
+      razaoSocial,
+      email,
+      cep,
+      numero,
+    };
+
+    const loading = toast.loading("Carregando...");
+    api
+      .put(`/comerciantes/${userId}`, data)
+      .then((res) => {
+        toast.dismiss(loading);
+        toast.success("Dados atualizados com sucesso!",{autoClose:2000});
+        setTimeout(() => {
+          //navigate("/index");
+        }, 3000);
+        console.log(comerciante.endereco);
+      })
+      .catch((err) => {
+        toast.dismiss(loading);
+      });
+  };
+
+  const getEnderecos = async () => {
+    let cep = comerciante?.endereco?.cep;
+    try {
+      const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+      console.log(response.data.bairro);
+  
+      const enderecoData = response.data;
+      console.log(enderecoData);
+      setComerciantes((prevComerciantes) => {
+        return {
+          ...prevComerciantes,
+          endereco: {
+            ...prevComerciantes.endereco,
+            rua: enderecoData.logradouro || "",
+            bairro: enderecoData.bairro || "",
+            cep: response.data.cep,
+          },
+        };
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -55,6 +116,12 @@ function DadosComerciante() {
     setUserId(id);
     getComerciantes(id);
   }, [userId]);
+
+  useEffect(() => {
+    if (comerciante?.endereco?.cep && comerciante.endereco.cep.length === 8) {
+      getEnderecos();
+    }
+  }, [comerciante?.endereco?.cep]);
 
   return (
     <div className="flex flex-row">
@@ -105,33 +172,6 @@ function DadosComerciante() {
                     onChange={handleChange}
                   />
                 </div>
-                {/*<div className="flex flex-row gap-x-8">
-                  <div className="flex flex-col gap-y-2">
-                    <label htmlFor="">Telefone</label>
-                    <input
-                      name="telefone"
-                      type="text"
-                      className="w-48 px-4 py-2 rounded-lg border-solid border-2 border-stroke-principal"
-                      value=""
-                      onChange=""
-                    />
-                  </div>
-                  <div className="flex flex-col gap-y-2">
-                    <label htmlFor="">Tipo de Empresa</label>
-                    <select
-                      name="genero"
-                      id=""
-                      className="w-48 px-4 py-2 rounded-lg border-solid border-2 border-stroke-principal"
-                      value=""
-                      onChange=""
-                    >
-                      <option value="Masculino">Maculino</option>
-                      <option value="Feminino">Feminino</option>
-                      <option value="Outro">Outro</option>
-                    </select>
-                  </div>
-                </div>
-                */}
                 <div className="flex flex-col gap-y-2">
                   <label htmlFor="">Email</label>
                   <input
@@ -175,7 +215,12 @@ function DadosComerciante() {
                     className="w-56 px-4 py-2 rounded-lg border-solid border-2 border-stroke-principal"
                     type="text"
                     value={comerciante?.endereco?.cep}
-                    onChange={handleChange}
+                    onChange={(e) => {
+                      handleChange(e);
+                      if (e.target.value.length === 8) {
+                        getEnderecos();
+                      }
+                    }}
                   />
                 </div>
                 <div className="flex flex-col gap-y-2">
@@ -210,35 +255,35 @@ function DadosComerciante() {
                     />
                   </div>
                 </div>
-                {/*<div className="flex flex-row gap-x-8">
+                <div className="flex flex-row gap-x-8">
                   <div className="flex flex-col gap-y-2">
                     <label htmlFor="">Cidade</label>
                     <input
-                      name="telefone"
+                      name="cidade"
                       type="text"
                       className="w-80 px-4 py-2 rounded-lg border-solid border-2 border-stroke-principal"
-                      value=""
-                      onChange=""
+                      value={comerciante?.endereco?.cidade}
+                      onChange={handleChange}
                     />
                   </div>
                   <div className="flex flex-col gap-y-2">
                     <label htmlFor="">Estado</label>
                     <input
-                      name="telefone"
+                      name="estado"
                       type="text"
                       className="w-32 px-4 py-2 rounded-lg border-solid border-2 border-stroke-principal"
-                      value=""
-                      onChange=""
+                      value={comerciante?.endereco?.estado}
+                      onChange={handleChange}
                     />
                   </div>
-                </div>*/}
+                </div>
               </div>
               <div className="flex ml-36"></div>
             </div>
           )}
           <button
             className="font-medium px-14 py-2 bg-orange-principal rounded-lg"
-            onClick=""
+            onClick={atualizarComerciante}
           >
             Salvar
           </button>

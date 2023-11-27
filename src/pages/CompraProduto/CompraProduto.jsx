@@ -108,7 +108,6 @@ function App() {
         </div>
         <div className='flex flex-col'>
           <button onClick={toggleMenu}>Abrir Menu</button>
-
           <Menu isOpen={menuIsOpen} onClose={toggleMenu} onToggle={toggleMenu} />
         </div>
       </div>

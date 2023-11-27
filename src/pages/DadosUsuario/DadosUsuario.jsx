@@ -18,28 +18,24 @@ function DadosUsuario() {
       .get(`/consumidores/${id}`)
       .then((res) => {
         toast.dismiss();
-        console.log(res.data)
         setConsumidores(res.data.length == 0 ? [] : res.data)
       })
       .catch((err) => {
-        console.log(err);
       });
   };
 
   const atualizarConsumidor = () =>{
     const loading = toast.loading("Carregando...");
-    console.log(userId);
     api
       .patch(`/consumidores/${userId}`, consumidores)
       .then((res) => {
         toast.dismiss(loading);
         toast.success("Dados atualizados com sucesso!",{autoClose:2000});
         setTimeout(() => {
-          navigate("/index");
+         // navigate("/index");
         }, 3000);
       })
       .catch((err) => {
-        console.log(err);
         toast.dismiss(loading);
       });
   };

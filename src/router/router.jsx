@@ -7,6 +7,7 @@ import TelaPesquisa from "../pages/TelaPesquisa/TelaPesquisa";
 import TelaProduto from "../pages/TelaProduto/TelaProduto";
 import DadosUsuario from "../pages/DadosUsuario/DadosUsuario"
 import CompraProduto from "../pages/CompraProduto/CompraProduto"
+import Compra from "../pages/Compra/Compra";
 import DadosComerciante from "../pages/DadosComerciante/DadosComerciante";
 
 import GerenciamentoLoja from "../pages/GerencimentoLojas/GerenciamentoLoja";
@@ -64,11 +65,11 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/TelaProduto",
+    path: "/TelaProduto/:id",
     element: <TelaProduto />
   },
   {
-    path: "/DadosUsuario",
+    path: "/usuarios/dados",
     element: <DadosUsuario />
   },
   {
@@ -78,6 +79,10 @@ const router = createBrowserRouter([
   {
     path: "/CompraProduto",
     element: <CompraProduto />
+  },
+  {
+    path: "/compra",
+    element: <Compra/>
   },
   {
     path: "/pesquisa",
