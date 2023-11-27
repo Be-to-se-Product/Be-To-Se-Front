@@ -39,8 +39,8 @@ const Login = () => {
         toast.success("Seu login foi realizado com sucesso!",{autoClose:2000});
         setTimeout(() => {
 
-        if (usuario.tipoUsuario === "CONSUMIDOR") navigate("/usuarios/dados");
-          else navigate("/comerciante/dados");
+        if (usuario.tipoUsuario === "CONSUMIDOR") navigate("/index");
+          else navigate("/comerciante/produtos");
         }, 3000);
       })
 
