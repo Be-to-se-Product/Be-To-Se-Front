@@ -27,14 +27,50 @@ const CadastroComerciante = () => {
         confirmarSenha: '',
         concordouTermos: false,
     });
+    // "DTO para envio de dados ao BackEnd"
+    const [dadosTratados, setDadosTratados] = useState({
+        cnpj: '',
+        nome: '',
+        razaoSocial: '',
+        usuarioCriacaoDTO: {
+            email: '',
+            senha: '',
+        },
+        cep: '',
+        });
 
     const handleNext = () => {
         setCurrentStep(currentStep + 1);
+
+        const dadosTratados = {
+            cnpj: formData.cnpj.replace(/[.-//-]/g, ''),
+            nome: formData.nome,
+            razaoSocial: formData.razaoSocial,
+            usuarioCriacaoDTO: {
+                email: formData.email,
+                senha: formData.senha,
+            },
+            cep: formData.cep.replace(/[.-]/g, ''),
+            };
+            console.log('Dados tratados:', dadosTratados);
         };
+
     const handleBack = () => {
         // Certifique-se de não ir abaixo de 0 no currentStep
         setCurrentStep(Math.max(currentStep - 1, 0));
+        const dadosTratados = {
+            cnpj: formData.cnpj.replace(/[.-//-]/g, ''),
+            nome: formData.nome,
+            razaoSocial: formData.razaoSocial,
+            usuarioCriacaoDTO: {
+                email: formData.email,
+                senha: formData.senha,
+            },
+            cep: formData.cep.replace(/[.-]/g, ''),
+            };
+            console.log('Dados tratados:', dadosTratados);
         };
+        
     
         const handleFormChange = (field, value) => {
         setFormData({

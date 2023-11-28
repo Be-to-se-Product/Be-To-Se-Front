@@ -5,22 +5,139 @@ import axios from 'axios';
 
 
 const TerceiroPasso = ({ formData, onNext , onBack, onFormChange })=>{
-    const dadosTratados = {
-        ...formData,
-        email: formData.email.replace(/[.-]/g, ''),
-        senha: formData.senha.replace(/[.-]/g, ''),
-        confirmarSenha: formData.confirmarSenha.replace(/[.-]/g, ''),
+  injectStyle();
+  const [divAtual, setDivAtual] = useState("div1");
+  const [comerciante, setComerciantes] = useState({});
+  const [endereco, setEnderecos] = useState([]);
+  const [userId, setUserId] = useState(null);
+  const navigate = useNavigate();
+  const [ball1Color, setBall1Color] = useState("orange-principal");
+  const [ball2Color, setBall2Color] = useState("black-500");
+
+  const getComerciantes = (id) => {
+    toast.loading("Carregando...");
+    api.get(`/comerciantes/${id}`).then((res) => {
+        toast.dismiss();
+        console.log(res.data);
+        setComerciantes(res.data.length == 0 ? {} : res.data);
+      }).catch((err) => {
+      });
+  };
+
+  const atualizarComerciante = () =>{
+    let cnpj = comerciante.cnpj;
+    let nome = comerciante.nome;
+    let razaoSocial =comerciante.razaoSocial;
+    let email = comerciante.email;
+    let cep = comerciante?.endereco?.cep;
+    cep = cep.replace(/-/g, '');
+    let numero = comerciante?.endereco?.numero;
+    const data = {
+      cnpj,
+      nome,
+      razaoSocial,
+      email,
+      cep,
+      numero,
     };
+
+    const loading = toast.loading("Carregando...");
+    api
+      .put(`/comerciantes/${userId}`, data)
+      .then((res) => {
+        toast.dismiss(loading);
+        toast.success("Dados atualizados com sucesso!",{autoClose:2000});
+        setTimeout(() => {
+          //navigate("/index");
+        }, 3000);
+        console.log(comerciante.endereco);
+      })
+      .catch((err) => {
+        toast.dismiss(loading);
+      });
+  };
+
+  const getEnderecos = async () => {
+    let cep = comerciante?.endereco?.cep;
+    try {
+      const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+      console.log(response.data.bairro);
+  
+      const enderecoData = response.data;
+      console.log(enderecoData);
+      setComerciantes((prevComerciantes) => {
+        return {
+          ...prevComerciantes,
+          endereco: {
+            ...prevComerciantes.endereco,
+            rua: enderecoData.logradouro || "",
+            bairro: enderecoData.bairro || "",
+            cep: response.data.cep,
+          },
+        };
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+  
+  const handleChange = (field, event) => {
+      onFormChange(field, event.target.value);
+      };
+
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setComerciantes((prevComerciantes) => {
+  //     if (['cep', 'rua', 'bairro', 'numero'].includes(name)) {
+  //       return {
+  //         ...prevComerciantes,
+  //         endereco: {
+  //           ...prevComerciantes.endereco,
+  //           [name]: value,
+  //         },
+  //       };
+  //     } else {
+  //       return {
+  //         ...prevComerciantes,
+  //         [name]: value,
+  //       };
+  //     }
+  //   });
+  // };
+  
+
+  useEffect(() => {
+    const userDetailsCrypt = descriptografar(sessionStorage?.USERDETAILS);
+    console.log(userDetailsCrypt);
+    const { id } = JSON.parse(userDetailsCrypt);
+    setUserId(id);
+    getComerciantes(id);
+  }, [userId]);
+
+  useEffect(() => {
+    if (comerciante?.endereco?.cep && comerciante.endereco.cep.length === 8) {
+      getEnderecos();
+    }
+  }, [comerciante?.endereco?.cep]);
+
     const handleTesteConsoleLog = () => {
-      // Trata os dados antes de enviá-los
+      
+      
+      // Trata os dados antes de enviá-los 
 
       const dadosTratados = {
-        ...formData,
-        cpf: formData.cpf.replace(/[.-]/g, ''),
         cnpj: formData.cnpj.replace(/[.-//-]/g, ''),
+        nome: formData.nome,
+        razaoSocial: formData.razaoSocial,
+        usuarioCriacaoDTO: {
+            email: formData.email,
+            senha: formData.senha,
+        },
         cep: formData.cep.replace(/[.-]/g, ''),
-      }
-      console.log('Dados tratados:', dadosTratados);
+        };
+        console.log('Dados tratados:', dadosTratados);
+    
       };
     const enviarDadosParaBackend = async (formData) => {
         try {
@@ -55,9 +172,7 @@ const TerceiroPasso = ({ formData, onNext , onBack, onFormChange })=>{
         }
     };
 
-    const handleChange = (field, event) => {
-        onFormChange(field, event.target.value);
-        };
+
 
     
 
