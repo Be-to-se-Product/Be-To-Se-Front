@@ -8,7 +8,8 @@ import { useNavigate } from "react-router";
 
 const CardProduto = ({ produto }) => {
     const navigate = useNavigate();
-  
+    const precoAtual = produto?.precoAtual;
+    const precoAntigo = produto?.precoAntigo;
     return (
       <div
         className="w-[250px] h-[539px] gap-20 p-4 border-2 rounded-md bg-white-principal flex-start flex-colrounded-md"
@@ -35,7 +36,7 @@ const CardProduto = ({ produto }) => {
   
                 <Rating
                   nome="text-feedback"
-                  value={produto.mediaAvaliacao}
+                  value={produto?.mediaAvaliacao}
                   readOnly
                   size="small"
                 />
@@ -45,13 +46,13 @@ const CardProduto = ({ produto }) => {
             <div className="flex gap-auto flex-col justify-between items-start">
               <div className="">
                 <p className="line-through">
-                  R$ {produto.precoAntigo}
+                  R$ {produto?.precoAntigo}
                 </p>
               </div>
   
               <div className="">
                 <p className="text-4xl font-medium">
-                  R$ {produto.precoAtual}
+                  R$ {produto?.precoAtual}
                 </p>
               </div>
   

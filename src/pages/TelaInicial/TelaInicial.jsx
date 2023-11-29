@@ -12,12 +12,14 @@ import "slick-carousel/slick/slick-theme.css";
 import CardOfertaCocaCola from "./componentes/CardOfertaCocaCola";
 import { useEffect, useState } from "react";
 import api from "../../services/api";
-import { geolocation } from "../../utils/geolocation"; 
-import CardProdutoCocaCola from "./componentes/CardProdutoCocaCola";
+import { geolocation } from "../../utils/geolocation";
+import { conversosMedidasDistancia } from "../../utils/conversores";
+
 
 function TelaInicial(props) {
   const [produtos, setProdutos] = useState([]);
   const [originCoordinates, setOriginCoordinates] = useState({ lat: null, lon:null });
+
   const settings = {
     dots: true,
     infinite: true,
@@ -28,7 +30,7 @@ function TelaInicial(props) {
     autoplaySpeed: 1000,
   };
   
-  useEffect(() => {
+  useEffect(() => { 
     geolocation(setOriginCoordinates);
   }, []);
 
@@ -46,7 +48,7 @@ function TelaInicial(props) {
     }).catch((error) => {
       console.log(error);
     });
-  }), [originCoordinates];
+  }, [originCoordinates]);
 
   
   return (
@@ -86,7 +88,6 @@ function TelaInicial(props) {
               {produtos?.map((produto) => (
                 <CardProduto key={produto.id} produto={produto} />
               ))}
-              <CardProdutoCocaCola />
             </div>
 
           </div>
