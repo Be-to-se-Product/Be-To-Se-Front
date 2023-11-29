@@ -157,16 +157,19 @@ const Step1 = ({ getData, children, infoBanco,dataStorage }) => {
         <Autocomplete
           multiple
           id="tags-filled"
-          options={infoBanco.tag.map((option) => option.nome)}
-          freeSolo
+          options={infoBanco.tag}
+          getOptionLabel={(option) => option.nome}
           limitTags={5}
           {...register("tags")}
+          onChange={(event, value) => {
+            setValue("tags", !value ? [] :value);
+          }}
           renderTags={(value, getTagProps) => {
-            // setValue("tags", value); 
+            
             return value.map((option, index) => (
               <Chip
                 variant="outlined"
-                label={option}
+                label={option.nome}
                 {...getTagProps({ index })}
               />
             ));

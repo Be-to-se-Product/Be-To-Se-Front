@@ -17,27 +17,25 @@ const FormAdicionar = ({ fecharModal, getProdutos, setState }) => {
 
   const getSecao = () => {
     api.get("/secoes").then((response) => {
-      setInfoBanco(prev=>({ ...prev, sessoes: response.data }));
+      setInfoBanco((prev) => ({ ...prev, sessoes: response.data }));
     });
   };
 
   const getTags = () => {
     api.get("/tags").then((response) => {
       console.log(response.data);
-      setInfoBanco(prev=>({...prev, tag: response.data }));
+      setInfoBanco((prev) => ({ ...prev, tag: response.data }));
     });
   };
 
   useEffect(() => {
     getTags();
     getSecao();
-    
-
-  },[])
+  }, []);
 
   useEffect(() => {
     console.log(infoBanco);
-  },[infoBanco])
+  }, [infoBanco]);
   const [isNext, setIsNext] = useState(false);
 
   const [dataStorage, setDataStorage] = useState({});
@@ -53,9 +51,14 @@ const FormAdicionar = ({ fecharModal, getProdutos, setState }) => {
     }
   };
 
-  const saveData = (data) => {
-  
 
+  function resetarCampos(){
+    setDataStorage({})
+    setStateAtual(0)
+  }
+
+
+  const saveData = (data) => {
     const produto = {
       nome: data.nome,
       codigoSku: data.codigoSku,
@@ -65,18 +68,36 @@ const FormAdicionar = ({ fecharModal, getProdutos, setState }) => {
       codigoBarras: data.codigoBarras,
       categoria: data.categoria,
       secao: data.secao,
-      tag:data.tags
-    }
+      tag: data.tags ? data.tags : null,
+    };
 
-  api.post("/produtos",produto).then((response)=>{
+    api.post("/produtos", produto)
+    .then((response) => {
+
+      if(response.status === 201){
+      const formData = new FormData();
+      formData.append("imagens", data.imagem1[0]);
+      formData.append("imagens", data.imagem2[0]);
+      formData.append("imagens", data.imagem3[0]);
+      formData.append("imagens", data.imagem4[0]);
     
+      api.post(`/produtos/${response.data.id}/imagens`, formData)
+      .then((response) => {
+        resetarCampos();
+        getProdutos();
+        fecharModal();
+      }).catch((error) => {
+        console.log(error);
+      })
 
-  }
-  )
-}
+    }})
+    .catch((error) => {
+      console.log(error);
+    });
+  };
   const nextStep = () => {
     if (stateAtual + 1 === steps.length) {
-      console.log(dataStorage);
+      saveData(dataStorage);
       return;
     }
     setStateAtual(stateAtual + 1);

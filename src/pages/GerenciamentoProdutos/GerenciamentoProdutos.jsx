@@ -20,15 +20,15 @@ const GerenciamentoProdutos = () => {
   const [isVisibleModal, setIsVisibleModal] = useState(false);
   const [stateForm, setStateForm] = useState(null);
   const [state, setState] = useState(0);
-  const idEstabelecimento = descriptografar(sessionStorage.getItem("ID"));
+  const  idEstabelecimento = descriptografar(sessionStorage.getItem("ID"));
   const [selectedOption, setSelectedOption] = useState("Filtro");
 
   const getProdutos = () => {
     //toast.loading("Carregando...");
     api
-      .get("/produtos/estabelecimento/" + idEstabelecimento)
+      .get("/produtos/estabelecimento/" + 1)
       .then((res) => {
-        //toast.dismiss();
+        //toast.dismiss();  
         setProdutos(res.data.length == 0 ? [] : res.data);
         
       })
@@ -53,7 +53,7 @@ const GerenciamentoProdutos = () => {
     console.log("teste2")
     const file = event.target.files[0];
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append("arquivo", file);
 
     api
       .post("/produtos/upload-csv?secao=" + 1, formData)
