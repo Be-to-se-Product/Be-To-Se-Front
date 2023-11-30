@@ -39,12 +39,13 @@ const TerceiroPasso = ({ formData, onNext , onBack, onFormChange })=>{
           // sessionStorage.setItem("USERDETAILS", criptografar(JSON.stringify(response.data)));
           
           setTimeout(() => {
-            navigate("/index");
+            navigate("/login");
           }, 3000);
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error)
+
         if (error.response) {
           console.error('Erro no response:', error.response.data);
         } else {
