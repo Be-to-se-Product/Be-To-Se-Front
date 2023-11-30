@@ -44,7 +44,8 @@ const TerceiroPasso = ({ formData, onNext , onBack, onFormChange })=>{
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error)
+
         if (error.response) {
           console.error('Erro no response:', error.response.data);
         } else {

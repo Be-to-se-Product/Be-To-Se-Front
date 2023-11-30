@@ -2,11 +2,11 @@ import React,{ useState } from "react";
 // Informações abaixo importadas do Header
 import NavbarRoot from "../../componentes/Navbar/NavbarRoot";
 // import BreadCrumbCadastroCliente from "./Breadcrumbs/BreadCrumbCadastroCliente";
-import Breadcrumb from "./Breadcrumbs/Breadcrumb";
+import Breadcrumb from "../../componentes/CadastroComerciante/Breadcrumbs/Breadcrumb";
 // Informações abaixo essenciais para renderização dos componentes de cadastro
-import PrimeiroPasso from "./PasosDoCadastro/PrimeiroPasso";
-import SegundoPasso from "./PasosDoCadastro/SegundoPasso";
-import TerceiroPasso from "./PasosDoCadastro/TerceiroPasso";
+import PrimeiroPasso from "../../componentes/CadastroComerciante/PasosDoCadastro/PrimeiroPasso";
+import SegundoPasso from "../../componentes/CadastroComerciante/PasosDoCadastro/SegundoPasso";
+import TerceiroPasso from "../../componentes/CadastroComerciante/PasosDoCadastro/TerceiroPasso";
 
 const CadastroComerciante = () => {
     const [currentStep, setCurrentStep] = useState(0);
