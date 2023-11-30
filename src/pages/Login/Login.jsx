@@ -38,10 +38,10 @@ const Login = () => {
       const usuario = resposta.data;
         sessionStorage.USERDETAILS= criptografar(JSON.stringify(usuario));
         toast.success("Seu login foi realizado com sucesso!",{autoClose:2000});
-        setTimeout(() => {
+        setTimeout(() => {  
 
         if (usuario.tipoUsuario === "CONSUMIDOR") navigate("/index");
-          else navigate("/comerciante/produtos");
+          else navigate("/comerciante/lojas");
         }, 3000);
       })
 
