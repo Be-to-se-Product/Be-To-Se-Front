@@ -3,13 +3,14 @@ import React from "react";
 
 import api from "../../../services/api";
 // import { ToastContainer, toast } from "react-toastify";
+import {  useNavigate } from "react-router-dom";
 
 
 
 const TerceiroPasso = ({ formData, onNext , onBack, onFormChange })=>{
   // injectStyle();
 
-  
+  const navigate = useNavigate();
   const handleChange = (field, event) => {
       onFormChange(field, event.target.value);
       };
@@ -32,10 +33,10 @@ const TerceiroPasso = ({ formData, onNext , onBack, onFormChange })=>{
       // const loading = toast.loading("Realizando Cadastro...");
     sessionStorage.clear();
     api
-      .post(`/comerciantes/`, dadosTratados)
+      .post(`/comerciantes`, dadosTratados)
       .then((response) => {
         if (response.status == 201) {
-          sessionStorage.setItem("USERDETAILS", criptografar(JSON.stringify(response.data)));
+          // sessionStorage.setItem("USERDETAILS", criptografar(JSON.stringify(response.data)));
           
           setTimeout(() => {
             navigate("/index");
@@ -44,6 +45,13 @@ const TerceiroPasso = ({ formData, onNext , onBack, onFormChange })=>{
       })
       .catch((error) => {
         console.log(error);
+        if (error.response) {
+          console.error('Erro no response:', error.response.data);
+        } else {
+          console.error('Erro desconhecido:', error.message);
+        }
+
+
   });
 
 
