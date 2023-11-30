@@ -5,11 +5,15 @@ import Pe from "../../../assets/pe.svg";
 import Bike from "../../../assets/bike.svg";
 import Shop from "../../../assets/shop.svg";
 import { useNavigate } from "react-router";
+import { conversorTime } from "../../../utils/conversores";
+import imgProduto from "../../../assets/default-image.jpeg"
+
 
 const CardProduto = ({ produto }) => {
     const navigate = useNavigate();
     const precoAtual = produto?.precoAtual;
     const precoAntigo = produto?.precoAntigo;
+    const imagem = produto.imagens && produto.imagens.length > 0 ? produto.imagens[0] : imgProduto;
     return (
       <div
         className="w-[250px] h-[539px] gap-20 p-4 border-2 rounded-md bg-white-principal flex-start flex-colrounded-md"
@@ -20,7 +24,7 @@ const CardProduto = ({ produto }) => {
             <img src={Shop} alt="" />
           </div>
           <div className=" flex flex-col justify-content align-center gap-[20px] self-stretch">
-            <img src={produto?.imagens[0]} alt="imagem" className="flex w-full h-full" />
+            <img src={imagem} alt="imagem" className="flex w-full h-full" />
   
             <div className="flex w-full justify-between items-center ">
               <div className="flex w-[147px] items-start">
@@ -71,15 +75,15 @@ const CardProduto = ({ produto }) => {
   
             <div className="text-sm size-8 gap-8 flex justify-center align-center">
               <p className="">
-                {produto.estabelecimento.tempoCarro} min
+                {conversorTime(produto.estabelecimento.tempoCarro)}
               </p>
   
               <p>
-                {produto.estabelecimento.tempoPessoa} min
+                {conversorTime(produto.estabelecimento.tempoPessoa)}
               </p>
   
               <p>
-                {produto.estabelecimento.tempoBike} min
+              {conversorTime(produto.estabelecimento.tempoBike)}
               </p>
             </div>
           </div>

@@ -1,15 +1,13 @@
 import react from "react";
-import imgProduto from "../../../assets/cocacolaCardProduto.jpg"
+import imgProduto from "../../../assets/default-image.jpeg"
 import { Rating } from "@mui/material";
 import Carro from "../../../assets/carro.svg"
 import Pe from "../../../assets/pe.svg"
 import Bike from "../../../assets/bike.svg"
 import Shop from "../../../assets/shop.svg"
+import { conversorTime } from "../../../utils/conversores";
 
-
-
-
-const CardProdutoCocaCola = (props) => {
+const CardProutoPesquisa = ({produto}) => {
     return (
         <div className="w-[250px] h-[539px] gap-20 p-4 border-2 rounded-md bg-white-principal flex-start flex-colrounded-md">
             <div className="h-[150px] rounded-md ">
@@ -17,13 +15,13 @@ const CardProdutoCocaCola = (props) => {
                     <img src={Shop} alt="" />
                 </div>
                 <div className=" flex flex-col justify-content align-center gap-[20px] self-stretch">
-                    <img src={imgProduto} alt="imagem" className="flex w-full h-full" />
+                    <img src={produto.imagens[0]} alt="imagem" className="flex w-full h-full" />
 
                     <div className="flex w-full justify-between items-center ">
 
                         <div className="flex w-[147px] items-start">
                             <p className="text-sm font-normal leading-[15px] tracking-tight uppercase">
-                                BEBIDAS
+                                {produto?.categoria}
                             </p>
                         </div>
 
@@ -34,7 +32,7 @@ const CardProdutoCocaCola = (props) => {
 
                             <Rating
                                 nome="text-feedback"
-                                value={3}
+                                value={produto.mediaAvaliacap}
                                 readOnly
                                 size="small"
                             />
@@ -44,19 +42,19 @@ const CardProdutoCocaCola = (props) => {
                     <div className="flex gap-auto flex-col justify-between items-start">
                         <div className="">
                             <p className="line-through">
-                                R$ 40,90
+                                R$ {produto.precoAntigo}
                             </p>
                         </div>
 
                         <div className="">
                             <p className="text-4xl font-medium">
-                                R$ 43,97
+                                {produto.precoAtual}
                             </p>
                         </div>
 
                         <div className="">
                             <p className="">
-                                Coca-Cola - 2L
+                              {produto.nome}
                             </p>
                         </div>
                     </div>
@@ -69,15 +67,14 @@ const CardProdutoCocaCola = (props) => {
 
                     <div className="text-sm size-8 gap-8 flex justify-center align-center">
                         <p className="">
-                            13 min
+                        {conversorTime(produto.estabelecimento?.tempoCarro)}
                         </p>
 
                         <p>
-                            13 min
+                        {conversorTime(produto.estabelecimento?.tempoPessoa)}
                         </p>
-
                         <p>
-                            13 min
+                        {conversorTime(produto.estabelecimento.tempoBike)}
                         </p>
                     </div>
                 </div>
@@ -86,4 +83,4 @@ const CardProdutoCocaCola = (props) => {
     )
 }
 
-export default CardProdutoCocaCola;
+export default CardProutoPesquisa;

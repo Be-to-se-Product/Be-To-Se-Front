@@ -13,12 +13,12 @@ import CardOfertaCocaCola from "./componentes/CardOfertaCocaCola";
 import { useEffect, useState } from "react";
 import api from "../../services/api";
 import { geolocation } from "../../utils/geolocation";
-import { conversosMedidasDistancia } from "../../utils/conversores";
+
 
 
 function TelaInicial(props) {
   const [produtos, setProdutos] = useState([]);
-  const [originCoordinates, setOriginCoordinates] = useState({ lat: null, lon:null });
+  const [originCoordinates, setOriginCoordinates] = useState({ lat: null, lon: null });
 
   const settings = {
     dots: true,
@@ -29,13 +29,13 @@ function TelaInicial(props) {
     autoplay: true,
     autoplaySpeed: 1000,
   };
-  
-  useEffect(() => { 
+
+  useEffect(() => {
     geolocation(setOriginCoordinates);
   }, []);
 
- useEffect(() => {
-    api.get("/produtos/mapa",{
+  useEffect(() => {
+    api.get("/produtos/mapa", {
       params: {
         latitude: originCoordinates.lat,
         longitude: originCoordinates.lon,
@@ -50,7 +50,7 @@ function TelaInicial(props) {
     });
   }, [originCoordinates]);
 
-  
+
   return (
     <div>
       <NavbarRoot.Content>
@@ -84,12 +84,11 @@ function TelaInicial(props) {
             </div>
           </div>
           <div className="flex flex-col items-center gap-[48px] w-full justify-between">
-            <div className="w-auto mx-auto pl-3 pr-3 py-4 gap-3 flex justify-content align-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
               {produtos?.map((produto) => (
                 <CardProduto key={produto.id} produto={produto} />
               ))}
             </div>
-
           </div>
 
           <div className="flex flex-col items-center gap-[48px]">

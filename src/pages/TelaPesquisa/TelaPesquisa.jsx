@@ -1,6 +1,6 @@
 import NavbarRoot from "../../componentes/Navbar/NavbarRoot";
 import Switch from "../../componentes/Switch/BotaoSwitch";
-import CardProdutoCoca from "./componentes/CardProdutoCoca";
+import CardProdutoPesquisa from "./componentes/CardProdutoPesquisa";
 
 
 
@@ -65,30 +65,30 @@ function TelaPesquisa(props) {
                     </div>
 
                     <div className="w-auto mx-auto pl-3 pr-3 py-4 gap-3 flex justify-content align-center">
-                        <CardProdutoCoca></CardProdutoCoca>
-                        <CardProdutoCoca></CardProdutoCoca>
-                        <CardProdutoCoca></CardProdutoCoca>
-                        <CardProdutoCoca></CardProdutoCoca>
-                        <CardProdutoCoca></CardProdutoCoca>
-                        <CardProdutoCoca></CardProdutoCoca>
+                        <CardProdutoPesquisa></CardProdutoPesquisa>
+                        <CardProdutoPesquisa></CardProdutoPesquisa>
+                        <CardProdutoPesquisa></CardProdutoPesquisa>
+                        <CardProdutoPesquisa></CardProdutoPesquisa>
+                        <CardProdutoPesquisa></CardProdutoPesquisa>
+                        <CardProdutoPesquisa></CardProdutoPesquisa>
                     </div>
 
                     <div className="w-auto mx-auto pl-3 pr-3 py-4 gap-3 flex justify-content align-center">
-                        <CardProdutoCoca></CardProdutoCoca>
-                        <CardProdutoCoca></CardProdutoCoca>
-                        <CardProdutoCoca></CardProdutoCoca>
-                        <CardProdutoCoca></CardProdutoCoca>
-                        <CardProdutoCoca></CardProdutoCoca>
-                        <CardProdutoCoca></CardProdutoCoca>
+                        <CardProdutoPesquisa></CardProdutoPesquisa>
+                        <CardProdutoPesquisa></CardProdutoPesquisa>
+                        <CardProdutoPesquisa></CardProdutoPesquisa>
+                        <CardProdutoPesquisa></CardProdutoPesquisa>
+                        <CardProdutoPesquisa></CardProdutoPesquisa>
+                        <CardProdutoPesquisa></CardProdutoPesquisa>
                     </div>
 
                     <div className="w-auto mx-auto pl-3 pr-3 py-4 gap-3 flex justify-content align-center">
-                        <CardProdutoCoca></CardProdutoCoca>
-                        <CardProdutoCoca></CardProdutoCoca>
-                        <CardProdutoCoca></CardProdutoCoca>
-                        <CardProdutoCoca></CardProdutoCoca>
-                        <CardProdutoCoca></CardProdutoCoca>
-                        <CardProdutoCoca></CardProdutoCoca>
+                        <CardProdutoPesquisa></CardProdutoPesquisa>
+                        <CardProdutoPesquisa></CardProdutoPesquisa>
+                        <CardProdutoPesquisa></CardProdutoPesquisa>
+                        <CardProdutoPesquisa></CardProdutoPesquisa>
+                        <CardProdutoPesquisa></CardProdutoPesquisa>
+                        <CardProdutoPesquisa></CardProdutoPesquisa>
                     </div>
                 </main>
             </main>
