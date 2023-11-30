@@ -39,7 +39,7 @@ const TerceiroPasso = ({ formData, onNext , onBack, onFormChange })=>{
           // sessionStorage.setItem("USERDETAILS", criptografar(JSON.stringify(response.data)));
           
           setTimeout(() => {
-            navigate("/index");
+            navigate("/login");
           }, 3000);
         }
       })
