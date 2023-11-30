@@ -14,7 +14,7 @@ const CardProutoPesquisa = ({ produto }) => {
 
     return (
         <div
-            className="w-[179px] h-[539px] gap-20 p-4 border-2 rounded-md bg-white-principal flex-start flex-colrounded-md"
+            className="w-[250px] h-[539px] gap-20 p-4 border-2 rounded-md bg-white-principal flex-start flex-colrounded-md"
             onClick={() => navigate("/TelaProduto")}
         >
             <div className="h-[150px] rounded-md ">
