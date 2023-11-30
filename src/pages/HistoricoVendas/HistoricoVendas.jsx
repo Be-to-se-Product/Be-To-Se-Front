@@ -5,24 +5,16 @@ import InputRoot from "../../componentes/Input/InputRoot";
 import Button from "../../componentes/Button/Button";
 import api from "../../services/api";
 import { ToastContainer, toast } from "react-toastify";
-import { format } from 'date-fns';
-
 import DownloadIcon from '@mui/icons-material/Download';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import {
   MenuItem,
   Pagination,
-  Select,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
+  Select
 } from "@mui/material";
 import ModalPedidos from "./componentes/ModalPedidos";
 import TableRoot from "../../componentes/Table/TableRoot";
-import { get } from "react-hook-form";
+import moment from "moment";
 
 const HistoricoVendas = () => {
   const [isModal, setIsModal] = useState(false);
@@ -94,8 +86,9 @@ const HistoricoVendas = () => {
       .then(response => {
         toast.dismiss();
         const responseData = response.data;
-        if (responseData.length === 0) {
+        if (responseData?.length === 0) {
           toast.info("Não existem vendas.");
+          return;
         }
         setVendas(responseData.content);
         setPage(responseData.number);
@@ -132,12 +125,13 @@ const HistoricoVendas = () => {
   };
 
   const handleDeChange = (event) => {
-    const formattedDate = format(new Date(event.target.value), 'yyyy-MM-dd');
+    console.log(event.target.value);
+    const formattedDate = event.target.value; 
     setDe(formattedDate);
   };
 
   const handleAteChange = (event) => {
-    const formattedDate = format(new Date(event.target.value), 'yyyy-MM-dd');
+    const formattedDate = event.target.value;
     setAte(formattedDate);
   };
 

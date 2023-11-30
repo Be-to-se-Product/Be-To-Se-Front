@@ -1,18 +1,15 @@
 // FUNÇÃO PARA CONVERTER OBJETO FILE EM BASE 64
-export function converterInputImageToBase64(event, callback) {
+export function converterInputImageToBase64(file, callback) {
   const reader = new FileReader();
-  const copy = { ...event };
 
-  console.log(event);
   reader.onload = function (e) {
     const base64Result = e.target.result;
     callback({
-      evento: copy,
       imagem: base64Result,
     });
   };
 
-  reader.readAsDataURL(event.target.files[0]);
+  reader.readAsDataURL(file);
 }
 
 
@@ -22,8 +19,6 @@ export const conversosMedidasDistancia = (distance)=>{
 const distancias = ["m","km"];
 let contadora = 0;
 let distanciaConvertida = distance;
-
-600 % 1000
 while(distanciaConvertida > 1000 && contadora < distancias.length){
   distanciaConvertida /= 1000;
   contadora++;

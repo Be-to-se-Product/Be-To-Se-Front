@@ -6,11 +6,12 @@ import down from "../../assets/down.svg";
 import Modal from "../../componentes/Modal/Modal";
 
 import ModalLoja from "./componentes/ModalLoja";
+import { useNavigate } from "react-router-dom";
 
 const GerenciamentoLoja = () => {
   const [isVisibleModal, setIsVisibleModal] = useState(false);
   const [isVisibleModalDelete, setIsVisibleModalDelete] = useState(false);
-
+  const navigate = useNavigate();
   const changeModal = () => {
     setIsVisibleModal(!isVisibleModal);
   };
@@ -69,7 +70,12 @@ const GerenciamentoLoja = () => {
               </div>
 
               <div>
-                <Button className={"rounded-lg"}>Gerenciar</Button>
+                <Button className={"rounded-lg"} onClick={()=>navigate("/comerciante/produtos",{
+                  state:{
+                    idEstabelecimento:1
+                  }
+                
+                })}>Gerenciar</Button>
               </div>
             </CardLojaRoot.Footer>
           </CardLojaRoot.Content>

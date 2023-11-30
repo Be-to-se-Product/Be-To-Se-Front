@@ -30,7 +30,6 @@ api.interceptors.response.use(
   (error) => {
     if (error.response.status === 403) {
       sessionStorage.removeItem("USERDETAILS");
-      // window.location.href = "/login";
     } 
     return error;
   }
