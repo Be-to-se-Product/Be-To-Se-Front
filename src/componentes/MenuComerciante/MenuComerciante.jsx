@@ -70,11 +70,11 @@ const navigate = useNavigate();
                   <img src={negocioIcon} alt="" className="w-8" />
                   <h2>Análise de negócio</h2>{" "}
                 </li>
-                <Link to="/comerciante/historico">
-                  <li className="text-lg text-white-principal flex gap-x-4 mb-5 items-center">
-                    <img src={shopIcon} alt="" className="w-8" />
-                    <h2>Históricos de venda</h2>
-                  </li>
+                <Link to="/comerciante/vendas">
+                <li className="text-lg text-white-principal flex gap-x-4 mb-5 items-center"   >
+                  <img src={shopIcon} alt="" className="w-8" />
+                  <h2>Históricos de venda</h2>
+                </li>
                 </Link>
 
                 <Link to="/comerciante/vendas">
@@ -102,7 +102,7 @@ const navigate = useNavigate();
 
       <button
         className="w-100 flex px-7 mb-8 cursor-pointer text-xl text-white-principal gap-x-4"
-        onClick={logout}
+        onClick={()=>logout(navigate)}
         type="button"
       >
         <img src={backIcon} alt="" className="w-6" /> Sair

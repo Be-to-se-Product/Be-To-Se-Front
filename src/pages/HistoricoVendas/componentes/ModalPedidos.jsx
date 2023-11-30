@@ -1,34 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import Button from "../../../componentes/Button/Button";
 import Close from "../../../componentes/Close/Close";
 import styled from "../animations/ModalAnimation.module.css";
 import ItemPedido from "./ItemPedido";
 import { is } from "@react-spring/shared";
 
-const ModalPedidos = ({ pedidos, modal, setModal, ...props }) => {
-  console.log(modal);
+const ModalPedidos = ({ pedidos, isModal, setIsModal, pedidoSelecionadoIndex, ...props }) => {
+
   return (
     <div
-      className={`flex flex-col border h-screen gap-y-2  fixed rounded-sm bg-white-principal right-0 top-0 ${
-        styled.modal
-      } ${modal.isAtivo ? styled.active : ""} `}
+      className={`flex flex-col border h-screen gap-y-2 fixed rounded-sm bg-white-principal right-0 top-0 
+      ${styled.isModal}
+       ${pedidos[pedidoSelecionadoIndex] !== null ? styled.active : ""}`}
       {...props}
     >
       <div className="px-2 py-4 border-b flex justify-between items-center">
-        <h2 className="text-base ">Pedido - {modal.pedido.id}</h2>
+
+        
+        <h2 className="text-base ">Pedido {pedidos[pedidoSelecionadoIndex]?.id}</h2>
         <Close
-          onClick={() =>
-            setModal((prev) => {
-              const el = { ...prev };
-              el.isModal = !el.isModal;
-              return el;
-            })
-          }
+          onClick={() => {
+            setIsModal(false);
+          }}
         />
       </div>
       <div className="p-2 flex flex-col gap-y-2">
-        {modal?.pedido?.itens?.map((item) => (
-          <ItemPedido product={item} key={item.id}/>
+        {pedidos[pedidoSelecionadoIndex].pedido?.itens?.map((item) => (
+          <ItemPedido product={item} key={item.id} />
         ))}
       </div>
     </div>

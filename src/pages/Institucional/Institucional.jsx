@@ -58,7 +58,13 @@ window.addEventListener("click", (e) => {
 
   return (
     <div >
-      <NavbarRoot.Content>
+   <NavbarRoot.Content>
+        <NavbarRoot.ContentTop>
+          <NavbarRoot.Logo/>
+          <NavbarRoot.Pesquisa/>
+          {sessionStorage.USERDETAILS ? (<NavbarRoot.Authenticated/>) : (<NavbarRoot.Sign/>)}
+          
+        </NavbarRoot.ContentTop>
         <NavbarRoot.Menu>
           <NavbarRoot.Item></NavbarRoot.Item>
         </NavbarRoot.Menu>

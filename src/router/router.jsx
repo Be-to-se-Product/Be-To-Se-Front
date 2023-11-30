@@ -4,7 +4,14 @@ import GerenciamentoProdutos from "../pages/GerenciamentoProdutos/GerenciamentoP
 
 import TelaInicial from "../pages/TelaInicial/TelaInicial";
 import TelaPesquisa from "../pages/TelaPesquisa/TelaPesquisa";
+import TelaProduto from "../pages/TelaProduto/TelaProduto";
+import DadosUsuario from "../pages/DadosUsuario/DadosUsuario"
+import CompraProduto from "../pages/CompraProduto/CompraProduto"
+import Compra from "../pages/Compra/Compra";
+import DadosComerciante from "../pages/DadosComerciante/DadosComerciante";
 
+
+import CadastroComerciante from "../pages/CadastroComerciante/CadastroComerciante";
 import GerenciamentoLoja from "../pages/GerencimentoLojas/GerenciamentoLoja";
 import HistoricoVendas from "../pages/HistoricoVendas/HistoricoVendas";
 import NotFound from "../pages/NotFound/NotFound";
@@ -14,6 +21,7 @@ import PedidosComerciante from "../pages/PedidosComerciante/PedidosComerciante";
 import PedidosUsuario from "../pages/PedidosUsuario/PedidosUsuario";
 import MapaInterativo from "../pages/MapaInterativo/MapaInterativo";
 import { isPermited } from "../utils/Autheticated";
+import CadastroUsuario from "../pages/CadastroUsuario/CadastroUsuario";
 
 const PrivateRoute = ({ element, usuario, ...rest }) => {
   if (!isPermited(usuario)) {
@@ -30,6 +38,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/cadastro/comerciante",
+    element: <CadastroComerciante />,
   },
   {
     path: "/comerciante/produtos",
@@ -60,6 +72,26 @@ const router = createBrowserRouter([
   },
 
   {
+    path: "/TelaProduto/:id",
+    element: <TelaProduto />
+  },
+  {
+    path: "/usuarios/dados",
+    element: <DadosUsuario />
+  },
+  {
+    path: "/comerciante/dados",
+    element: <DadosComerciante />
+  },
+  {
+    path: "/CompraProduto",
+    element: <CompraProduto />
+  },
+  {
+    path: "/compra",
+    element: <Compra/>
+  },
+  {
     path: "/pesquisa",
     element: <TelaPesquisa />,
   },
@@ -77,6 +109,10 @@ const router = createBrowserRouter([
     path: "/mapa",
     element: <MapaInterativo />,
   },
+  {
+    path: "/usuario/cadastro",
+    element: <CadastroUsuario />,
+  }
 ]);
 
 export default router;
