@@ -3,9 +3,8 @@ import InputRoot from "../../../componentes/Input/InputRoot";
 import { useForm } from "react-hook-form";
 import { MenuItem, Select, Autocomplete, TextField, Chip } from "@mui/material";
 import { info } from "autoprefixer";
-const Step1 = ({ getData, children, infoBanco,dataStorage }) => {
-  const { register, handleSubmit, setValue, formState,watch } = useForm();
-
+const Step1 = ({ getData, children, infoBanco, dataStorage }) => {
+  const { register, handleSubmit, setValue, formState, watch } = useForm();
 
   const mensagens = {
     required: "Campo obrigatório",
@@ -13,6 +12,7 @@ const Step1 = ({ getData, children, infoBanco,dataStorage }) => {
     maxLength: "Campo deve ter no máximo 50 caracteres",
     isNumber: "Campo deve ser um número",
   };
+
 
   const schemaValidate = {
     nome: {
@@ -42,6 +42,9 @@ const Step1 = ({ getData, children, infoBanco,dataStorage }) => {
       required: true,
     },
   };
+  useEffect(()=>{
+    dataStorage.tags ? setValue("tags", dataStorage.tags) : setValue("tags", [])
+  },[])
   return (
     <form
       className={`flex  flex-col items-center `}
@@ -157,19 +160,24 @@ const Step1 = ({ getData, children, infoBanco,dataStorage }) => {
         <Autocomplete
           multiple
           id="tags-filled"
-          options={infoBanco.tag}
-          getOptionLabel={(option) => option.nome}
+          options={infoBanco?.tag}
+          getOptionLabel={(option) => option?.nome}
           limitTags={5}
-          {...register("tags")}
+          {...register("tags",{
+            validate:{
+              minLength: (value) => value.length > 0,
+            }
+          })}
+          freeSolo
+          defaultValue={dataStorage?.tags}
           onChange={(event, value) => {
-            setValue("tags", !value ? [] :value);
+            setValue("tags", !value ? [] : value,{shouldValidate: true});
           }}
           renderTags={(value, getTagProps) => {
-            
             return value.map((option, index) => (
               <Chip
                 variant="outlined"
-                label={option.nome}
+                label={option?.nome}
                 {...getTagProps({ index })}
               />
             ));

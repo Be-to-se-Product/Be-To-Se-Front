@@ -2,7 +2,7 @@ import React from "react";
 import InputRoot from "../../../componentes/Input/InputRoot";
 import { useForm } from "react-hook-form";
 
-const Step3 = ({getData,children}) => {
+const Step3 = ({getData,children,dataStorage}) => {
 
     const {register, handleSubmit} = useForm(); 
   return (
@@ -14,6 +14,7 @@ const Step3 = ({getData,children}) => {
         <textarea
           cols="30"
           rows="10"
+          defaultValue={dataStorage?.descricao}
           className=" border border-gray-800 w-full resize-none outline-none p-4 rounded"
           {...register("descricao")}
         ></textarea>

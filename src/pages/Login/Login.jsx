@@ -41,7 +41,7 @@ const Login = () => {
         setTimeout(() => {  
 
         if (usuario.tipoUsuario === "CONSUMIDOR") navigate("/index");
-          else navigate("/comerciante/produtos");
+          else navigate("/comerciante/lojas");
         }, 3000);
       })
 

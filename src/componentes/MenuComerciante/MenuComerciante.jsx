@@ -9,24 +9,19 @@ import downIcon from "../../assets/down.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { descriptografar } from "../../utils/Autheticated";
 import api from "../../services/api";
-import { ToastContainer, toast } from "react-toastify";
 
 const MenuComerciante = () => {
-
-  const idEstabelecimento = 1;
   const [user, setUser] = useState({}); 
   const [logoEstabelecimento, setLogo] = useState(logo);
-
-  //toast.loading("Carregando...");
-
+  const idEstabelecimento = descriptografar(sessionStorage.getItem("id"));
+ 
   const getEstabelecimento = () => {
     api
       .get("/estabelecimentos/" + idEstabelecimento)
       .then((resposta) => {
-        //toast.dismiss();
+        toast.dismiss();
         setUser(resposta.data);
-        setLogo("data:image/jpeg;base64," + resposta.data.imagens[0])
-        console.log(resposta.data);
+        setLogo(resposta.data.imagens[0])
       })
 
       .catch((erro) => {
@@ -45,7 +40,7 @@ const navigate = useNavigate();
     navigate("/");
   };
   return (
-    <aside className="bg-black-900 fixed flex flex-col h-screen min-w-[350px] max-w-[350px]">
+    <aside className="bg-black-900  flex flex-col h-screen min-w-[350px] max-w-[350px]">
       <div className="h-full w-full">
         <div className="w-full h-1/4 bg-orange-principal"></div>
         <div className="relative pt-20 px-2">

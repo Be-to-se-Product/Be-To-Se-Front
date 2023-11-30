@@ -1,4 +1,4 @@
-import { Navigate, createBrowserRouter, useNavigate } from "react-router-dom";
+import {  createBrowserRouter } from "react-router-dom";
 import Insitucional from "../pages/Institucional/Institucional";
 import GerenciamentoProdutos from "../pages/GerenciamentoProdutos/GerenciamentoProdutos";
 

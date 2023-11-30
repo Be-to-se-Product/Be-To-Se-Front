@@ -41,34 +41,31 @@ const FormAdicionar = ({ fecharModal, getProdutos, setState }) => {
   const [dataStorage, setDataStorage] = useState({});
 
   const getData = (data) => {
-    console.log(data);
+    
     setDataStorage({ ...dataStorage, ...data });
-
+    const dadosSalvar = {...dataStorage, ...data}
     if (isNext) {
-      nextStep();
+      nextStep(dadosSalvar,data);
     } else {
       prevStep();
     }
   };
 
 
-  function resetarCampos(){
-    setDataStorage({})
-    setStateAtual(0)
-  }
 
 
-  const saveData = (data) => {
+
+  const saveData = (dadosSalvar,data) => {
     const produto = {
-      nome: data.nome,
-      codigoSku: data.codigoSku,
-      preco: data.preco,
+      nome: dadosSalvar.nome,
+      codigoSku: dadosSalvar.codigoSku,
+      preco: dadosSalvar.preco,
       descricao: data.descricao,
-      precoOferta: data.precoOferta,
-      codigoBarras: data.codigoBarras,
-      categoria: data.categoria,
-      secao: data.secao,
-      tag: data.tags ? data.tags : null,
+      precoOferta: dadosSalvar.precoOferta,
+      codigoBarras: dadosSalvar.codigoBarras,
+      categoria: dadosSalvar.categoria,
+      secao: dadosSalvar.secao,
+      tags: dadosSalvar.tags ? dadosSalvar.tags : null,
     };
 
     api.post("/produtos", produto)
@@ -76,16 +73,17 @@ const FormAdicionar = ({ fecharModal, getProdutos, setState }) => {
 
       if(response.status === 201){
       const formData = new FormData();
-      formData.append("imagens", data.imagem1[0]);
-      formData.append("imagens", data.imagem2[0]);
-      formData.append("imagens", data.imagem3[0]);
-      formData.append("imagens", data.imagem4[0]);
-    
+        console.log();
+      for (let i = 1; i <= 4; i++) {
+        const imagem = dadosSalvar[`imagem${i}`];
+        if (imagem) {
+          formData.append("imagens", imagem[0]);
+        }
+      }
       api.post(`/produtos/${response.data.id}/imagens`, formData)
       .then((response) => {
-        resetarCampos();
         getProdutos();
-        fecharModal();
+        fecharModal("fechar");
       }).catch((error) => {
         console.log(error);
       })
@@ -95,9 +93,9 @@ const FormAdicionar = ({ fecharModal, getProdutos, setState }) => {
       console.log(error);
     });
   };
-  const nextStep = () => {
+  const nextStep = (dadosSalvar,data) => {
     if (stateAtual + 1 === steps.length) {
-      saveData(dataStorage);
+      saveData(dadosSalvar,data);
       return;
     }
     setStateAtual(stateAtual + 1);
@@ -109,19 +107,20 @@ const FormAdicionar = ({ fecharModal, getProdutos, setState }) => {
     }
   };
 
+
   const steps = [
-    <Step1 getData={getData} infoBanco={infoBanco} dataStorage={dataStorage}>
+    <Step1 key={1} getData={getData} infoBanco={infoBanco} dataStorage={dataStorage}>
       <div className="flex justify-center gap-x-4 mt-4">
         <Button onClick={() => setIsNext(true)}>Avançar</Button>
       </div>
     </Step1>,
-    <Step2 getData={getData}>
+    <Step2 key={2} getData={getData} dataStorage={dataStorage}>
       <div className="flex justify-center gap-x-4 mt-4">
         <Button>Retroceder</Button>
         <Button onClick={() => setIsNext(true)}>Avançar</Button>
       </div>
     </Step2>,
-    <Step3 getData={getData}>
+    <Step3 key={3} getData={getData} dataStorage={dataStorage}>
       <div className="flex justify-center gap-x-4 mt-4">
         <Button>Retroceder</Button>
         <Button onClick={() => setIsNext(true)}>Cadastrar</Button>
@@ -131,7 +130,7 @@ const FormAdicionar = ({ fecharModal, getProdutos, setState }) => {
 
   return (
     <div className=" w-[801px] h-[700px] p-8 bg-white-principal relative rounded-md flex items-center flex-col gap-y-2 justify-around">
-      <div className="absolute top-5  right-8 cursor-pointer">X</div>
+      <div className="absolute top-5  right-8 cursor-pointer" onClick={()=>fecharModal("fechar")}>X</div>
       <StepperRoot.Content>
         <StepperRoot.Step number={1} stateAtual={stateAtual}>
           Informações do produtos
