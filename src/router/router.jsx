@@ -10,6 +10,8 @@ import CompraProduto from "../pages/CompraProduto/CompraProduto"
 import Compra from "../pages/Compra/Compra";
 import DadosComerciante from "../pages/DadosComerciante/DadosComerciante";
 
+import BreadCrumbCadastroCliente from "../componentes/CadastroComerciante/Breadcrumbs/BreadCrumbCadastroCliente";
+import CadastroComerciante from "../componentes/CadastroComerciante/CadastroComerciante";
 import GerenciamentoLoja from "../pages/GerencimentoLojas/GerenciamentoLoja";
 import HistoricoVendas from "../pages/HistoricoVendas/HistoricoVendas";
 import NotFound from "../pages/NotFound/NotFound";
@@ -36,6 +38,14 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/cadastro/comerciante",
+    element: <CadastroComerciante />,
+  },
+  {
+    path: "/cadastro/bread",
+    element: <BreadCrumbCadastroCliente />,
   },
   {
     path: "/comerciante/produtos",
