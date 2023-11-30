@@ -287,6 +287,7 @@ const HistoricoVendas = () => {
           onChange={(event, value) => setPage(value - 1)}
         />
       </BoxComerciante>
+      <ToastContainer></ToastContainer>
     </main>
   );
 };
