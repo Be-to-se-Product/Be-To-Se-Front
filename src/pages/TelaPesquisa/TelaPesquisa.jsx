@@ -83,7 +83,7 @@ function TelaPesquisa(props) {
                 <main className="flex w-auto flex-col items-center gap-[48px]">
                     <div className="flex flex-row w-full justify-between items-center ">
                         <div className="flex w-[715px] h-[39px] gap-10 pl-4">
-                            <div className="flex pt-2 pr-2 pb-2 pl-2 items-center border-2 gap-4">
+                            <div className="flex pt-2 pr-2 pb-2 pl-2 p-10 items-center border-2 gap-4">
                                 <Select
                                     className="w-full h-10 bg-white-principal"
                                     onClick={getMetodosPagamento}
@@ -100,14 +100,6 @@ function TelaPesquisa(props) {
                             </div>
                             <div className="flex pt-2 pr-2 pb-2 pl-2 items-center border-2 gap-4">
                             <DistanceFilter onChange={(filter) => setDistancia(filter)} />
-                            </div>
-                            <div className="flex pt-2 pr-2 pb-2 pl-2 items-center border-2 gap-4">
-                                
-                            </div>
-                            <div className="flex pt-2 pr-2 pb-2 pl-2 items-center border-2 gap-4">
-                                <h2>
-                                    Todos os filtros
-                                </h2>
                             </div>
                         </div>
                         <div className="flex w-[200px] justify-end items-center gap-3">

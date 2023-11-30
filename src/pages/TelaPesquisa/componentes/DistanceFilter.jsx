@@ -15,7 +15,7 @@ const DistanceFilter = ({ onChange }) => {
                 className="accent-white-principal w-full"
                 onChange={(e) => {
                     setDistancia(e.target.value);
-                    onChange({ distancia: e.target.value });
+                    onChange(e.target.value); // Corrigido aqui
                 }}
             />
             <span className="flex justify-self-end mt-2">{distancia} km</span>
@@ -24,3 +24,4 @@ const DistanceFilter = ({ onChange }) => {
 };
 
 export default DistanceFilter;
+
