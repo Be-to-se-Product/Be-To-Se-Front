@@ -1,4 +1,4 @@
-import { Navigate, createBrowserRouter, useNavigate } from "react-router-dom";
+import {  createBrowserRouter } from "react-router-dom";
 import Insitucional from "../pages/Institucional/Institucional";
 import GerenciamentoProdutos from "../pages/GerenciamentoProdutos/GerenciamentoProdutos";
 
@@ -10,6 +10,8 @@ import CompraProduto from "../pages/CompraProduto/CompraProduto"
 import Compra from "../pages/Compra/Compra";
 import DadosComerciante from "../pages/DadosComerciante/DadosComerciante";
 
+
+import CadastroComerciante from "../pages/CadastroComerciante/CadastroComerciante";
 import GerenciamentoLoja from "../pages/GerencimentoLojas/GerenciamentoLoja";
 import HistoricoVendas from "../pages/HistoricoVendas/HistoricoVendas";
 import NotFound from "../pages/NotFound/NotFound";
@@ -36,6 +38,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/cadastro/comerciante",
+    element: <CadastroComerciante />,
   },
   {
     path: "/comerciante/produtos",

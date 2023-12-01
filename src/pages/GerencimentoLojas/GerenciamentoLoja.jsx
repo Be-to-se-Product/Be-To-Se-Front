@@ -8,6 +8,7 @@ import api from "../../services/api"
 import ModalLoja from "./componentes/ModalLoja";
 import { useEffect } from "react";
 import { descriptografar } from "../../utils/Autheticated";
+import { useNavigate } from "react-router-dom";
 
 const GerenciamentoLoja = () => {
   const [isVisibleModal, setIsVisibleModal] = useState(false);
@@ -32,6 +33,7 @@ const GerenciamentoLoja = () => {
   },[])
 
 
+  const navigate = useNavigate();
   const changeModal = () => {
     setIsVisibleModal(!isVisibleModal);
   };
@@ -97,7 +99,6 @@ const GerenciamentoLoja = () => {
               </CardLojaRoot.Footer>
             </CardLojaRoot.Content>))
           }
-          
         </div>
       </section>
       <Modal isVisible={isVisibleModal}>

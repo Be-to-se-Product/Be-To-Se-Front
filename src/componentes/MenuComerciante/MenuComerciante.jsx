@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import backIcon from "../../assets/back.svg";
 import logo from "../../assets/logo.png";
 import produtoIcon from "../../assets/product-icon.svg";
@@ -7,20 +7,47 @@ import shopIcon from "../../assets/shop.svg";
 import datePage from "../../assets/datePage.svg";
 import downIcon from "../../assets/down.svg";
 import { Link, useNavigate } from "react-router-dom";
-import { logout } from "../../utils/utils";
+import { descriptografar } from "../../utils/Autheticated";
+import api from "../../services/api";
 
 const MenuComerciante = () => {
-  const navigate = useNavigate();
+  const [user, setUser] = useState({}); 
+  const [logoEstabelecimento, setLogo] = useState(logo);
+  const idEstabelecimento = descriptografar(sessionStorage.getItem("id"));
+ 
+  const getEstabelecimento = () => {
+    api
+      .get("/estabelecimentos/" + idEstabelecimento)
+      .then((resposta) => {
+        toast.dismiss();
+        setUser(resposta.data);
+        setLogo(resposta.data.imagens[0])
+      })
+
+      .catch((erro) => {
+        console.log(erro)
+      });
+  }
+
+  useEffect(() => {
+    getEstabelecimento();
+  }, []);
+    
   
+const navigate = useNavigate();
+  const logout = () => {
+    sessionStorage.clear();
+    navigate("/");
+  };
   return (
-    <aside className="bg-black-900   flex flex-col h-screen min-w-[350px] max-w-[350px]">
+    <aside className="bg-black-900  flex flex-col h-screen min-w-[350px] max-w-[350px]">
       <div className="h-full w-full">
         <div className="w-full h-1/4 bg-orange-principal"></div>
         <div className="relative pt-20 px-2">
           <div className="logo flex items-end  absolute top-[-80px] ">
-            <img src={logo} alt="" className="w-[130px] rounded-full" />
-            <h2 className="font-medium py-2 text-xl text-white-principal">
-              Pão de açucar
+            <img src={logoEstabelecimento} alt="" className="w-[130px] rounded-full" />
+            <h2 className="font-medium py-2 text-base text-white-principal">
+              {user.nome}
             </h2>
           </div>
 
@@ -43,11 +70,11 @@ const MenuComerciante = () => {
                   <img src={negocioIcon} alt="" className="w-8" />
                   <h2>Análise de negócio</h2>{" "}
                 </li>
-                <Link to="/comerciante/historico">
-                  <li className="text-lg text-white-principal flex gap-x-4 mb-5 items-center">
-                    <img src={shopIcon} alt="" className="w-8" />
-                    <h2>Históricos de venda</h2>
-                  </li>
+                <Link to="/comerciante/vendas">
+                <li className="text-lg text-white-principal flex gap-x-4 mb-5 items-center"   >
+                  <img src={shopIcon} alt="" className="w-8" />
+                  <h2>Históricos de venda</h2>
+                </li>
                 </Link>
 
                 <Link to="/comerciante/vendas">
