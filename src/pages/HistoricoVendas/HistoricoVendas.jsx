@@ -20,7 +20,7 @@ const HistoricoVendas = () => {
   const [isModal, setIsModal] = useState(false);
   const [vendas, setVendas] = useState([]);
   const [page, setPage] = useState(0);
-  const [size, setSize] = useState(10);
+  const [size, setSize] = useState(null);
   const [metodosPagamentos, setMetodosPagamentos] = useState([]);
   const [metodoPagamentoSelecionado, setMetodoPagamentoSelecionado] = useState('');
   const [showOptions, setShowOptions] = useState();
@@ -153,7 +153,8 @@ const HistoricoVendas = () => {
 
   const exportar = () => {
     const idEstabelecimento = 1;
-    api.get(`/download-txt/${idEstabelecimento}`, { responseType: 'blob' })
+    toast.loading('Baixando arquivo de vendas');
+    api.get(`historico-vendas/${idEstabelecimento}/download-txt`, { responseType: 'blob' })
       .then(response => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement('a');
@@ -166,6 +167,8 @@ const HistoricoVendas = () => {
       .catch(error => {
         console.error('Download error', error);
         toast.error("Erro ao exportar o histórico de vendas.");
+      }).finally(() => {
+        toast.dismiss();
       });
   };
 
