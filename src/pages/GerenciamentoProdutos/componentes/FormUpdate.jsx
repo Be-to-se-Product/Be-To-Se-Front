@@ -124,7 +124,7 @@ const FormUpdate = ({ fecharModal, getProdutos, produto }) => {
     <Step3 getData={getData} dataStorage={dataStorage}>
       <div className="flex justify-center gap-x-4 mt-4">
         <Button>Retroceder</Button>
-        <Button onClick={() => setIsNext(true)}>Cadastrar</Button>
+        <Button onClick={() => setIsNext(true)}>Atualizar</Button>
       </div>
     </Step3>,
   ];
@@ -145,6 +145,7 @@ const FormUpdate = ({ fecharModal, getProdutos, produto }) => {
           Descrição do produto
         </StepperRoot.Step>
       </StepperRoot.Content>
+
 
       {steps[stateAtual]}
     </div>
