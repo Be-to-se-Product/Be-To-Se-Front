@@ -12,6 +12,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { injectStyle } from "react-toastify/dist/inject-style";
 import { descriptografar } from "../../utils/Autheticated";
 import FileImg from "../../assets/file.png";
+import CloseImg from "../../assets/closeModal.png";
 
 injectStyle();
 
@@ -22,6 +23,9 @@ const GerenciamentoProdutos = () => {
   const [state, setState] = useState(0);
   const idEstabelecimento = descriptografar(sessionStorage.getItem("ID"));
   const [selectedOption, setSelectedOption] = useState("Filtro");
+  const [isVisible, setIsVisible] = useState(false);
+  const [secao, setSecao] = useState([]);
+  const [secaoSelecionada, setSecaoSelecionada] = useState({});
 
   const getProdutos = () => {
     //toast.loading("Carregando...");
@@ -31,6 +35,17 @@ const GerenciamentoProdutos = () => {
         //toast.dismiss();
         setProdutos(res.data.length == 0 ? [] : res.data);
         
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getSecoes = () => {
+    api
+      .get("/secoes/estabelecimento/" + idEstabelecimento)
+      .then((res) => {
+        setSecao(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -53,10 +68,27 @@ const GerenciamentoProdutos = () => {
     console.log("teste2")
     const file = event.target.files[0];
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append("arquivo", file);
 
     api
-      .post("/produtos/upload-csv?secao=" + 1, formData)
+      .post("/produtos/upload-csv?secao=" + secaoSelecionada, formData)
+      .then((res) => {
+        toast.success("Produtos importados com sucesso!");
+        getProdutos();
+      })
+      .catch((err) => {
+        toast.error("Erro ao importar produtos!");
+        console.log(err);
+      });
+  }
+
+  const handleTxtImport = (event) => {
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append("arquivo", file);
+
+    api
+      .post("/produtos/upload-txt?secao=" + secaoSelecionada, formData)
       .then((res) => {
         toast.success("Produtos importados com sucesso!");
         getProdutos();
@@ -154,7 +186,7 @@ const GerenciamentoProdutos = () => {
   }
 
   useEffect(() => {
-
+    getSecoes();
     getProdutos();
   }, []);
 
@@ -203,6 +235,10 @@ const GerenciamentoProdutos = () => {
     }
   };
 
+  const selectSecao = (id) => {
+    setSecaoSelecionada(id.target.value);
+  }
+
   return (
     <>
       <main className="flex h-screen bg-black-300">
@@ -221,13 +257,50 @@ const GerenciamentoProdutos = () => {
               />
             </div>
             <div className="flex gap-x-4">
+            {isVisible && (
+                <div className="fixed top-0 left-0 z-10 w-screen h-screen bg-[rgba(0,0,0,0.5)]">
+                  <div className="relative w-[380px] h-[200px] bg-white-principal rounded-lg flex flex-col items-center p-4 gap-5 transform -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 z-10">
+                    <p>Selecione seu arquivo</p>
+                    <img onClick={() => setIsVisible(false)} src={CloseImg} className="absolute top-3 right-3 w-6 h-6 cursor-pointer"/>
+                    <div className="flex justify-between w-full">
+                      <label htmlFor="fileCsv"
+                        className="cursor-pointer rounded-lg flex justify-center items-center bg-orange-principal text-white-principal text-base h-[60px] w-[160px]">
+                          <img src={FileImg} className="w-auto h-auto mr-2" />
+                          Importar CSV
+                      </label>
+                      <label htmlFor="fileTxt"
+                        className="cursor-pointer rounded-lg flex justify-center items-center bg-orange-principal text-white-principal text-base h-[60px] w-[160px]">
+                          <img src={FileImg} className="w-auto h-auto mr-2" />
+                          Importar TXT
+                      </label>
+                    </div>
+                    <Select
+                      id="demo-simple-select"
+                      className="w-full h-[42px]"
+                      value={secaoSelecionada}
+                      onChange={selectSecao}
+                    >
+                      {secao.map((secao) => (
+                        <MenuItem value={secao.id}>{secao.descricao}</MenuItem>
+                      ))}
+                    </Select>
+                  </div>
+                </div>
+            
+              )}
               <input 
                 id="fileCsv" 
                 type="file" 
                 className="h-0 w-0 absolute top-0 opacity-0 "
                 onChange={(e) => handleCsvImport(e)}
               />
-              <label htmlFor="fileCsv"
+              <input 
+                id="fileTxt" 
+                type="file" 
+                className="h-0 w-0 absolute top-0 opacity-0 "
+                onChange={(e) => handleTxtImport(e)}
+              />
+              <label onClick={() => setIsVisible(true)}
                 className="cursor-pointer rounded-lg flex justify-center items-center bg-orange-principal text-white-principal text-base w-[200px]">
                   <img src={FileImg} className="w-auto h-auto mr-2" />
                   Importar Produtos
