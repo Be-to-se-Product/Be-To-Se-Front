@@ -76,28 +76,31 @@ const HistoricoVendas = () => {
     const params = {
       de: de,
       ate: ate,
-      status: status,
-      metodoPagamento: metodoPagamentoSelecionado,
+      status: status? status: null,
+      metodoPagamento: metodoPagamentoSelecionado? metodoPagamentoSelecionado : null,
       page: !page ? 0 : page,
-      size: !size ? 10 : size,
+      size: !size ? 30 : size,
     };
 
     api.get(`/historico-vendas/filtro/1`, { params })
       .then(response => {
         toast.dismiss();
+        console.log(response.status);
+        console.log(response.data);
         const responseData = response.data;
-        if (responseData?.length === 0) {
+        if (responseData.length === 0) {
           toast.info("Não existem vendas.");
           return;
         }
-        setVendas(responseData.content);
+        console.log();
+        setVendas(responseData.content? responseData.content : []);
         setPage(responseData.number);
         setSize(responseData.size);
       })
       .catch(error => {
         console.error(error);
-        toast.dismiss();
         toast.error("Erro ao carregar o histórico de vendas.");
+        toast.dismiss();
       });
   };
 
@@ -106,6 +109,7 @@ const HistoricoVendas = () => {
     toast.loading("Carregan do métodos de pagamento...");
     api.get(`historico-vendas/1/metodos-pagamento`)
       .then(response => {
+        toast.dismiss();
         setMetodosPagamentos(response.data);
       })
       .catch(error => {
@@ -125,15 +129,15 @@ const HistoricoVendas = () => {
   };
 
   const handleDeChange = (event) => {
-    console.log(event.target.value);
-    const formattedDate = event.target.value; 
+    const formattedDate = moment.utc(event.target.value).format("YYYY-MM-DDTHH:mm:ss");
     setDe(formattedDate);
   };
-
+  
   const handleAteChange = (event) => {
-    const formattedDate = event.target.value;
+    const formattedDate = moment.utc(event.target.value).format("YYYY-MM-DDTHH:mm:ss");
     setAte(formattedDate);
   };
+  
 
   const handleStatusChange = (event) => {
     setStatus(event.target.value);
