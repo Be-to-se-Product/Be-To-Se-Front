@@ -9,7 +9,7 @@ import downIcon from "../../assets/down.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { descriptografar } from "../../utils/Autheticated";
 import api from "../../services/api";
-import AplicattionContext from "../../context/AplicattionContext";
+import AplicattionContext from "../../context/Apllicattion/AplicattionContext";
 
 const MenuComerciante = ({ children, isLogo }) => {
   const [user, setUser] = useState({});

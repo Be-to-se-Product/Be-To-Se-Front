@@ -10,7 +10,6 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { MenuItem, Pagination, Select } from "@mui/material";
 import ModalPedidos from "./componentes/ModalPedidos";
 import TableRoot from "../../componentes/Table/TableRoot";
-import moment from "moment";
 import { Link } from "react-router-dom";
 
 const HistoricoVendas = () => {

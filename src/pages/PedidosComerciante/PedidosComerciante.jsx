@@ -9,7 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 import CardPedido from "./componentes/CardPedido/CardPedidoRoot";
 import SelectPedido from "./componentes/CardPedido/SelectPedido";
-import AplicattionContext from "../../context/AplicattionContext";
+import AplicattionContext from "../../context/Apllicattion/AplicattionContext";
 import { Link } from "react-router-dom";
 
 const PedidosComerciante = () => {

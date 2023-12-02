@@ -12,7 +12,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { injectStyle } from "react-toastify/dist/inject-style";
 import FileImg from "../../assets/file.png";
 import { Link, useLocation } from "react-router-dom";
-import AplicattionContext from "../../context/AplicattionContext";
+import AplicattionContext from "../../context/Apllicattion/AplicattionContext";
 
 injectStyle();
 

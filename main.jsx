@@ -4,7 +4,7 @@ import router from "./src/router/router";
 import { RouterProvider } from "react-router-dom";
 import "./src/index.css";
 import VLibras from "@djpfs/react-vlibras";
-import AplicattionComponent from "./src/context/ApplicationComponent";
+import AplicattionComponent from "./src/context/Apllicattion/ApplicationComponent"
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <>

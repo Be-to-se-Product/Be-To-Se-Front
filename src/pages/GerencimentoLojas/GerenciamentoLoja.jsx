@@ -6,14 +6,13 @@ import Modal from "../../componentes/Modal/Modal";
 import api from "../../services/api";
 import ModalLoja from "./componentes/ModalLoja";
 import { useEffect } from "react";
-import AplicattionContext from "../../context/AplicattionContext";
+import AplicattionContext from "../../context/Apllicattion/AplicattionContext";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const GerenciamentoLoja = () => {
   const [isVisibleModal, setIsVisibleModal] = useState(false);
   const [isVisibleModalDelete, setIsVisibleModalDelete] = useState(false);
   const [getEstabelecimento, setEstabelecimento] = useState([]);
-  const [userId, setUserId] = useState(null);
   const { setIdEstabelecimento } = useContext(AplicattionContext);
   const navigate = useNavigate();
   const location = useLocation();
