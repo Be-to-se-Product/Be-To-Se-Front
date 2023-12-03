@@ -1,6 +1,9 @@
 import React from "react";
+import { ToastContainer, toast } from "react-toastify";
 
 
+// A importação de outras funções pai foi definida no componente pai CadastroComerciante.jsx, na arrow function elas também poderão ser importadas...
+// formData, onNext e onFormChange importadas da classe pai com atribuições diferentes da classe pai.
 const PrimeiroPasso = ({ formData, onNext, onFormChange })=>{
     //Inclusão de máscaras para melhor exibição dos dados.
     const formatCPF = (value) => {
@@ -18,6 +21,21 @@ const PrimeiroPasso = ({ formData, onNext, onFormChange })=>{
             return `${onlyNumbers.slice(0, 3)}.${onlyNumbers.slice(3, 6)}.${onlyNumbers.slice(6, 9)}-${onlyNumbers.slice(9,11)}`;
         }
     };
+
+    const aProsseguir = () =>{
+        const mensagensErro = [];
+
+        formData.nome === '' && mensagensErro.push('O campo nome não pode estar nulo ou vazio!');
+        formData.cnpj === '' && mensagensErro.push('O campo do CNPJ não pode estar nulo ou vazio!');
+        formData.razaoSocial === '' && mensagensErro.push('O campo de nome da Razão Social não pode estar nulo ou vazio!');
+
+        if (mensagensErro.length > 0) {
+            const mensagemErroFinal = mensagensErro.join(' ');
+            toast.error(mensagemErroFinal);
+        } else {
+            onNext();
+        }
+    }
 
     const formatCNPJ = (value) => {
         // Remove caracteres não numéricos
@@ -146,15 +164,15 @@ const PrimeiroPasso = ({ formData, onNext, onFormChange })=>{
                 </div>
                 <div className="w-100 flex justify-end">
                     <button
-                        type="submit"
+                        type="button"
                         className="w-100 text-sm px-4 py-2 h-full font-semibold rounded border border-orange-400  hover:bg-orange-principal hover:text-white-principal transition-all undefined"
-                        onClick={onNext}
+                        onClick={aProsseguir}
                     >   
                         Próximo
                     </button>
                 
                 </div>
-            
+            <ToastContainer />
             </form>
         </>
     )

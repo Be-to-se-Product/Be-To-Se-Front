@@ -1,4 +1,8 @@
 import React from "react";
+import { ToastContainer, toast } from "react-toastify";
+
+
+
 
 const SegundoPasso = ({ formData, onNext,onBack, onFormChange })=>{
     const formatCEP = (value) => {
@@ -16,6 +20,19 @@ const SegundoPasso = ({ formData, onNext,onBack, onFormChange })=>{
     const handleChange = (field, event) => {
         onFormChange(field, event.target.value);
         };
+
+    const aProsseguir = () =>{
+        const mensagensErro = [];
+    
+        formData.cep === '' && mensagensErro.push('O campo CEP não pode estar nulo ou vazio!');
+        
+    
+        if (mensagensErro.length > 0) {
+            const mensagemErroFinal = mensagensErro.join(' ');
+            toast.error(mensagemErroFinal);
+        } else {
+            onNext();
+        }}
     return(
         <>
             <h3>Endereço : <br /> <br /></h3>
@@ -112,22 +129,22 @@ const SegundoPasso = ({ formData, onNext,onBack, onFormChange })=>{
                 <div className="w-100 flex justify-between">
 
                     <button
-                        type="submit"
+                        type="button"
                         className="w-100 text-sm px-4 py-2 h-full font-semibold rounded border border-orange-400  hover:bg-orange-principal hover:text-white-principal transition-all undefined"
                         onClick={onBack}
                     >   
                         Voltar
                     </button>
                     <button
-                        type="submit"
+                        type="button"
                         className="w-100 text-sm px-4 py-2 h-full font-semibold rounded border border-orange-400  hover:bg-orange-principal hover:text-white-principal transition-all undefined"
-                        onClick={onNext}
+                        onClick={aProsseguir}
                     >   
                         Próximo
                     </button>
                 
                 </div>
-            
+                <ToastContainer/>
             </form>
         </>
     )
