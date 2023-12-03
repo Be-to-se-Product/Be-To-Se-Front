@@ -59,6 +59,7 @@ const GerenciamentoProdutos = () => {
     const file = event.target.files[0];
     const formData = new FormData();
     formData.append("arquivo", file);
+    formData.append("arquivo", file);
 
     api
       .post("/produtos/upload-csv?secao=" + idEstabelecimento, formData)
@@ -155,6 +156,7 @@ const GerenciamentoProdutos = () => {
   };
 
   useEffect(() => {
+    getSecoes();
     getProdutos();
   }, []);
 
@@ -209,6 +211,10 @@ const GerenciamentoProdutos = () => {
         return "";
     }
   };
+
+  const selectSecao = (id) => {
+    setSecaoSelecionada(id.target.value);
+  }
 
   return (
     <>

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import InputRoot from "../../../componentes/Input/InputRoot";
 import { useForm } from "react-hook-form";
 import { MenuItem, Select, Autocomplete, TextField, Chip } from "@mui/material";
-import { info } from "autoprefixer";
+import BotaoSwitch from "../../../componentes/Switch/BotaoSwitch";
 const Step1 = ({ getData, children, infoBanco, dataStorage }) => {
   const { register, handleSubmit, setValue, formState, watch } = useForm();
 
@@ -12,7 +12,6 @@ const Step1 = ({ getData, children, infoBanco, dataStorage }) => {
     maxLength: "Campo deve ter no máximo 50 caracteres",
     isNumber: "Campo deve ser um número",
   };
-
 
   const schemaValidate = {
     nome: {
@@ -42,14 +41,20 @@ const Step1 = ({ getData, children, infoBanco, dataStorage }) => {
       required: true,
     },
   };
-  useEffect(()=>{
-    dataStorage.tags ? setValue("tags", dataStorage.tags) : setValue("tags", [])
-  },[])
+  useEffect(() => {
+    dataStorage.tags
+      ? setValue("tags", dataStorage.tags)
+      : setValue("tags", []);
+  }, []);
   return (
     <form
       className={`flex  flex-col items-center `}
       onSubmit={handleSubmit(getData)}
     >
+      <div className="w-full mb-3 flex justify-end gap-x-3 items-center">
+        Ativar Promoção
+        <BotaoSwitch />
+      </div>
       <div className={`flex gap-x-4`}>
         <div className="w-1/2 flex flex-col gap-y-4">
           <div className="h-24">
@@ -163,15 +168,15 @@ const Step1 = ({ getData, children, infoBanco, dataStorage }) => {
           options={infoBanco?.tag}
           getOptionLabel={(option) => option?.nome}
           limitTags={5}
-          {...register("tags",{
-            validate:{
+          {...register("tags", {
+            validate: {
               minLength: (value) => value.length > 0,
-            }
+            },
           })}
           freeSolo
           defaultValue={dataStorage?.tags}
           onChange={(event, value) => {
-            setValue("tags", !value ? [] : value,{shouldValidate: true});
+            setValue("tags", !value ? [] : value, { shouldValidate: true });
           }}
           renderTags={(value, getTagProps) => {
             return value.map((option, index) => (
