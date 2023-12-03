@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import arrow from "../../assets/arrow.svg";
-import pix from "../../assets/pix.png"
 import carrinho from "../../assets/pedido_feito.png"
+import {descriptografar} from "../../utils/Autheticated"
+import api from "../../services/api";
+import CardProduto from './componentes/CardProduto';
+import CardMetodo from './componentes/CardMetodo';
+import {  useNavigate } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 
 function Compra() {
     const [showOverlay, setShowOverlay] = useState(false);
@@ -11,6 +16,15 @@ function Compra() {
     const [showMetodosAceito, setShowMetodosAceito] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
     const [showDivOverlay, setDivOverlay] = useState(true);
+    const [userId, setUserId] = useState(null);
+    const [produtos, setProdutos] = useState([]);
+    const [estabelecimentoId, setEstabelecimentoId] = useState(null);
+    const [metodos, setMetodos] = useState([]);
+    const navigate = useNavigate();
+    const [selectedMetodo, setSelectedMetodo] = useState(null);
+    const location = useLocation();
+    const itens = location.state;
+    console.log(itens);
 
     const handleOptionChange = (option) => {
         setSelectedOption(option);
@@ -56,8 +70,69 @@ function Compra() {
         justifyContent: 'space-around',
         alignItems: 'center',
         width: '100%',
+    };
+
+    const getProdutos = async () => {
+        try {
+            const res = await api.post(`/produtos/venda`, itens);
+            console.log(res.data[0].idEstabelecimento);
+            setEstabelecimentoId(res.data[0].idEstabelecimento);
+            setProdutos(res.data.length === 0 ? [] : res.data);
+            console.log(res.data);
+    
+            getMetodos(res.data[0].idEstabelecimento);
+        } catch (err) {
+        }
+    };
+
+      const getMetodos = (estabelecimentoId) => {
+       // toast.loading("Carregando...");
+        api
+          .get(`/estabelecimentos/metodos/${estabelecimentoId}`)
+          .then((res) => {
+         //   toast.dismiss();
+            setMetodos(res.data.length == 0 ? [] : res.data);
+            console.log(res.data);
+          })
+          .catch((err) => {});
       };
 
+    const finalizarCompra = () => {
+        let idEstabelecimento = userId;
+        let idMetodoPagamento=selectedMetodo;
+        let isPagamentoOnline=false;
+        let idConsumidor = userId;
+        let metodo={
+            idMetodoPagamento: idMetodoPagamento,
+            isPagamentoOnline: false
+        }
+        const data = {
+            idConsumidor,
+            idEstabelecimento,
+            itens,
+            metodo
+        };
+
+        console.log("Payload:", JSON.stringify(data));
+        //const loading = toast.loading("Carregando...");
+        api
+          .post("/pedidos", data)
+          .then((response) => {
+            //toast.dismiss(loading);
+            //toast.success("Produto adicionado ao carrinho!", { autoClose: 2000 });
+          })
+          .catch((error) => {
+           // toast.dismiss(loading);
+          });
+      };  
+
+    useEffect(() => {
+        const userDetailsCrypt = descriptografar(sessionStorage?.USERDETAILS);
+        console.log(userDetailsCrypt);
+        const { id } = JSON.parse(userDetailsCrypt);
+        setUserId(id);
+        getProdutos();
+    }, []);
 
     return (
         <div className="flex flex-row">
@@ -98,36 +173,23 @@ function Compra() {
                     <div id='metodos_aceito' className=' flex flex-col mt-20 w-full items-center gap-y-14'>
                         <h2 className='text-2xl'>Métodos de pagamento acieto no estabelecimento</h2>
                         <div className='flex flex-row gap-y-6 w-full items-center justify-center gap-3 flex-wrap'style={{maxWidth: '800px', maxHeight: '200px', overflow: 'auto'}}>
-                            <div className='flex flex-row drop-shadow-lg'>
-                                <div className='flex flex-row bg-black-100 w-20 h-20 border-solid border-2 border-stroke-principal items-center justify-center'>
-                                <img src={pix} alt="" className="h-14" />
-                                </div>
-                                <div className='flex flex-row px-8 py-6 bg-black-100 w-72 rounded-e-lg border-solid border-2 border-stroke-principal border-l-0'>
-                                    <p>PIX</p>
-                                </div>
-                            </div>
-                            <div className='flex flex-row drop-shadow-lg'>
-                                <div className='flex flex-row bg-black-100 w-20 h-20 border-solid border-2 border-stroke-principal items-center justify-center'>
-                                <img src={pix} alt="" className="h-14" />
-                                </div>
-                                <div className='flex flex-row px-8 py-6 bg-black-100 w-72 rounded-e-lg border-solid border-2 border-stroke-principal border-l-0'>
-                                    <p>PIX</p>
-                                </div>
-                            </div>
-                            <div className='flex flex-row drop-shadow-lg'>
-                                <div className='flex flex-row bg-black-100 w-20 h-20 border-solid border-2 border-stroke-principal items-center justify-center'>
-                                <img src={pix} alt="" className="h-14" />
-                                </div>
-                                <div className='flex flex-row px-8 py-6 bg-black-100 w-72 rounded-e-lg border-solid border-2 border-stroke-principal border-l-0'>
-                                    <p>PIX</p>
-                                </div>
-                            </div>
+                            {metodos.map((metodo) => (
+                                <CardMetodo 
+                                    key={metodo.id}
+                                    metodo={metodo.id}
+                                    isSelected={selectedMetodo === metodo.id}
+                                    onSelect={() => setSelectedMetodo(metodo.id)}
+                                />
+                            ))}
                         </div>
                         <div className='flex flex-row gap-x-8'>
                             <button className='bg-orange_opacity-principal py-2 px-4 h-max text-base font-medium rounded-lg w-52' onClick={handleBack}>
                                 Voltar
                             </button>
-                            <button className='bg-orange-principal py-2 px-4 h-max text-base font-medium rounded-lg w-52'onClick={handleFinalize}>
+                            <button className='bg-orange-principal py-2 px-4 h-max text-base font-medium rounded-lg w-52'onClick={()=>{
+                                handleFinalize();
+                                finalizarCompra();
+                            }}>
                             Finalizar
                             </button>
                         </div>
@@ -147,7 +209,7 @@ function Compra() {
                             <button className='bg-orange-principal py-2 px-8 h-max text-base font-medium rounded-lg'>
                                 Acompanhar o pedido
                             </button>
-                            <button className="py-2 text-xs font-medium text-blue-900">
+                            <button className="py-2 text-xs font-medium text-blue-900" onClick={()=>navigate(`/index`)}>
                                 Voltar para página inicial
                             </button>
                         </div>
@@ -156,7 +218,7 @@ function Compra() {
             </div>
             <div id='overlay' style={{...overlayStyle, display: showDivOverlay ? 'flex' : 'none'}}className='flex flex-col items-center'>
                 <div className='flex flex-row py-8' style={innerContainerStyle}>
-                    <button className='bg-orange-principal py-2 px-4 h-max text-base font-medium rounded-lg'>
+                    <button className='bg-orange-principal py-2 px-4 h-max text-base font-medium rounded-lg'onClick={()=>navigate(`/index`)}>
                         Cancelar compra
                     </button>
                     <div className='flex flex-col items-center transform -translate-y-2/3'>
@@ -167,6 +229,17 @@ function Compra() {
                     </div>
                     <p className='font-medium'>Total a pagar: R$1529,95</p>
                 </div>
+                <div className='flex flex-col gap-y-4 overflow-auto w-10/12'>
+                    {produtos.map((produto) => (
+                        <CardProduto
+                            key={produto.id}
+                            nome={produto.nome}
+                            quantidade={produto.qtd}
+                            preco={produto.preco}
+                        />
+                    ))}
+                </div>
+                    
             </div>
         </div>
     );
