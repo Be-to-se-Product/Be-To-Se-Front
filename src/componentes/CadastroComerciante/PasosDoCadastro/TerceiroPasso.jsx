@@ -9,6 +9,7 @@ import {  useNavigate } from "react-router-dom";
 
 const TerceiroPasso = ({ formData, onNext , onBack, onFormChange })=>{
   // injectStyle();
+  const aceito='';
 
   const navigate = useNavigate();
   const handleChange = (field, event) => {
@@ -77,7 +78,7 @@ const TerceiroPasso = ({ formData, onNext , onBack, onFormChange })=>{
                     placeholder="Digite seu email"
                     />
                 </div>
-
+                {/* <div className="flex flex-row justify-evenly gap-5 "> */}
                 <div className="mb-4">
                     <label htmlFor="senha" className="block text-sm font-medium text-gray-600">
                     Senha:
@@ -105,6 +106,20 @@ const TerceiroPasso = ({ formData, onNext , onBack, onFormChange })=>{
                     placeholder="Confirme sua senha"
                     />
                 </div>
+                {/* </div> */}
+                {/* <div className="mb-6">
+                    <label htmlFor="aceitarTermos" className="block text-sm font-medium text-gray-600">
+                    Termo de aceite :
+                    </label>
+                    <input
+                      type="checkbox"
+                      id="concordouTermos"
+                      checked={formData.concordouTermos}
+                      onChange={(e) => handleChange('concordouTermos', e)}
+                      className="mr-2"
+                    />
+                    <span className="text-sm font-medium text-gray-600">Estou de acordo com os <a href="">termos de uso</a> da aplicação!</span>
+                </div> */}
 
                 
                 <div className="w-100 flex justify-between">

@@ -9,9 +9,9 @@ const Breadcrumb = ({ steps, currentStep }) => {
             key={step}
             className={`w-4 h-4 mx-1 rounded-full ${
             index < currentStep
-                ? 'bg-blue-500' // Colorir as bolinhas anteriores
+                ? 'bg-black-900' // Colorir as bolinhas anteriores
                 : index === currentStep
-                ? 'bg-green-500' // Colorir a bolinha atual
+                ? 'bg-yellow-500' // Colorir a bolinha atual
                 : 'bg-gray-300' // Deixar as bolinhas futuras em uma cor diferente
             }`}
         ></div>
