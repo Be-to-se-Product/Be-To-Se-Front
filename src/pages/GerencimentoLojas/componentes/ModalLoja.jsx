@@ -7,10 +7,14 @@ import { orange } from "@mui/material/colors";
 import BotaoSwitch from "../../../componentes/Switch/BotaoSwitch";
 import SwitchBase from "@mui/material/internal/SwitchBase";
 import RowSessao from "./RowSessao";
+import { useForm } from 'react-hook-form';
+import api from "../../../services/api";
 
 const ModalLoja = ({closeModal,handleSubmit}) => {
   const [rowSessao, setRowSessao] = useState([]);
   const [stateAtual, setStateAtual] = useState(0);
+  
+  const { register } = useForm();
 
   return (
     <section className="flex flex-col w-[850px]  bg-white-principal gap-y-10 h-[700px] py-20 px-16 ">
@@ -36,34 +40,34 @@ const ModalLoja = ({closeModal,handleSubmit}) => {
           <div className=" flex flex-col gap-y-6 ">
             <div className="flex flex-col gap-y-1">
               <InputRoot.Label>Nome da loja</InputRoot.Label>
-              <InputRoot.Input></InputRoot.Input>
+              <InputRoot.Input register={register("nome")}></InputRoot.Input>
             </div>
 
             <div className="flex flex-col gap-y-1">
               <InputRoot.Label>Segmento da loja</InputRoot.Label>
-              <InputRoot.Input></InputRoot.Input>
+              <InputRoot.Input register={register("segmento")}></InputRoot.Input>
             </div>
 
             <div className="flex flex-col gap-y-1">
               <InputRoot.Label>Numero de contato</InputRoot.Label>
-              <InputRoot.Input></InputRoot.Input>
+              <InputRoot.Input  register={register("telefoneContato")}></InputRoot.Input>
             </div>
           </div>
 
           <div className="flex flex-col justify-between">
             <div className="flex flex-col gap-y-1">
               <InputRoot.Label>E-mail de contato</InputRoot.Label>
-              <InputRoot.Input></InputRoot.Input>
+              <InputRoot.Input register={register("emailContato")}></InputRoot.Input>
             </div>
 
             <div className="flex flex-col gap-y-1">
               <InputRoot.Label>Perfil do Instagram</InputRoot.Label>
-              <InputRoot.Input></InputRoot.Input>
+              <InputRoot.Input register={register("referenciaInstagram")}></InputRoot.Input>
             </div>
 
             <div className="flex flex-col gap-y-1">
               <InputRoot.Label>Perfil do facebook</InputRoot.Label>
-              <InputRoot.Input></InputRoot.Input>
+              <InputRoot.Input register={register("referenciaFacebook")}></InputRoot.Input>
             </div>
           </div>
         </div>
@@ -78,7 +82,7 @@ const ModalLoja = ({closeModal,handleSubmit}) => {
           <div className=" flex  ">
             <div className="flex flex-col gap-y-1 w-2/6 ">
               <InputRoot.Label>CEP</InputRoot.Label>
-              <InputRoot.Input></InputRoot.Input>
+              <InputRoot.Input register={register("nome")}></InputRoot.Input>
             </div>
           </div>
 
