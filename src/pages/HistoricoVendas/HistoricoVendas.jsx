@@ -15,7 +15,7 @@ import {
 import ModalPedidos from "./componentes/ModalPedidos";
 import TableRoot from "../../componentes/Table/TableRoot";
 import moment from "moment";
-
+import ModalImportar from "./componentes/ModalImportar";
 const HistoricoVendas = () => {
   const [isModal, setIsModal] = useState(false);
   const [vendas, setVendas] = useState([]);
@@ -29,7 +29,7 @@ const HistoricoVendas = () => {
   const [ate, setAte] = useState(null);
   const [status, setStatus] = useState(null);
   const statusOptions = ['Entregue', 'Cancelado'];
-
+  const [isConfirmacaoModalOpen, setIsConfirmacaoModalOpen] = useState(false);
   const fetchHistoricoVendas = () => {
     toast.loading("Carregando histórico de vendas...");
     api.get(`/historico-vendas/1`, {
@@ -76,8 +76,8 @@ const HistoricoVendas = () => {
     const params = {
       de: de,
       ate: ate,
-      status: status? status: null,
-      metodoPagamento: metodoPagamentoSelecionado? metodoPagamentoSelecionado : null,
+      status: status ? status : null,
+      metodoPagamento: metodoPagamentoSelecionado ? metodoPagamentoSelecionado : null,
       page: !page ? 0 : page,
       size: !size ? 30 : size,
     };
@@ -93,7 +93,7 @@ const HistoricoVendas = () => {
           return;
         }
         console.log();
-        setVendas(responseData.content? responseData.content : []);
+        setVendas(responseData.content ? responseData.content : []);
         setPage(responseData.number);
         setSize(responseData.size);
       })
@@ -132,12 +132,12 @@ const HistoricoVendas = () => {
     const formattedDate = moment.utc(event.target.value).format("YYYY-MM-DDTHH:mm:ss");
     setDe(formattedDate);
   };
-  
+
   const handleAteChange = (event) => {
     const formattedDate = moment.utc(event.target.value).format("YYYY-MM-DDTHH:mm:ss");
     setAte(formattedDate);
   };
-  
+
 
   const handleStatusChange = (event) => {
     setStatus(event.target.value);
@@ -186,10 +186,19 @@ const HistoricoVendas = () => {
             <DownloadIcon className="mr-2" />
             Exportar histórico
           </Button>
-          <Button className="bg-green-600 h-max text-white-principal w-max mr-2">
+          {/* <Button
+           className="bg-green-600 h-max text-white-principal w-max mr-2"
+           onClick ={setIsConfirmacaoModalOpen(true)}>
             <FileUploadIcon className="mr-2" />
             Importar histórico
           </Button>
+          <ModalImportar"
+            open={isConfirmacaoModalOpen}
+            onClose={() => setIsConfirmacaoModalOpen(false)}
+            onConfirm={() => {
+              setIsConfirmacaoModalOpen(false);
+            }}
+          /> */}
         </div>
         <div className="filter flex gap-x-4 w-full justify-between items-end bg-white-principal px-8 py-4 rounded ">
           <div className="flex flex-col flex-1">
