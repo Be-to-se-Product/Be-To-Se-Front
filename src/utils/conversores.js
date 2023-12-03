@@ -45,5 +45,5 @@ export const conversorTime = (segundos) => {
   const minutos = Math.floor((segundos % 3600) / 60);
 
 
-  return `${horas>0 ? horas+"h":""} ${minutos}min`;
+  return `${horas>0 ? horas+" h ":""} ${minutos} min`;
 }

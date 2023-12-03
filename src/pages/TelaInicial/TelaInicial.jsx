@@ -1,8 +1,7 @@
 import { Input } from "postcss";
 import NavbarRoot from "../../componentes/Navbar/NavbarRoot";
 import Button from "../../componentes/Button/Button";
-import CardProduto from "./componentes/CardProdutoCocaCola";
-import CardProdutoFoneOuvido from "./componentes/CardProdutoFoneOuvido";
+import CardProduto from "./componentes/CardProduto";
 import BotaoSwitch from "../../componentes/Switch/BotaoSwitch";
 import CardLoja from "./componentes/CardLoja";
 import CardCategoria from "./componentes/CardCategoria";
@@ -11,10 +10,16 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CardOfertaCocaCola from "./componentes/CardOfertaCocaCola";
-import CardProdutoIphone from "./componentes/CardProdutoIphone";
+import { useEffect, useState } from "react";
+import api from "../../services/api";
+import { geolocation } from "../../utils/geolocation";
+
 
 
 function TelaInicial(props) {
+  const [produtos, setProdutos] = useState([]);
+  const [originCoordinates, setOriginCoordinates] = useState({ lat: null, lon: null });
+
   const settings = {
     dots: true,
     infinite: true,
@@ -25,14 +30,35 @@ function TelaInicial(props) {
     autoplaySpeed: 1000,
   };
 
+  useEffect(() => {
+    geolocation(setOriginCoordinates);
+  }, []);
+
+  useEffect(() => {
+    api.get("/produtos/mapa", {
+      params: {
+        latitude: originCoordinates.lat,
+        longitude: originCoordinates.lon,
+        distancia: 50,
+        nome: null,
+        metodoPagamento: null,
+      },
+    }).then((response) => {
+      setProdutos(response.data);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }, [originCoordinates]);
+
+
   return (
     <div>
       <NavbarRoot.Content>
         <NavbarRoot.ContentTop>
-          <NavbarRoot.Logo/>
-          <NavbarRoot.Pesquisa/>
-          {sessionStorage.USERDETAILS ? (<NavbarRoot.Authenticated/>) : (<NavbarRoot.Sign/>)}
-          
+          <NavbarRoot.Logo />
+          <NavbarRoot.Pesquisa />
+          {sessionStorage.USERDETAILS ? (<NavbarRoot.Authenticated />) : (<NavbarRoot.Sign />)}
+
         </NavbarRoot.ContentTop>
         <NavbarRoot.Menu>
           <NavbarRoot.Item></NavbarRoot.Item>
@@ -58,13 +84,10 @@ function TelaInicial(props) {
             </div>
           </div>
           <div className="flex flex-col items-center gap-[48px] w-full justify-between">
-            <div className="w-auto mx-auto pl-3 pr-3 py-4 gap-3 flex justify-content align-center">
-              <CardProduto></CardProduto>
-              <CardProduto></CardProduto>
-              <CardProdutoFoneOuvido></CardProdutoFoneOuvido>
-              <CardProdutoFoneOuvido></CardProdutoFoneOuvido>
-              <CardProdutoIphone></CardProdutoIphone>
-              <CardProdutoIphone></CardProdutoIphone>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+              {produtos?.map((produto) => (
+                <CardProduto key={produto.id} produto={produto} />
+              ))}
             </div>
           </div>
 
