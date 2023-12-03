@@ -9,12 +9,26 @@ import Step5 from "./Step5";
 import api from "../../../services/api";
 import Step6 from "./Step6";
 
-const ModalLoja = ({ closeModal }) => {
-  const [stateAtual, setStateAtual] = useState(5);
+const ModalLojaUpdate = ({ closeModal, id }) => {
+  const [stateAtual, setStateAtual] = useState(0);
   const [storage, setStorage] = useState({});
 
+  useEffect(() => {
+    (async () => {
+      if (id) {
+        await api
+          .get(`/estabelecimentos/${id}`)
+          .then((response) => {
+            setStorage(response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    })();   
+  }, []);
   const nextStep = () => {
-      setStateAtual((prev) => prev + 1);
+    setStateAtual((prev) => prev + 1);
   };
   const prevStep = () => {
     if (stateAtual - 1 >= 0) {
@@ -22,73 +36,70 @@ const ModalLoja = ({ closeModal }) => {
     }
   };
 
-  const steps=[
-    
-  ]
+  const steps = [];
 
   useEffect(() => {
-    if (stateAtual>5) {
+    if (stateAtual > 5) {
       console.log(storage);
       saveEstabelecimento(storage);
       closeModal();
-      
     }
   }, [stateAtual]);
 
-const saveEstabelecimento = (storage) => {
-
-  const agenda = [];
-  for (const [key, value] of Object.entries(storage.diaSemana)) {
-    if(value.isOpen){
-      agenda.push({
-        dia:key,
-        horarioInicio:value.horarioInicio,
-        horarioFim:value.horarioFim,
-      })
+  const saveEstabelecimento = (storage) => {
+    const agenda = [];
+    for (const [key, value] of Object.entries(storage.diaSemana)) {
+      if (value.isOpen) {
+        agenda.push({
+          dia: key,
+          horarioInicio: value.horarioInicio,
+          horarioFim: value.horarioFim,
+        });
+      }
     }
-    
-  }
-  const secao=storage.sessoes.map((sessao)=>sessao.texto)
-  console.log(secao);
- 
+    const secao = storage.sessoes.map((sessao) => sessao.texto);
+    console.log(secao);
 
-  const estabelecimento = {
-    nome:storage.nome,
-    endereco:{
-      cep:storage.cep,
-      numero:storage.numero,
-      bairro:storage.bairro,
-      cidade:storage.cidade,
-      estado:storage.estado,
-      rua:storage.logradouro,
-    },
-    agenda,
-    segmento:storage.segmento,
-    telefoneContato:storage.telefoneContato,
-    emailContato:storage.emailContato,
-    referenciaFacebook:storage.referenciaFacebook,
-    referenciaInstagram:storage.referenciaInstagram,
-    secao,
-    metodoPagamento:storage.metodosPagamento,
-  }
+    const estabelecimento = {
+      nome: storage.nome,
+      endereco: {
+        cep: storage.cep,
+        numero: storage.numero,
+        bairro: storage.bairro,
+        cidade: storage.cidade,
+        estado: storage.estado,
+        rua: storage.logradouro,
+      },
+      agenda,
+      segmento: storage.segmento,
+      telefoneContato: storage.telefoneContato,
+      emailContato: storage.emailContato,
+      referenciaFacebook: storage.referenciaFacebook,
+      referenciaInstagram: storage.referenciaInstagram,
+      secao,
+      metodoPagamento: storage.metodosPagamento,
+    };
 
-
-  api.post("/estabelecimentos",estabelecimento).then((response)=>{
-    
-    if(response.status==201 && storage.imagem.length>0){
-      const formData = new FormData();
-      formData.append("imagem", storage.imagem[0]);
-      api.post(`/estabelecimentos/${response.data.id}/imagem`,formData).then((response)=>{
-        console.log(response);
-      }).catch((error)=>{
+    api
+      .post("/estabelecimentos", estabelecimento)
+      .then((response) => {
+        if (response.status == 201 && storage.imagem.length > 0) {
+          const formData = new FormData();
+          formData.append("imagem", storage.imagem[0]);
+          api
+            .post(`/estabelecimentos/${response.data.id}/imagem`, formData)
+            .then((response) => {
+              console.log(response);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+      })
+      .catch((error) => {
         console.log(error);
-      })
-     
-    }
-  }).catch((error)=>{
-    console.log(error);
-  })
-}
+      });
+  };
   return (
     <section className="flex flex-col w-[900px]  bg-white-principal gap-y-10 h-[750px] py-20 px-16 ">
       <div
@@ -119,8 +130,6 @@ const saveEstabelecimento = (storage) => {
             Foto
           </StepperRoot.Step>
         </StepperRoot.Content>
-
-        
       </div>
 
       <FormContext.Provider
@@ -137,4 +146,4 @@ const saveEstabelecimento = (storage) => {
   );
 };
 
-export default ModalLoja;
+export default ModalLojaUpdate;

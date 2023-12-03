@@ -13,7 +13,7 @@ import AplicattionContext from "../../context/Apllicattion/AplicattionContext";
 
 const MenuComerciante = ({ children, isLogo }) => {
   const [user, setUser] = useState({});
-  const [logoEstabelecimento, setLogo] = useState(logo);
+  const [logoEstabelecimento, setLogo] = useState("");
   const { idEstabelecimento } = useContext(AplicattionContext);
   const navigate = useNavigate();
 
@@ -52,7 +52,7 @@ const MenuComerciante = ({ children, isLogo }) => {
               <img
                 src={logoEstabelecimento}
                 alt=""
-                className="w-[130px] rounded-full"
+                className="w-[150px] h-[150px] rounded-full"
               />
             )}
             <h2 className="font-medium py-2 text-base text-white-principal">

@@ -8,15 +8,19 @@ import ModalLoja from "./componentes/ModalLoja";
 import { useEffect } from "react";
 import AplicattionContext from "../../context/Apllicattion/AplicattionContext";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import ModalLojaUpdate from "./componentes/ModalLojaUpdate";
 
 const GerenciamentoLoja = () => {
   const [isVisibleModal, setIsVisibleModal] = useState(false);
   const [isVisibleModalDelete, setIsVisibleModalDelete] = useState(false);
+  const [isVisibleModalUpdate, setIsVisibleModalUpdate] = useState({
+    open: false,
+    id: "",
+  });
   const [getEstabelecimento, setEstabelecimento] = useState([]);
   const { setIdEstabelecimento } = useContext(AplicattionContext);
   const navigate = useNavigate();
   const location = useLocation();
-
 
   const getLista = () => {
     api
@@ -57,10 +61,21 @@ const GerenciamentoLoja = () => {
             >
               <path
                 d="M1 2V0H17V2H1ZM1 16V10H0V8L1 3H17L18 8V10H17V16H15V10H11V16H1ZM3 14H9V10H3V14ZM2.05 8H15.95L15.35 5H2.65L2.05 8Z"
-                fill={location.pathname === "/comerciante/lojas" ? "orange" : "white"}
+                fill={
+                  location.pathname === "/comerciante/lojas"
+                    ? "orange"
+                    : "white"
+                }
               />
             </svg>{" "}
-            <span className={location.pathname==="/comerciante/lojas" && 'text-orange-menu font-medium'}>Gerenciar Lojas</span>
+            <span
+              className={
+                location.pathname === "/comerciante/lojas" &&
+                "text-orange-menu font-medium"
+              }
+            >
+              Gerenciar Lojas
+            </span>
           </li>
         </Link>
         <li className="text-lg text-white-principal flex gap-x-4  mb-5 items-center">
@@ -76,7 +91,14 @@ const GerenciamentoLoja = () => {
               fill="white"
             />
           </svg>
-          <span className={location.pathname==="/comerciante/analise" && 'text-orange-menu font-medium'}>Análises de Venda</span>
+          <span
+            className={
+              location.pathname === "/comerciante/analise" &&
+              "text-orange-menu font-medium"
+            }
+          >
+            Análises de Venda
+          </span>
         </li>
 
         <Link to="/comerciante/vendas">
@@ -94,7 +116,14 @@ const GerenciamentoLoja = () => {
               />
             </svg>
 
-            <span className={location.pathname==="/comerciante/dados" && 'text-orange-500 font-medium'}>Dados Cadastrais</span>
+            <span
+              className={
+                location.pathname === "/comerciante/dados" &&
+                "text-orange-500 font-medium"
+              }
+            >
+              Dados Cadastrais
+            </span>
           </li>
         </Link>
       </MenuComerciante>
@@ -110,8 +139,12 @@ const GerenciamentoLoja = () => {
           {getEstabelecimento.map((element) => (
             <CardLojaRoot.Content>
               <CardLojaRoot.Header>
-                <div className="flex gap-x-2">
-                  <img src={""} alt="" />
+                <div className="flex gap-x-2 items-center">
+                  <img
+                    src={element?.imagens ? element.imagens[0] : ""}
+                    alt=""
+                    className="w-10 h-10 rounded-full"
+                  />
                   <h2 className="text-base font-normal">{element.nome}</h2>
                 </div>
                 <div className="flex items-center gap-x-2 ">
@@ -176,15 +209,28 @@ const GerenciamentoLoja = () => {
                   >
                     Gerenciar
                   </Button>
+                  <Button
+                    className={"rounded-lg"}
+                    onClick={() => setIsVisibleModalUpdate({open:true, id:element.id})}
+                  >
+                    Atualizar
+                  </Button>
                 </div>
               </CardLojaRoot.Footer>
             </CardLojaRoot.Content>
           ))}
         </div>
       </section>
-      <Modal isVisible={isVisibleModal}>
-        <ModalLoja closeModal={setIsVisibleModal} />
-      </Modal>
+      {isVisibleModalUpdate.open && (
+        <Modal isVisible={isVisibleModalUpdate.open}>
+          <ModalLojaUpdate closeModal={setIsVisibleModalUpdate} id={isVisibleModalUpdate.id} />
+        </Modal>
+      )}
+      {isVisibleModal && (
+        <Modal isVisible={isVisibleModal}>
+          <ModalLoja closeModal={setIsVisibleModal} />
+        </Modal>
+      )}
 
       <Modal isVisible={isVisibleModalDelete}>
         <div className="bg-white-principal px-10 py-8 flex flex-col gap-y-8 rounded-sm">

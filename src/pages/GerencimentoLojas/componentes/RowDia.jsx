@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Checkbox } from "@mui/material";
 import orange from "@mui/material/colors/orange";
 import InputRoot from "../../../componentes/Input/InputRoot";
 
-const RowDia = ({ register, dia }) => {
+const RowDia = ({ register, dia,watch }) => {
+const ativo = watch(`diaSemana.${dia.toLowerCase()}.isOpen`);
+useEffect(() => {
+  console.log(ativo);
+}, []);
   return (
     <div className=" grid grid-cols-[repeat(4,120px)] items-center   gap-x-4">
       <span>
@@ -25,6 +29,7 @@ const RowDia = ({ register, dia }) => {
       <span>{dia}</span>
       <span>
         <InputRoot.Input
+        disabled={!ativo}
           register={register(
             `diaSemana.${dia
               .normalize("NFD")
@@ -35,6 +40,7 @@ const RowDia = ({ register, dia }) => {
       </span>
       <span>
         <InputRoot.Input
+        disabled={!ativo}
           register={register(
             `diaSemana.${dia
               .normalize("NFD")
