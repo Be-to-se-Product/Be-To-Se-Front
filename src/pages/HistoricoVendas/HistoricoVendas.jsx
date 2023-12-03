@@ -15,12 +15,12 @@ import {
 import ModalPedidos from "./componentes/ModalPedidos";
 import TableRoot from "../../componentes/Table/TableRoot";
 import moment from "moment";
-
+import ModalImportar from "./componentes/ModalImportar";
 const HistoricoVendas = () => {
   const [isModal, setIsModal] = useState(false);
   const [vendas, setVendas] = useState([]);
   const [page, setPage] = useState(0);
-  const [size, setSize] = useState(10);
+  const [size, setSize] = useState(null);
   const [metodosPagamentos, setMetodosPagamentos] = useState([]);
   const [metodoPagamentoSelecionado, setMetodoPagamentoSelecionado] = useState('');
   const [showOptions, setShowOptions] = useState();
@@ -29,7 +29,7 @@ const HistoricoVendas = () => {
   const [ate, setAte] = useState(null);
   const [status, setStatus] = useState(null);
   const statusOptions = ['Entregue', 'Cancelado'];
-
+  const [isConfirmacaoModalOpen, setIsConfirmacaoModalOpen] = useState(false);
   const fetchHistoricoVendas = () => {
     toast.loading("Carregando histórico de vendas...");
     api.get(`/historico-vendas/1`, {
@@ -76,28 +76,31 @@ const HistoricoVendas = () => {
     const params = {
       de: de,
       ate: ate,
-      status: status,
-      metodoPagamento: metodoPagamentoSelecionado,
+      status: status ? status : null,
+      metodoPagamento: metodoPagamentoSelecionado ? metodoPagamentoSelecionado : null,
       page: !page ? 0 : page,
-      size: !size ? 10 : size,
+      size: !size ? 30 : size,
     };
 
     api.get(`/historico-vendas/filtro/1`, { params })
       .then(response => {
         toast.dismiss();
+        console.log(response.status);
+        console.log(response.data);
         const responseData = response.data;
-        if (responseData?.length === 0) {
+        if (responseData.length === 0) {
           toast.info("Não existem vendas.");
           return;
         }
-        setVendas(responseData.content);
+        console.log();
+        setVendas(responseData.content ? responseData.content : []);
         setPage(responseData.number);
         setSize(responseData.size);
       })
       .catch(error => {
         console.error(error);
-        toast.dismiss();
         toast.error("Erro ao carregar o histórico de vendas.");
+        toast.dismiss();
       });
   };
 
@@ -106,6 +109,7 @@ const HistoricoVendas = () => {
     toast.loading("Carregan do métodos de pagamento...");
     api.get(`historico-vendas/1/metodos-pagamento`)
       .then(response => {
+        toast.dismiss();
         setMetodosPagamentos(response.data);
       })
       .catch(error => {
@@ -125,15 +129,15 @@ const HistoricoVendas = () => {
   };
 
   const handleDeChange = (event) => {
-    console.log(event.target.value);
-    const formattedDate = event.target.value; 
+    const formattedDate = moment.utc(event.target.value).format("YYYY-MM-DDTHH:mm:ss");
     setDe(formattedDate);
   };
 
   const handleAteChange = (event) => {
-    const formattedDate = event.target.value;
+    const formattedDate = moment.utc(event.target.value).format("YYYY-MM-DDTHH:mm:ss");
     setAte(formattedDate);
   };
+
 
   const handleStatusChange = (event) => {
     setStatus(event.target.value);
@@ -149,7 +153,8 @@ const HistoricoVendas = () => {
 
   const exportar = () => {
     const idEstabelecimento = 1;
-    api.get(`/download-txt/${idEstabelecimento}`, { responseType: 'blob' })
+    toast.loading('Baixando arquivo de vendas');
+    api.get(`historico-vendas/${idEstabelecimento}/download-txt`, { responseType: 'blob' })
       .then(response => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement('a');
@@ -162,6 +167,8 @@ const HistoricoVendas = () => {
       .catch(error => {
         console.error('Download error', error);
         toast.error("Erro ao exportar o histórico de vendas.");
+      }).finally(() => {
+        toast.dismiss();
       });
   };
 
@@ -179,10 +186,19 @@ const HistoricoVendas = () => {
             <DownloadIcon className="mr-2" />
             Exportar histórico
           </Button>
-          <Button className="bg-green-600 h-max text-white-principal w-max mr-2">
+          {/* <Button
+           className="bg-green-600 h-max text-white-principal w-max mr-2"
+           onClick ={setIsConfirmacaoModalOpen(true)}>
             <FileUploadIcon className="mr-2" />
             Importar histórico
           </Button>
+          <ModalImportar"
+            open={isConfirmacaoModalOpen}
+            onClose={() => setIsConfirmacaoModalOpen(false)}
+            onConfirm={() => {
+              setIsConfirmacaoModalOpen(false);
+            }}
+          /> */}
         </div>
         <div className="filter flex gap-x-4 w-full justify-between items-end bg-white-principal px-8 py-4 rounded ">
           <div className="flex flex-col flex-1">
@@ -281,6 +297,7 @@ const HistoricoVendas = () => {
           onChange={(event, value) => setPage(value - 1)}
         />
       </BoxComerciante>
+      <ToastContainer></ToastContainer>
     </main>
   );
 };
