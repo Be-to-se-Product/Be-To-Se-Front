@@ -53,7 +53,7 @@ function DadosComerciante() {
         toast.dismiss(loading);
         toast.success("Dados atualizados com sucesso!",{autoClose:2000});
         setTimeout(() => {
-          //navigate("/index");
+          navigate("/index");
         }, 3000);
         console.log(comerciante.endereco);
       })
