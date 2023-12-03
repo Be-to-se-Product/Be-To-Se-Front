@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import FormContext from "../../../context/Form/FormContext";
 import { useForm } from "react-hook-form";
 import InputRoot from "../../../componentes/Input/InputRoot";
@@ -6,12 +6,36 @@ import Button from "../../../componentes/Button/Button";
 
 const Step1 = () => {
   const { setStorage, storage,nextStep,prevStep,stateAtual } = useContext(FormContext);
-
+  const [isApplyDefault,setIsApplyDefault] = useState(false);
   const { register, handleSubmit,formState:{
     errors
-  } } = useForm({
-   
+  },setValue } = useForm({
+   defaultValues:{
+    nome:storage.nome,
+    segmento:storage.segmento,
+    telefoneContato:storage.telefoneContato,
+    emailContato:"",
+    referenciaInstagram:"",
+    referenciaFacebook:""
+   }
   });
+
+useEffect(() => {
+
+  if(!isApplyDefault){
+  setValue("nome",storage.nome)
+  setValue("segmento",storage.segmento)
+  setValue("telefoneContato",storage.telefoneContato)
+  setValue("emailContato",storage.emailContato)
+  setValue("referenciaInstagram",storage.referenciaInstagram)
+  setValue("referenciaFacebook",storage.referenciaFacebook)
+  setIsApplyDefault(false)
+  console.log("aplicou");
+  }
+  
+
+},[storage])
+
 
 const message={
   required:"Campo obrigatório",
@@ -92,7 +116,7 @@ const message={
                   </div>
                 )}
               </div>
-            <InputRoot.Input register={register("segmento",schemaValidate.segmento)} defaultValue={storage.segmento}></InputRoot.Input>
+            <InputRoot.Input register={register("segmento",schemaValidate.segmento)} ></InputRoot.Input>
           </div>
 
           <div className="flex flex-col gap-y-1">

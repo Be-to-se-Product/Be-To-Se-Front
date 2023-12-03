@@ -101,7 +101,7 @@ const GerenciamentoLoja = () => {
           </span>
         </li>
 
-        <Link to="/comerciante/vendas">
+        <Link to="/comerciante/dados">
           <li className="text-lg text-white-principal flex gap-x-4 mb-5 items-center">
             <svg
               width="18"

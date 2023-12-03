@@ -14,12 +14,28 @@ const Step4 = () => {
     handleSubmit,
     formState: { errors },
     watch,
+    setValue
   } = useForm();
   const [metodosPagamento, setMetodosPagamento] = useState([]);
   
   useEffect(() => {
     getMetodosPagamento();
   }, []);
+
+  const [isApplyDefault, setIsApplyDefault] = useState(false);
+
+  useEffect(() => {
+
+    if(!isApplyDefault && Object.keys(storage).length>0){
+      if(storage?.metodosPagamento){
+      Object.entries(storage.metodosPagamento).forEach(([key,value])=>{
+        setValue(key,value)
+      })
+      setIsApplyDefault(true);
+    }
+    }
+    console.log(storage?.metodosPagamento);
+  },[storage])
 
   const getMetodosPagamento = () => {
     api
@@ -32,6 +48,7 @@ const Step4 = () => {
       });
   };
   const submit = (data, callback) => {
+    console.log(data);
     const metodosPagamento = [];
     for (const [key, value] of Object.entries(data)) {
       if (value) {
@@ -84,6 +101,7 @@ const Step4 = () => {
                     color: orange[600],
                   },
                 }}
+                defaultChecked={storage?.metodosPagamento?.find(el=>Object.keys(el)[0] == item.id.toString() || false) || false}
                 {...register(item.id.toString())}
               />
               <span className="text-center">{item.descricao}</span>

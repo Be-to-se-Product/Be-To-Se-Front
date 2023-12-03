@@ -6,12 +6,15 @@ import InputRoot from "../../../componentes/Input/InputRoot";
 const RowDia = ({ register, dia,watch }) => {
 const ativo = watch(`diaSemana.${dia.toLowerCase()}.isOpen`);
 useEffect(() => {
+  console.log(dia);
   console.log(ativo);
-}, []);
+  
+}, [ativo]);
   return (
     <div className=" grid grid-cols-[repeat(4,120px)] items-center   gap-x-4">
       <span>
         <Checkbox
+        checked={ativo || false}
           sx={{
             color: orange[800],
             "&.Mui-checked": {
@@ -29,6 +32,8 @@ useEffect(() => {
       <span>{dia}</span>
       <span>
         <InputRoot.Input
+        type="time"
+        
         disabled={!ativo}
           register={register(
             `diaSemana.${dia
@@ -40,6 +45,7 @@ useEffect(() => {
       </span>
       <span>
         <InputRoot.Input
+        type="time"
         disabled={!ativo}
           register={register(
             `diaSemana.${dia

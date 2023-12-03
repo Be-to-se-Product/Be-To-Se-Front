@@ -10,7 +10,7 @@ import api from "../../../services/api";
 import Step6 from "./Step6";
 
 const ModalLoja = ({ closeModal }) => {
-  const [stateAtual, setStateAtual] = useState(5);
+  const [stateAtual, setStateAtual] = useState(0);
   const [storage, setStorage] = useState({});
 
   const nextStep = () => {

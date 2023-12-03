@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import FormContext from "../../../context/Form/FormContext";
 import Button from "../../../componentes/Button/Button";
@@ -47,6 +47,17 @@ const Step6 = () => {
     prevStep();
   };
 
+  const [isApplyDefault, setIsApplyDefault] = useState(false);
+  useEffect(()=>{
+    if(!isApplyDefault && Object.keys(storage).length>0){
+      if(storage?.imagens){
+      slot.current.src = storage?.imagens["0"]?.url ;
+      }
+      
+      setIsApplyDefault(true)
+    }
+  },[storage])
+
   useEffect(() => {
     if (imagem?.length > 0) {
       converterInputImageToBase64(
@@ -54,7 +65,6 @@ const Step6 = () => {
         (base64) => (slot.current.src = base64.imagem)
       );
     }
-    console.log(imagem);
   }, [imagem]);
   return (
     <form

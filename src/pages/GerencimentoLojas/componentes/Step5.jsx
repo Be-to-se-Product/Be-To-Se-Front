@@ -12,6 +12,15 @@ const Step5 = () => {
     formState: { errors },
   } = useForm();
   const [rowSessao, setRowSessao] = useState([]);
+  const [isApplyDefault,setIsApplyDefault] = useState(false);
+  useEffect(() => {
+    if(!isApplyDefault && Object.keys(storage).length>0){
+      if(storage?.sessoes?.length>0){
+      setRowSessao(storage.sessoes)
+      setIsApplyDefault(true);
+      }
+    }
+  },[storage])
 
   const submit = (data,callback) => {
    

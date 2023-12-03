@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import MenuComerciante from "../../componentes/MenuComerciante/MenuComerciante";
 import BoxComerciante from "../../componentes/BoxComerciante/BoxComerciante";
 import InputRoot from "../../componentes/Input/InputRoot";
@@ -12,6 +12,8 @@ import ModalPedidos from "./componentes/ModalPedidos";
 import TableRoot from "../../componentes/Table/TableRoot";
 import moment from "moment";
 import ModalImportar from "./componentes/ModalImportar";
+import { Link } from "react-router-dom";
+import AplicattionContext from "../../context/Apllicattion/AplicattionContext";
 const HistoricoVendas = () => {
   const [modal, setModal] = useState({
     isAtivo: false,
@@ -28,11 +30,12 @@ const HistoricoVendas = () => {
   const [ate, setAte] = useState(null);
   const [status, setStatus] = useState(null);
   const statusOptions = ["Entregue", "Cancelado"];
+  const { idEstabelecimento } = useContext(AplicattionContext);
 
   const fetchHistoricoVendas = () => {
     toast.loading("Carregando histórico de vendas...");
     api
-      .get(`/historico-vendas/1`, {
+      .get(`/historico-vendas/${idEstabelecimento}`, {
         params: {
           page: page,
           size: size,
@@ -59,15 +62,7 @@ const HistoricoVendas = () => {
     getMetodosPagamento();
   }, []);
 
-  // useEffect(() => {
-  //   console.log(de);
-  //   console.log(ate);
-  //   console.log(status);
-  //   console.log(metodoPagamentoSelecionado);
-  //   console.log(vendas);
-  //   console.log(page);
-  //   console.log(size);
-  // }, [de, ate, status, metodoPagamentoSelecionado]);
+
 
   const getHistoricoVendasFiltrado = () => {
     toast.loading("Buscando vendas...");
@@ -81,7 +76,7 @@ const HistoricoVendas = () => {
     };
 
     api
-      .get(`/historico-vendas/filtro/1`, { params })
+      .get(`/historico-vendas/filtro/${idEstabelecimento}`, { params })
       .then((response) => {
         toast.dismiss();
         console.log(response.status);

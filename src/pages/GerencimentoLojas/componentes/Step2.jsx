@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import FormContext from "../../../context/Form/FormContext";
 import { useForm } from "react-hook-form";
 import InputRoot from "../../../componentes/Input/InputRoot";
@@ -6,6 +6,8 @@ import Select from "@mui/material/Select";
 import Button from "../../../componentes/Button/Button";
 import MenuItem from "@mui/material/MenuItem";
 const Step2 = () => {
+
+  const { setStorage, storage, prevStep, nextStep, stateAtual } =useContext(FormContext);
   const {
     register,
     handleSubmit,
@@ -14,15 +16,28 @@ const Step2 = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      cep: "",
-      logradouro: "",
-      numero: "",
-      bairro: "",
-      cidade: "",
-      estado: "",
+      cep: storage?.cep || "",
+      estado: storage?.estado || "",
     },
   });
+  const [isApplyDefault,setIsApplyDefault] = useState(false);
 
+
+  useEffect(()=>{
+    if(!isApplyDefault && Object.keys(storage).length>0){
+
+    setValue("cep",storage?.cep?.replace("-",""))
+    setValue("logradouro",storage?.logradouro)
+    setValue("numero",storage?.numero)
+    setValue("bairro",storage?.bairro)
+    setValue("cidade",storage?.cidade)
+    setValue("estado",storage?.estado)
+    handleCep(storage?.cep?.replace("-",""))
+    setIsApplyDefault(true);
+    }
+  },[storage])
+
+  
   const message = {
     required: "Campo obrigatório",
   };
@@ -90,8 +105,6 @@ const Step2 = () => {
     return data;
   };
 
-  const { setStorage, storage, prevStep, nextStep, stateAtual } =
-    useContext(FormContext);
   const submit = (data, callback) => {
     setStorage({ ...storage, ...data });
     callback?.();
@@ -104,31 +117,24 @@ const Step2 = () => {
   };
 
   const prev = () => {
-    handleSubmit((data) => {
-      submit(data);
-    })();
+ 
     prevStep();
   };
 
   const handleCep = async (cep) => {
-    if (cep.length == 8) {
+    if (cep && cep.length == 8) {
       const data = await getEndereco(cep);
       if (data.erro) {
         alert("Cep não encontrado");
         return;
       }
       const { logradouro, bairro, localidade, uf } = data;
-      const endereco = {
-        logradouro,
-        bairro,
-        cidade: localidade,
-        estado: uf,
-      };
-
+      
       setValue("logradouro", logradouro);
       setValue("bairro", bairro);
       setValue("cidade", localidade);
-      setValue("estado", "SP");
+      console.log(uf);
+      setValue("estado", uf);
     }
   };
   return (
@@ -147,7 +153,7 @@ const Step2 = () => {
               </div>
             <InputRoot.Input
               register={register("cep", schemaValidate.cep)}
-              defaultValue={storage.cep}
+              
               onChange={(e) => handleCep(e.target.value)}
             ></InputRoot.Input>
           </div>
