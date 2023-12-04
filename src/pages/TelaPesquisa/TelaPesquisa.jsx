@@ -12,30 +12,28 @@ import { useLocation } from "react-router-dom";
 
 function TelaPesquisa(props) {
     const navigate = useNavigate();
-    const {nomePesquisado} = location.state || {};
+    const { nomePesquisado } = location.state || {};
 
     const [originCoordinates, setOriginCoordinates] = useState({ lat: null, lon: null });
     const [produtos, setProdutos] = useState([]);
     //filtros
     const [metodosPagamento, setMetodosPagamento] = useState([]);
-    const [nome, setNome] = useState(nomePesquisado? nomePesquisado : null);
+    const [nome, setNome] = useState(nomePesquisado ? nomePesquisado : null);
     const [metodoPagamento, setMetodoPagamento] = useState();
     const [distancia, setDistancia] = useState(50);
 
     const [mostrarMapa, setMostrarMapa] = useState(false);
 
     const handleVerNoMapa = () => {
-        console.log("Clicou em Ver no mapa");
         setMostrarMapa(!mostrarMapa);
     };
 
     useEffect(() => {
-        console.log("Mostrar Mapa:", mostrarMapa);
         if (mostrarMapa) {
             navigate("/mapa", {
                 state: {
-                    distancia,
                     nome,
+                    distancia,
                     metodoPagamento,
                 },
             });
@@ -111,7 +109,7 @@ function TelaPesquisa(props) {
                         <div className="flex w-[715px] h-[39px] gap-10 pl-4">
                             <div className="flex pt-2 pr-2 pb-2 pl-2 p-10 items-center border-2 gap-4">
                                 <Select
-                                    className="w-full h-10 bg-white-principal"
+                                    className="flex p-4 items-center gap-8 w-full bg-white-principal"
                                     onClick={getMetodosPagamento}
                                     onChange={handleMetodoChange}
                                     value={metodoPagamento ? metodoPagamento : []}
@@ -122,9 +120,8 @@ function TelaPesquisa(props) {
                                         </MenuItem>
                                     ))}
                                 </Select>
-
                             </div>
-                            <div className="flex pt-2 pr-2 pb-2 pl-2 items-center border-2 gap-4">
+                            <div className="flex pt-4 pr-2 pb-2 pl-2 items-center border-2 gap-4">
                                 <DistanceFilter onChange={(filter) => setDistancia(filter)} />
                             </div>
                         </div>
@@ -138,10 +135,10 @@ function TelaPesquisa(props) {
 
                     <div className="flex w-full gap-10 items-center pl-4">
                         <h2 className="text-xl">
-                            Resultado da pesquisa:
+                            Resultados da pesquisa:
                         </h2>
                         <p className="text-xl">
-                            Teste
+                            {`${nome ? nome : ''}`}
                         </p>
                     </div>
 
