@@ -21,13 +21,38 @@ function TelaPesquisa(props) {
     const [metodoPagamento, setMetodoPagamento] = useState();
     const [distancia, setDistancia] = useState(50);
 
+    const [mostrarMapa, setMostrarMapa] = useState(false);
+
+    const handleVerNoMapa = () => {
+        console.log("Clicou em Ver no mapa");
+        setMostrarMapa(!mostrarMapa);
+    };
+
+    useEffect(() => {
+        console.log("Mostrar Mapa:", mostrarMapa);
+        if (mostrarMapa) {
+            navigate("/mapa", {
+                state: {
+                    distancia,
+                    nome,
+                    metodoPagamento,
+                },
+            });
+        }
+    }, [mostrarMapa]);
+
+
     useEffect(() => {
         geolocation(setOriginCoordinates);
     }
         , []);
 
+    const handleNomeChange = (novoNome) => {
+        setNome(novoNome);
+    };
+
     useEffect(() => {
-       toast.loading("Carregando produtos ...");
+        toast.loading("Carregando produtos ...");
 
         api.get("/produtos/mapa", {
             params: {
@@ -41,7 +66,7 @@ function TelaPesquisa(props) {
             setProdutos(response.data ? response.data : []);
         }).catch((error) => {
             console.log(error);
-        }).finally(()=>{
+        }).finally(() => {
             toast.dismiss()
         })
     }
@@ -70,7 +95,7 @@ function TelaPesquisa(props) {
             <NavbarRoot.Content>
                 <NavbarRoot.ContentTop>
                     <NavbarRoot.Logo />
-                    <NavbarRoot.Pesquisa />
+                    <NavbarRoot.Pesquisa onChange={handleNomeChange} />
                     {sessionStorage.USERDETAILS ? (<NavbarRoot.Authenticated />) : (<NavbarRoot.Sign />)}
 
                 </NavbarRoot.ContentTop>
@@ -99,14 +124,14 @@ function TelaPesquisa(props) {
 
                             </div>
                             <div className="flex pt-2 pr-2 pb-2 pl-2 items-center border-2 gap-4">
-                            <DistanceFilter onChange={(filter) => setDistancia(filter)} />
+                                <DistanceFilter onChange={(filter) => setDistancia(filter)} />
                             </div>
                         </div>
                         <div className="flex w-[200px] justify-end items-center gap-3">
-                            <p className="">
+                            <p className="" onClick={handleVerNoMapa}>
                                 Ver no mapa
                             </p>
-                            <Switch></Switch>
+                            <Switch onClick={handleVerNoMapa}></Switch>
                         </div>
                     </div>
 
