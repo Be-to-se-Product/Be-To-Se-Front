@@ -8,16 +8,17 @@ import { useNavigate } from "react-router";
 import { Select, MenuItem } from "@mui/material";
 import { ToastContainer, toast } from "react-toastify";
 import DistanceFilter from "./componentes/DistanceFilter";
+import { useLocation } from "react-router-dom";
 
 function TelaPesquisa(props) {
     const navigate = useNavigate();
+    const {nomePesquisado} = location.state || {};
 
     const [originCoordinates, setOriginCoordinates] = useState({ lat: null, lon: null });
     const [produtos, setProdutos] = useState([]);
-
     //filtros
     const [metodosPagamento, setMetodosPagamento] = useState([]);
-    const [nome, setNome] = useState(null);
+    const [nome, setNome] = useState(nomePesquisado? nomePesquisado : null);
     const [metodoPagamento, setMetodoPagamento] = useState();
     const [distancia, setDistancia] = useState(50);
 
