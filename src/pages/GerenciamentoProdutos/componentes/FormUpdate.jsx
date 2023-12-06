@@ -23,7 +23,6 @@ const FormUpdate = ({ fecharModal, getProdutos, produto }) => {
 
   const getTags = () => {
     api.get("/tags").then((response) => {
-      console.log(response.data);
       setInfoBanco((prev) => ({ ...prev, tag: response.data }));
     });
   };

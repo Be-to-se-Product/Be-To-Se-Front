@@ -21,7 +21,6 @@ const Step6 = () => {
   };
 
   const submit = (data, callback) => {
-    console.log(data);
     const metodosPagamento = [];
     for (const [key, value] of Object.entries(data)) {
       if (value) {

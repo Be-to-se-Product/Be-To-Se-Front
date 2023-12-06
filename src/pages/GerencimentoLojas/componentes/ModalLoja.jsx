@@ -12,6 +12,7 @@ import Step6 from "./Step6";
 const ModalLoja = ({ closeModal }) => {
   const [stateAtual, setStateAtual] = useState(0);
   const [storage, setStorage] = useState({});
+  const [teste,setTeste] = useState(0);
 
   const nextStep = () => {
       setStateAtual((prev) => prev + 1);
@@ -28,7 +29,6 @@ const ModalLoja = ({ closeModal }) => {
 
   useEffect(() => {
     if (stateAtual>5) {
-      console.log(storage);
       saveEstabelecimento(storage);
       closeModal();
       
@@ -49,7 +49,6 @@ const saveEstabelecimento = (storage) => {
     
   }
   const secao=storage.sessoes.map((sessao)=>sessao.texto)
-  console.log(secao);
  
 
   const estabelecimento = {
@@ -129,7 +128,7 @@ const saveEstabelecimento = (storage) => {
         <Step1 />
         <Step2 />
         <Step3 />
-        <Step4 />
+        <Step4 teste={teste} setTeste={setTeste}/>
         <Step5 />
         <Step6 />
       </FormContext.Provider>

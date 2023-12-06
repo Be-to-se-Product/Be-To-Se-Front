@@ -31,7 +31,6 @@ const Login = () => {
       .then((resposta) => {
         toast.dismiss(loading);
         if (resposta.data.error) {
-          console.log("Entrou aqui");
           toast.error(resposta.data.message);
           return;
         }

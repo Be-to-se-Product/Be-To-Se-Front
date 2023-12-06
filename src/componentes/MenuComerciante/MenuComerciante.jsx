@@ -27,7 +27,6 @@ const MenuComerciante = ({ children, isLogo }) => {
 
       .catch((erro) => {
         console.log(erro);
-       
       });
      
   };

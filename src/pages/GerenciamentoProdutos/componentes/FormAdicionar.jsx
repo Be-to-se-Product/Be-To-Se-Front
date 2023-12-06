@@ -23,7 +23,6 @@ const FormAdicionar = ({ fecharModal, getProdutos, setState }) => {
 
   const getTags = () => {
     api.get("/tags").then((response) => {
-      console.log(response.data);
       setInfoBanco((prev) => ({ ...prev, tag: response.data }));
     });
   };
@@ -33,9 +32,7 @@ const FormAdicionar = ({ fecharModal, getProdutos, setState }) => {
     getSecao();
   }, []);
 
-  useEffect(() => {
-    console.log(infoBanco);
-  }, [infoBanco]);
+
   const [isNext, setIsNext] = useState(false);
 
   const [dataStorage, setDataStorage] = useState({});
@@ -73,7 +70,6 @@ const FormAdicionar = ({ fecharModal, getProdutos, setState }) => {
 
       if(response.status === 201){
       const formData = new FormData();
-        console.log();
       for (let i = 1; i <= 4; i++) {
         const imagem = dadosSalvar[`imagem${i}`];
         if (imagem) {

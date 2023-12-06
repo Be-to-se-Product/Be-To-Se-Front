@@ -44,7 +44,6 @@ return value.replace(/[^\d]/g,"");
 export const mascaraFormatoCpf = (value)=> {
   let valueLimpo = value.replace(/[^0-9]/g,"");
   let valueFormatado = valueLimpo.replace(/(\d{3})/,"$1.");
-  console.log(valueLimpo);
   if(valueLimpo.length>=6){
     valueFormatado =  valueLimpo.replace(/(\d{3})(\d{3})/,"$1.$2.")
   }

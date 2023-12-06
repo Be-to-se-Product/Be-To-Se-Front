@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 
 
 const CardItemVenda = ({produto}) => {
-  console.log(produto);
   const navigate = useNavigate();
   return (
     <div className="w-full py-4 px-4 text-lg border-b flex justify-between items-center">

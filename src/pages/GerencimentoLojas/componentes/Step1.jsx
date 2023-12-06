@@ -30,7 +30,6 @@ useEffect(() => {
   setValue("referenciaInstagram",storage.referenciaInstagram)
   setValue("referenciaFacebook",storage.referenciaFacebook)
   setIsApplyDefault(false)
-  console.log("aplicou");
   }
   
 

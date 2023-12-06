@@ -18,7 +18,6 @@ const Insitucional = () => {
     return apiGithub
       .get(`/users/${username}`)
       .then((response) => {
-        console.log(response.data);
         return response.data;
       })
       .catch((error) => {
@@ -51,10 +50,7 @@ window.addEventListener("click", (e) => {
   
 });
 
-  useEffect(() => {
-    console.log(userDetails);
-  }
-  ,[userDetails])
+
 
   return (
     <div >

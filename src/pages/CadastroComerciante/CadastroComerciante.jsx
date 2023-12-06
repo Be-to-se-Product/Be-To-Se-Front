@@ -52,7 +52,7 @@ const CadastroComerciante = () => {
             },
             cep: formData.cep.replace(/[.-]/g, ''),
             };
-            console.log('Dados tratados:', dadosTratados);
+         
         };
 
     const handleBack = () => {
@@ -68,7 +68,6 @@ const CadastroComerciante = () => {
             },
             cep: formData.cep.replace(/[.-]/g, ''),
             };
-            console.log('Dados tratados:', dadosTratados);
         };
         
     

@@ -8,9 +8,7 @@ const AuthenticatedNavbar = () => {
     const tipoUsuario = JSON.parse(descriptografar(sessionStorage.getItem('USERDETAILS')))?.tipoUsuario;
     const navigate = useNavigate();
     const dadosUsuario = JSON.parse(descriptografar(sessionStorage.getItem('USERDETAILS')));
-    useEffect(()=>{
-        console.log(dadosUsuario);
-    },[])
+   
 
     const [isShow, setIsShow] = useState(false);
   return (

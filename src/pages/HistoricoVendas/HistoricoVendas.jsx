@@ -79,14 +79,12 @@ const HistoricoVendas = () => {
       .get(`/historico-vendas/filtro/${idEstabelecimento}`, { params })
       .then((response) => {
         toast.dismiss();
-        console.log(response.status);
-        console.log(response.data);
         const responseData = response.data;
         if (responseData.length === 0) {
           toast.info("Não existem vendas.");
           return;
         }
-        console.log();
+
         setVendas(responseData.content ? responseData.content : []);
         setPage(responseData.number);
         setSize(responseData.size);

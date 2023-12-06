@@ -108,11 +108,10 @@ function TelaProduto() {
       .get(`/avaliacoes/${produtoId}`)
       .then((res) => {
         toast.dismiss();
-        console.log(res.data);
         setAvalicoes(res.data.length == 0 ? [] : res.data);
       })
       .catch((err) => {
-        //console.log(err);
+        console.log(err);
       });
   };
 

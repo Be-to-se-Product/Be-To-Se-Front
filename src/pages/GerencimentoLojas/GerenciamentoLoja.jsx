@@ -27,7 +27,6 @@ const GerenciamentoLoja = () => {
       .get("estabelecimentos/comerciante")
       .then((resposta) => {
         setEstabelecimento(resposta.data.length ? resposta.data : []);
-        console.log(resposta.data);
       })
       .catch((erro) => {
         console.log(erro);

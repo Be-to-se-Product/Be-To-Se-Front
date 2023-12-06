@@ -2,8 +2,6 @@ import { removerMascaraCpf } from "./formatadores";
 
 export const validarCpf = (value) => {
   let cpf = removerMascaraCpf(value);
-  console.log(cpf);
-
   if (cpf.length !== 11) {
     return false;
   }

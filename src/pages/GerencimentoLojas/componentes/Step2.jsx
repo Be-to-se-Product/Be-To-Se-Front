@@ -133,7 +133,6 @@ const Step2 = () => {
       setValue("logradouro", logradouro);
       setValue("bairro", bairro);
       setValue("cidade", localidade);
-      console.log(uf);
       setValue("estado", uf);
     }
   };

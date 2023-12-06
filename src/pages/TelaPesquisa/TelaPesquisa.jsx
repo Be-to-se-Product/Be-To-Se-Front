@@ -10,7 +10,6 @@ import { ToastContainer, toast } from "react-toastify";
 import DistanceFilter from "./componentes/DistanceFilter";
 
 function TelaPesquisa(props) {
-    const navigate = useNavigate();
 
     const [originCoordinates, setOriginCoordinates] = useState({ lat: null, lon: null });
     const [produtos, setProdutos] = useState([]);

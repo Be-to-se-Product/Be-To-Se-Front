@@ -6,7 +6,7 @@ import { orange } from "@mui/material/colors";
 import Button from "../../../componentes/Button/Button";
 import FormContext from "../../../context/Form/FormContext";
 import api from "../../../services/api";
-const Step4 = () => {
+const Step4 = ({setTeste,teste}) => {
   const { storage, setStorage, stateAtual, nextStep, prevStep } =
     useContext(FormContext);
   const {
@@ -17,25 +17,29 @@ const Step4 = () => {
     setValue
   } = useForm();
   const [metodosPagamento, setMetodosPagamento] = useState([]);
-  
-  useEffect(() => {
-    getMetodosPagamento();
-  }, []);
-
   const [isApplyDefault, setIsApplyDefault] = useState(false);
 
-  useEffect(() => {
 
-    if(!isApplyDefault && Object.keys(storage).length>0){
-      if(storage?.metodosPagamento){
-      Object.entries(storage.metodosPagamento).forEach(([key,value])=>{
-        setValue(key,value)
-      })
-      setIsApplyDefault(true);
+ 
+  useEffect(() => {
+    getMetodosPagamento();
+    
+  }, []);
+
+  useEffect(() => {
+    if (!isApplyDefault && Object.keys(storage).length > 0) {
+      if (storage?.metodosPagamento) {
+        storage.metodosPagamento.forEach((value) => {
+          console.log(Object.entries(value));
+          Object.entries(value).forEach(([key, value]) => {
+            setValue(key, value);
+          });
+        });
+        setIsApplyDefault(true);
+      }
     }
-    }
-    console.log(storage?.metodosPagamento);
-  },[storage])
+     setTeste(prev=>prev+1)
+  }, [storage]);
 
   const getMetodosPagamento = () => {
     api
@@ -46,26 +50,31 @@ const Step4 = () => {
       .catch((error) => {
         console.log(error);
       });
+      
   };
   const submit = (data, callback) => {
-    console.log(data);
     const metodosPagamento = [];
+    console.log(data);
     for (const [key, value] of Object.entries(data)) {
+     
       if (value) {
+      
+        
+        
         metodosPagamento.push(key);
+        console.log(metodosPagamento);
       }
     }
-
     setStorage({ ...storage, metodosPagamento: metodosPagamento });
     callback?.();
   };
 
   const next = () => {
-    if(validStep()){
-    handleSubmit((data) => {
-      submit(data, nextStep);
-    })();
-  }
+    if (validStep()) {
+      handleSubmit((data) => {
+        submit(data, nextStep);
+      })();
+    }
   };
 
   const prev = () => {
@@ -75,25 +84,29 @@ const Step4 = () => {
     prevStep();
   };
 
+
+ 
+
   const validStep = () => {
     const campos = watch();
-    return Object.entries(campos).find(([key, value]) => value) ?true:false;
-  }
+    return Object.entries(campos).find(([key, value]) => value) ? true : false;
+  };
 
   return (
-
-    
     <form className={`flex flex-col gap-y-8 ${stateAtual != 3 && "hidden"}`}>
-      {!validStep() && <div className=" h-1 text-center">
-        Selecione ao menos um método de pagamento
-        </div>}
+      
+      {!validStep() && (
+        <div className=" h-1 text-center">
+          Selecione ao menos um método de pagamento
+        </div>
+      )}
       <div
-        className={`flex flex-col  justify-center  mx-auto h-[300px]   gap-y-4 rounded-lg  `}
+        className={`flex flex-col justify-center mx-auto h-[300px] gap-y-4 rounded-lg`}
+        key={teste}
       >
-        <div className="grid grid-cols-2 gap-4 gap-y-2 mx-auto  ">
-
-          {metodosPagamento.map((item) => (
-            <div className="flex items-center gap-y-1 " key={item.id}>
+        <div className="grid grid-cols-2 gap-4 gap-y-2 mx-auto">
+          {metodosPagamento.map((item, index) => (
+            <div className="flex items-center gap-y-1" key={item.id}>
               <Checkbox
                 sx={{
                   color: orange[400],
@@ -101,13 +114,14 @@ const Step4 = () => {
                     color: orange[600],
                   },
                 }}
-                defaultChecked={storage?.metodosPagamento?.find(el=>Object.keys(el)[0] == item.id.toString() || false) || false}
+                defaultChecked={storage?.metodosPagamento?.find(
+                  (el) => Object.keys(el)[0] == item.id.toString()
+                )}
                 {...register(item.id.toString())}
               />
               <span className="text-center">{item.descricao}</span>
             </div>
-          ))
-           }
+          ))}
         </div>
       </div>
       <div className="flex justify-center w-2/4 mx-auto gap-x-3">

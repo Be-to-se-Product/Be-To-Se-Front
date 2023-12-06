@@ -190,7 +190,6 @@ useEffect(()=>{
               id="imagem4"
               {...register("imagem4")}
               className="h-full w-full absolute top-0 opacity-0 "
-              onChange={() => console.log("Teste")}
             />
           </div>
         </div>

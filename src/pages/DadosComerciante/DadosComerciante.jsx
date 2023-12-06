@@ -23,7 +23,6 @@ function DadosComerciante() {
     toast.loading("Carregando...");
     api.get(`/comerciantes/${id}`).then((res) => {
         toast.dismiss();
-        console.log(res.data);
         setComerciantes(res.data.length == 0 ? {} : res.data);
       }).catch((err) => {
       });
@@ -55,7 +54,6 @@ function DadosComerciante() {
         setTimeout(() => {
           //navigate("/index");
         }, 3000);
-        console.log(comerciante.endereco);
       })
       .catch((err) => {
         toast.dismiss(loading);
@@ -66,10 +64,8 @@ function DadosComerciante() {
     let cep = comerciante?.endereco?.cep;
     try {
       const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-      console.log(response.data.bairro);
   
       const enderecoData = response.data;
-      console.log(enderecoData);
       setComerciantes((prevComerciantes) => {
         return {
           ...prevComerciantes,
@@ -111,7 +107,6 @@ function DadosComerciante() {
 
   useEffect(() => {
     const userDetailsCrypt = descriptografar(sessionStorage?.USERDETAILS);
-    console.log(userDetailsCrypt);
     const { id } = JSON.parse(userDetailsCrypt);
     setUserId(id);
     getComerciantes(id);

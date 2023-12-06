@@ -12,7 +12,6 @@ const Rota = ({ profiles, setModePercurssion, rotas,produtoSelecionado }) => {
   useEffect(() => {
     const keys = Object.keys(profiles);
     const key = keys[currentPage];
-    console.log(profiles[key]);
     setModePercurssion(profiles[key]);
   }, [currentPage]);
 

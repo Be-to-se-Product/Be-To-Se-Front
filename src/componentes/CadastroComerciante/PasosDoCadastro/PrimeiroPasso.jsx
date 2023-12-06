@@ -75,7 +75,6 @@ const PrimeiroPasso = ({ formData, onNext, onFormChange })=>{
     const handleChange = (field, event) => {
         onFormChange(field, event.target.value);
         };
-        console.log('Estado formData em PrimeiroPasso:', formData);
 
     // const handleChangeCPF = (e) => {
     //     // Remover traços e pontos antes de chamar a função handleChange

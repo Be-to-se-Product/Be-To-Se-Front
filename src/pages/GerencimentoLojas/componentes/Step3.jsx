@@ -18,14 +18,11 @@ const Step3 = () => {
 
   const validarStep = () => {
     const campos = watch();
-    console.log(campos.diaSemana);
     return Object.entries(campos.diaSemana).find(
       ([key, value]) =>
         value.isOpen &&
         (value.horarioInicio.length > 0 || value.horarioFim.length > 0)
-    )
-      ? true
-      : false;
+    ) !== undefined;
   };
 
   const next = () => {
@@ -47,9 +44,9 @@ const Step3 = () => {
   useEffect(() => {
     if (!isApplyDefault && Object.keys(storage).length > 0) {
       if (storage?.diaSemana) {
+        console.log(storage.diaSemana);
         Object.entries(storage.diaSemana).forEach(([key, value]) => {
-          console.log("-----");
-          console.log(value.isOpen);
+
           setValue(`diaSemana.${key.toLowerCase()}.isOpen`, value.isOpen);
           setValue(
             `diaSemana.${key.toLowerCase()}.horarioInicio`,
@@ -60,6 +57,7 @@ const Step3 = () => {
             value.horarioFim
           );
         });
+        setIsApplyDefault(true);
       }
     }
   }, [storage]);
@@ -73,7 +71,7 @@ const Step3 = () => {
       <div className="text-center">
         Informe no minimo um horário de funcionamento
       </div>
-      <div className="grid grid-rows-[repeat(8,60px)]   h-[250px] overflow-scroll py-8 px-4   ">
+      <div className="grid grid-rows-[repeat(8,60px)]   h-[250px] overflow-y-scroll py-8 px-4">
         <div className=" grid grid-cols-[repeat(4,120px)] items-center  gap-x-4 absolute  py-2 top-10   z-10  bg-white-principal border-b">
           <span>Abre</span>
           <span>Dia</span>
@@ -82,11 +80,11 @@ const Step3 = () => {
         </div>
 
         <RowDia dia="Domingo" register={register} watch={watch} />
-        <RowDia dia="Segunda" register={register} watch={watch} />
-        <RowDia dia="Terça" register={register} watch={watch} />
-        <RowDia dia="Quarta" register={register} watch={watch} />
-        <RowDia dia="Quinta" register={register} watch={watch} />
-        <RowDia dia="Sexta" register={register} watch={watch} />
+        <RowDia dia="Segunda-Feira" register={register} watch={watch} />
+        <RowDia dia="Terça-Feira" register={register} watch={watch} />
+        <RowDia dia="Quarta-Feira" register={register} watch={watch} />
+        <RowDia dia="Quinta-Feira" register={register} watch={watch} />
+        <RowDia dia="Sexta-Feira" register={register} watch={watch} />
         <RowDia dia="Sábado" register={register} watch={watch} />
         <RowDia dia="Feriado" register={register} watch={watch} />
       </div>

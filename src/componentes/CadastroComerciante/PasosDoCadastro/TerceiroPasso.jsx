@@ -28,7 +28,6 @@ const TerceiroPasso = ({ formData, onNext , onBack, onFormChange })=>{
       },
       cep: formData.cep.replace(/[.-]/g, ''),
       };
-      console.log('Dados tratados:', dadosTratados);
 
     toast.loading("Realizando Cadastro...");
   sessionStorage.clear();
@@ -44,7 +43,6 @@ const TerceiroPasso = ({ formData, onNext , onBack, onFormChange })=>{
       }
     })
     .catch((error) => {
-      console.log(error)
       toast.error("Problema durante conexão com o servidor, tente novamente mais tarde!")
 
       if (error.response) {

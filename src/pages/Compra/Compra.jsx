@@ -30,9 +30,7 @@ function Compra() {
 
     const handleContinue = () => {
         if (selectedOption === 'retireNaLoja') {
-            console.log(selectedOption);
         } else if (selectedOption === 'pagamentoNoEstabelecimento') {
-            console.log(selectedOption);
             setShowPaymentMoment(false);
             setShowMetodosAceito(true);
         }

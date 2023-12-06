@@ -2,9 +2,7 @@ import Button from "../../../componentes/Button/Button";
 import React, { useEffect } from "react";
 
 const ItemPedido = ({ product }) => {
-  useEffect(()=>{
-    console.log(product);
-  },[])
+
   return (
     <div className="w-max flex items-center gap-x-4 py-2 px-4 border rounded-md  ">
       <div className="flex">

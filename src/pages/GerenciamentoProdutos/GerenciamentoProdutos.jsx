@@ -25,7 +25,6 @@ const GerenciamentoProdutos = () => {
   const { idEstabelecimento } = useContext(AplicattionContext);
 
   const getProdutos = () => {
-    console.log(idEstabelecimento);
     toast.loading("Carregando...");
     api
       .get("/produtos/estabelecimento/" + idEstabelecimento)
@@ -68,7 +67,6 @@ const GerenciamentoProdutos = () => {
       })
       .catch((err) => {
         toast.error("Erro ao importar produtos!");
-        console.log(err);
       });
   };
 
@@ -178,7 +176,6 @@ const GerenciamentoProdutos = () => {
         );
         break;
       case "update":
-        console.log(produtos.find((produto) => produto.id === id));
         setStateForm(
           <Modal isVisible={true}>
             <FormUpdate
