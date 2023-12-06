@@ -52,7 +52,7 @@ function DadosComerciante() {
         toast.dismiss(loading);
         toast.success("Dados atualizados com sucesso!",{autoClose:2000});
         setTimeout(() => {
-          //navigate("/index");
+          navigate("/index");
         }, 3000);
       })
       .catch((err) => {
@@ -81,8 +81,6 @@ function DadosComerciante() {
       console.error(error);
     }
   };
-  
-  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -104,7 +102,6 @@ function DadosComerciante() {
     });
   };
   
-
   useEffect(() => {
     const userDetailsCrypt = descriptografar(sessionStorage?.USERDETAILS);
     const { id } = JSON.parse(userDetailsCrypt);

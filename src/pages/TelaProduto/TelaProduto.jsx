@@ -18,6 +18,7 @@ import CardMetodo from "./componentes/CardMetodo";
 import { descriptografar } from "../../utils/Autheticated";
 import StarAvaliacao from "./componentes/StarAvaliacao";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function TelaProduto() {
   const { id } = useParams();
@@ -33,10 +34,21 @@ function TelaProduto() {
   const nomeEmpresa = produtos?.secao?.estabelecimento?.nome;
   const metodosEmpresa = produtos?.secao?.estabelecimento?.idMetodo;
   const [imagemDestaque, setImagemDestaque] = useState(jbl);
+  const navigate = useNavigate();
 
   const mudarImagem = (novaImagem) => {
     setImagemDestaque(novaImagem);
   };
+
+  const comprarProduto = () =>{
+    let quantidade = qtd;
+    let idProduto = produtoId;
+    const data = [{
+        idProduto,
+        quantidade,
+    }];
+    navigate(`/compra`, { state: data });
+  }
 
   const adicionarProduto = () => {
     let consumidor = userId;
@@ -233,7 +245,9 @@ function TelaProduto() {
               </div>
             </div>
             <div className="flex pt-[40px] flex-col gap-y-4">
-              <button className="bg-orange-principal py-2 text-2xl font-medium rounded-lg">
+              <button className="bg-orange-principal py-2 text-2xl font-medium rounded-lg"
+              onClick={comprarProduto}
+              >
                 Reservar na loja
               </button>
               <button
