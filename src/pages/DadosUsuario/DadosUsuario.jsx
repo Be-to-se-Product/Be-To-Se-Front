@@ -13,12 +13,14 @@ function DadosUsuario() {
   const navigate = useNavigate();
 
   const getConsumidores = (id) => {
+    console.log("caiu")
     toast.loading("Carregando...");
     api
       .get(`/consumidores/${id}`)
       .then((res) => {
         toast.dismiss();
         setConsumidores(res.data.length == 0 ? [] : res.data)
+        console.log(res.data)
       })
       .catch((err) => {
       });
@@ -50,6 +52,7 @@ function DadosUsuario() {
 
   useEffect(() => {
     const userDetailsCrypt = descriptografar(sessionStorage?.USERDETAILS);
+    console.log(userDetailsCrypt)
     const { id } = JSON.parse(userDetailsCrypt);
     setUserId( id );
     getConsumidores(id);
@@ -117,7 +120,7 @@ function DadosUsuario() {
               </select>
             </div>
           </div>
-          <div className="flex flex-row justify-between">
+          <div className="flex flex-row gap-8">
             <div className="flex flex-col gap-y-2">
               <label htmlFor="">Data de Nascimento</label>
               <input
@@ -133,7 +136,7 @@ function DadosUsuario() {
               <input
                 name="celular"
                 type="text"
-                className="px-4 py-2 rounded-lg border-solid border-2 border-stroke-principal"
+                className="px-4 py-2 w-48 rounded-lg border-solid border-2 border-stroke-principal"
                 value={consumidores.celular}
                 onChange={handleChange}
               />
@@ -141,11 +144,12 @@ function DadosUsuario() {
           </div>
         </div>
         <div className="flex flex-row gap-x-10">
-          <button className="font-medium px-14 py-2 bg-orange_opacity-principal rounded-lg">
+          <button className="font-medium px-14 py-2 bg-orange_opacity-principal rounded-lg" onClick={()=>navigate('/index')}>
             Cancelar
           </button>
           <button className="font-medium px-14 py-2 bg-orange-principal rounded-lg"
-          onClick={atualizarConsumidor}>
+          onClick={atualizarConsumidor
+          }>
             Salvar
           </button>
         </div>
