@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import StepperRoot from "../../../componentes/Stepper/StepperRoot";
@@ -7,8 +7,10 @@ import Step2 from "./Step2";
 import Step3 from "./Step3";
 import Button from "../../../componentes/Button/Button";
 import api from "../../../services/api";
+import AplicattionContext from "../../../context/Apllicattion/AplicattionContext";
 
 const FormAdicionar = ({ fecharModal, getProdutos, setState }) => {
+  const { idEstabelecimento } = useContext(AplicattionContext);
   const [stateAtual, setStateAtual] = useState(0);
   const [infoBanco, setInfoBanco] = useState({
     sessoes: [],
@@ -16,14 +18,13 @@ const FormAdicionar = ({ fecharModal, getProdutos, setState }) => {
   });
 
   const getSecao = () => {
-    api.get("/secoes").then((response) => {
+    api.get("/secoes/estabelecimento/"+idEstabelecimento).then((response) => {
       setInfoBanco((prev) => ({ ...prev, sessoes: response.data }));
     });
   };
 
   const getTags = () => {
     api.get("/tags").then((response) => {
-      console.log(response.data);
       setInfoBanco((prev) => ({ ...prev, tag: response.data }));
     });
   };
@@ -33,9 +34,7 @@ const FormAdicionar = ({ fecharModal, getProdutos, setState }) => {
     getSecao();
   }, []);
 
-  useEffect(() => {
-    console.log(infoBanco);
-  }, [infoBanco]);
+
   const [isNext, setIsNext] = useState(false);
 
   const [dataStorage, setDataStorage] = useState({});
@@ -73,7 +72,6 @@ const FormAdicionar = ({ fecharModal, getProdutos, setState }) => {
 
       if(response.status === 201){
       const formData = new FormData();
-        console.log();
       for (let i = 1; i <= 4; i++) {
         const imagem = dadosSalvar[`imagem${i}`];
         if (imagem) {

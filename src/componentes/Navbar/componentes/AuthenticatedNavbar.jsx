@@ -8,9 +8,7 @@ const AuthenticatedNavbar = () => {
     const tipoUsuario = JSON.parse(descriptografar(sessionStorage.getItem('USERDETAILS')))?.tipoUsuario;
     const navigate = useNavigate();
     const dadosUsuario = JSON.parse(descriptografar(sessionStorage.getItem('USERDETAILS')));
-    useEffect(()=>{
-        console.log(dadosUsuario);
-    },[])
+   
 
     const [isShow, setIsShow] = useState(false);
   return (
@@ -27,7 +25,7 @@ const AuthenticatedNavbar = () => {
                 tipoUsuario?.toLowerCase() == "comerciante" && (<li><Link to={"/comerciante/lojas"} className='cursor-pointer'>Minhas Lojas</Link></li>)
                 }
 
-                <li><Link to={"/usuario/pedidos"} className='cursor-pointer'>Dados Cadastrais </Link></li>
+                <li><Link to={"/usuarios/dados"} className='cursor-pointer'>Dados Cadastrais </Link></li>
                 <li onClick={()=>logout(navigate)} className='cursor-pointer'>Sair</li>
             </ul>
         </div>

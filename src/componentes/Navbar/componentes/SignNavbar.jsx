@@ -7,7 +7,7 @@ const SignNavbar = () => {
   return (
     <div className="flex gap-x-3">
       <Button onClick={() => navigate("/login")}>Login</Button>
-      <Button>Crie sua conta</Button>
+      <Button onClick={() => navigate("/switch")}>Crie sua conta</Button>
     </div>
   );
 };

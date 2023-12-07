@@ -52,9 +52,7 @@ function Compra() {
 
     const handleContinue = () => {
         if (selectedOption === 'retireNaLoja') {
-            console.log(selectedOption);
         } else if (selectedOption === 'pagamentoNoEstabelecimento') {
-            console.log(selectedOption);
             setShowPaymentMoment(false);
             setShowMetodosAceito(true);
             setBall1Color("black-500");
@@ -64,7 +62,7 @@ function Compra() {
 
     const overlayStyle = {
         position: 'fixed',
-        bottom: showOverlay ? '0' : '-57%',
+        bottom: showOverlay ? '0' : '-65%',
         right: 0,
         width: 'calc(100% - 144px)',
         height: '80%',

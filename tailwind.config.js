@@ -24,6 +24,7 @@ export default {
         },
         orange: {
           principal: "#FCA622",
+          menu:"#ffa500"
         },
         orange_opacity: {
           principal: "#F3C886",

@@ -190,7 +190,6 @@ const MapaInterativo = () => {
       const router = await getRoute(originCoordinates, destination);
       if (!router) return;
       const coordinates = router[0].geometry.coordinates;
-      console.log(router);
       setRotas(router[0].legs[0].steps);
       trackerRouterMap(coordinates);
       return () => {
@@ -231,7 +230,6 @@ const MapaInterativo = () => {
         metodoPagamento: filtro.metodoPagamento,
       },
     });
-    console.log(response.data);
     setProdutos(response.data);
   };
 

@@ -6,7 +6,6 @@ import { validarEmail } from "../../../utils/validadores";
 const Step2 = ({ getDataForm,children,data}) => {
   const { register, formState, handleSubmit,getValues } = useForm();
 
-useEffect(()=>console.log(data),[])
 
   const getData = (data) => {
     getDataForm(data);
