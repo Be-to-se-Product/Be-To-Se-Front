@@ -10,7 +10,7 @@ import api from "../../../services/api";
 import Step6 from "./Step6";
 import moment from "moment";
 
-const ModalLojaUpdate = ({ closeModal, id }) => {
+const ModalLojaUpdate = ({ closeModal,getLista, id }) => {
   const [stateAtual, setStateAtual] = useState(0);
   const [storage, setStorage] = useState({});
   const [teste,setTeste] = useState(0);
@@ -147,7 +147,8 @@ const ModalLojaUpdate = ({ closeModal, id }) => {
     api
       .put("/estabelecimentos/"+id, estabelecimento)
       .then((response) => {
-        console.log(response);
+        closeModal(false);
+        getLista();
       })
       .catch((error) => {
         console.log(error);

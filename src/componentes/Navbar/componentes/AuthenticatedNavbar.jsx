@@ -25,7 +25,7 @@ const AuthenticatedNavbar = () => {
                 tipoUsuario?.toLowerCase() == "comerciante" && (<li><Link to={"/comerciante/lojas"} className='cursor-pointer'>Minhas Lojas</Link></li>)
                 }
 
-                <li><Link to={"/usuario/pedidos"} className='cursor-pointer'>Dados Cadastrais </Link></li>
+                <li><Link to={"/usuarios/dados"} className='cursor-pointer'>Dados Cadastrais </Link></li>
                 <li onClick={()=>logout(navigate)} className='cursor-pointer'>Sair</li>
             </ul>
         </div>

@@ -1,13 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import backIcon from "../../assets/back.svg";
-import logo from "../../assets/logo.png";
-import produtoIcon from "../../assets/product-icon.svg";
-import negocioIcon from "../../assets/negocio.svg";
-import shopIcon from "../../assets/shop.svg";
-import datePage from "../../assets/datePage.svg";
-import downIcon from "../../assets/down.svg";
-import { Link, useNavigate } from "react-router-dom";
-import { descriptografar } from "../../utils/Autheticated";
+
+import {  useNavigate } from "react-router-dom";
+
 import api from "../../services/api";
 import AplicattionContext from "../../context/Apllicattion/AplicattionContext";
 
@@ -48,15 +43,18 @@ const MenuComerciante = ({ children, isLogo }) => {
         <div className="relative pt-20 px-2">
           <div className="logo flex items-end  absolute top-[-80px] ">
             {isLogo && (
+              <>
               <img
                 src={logoEstabelecimento}
                 alt=""
                 className="w-[150px] h-[150px] rounded-full"
               />
-            )}
-            <h2 className="font-medium py-2 text-base text-white-principal">
+              <h2 className="font-medium py-2 text-base text-white-principal">
               {user.nome}
             </h2>
+            </>
+            )}
+            
           </div>
 
           <div className="content-option mt-10 px-7 w-full">

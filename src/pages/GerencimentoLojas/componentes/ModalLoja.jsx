@@ -9,7 +9,7 @@ import Step5 from "./Step5";
 import api from "../../../services/api";
 import Step6 from "./Step6";
 
-const ModalLoja = ({ closeModal }) => {
+const ModalLoja = ({ closeModal,getLista }) => {
   const [stateAtual, setStateAtual] = useState(0);
   const [storage, setStorage] = useState({});
   const [teste,setTeste] = useState(0);
@@ -78,11 +78,13 @@ const saveEstabelecimento = (storage) => {
       const formData = new FormData();
       formData.append("imagem", storage.imagem[0]);
       api.post(`/estabelecimentos/${response.data.id}/imagem`,formData).then((response)=>{
-        console.log(response);
+        
       }).catch((error)=>{
         console.log(error);
       })
-     
+      closeModal(false)
+      getLista();
+      
     }
   }).catch((error)=>{
     console.log(error);

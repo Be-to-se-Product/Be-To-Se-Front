@@ -60,7 +60,15 @@ function DadosUsuario() {
 
   return (
     <div>
-      <NavbarRoot.Content>
+   <NavbarRoot.Content>
+        <NavbarRoot.ContentTop>
+          <NavbarRoot.Logo />
+          {sessionStorage.USERDETAILS ? (
+            <NavbarRoot.Authenticated />
+          ) : (
+            <NavbarRoot.Sign />
+          )}
+        </NavbarRoot.ContentTop>
         <NavbarRoot.Menu>
           <NavbarRoot.Item></NavbarRoot.Item>
         </NavbarRoot.Menu>
@@ -114,7 +122,7 @@ function DadosUsuario() {
                 value={consumidores.genero}
                 onChange={handleChange}
               >
-                <option value="Masculino">Maculino</option>
+                <option value="Masculino">Masculino</option>
                 <option value="Feminino">Feminino</option>
                 <option value="Outro">Outro</option>
               </select>
