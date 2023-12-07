@@ -28,9 +28,11 @@ function TelaPesquisa(props) {
 
   const [mostrarMapa, setMostrarMapa] = useState(false);
 
-  const handleVerNoMapa = () => {
-    setMostrarMapa(!mostrarMapa);
+  console.log(mostrarMapa);
+  const handleSwitchChange = (isChecked) => {
+    setMostrarMapa(!isChecked);
   };
+  
 
   useEffect(() => {
     if (mostrarMapa) {
@@ -53,8 +55,6 @@ function TelaPesquisa(props) {
   };
 
   useEffect(() => {
-    toast.loading("Carregando produtos ...");
-
     api
       .get("/produtos/mapa", {
         params: {
@@ -82,7 +82,7 @@ function TelaPesquisa(props) {
 
   const getMetodosPagamento = () => {
     api
-      .get("/metodos-pagamento")
+      .get("/metodos-pagamentos")
       .then((response) => {
         setMetodosPagamento(response.data ? response.data : []);
       })
@@ -139,10 +139,10 @@ function TelaPesquisa(props) {
               </div>
             </div>
             <div className="flex w-[200px] justify-end items-center gap-3">
-              <p className="" onClick={handleVerNoMapa}>
+              <p className="" onClick={handleSwitchChange}>
                 Ver no mapa
               </p>
-              <Switch onClick={handleVerNoMapa}></Switch>
+              <Switch onChange={handleSwitchChange}></Switch>
             </div>
           </div>
 
