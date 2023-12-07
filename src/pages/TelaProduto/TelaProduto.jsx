@@ -3,10 +3,7 @@ import star from "../../assets/star.svg";
 import car from "../../assets/car-black.svg";
 import bike from "../../assets/bike-black.svg";
 import men from "../../assets/men-black.svg";
-import jbl from "../../assets/JBL.png";
-import jbl1 from "../../assets/JBL1.png";
-import jbl2 from "../../assets/JBL2.png";
-import jbl3 from "../../assets/JBL3.png";
+
 import fast from "../../assets/fastshop.png";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -19,6 +16,7 @@ import { descriptografar } from "../../utils/Autheticated";
 import StarAvaliacao from "./componentes/StarAvaliacao";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import Rating from "@mui/material/Rating";
 
 function TelaProduto() {
   const { id } = useParams();
@@ -33,7 +31,7 @@ function TelaProduto() {
   const [mediaAvaliacao, setMediaAvaliacao] = useState(0);
   const nomeEmpresa = produtos?.secao?.estabelecimento?.nome;
   const metodosEmpresa = produtos?.secao?.estabelecimento?.idMetodo;
-  const [imagemDestaque, setImagemDestaque] = useState(jbl);
+  const [imagemDestaque, setImagemDestaque] = useState("/src/assets/default-image.jpeg");
   const navigate = useNavigate();
 
   const mudarImagem = (novaImagem) => {
@@ -112,6 +110,8 @@ function TelaProduto() {
       .then((res) => {
         toast.dismiss();
         setProdutos(res.data.length == 0 ? [] : res.data);
+        setImagemDestaque(res.data?.imagens?.length>0 ? res.data.imagens[0] : "/src/assets/default-image.jpeg")
+      
       })
       .catch((err) => {});
   };
@@ -136,7 +136,7 @@ function TelaProduto() {
       soma += avaliacoes[i].qtdEstrela;
     }
 
-    setMediaAvaliacao(soma / avaliacoes.length);
+    setMediaAvaliacao(isNaN(soma / avaliacoes.length) ? 0 : soma / avaliacoes.length);
   };
 
   const aumentarQuantidade = () => {
@@ -162,43 +162,53 @@ function TelaProduto() {
   return (
     <div>
       <NavbarRoot.Content>
+        <NavbarRoot.ContentTop>
+          <NavbarRoot.Logo />
+          <NavbarRoot.Pesquisa />
+          {sessionStorage.USERDETAILS ? (
+            <NavbarRoot.Authenticated />
+          ) : (
+            <NavbarRoot.Sign />
+          )}
+        </NavbarRoot.ContentTop>
         <NavbarRoot.Menu>
           <NavbarRoot.Item></NavbarRoot.Item>
         </NavbarRoot.Menu>
+
       </NavbarRoot.Content>
       <main
         className="flex pt-[85px] flex-col"
         style={{ backgroundColor: "#EAEAEA" }}
       >
-        <div className="flex flex-row justify-between mx-auto gap-x-40">
-          <div className="flex flex-col">
-            <div id="imagem_destaque">
-              <img src={imagemDestaque} alt="" />
+        <div className="flex flex-row justify-between mx-auto w-8/12 gap-x-40">
+          <div className="flex flex-col ">
+            <div id="imagem_destaque" className="mb-6">
+              <img src={imagemDestaque} alt=""  className="w-[600px] h-[550px] rounded-md object-cover"/>
             </div>
-            <div className="flex flex-row gap-x-2" id="imagem_adicional">
+            <div className="grid grid-cols-4 w-full justify-items-center" id="imagem_adicional">
               <img
-                src={jbl}
+                src= { produtos?.imagens?.length>1 ?produtos.imagens[1] : "/src/assets/default-image.jpeg"}
                 alt=""
-                className="h-24 border-solid border-2 border-stroke-principal rounded-lg"
-                onClick={() => mudarImagem(jbl)}
+                className="h-24 border-solid border-2 border-stroke-principal rounded-lg "
+                onClick={() => mudarImagem(produtos?.imagens?.length>1 ? produtos.imagens[1] : "/src/assets/default-image.jpeg")}
               />
               <img
-                src={jbl1}
+                src={produtos?.imagens?.length>2 ? produtos.imagens[2] : "/src/assets/default-image.jpeg"}
                 alt=""
-                className="h-24 border-solid border-2 border-stroke-principal rounded-lg"
-                onClick={() => mudarImagem(jbl1)}
+                className="h-24 border-solid border-2 border-stroke-principal rounded-lg "
+                onClick={() => mudarImagem( produtos?.imagens?.length>2 ? produtos.imagens[2] : "/src/assets/default-image.jpeg" )}
               />
               <img
-                src={jbl2}
+                src={produtos?.imagens?.length>3 ? produtos.imagens[3] : "/src/assets/default-image.jpeg"}
                 alt=""
-                className="h-24 border-solid border-2 border-stroke-principal rounded-lg"
-                onClick={() => mudarImagem(jbl2)}
+                className="h-24 border-solid border-2 border-stroke-principal rounded-lg "
+                onClick={() => mudarImagem(produtos?.imagens?.length>3 ? produtos.imagens[3] : "/src/assets/default-image.jpeg" )}
               />
               <img
-                src={jbl3}
+                src={produtos?.imagens?.length>0 ? produtos.imagens[0] : "/src/assets/default-image.jpeg" }
                 alt=""
-                className="h-24 border-solid border-2 border-stroke-principal rounded-lg"
-                onClick={() => mudarImagem(jbl3)}
+                className="h-24 border-solid border-2 border-stroke-principal rounded-lg  "
+                onClick={() => mudarImagem(produtos?.imagens?.length>0 ? produtos.imagens[0] :  "/src/assets/default-image.jpeg" )}
               />
             </div>
             <div className="flex flex-col pt-[80px] max-w-md gap-y-6">
@@ -213,13 +223,10 @@ function TelaProduto() {
               <p className="text-5xl	">RS {produtos.preco}</p>
               <div className="flex flex-row gap-x-2">
                 <div className="flex flex-row gap-x-1">
-                  <img src={star} alt="" className="w-4 h-4" />
-                  <img src={star} alt="" className="w-4 h-4" />
-                  <img src={star} alt="" className="w-4 h-4" />
-                  <img src={star} alt="" className="w-4 h-4" />
-                  <img src={star} alt="" className="w-4 h-4" />
+                <Rating size="small" value={mediaAvaliacao} readOnly precision={0.5} />
+
                 </div>
-                <p>(4,6)</p>
+                <p>({mediaAvaliacao})</p>
               </div>
               <p className="text-2xl">Tempo do percurso</p>
               <div className="flex flex-row gap-x-12">
@@ -252,12 +259,7 @@ function TelaProduto() {
               >
                 Reservar na loja
               </button>
-              <button
-                className=" bg-orange_opacity-principal py-2 text-2xl font-medium rounded-lg"
-                onClick={adicionarProduto}
-              >
-                Guardar no carrinho
-              </button>
+             
             </div>
             <div className="flex flex-col gap-y-9">
               <div className="flex flex-col pt-[52px] gap-y-4">
@@ -267,16 +269,7 @@ function TelaProduto() {
                     {nomeEmpresa}
                   </p>
                 </div>
-                <div className="flex flex-row gap-x-2">
-                  <div className=" flex flex-row gap-x-1">
-                    <img src={star} alt="" className="w-4 h-4" />
-                    <img src={star} alt="" className="w-4 h-4" />
-                    <img src={star} alt="" className="w-4 h-4" />
-                    <img src={star} alt="" className="w-4 h-4" />
-                    <img src={star} alt="" className="w-4 h-4" />
-                  </div>
-                  <p>(4,6)</p>
-                </div>
+               
               </div>
               <div className="flex flex-col gap-y-4">
                 <p className="text-base">Meios de pagamento na loja</p>
@@ -344,11 +337,6 @@ function TelaProduto() {
               </select>
               {avaliacoes.map((avaliacao) => (
                 <>
-                  <CardAvaliacao
-                    key={avaliacao.id}
-                    comentario={avaliacao.comentario}
-                    estrela={avaliacao.qtdEstrela}
-                  />
                   <Avaliacao
                     key={avaliacao.id}
                     avaliacao={{

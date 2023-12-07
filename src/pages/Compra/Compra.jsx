@@ -62,7 +62,7 @@ function Compra() {
 
     const overlayStyle = {
         position: 'fixed',
-        bottom: showOverlay ? '0' : '-57%',
+        bottom: showOverlay ? '0' : '-65%',
         right: 0,
         width: 'calc(100% - 144px)',
         height: '80%',
