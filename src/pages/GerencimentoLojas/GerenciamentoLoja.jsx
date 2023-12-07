@@ -201,7 +201,7 @@ const GerenciamentoLoja = () => {
                   />
                 </div>
 
-                <div>
+                <div className="flex gap-x-4">
                   <Button
                     className={"rounded-lg"}
                     onClick={() => handlePageProduct(element.id)}
