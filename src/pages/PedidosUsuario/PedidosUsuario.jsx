@@ -58,10 +58,8 @@ const PedidosUsuario = () => {
               },
               itens: pedido.itens.map((item) => {
                 return {
-                  id: item.id,
-                  nome: item.produtoNome,
+                 produto:item.produto,
                   quantidade: item.quantidade,
-                  valor: item.preco,
                 };
               }),
             };
@@ -236,7 +234,7 @@ const PedidosUsuario = () => {
                   Preço Total: R$
                   {pedidoSelecionado.data?.itens
                     ?.reduce(
-                      (accumulator, element) => accumulator + element.valor,
+                      (accumulator, element) => accumulator + element.produto.preco,
                       0
                     )
                     .toFixed(2)}
@@ -264,11 +262,7 @@ const PedidosUsuario = () => {
                   >
                     <CardLojaRoot.Header>
                       <div className="flex gap-x-2">
-                        <img
-                          src="/src/assets/down.svg"
-                          alt=""
-                          className="w-6 "
-                        />
+                       
                         <div>
                           <h2 className="text-xs font-semibold">
                             {pedido.estabelecimento.nome}
@@ -315,8 +309,11 @@ const PedidosUsuario = () => {
                           Preço total: R$
                           {pedido.itens
                             .reduce(
-                              (accumulator, element) =>
-                                accumulator + element.valor,
+                              (accumulator, element) =>{
+                                console.log(element);
+                                return accumulator + element?.produto?.preco
+                              },
+                                
                               0
                             )
                             .toFixed(2)}

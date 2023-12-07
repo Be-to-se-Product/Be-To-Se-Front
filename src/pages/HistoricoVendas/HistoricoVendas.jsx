@@ -5,12 +5,8 @@ import InputRoot from "../../componentes/Input/InputRoot";
 import Button from "../../componentes/Button/Button";
 import api from "../../services/api";
 import { ToastContainer, toast } from "react-toastify";
-import DownloadIcon from '@mui/icons-material/Download';
-import {
-  MenuItem,
-  Pagination,
-  Select
-} from "@mui/material";
+import DownloadIcon from "@mui/icons-material/Download";
+import { MenuItem, Pagination, Select } from "@mui/material";
 import ModalPedidos from "./componentes/ModalPedidos";
 import TableRoot from "../../componentes/Table/TableRoot";
 import moment from "moment";
@@ -151,9 +147,10 @@ const HistoricoVendas = () => {
   }, [page, size]);
 
   const exportar = () => {
-    const idEstabelecimento = 1;
     api
-      .get(`/download-txt/${idEstabelecimento}`, { responseType: "blob" })
+      .get(`historico-vendas/${idEstabelecimento}/download-txt`, {
+        responseType: "blob",
+      })
       .then((response) => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
