@@ -182,32 +182,32 @@ function TelaProduto() {
       >
         <div className="flex flex-row justify-between mx-auto w-8/12 gap-x-40">
           <div className="flex flex-col ">
-            <div id="imagem_destaque" className="mb-6">
-              <img src={imagemDestaque} alt=""  className="w-[600px] h-[550px] rounded-md object-cover"/>
+            <div id="imagem_destaque" className="mb-6 w-10/12">
+              <img src={imagemDestaque} alt=""  className="h-[550px] rounded-md object-cover w-full"/>
             </div>
-            <div className="grid grid-cols-4 w-full justify-items-center" id="imagem_adicional">
+            <div className="grid grid-cols-4 w-10/12 justify-items-center" id="imagem_adicional">
               <img
                 src= { produtos?.imagens?.length>1 ?produtos.imagens[1] : "/src/assets/default-image.jpeg"}
                 alt=""
-                className="h-24 border-solid border-2 border-stroke-principal rounded-lg "
+                className="h-24 border-solid border-2 border-stroke-principal rounded-lg w-[150px] "
                 onClick={() => mudarImagem(produtos?.imagens?.length>1 ? produtos.imagens[1] : "/src/assets/default-image.jpeg")}
               />
               <img
                 src={produtos?.imagens?.length>2 ? produtos.imagens[2] : "/src/assets/default-image.jpeg"}
                 alt=""
-                className="h-24 border-solid border-2 border-stroke-principal rounded-lg "
+                className="h-24 border-solid border-2 border-stroke-principal rounded-lg w-[150px]"
                 onClick={() => mudarImagem( produtos?.imagens?.length>2 ? produtos.imagens[2] : "/src/assets/default-image.jpeg" )}
               />
               <img
                 src={produtos?.imagens?.length>3 ? produtos.imagens[3] : "/src/assets/default-image.jpeg"}
                 alt=""
-                className="h-24 border-solid border-2 border-stroke-principal rounded-lg "
+                className="h-24 border-solid border-2 border-stroke-principal rounded-lg  w-[150px] "
                 onClick={() => mudarImagem(produtos?.imagens?.length>3 ? produtos.imagens[3] : "/src/assets/default-image.jpeg" )}
               />
               <img
                 src={produtos?.imagens?.length>0 ? produtos.imagens[0] : "/src/assets/default-image.jpeg" }
                 alt=""
-                className="h-24 border-solid border-2 border-stroke-principal rounded-lg  "
+                className="h-24 border-solid border-2 border-stroke-principal rounded-lg  w-[150px]  "
                 onClick={() => mudarImagem(produtos?.imagens?.length>0 ? produtos.imagens[0] :  "/src/assets/default-image.jpeg" )}
               />
             </div>
@@ -220,13 +220,13 @@ function TelaProduto() {
           <div>
             <div className="flex flex-col gap-y-6">
               <h2 className="text-2xl font-medium">{produtos.nome}</h2>
-              <p className="text-5xl	">RS {produtos.preco}</p>
+              <p className="text-5xl	">RS {produtos.preco?.toFixed(2)}</p>
               <div className="flex flex-row gap-x-2">
                 <div className="flex flex-row gap-x-1">
                 <Rating size="small" value={mediaAvaliacao} readOnly precision={0.5} />
 
                 </div>
-                <p>({mediaAvaliacao})</p>
+                <p>({mediaAvaliacao.toFixed(1)})</p>
               </div>
               <p className="text-2xl">Tempo do percurso</p>
               <div className="flex flex-row gap-x-12">
