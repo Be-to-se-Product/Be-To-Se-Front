@@ -78,6 +78,8 @@ function DadosComerciante() {
             rua: enderecoData.logradouro || "",
             bairro: enderecoData.bairro || "",
             cep: response.data.cep,
+            cidade: enderecoData.localidade,
+            estado:enderecoData.uf
           },
         };
       });
@@ -112,6 +114,7 @@ function DadosComerciante() {
     const { id } = JSON.parse(userDetailsCrypt);
     setUserId(id);
     getComerciantes(id);
+    getEnderecos(comerciante?.endereco?.cep)
   }, [userId]);
 
   useEffect(() => {
@@ -130,8 +133,9 @@ function DadosComerciante() {
         <div className="flex flex-col items-center gap-y-10 mt-14">
           <div className="flex flex-col items-center gap-y-2">
             <h2 className="text-2xl">Dados do comerciante</h2>
-            <div className="flex flex-row">
+            <div className="flex flex-row items-center">
               <div className={`h-8 w-8 bg-${ball1Color} rounded-full`}></div>
+              <div className="flex w-2 h-0.5 bg-black-500"></div>
               <div className={`h-8 w-8 bg-${ball2Color} rounded-full`}></div>
             </div>
           </div>
