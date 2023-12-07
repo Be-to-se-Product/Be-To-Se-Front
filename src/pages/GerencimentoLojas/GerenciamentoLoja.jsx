@@ -221,17 +221,17 @@ const GerenciamentoLoja = () => {
         </div>
       </section>
       {isVisibleModalUpdate.open && (
-        <Modal isVisible={isVisibleModalUpdate.open}>
-          <ModalLojaUpdate closeModal={setIsVisibleModalUpdate} id={isVisibleModalUpdate.id} />
+        <Modal isVisible={isVisibleModalUpdate.open} >
+          <ModalLojaUpdate closeModal={setIsVisibleModalUpdate} id={isVisibleModalUpdate.id} getLista={getLista} />
         </Modal>
       )}
       {isVisibleModal && (
-        <Modal isVisible={isVisibleModal}>
-          <ModalLoja closeModal={setIsVisibleModal} />
+        <Modal isVisible={isVisibleModal} >
+          <ModalLoja closeModal={setIsVisibleModal} getLista={getLista}/>
         </Modal>
       )}
 
-      <Modal isVisible={isVisibleModalDelete}>
+      <Modal isVisible={isVisibleModalDelete} >
         <div className="bg-white-principal px-10 py-8 flex flex-col gap-y-8 rounded-sm">
           <h2 className="text-2xl">Deseja realmente deletar a Loja ?</h2>
           <div className="content-button w-full flex gap-x-4 justify-center">

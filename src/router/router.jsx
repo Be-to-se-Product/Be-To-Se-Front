@@ -68,7 +68,7 @@ const router = createBrowserRouter([
 
   {
     path: "/index",
-    element: <TelaInicial />,
+    element:<TelaPesquisa />,
   },
 
   {
