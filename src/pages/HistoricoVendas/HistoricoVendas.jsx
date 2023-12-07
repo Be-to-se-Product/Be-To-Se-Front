@@ -5,9 +5,12 @@ import InputRoot from "../../componentes/Input/InputRoot";
 import Button from "../../componentes/Button/Button";
 import api from "../../services/api";
 import { ToastContainer, toast } from "react-toastify";
-import DownloadIcon from "@mui/icons-material/Download";
-import FileUploadIcon from "@mui/icons-material/FileUpload";
-import { MenuItem, Pagination, Select } from "@mui/material";
+import DownloadIcon from '@mui/icons-material/Download';
+import {
+  MenuItem,
+  Pagination,
+  Select
+} from "@mui/material";
 import ModalPedidos from "./componentes/ModalPedidos";
 import TableRoot from "../../componentes/Table/TableRoot";
 import moment from "moment";
@@ -263,19 +266,6 @@ const HistoricoVendas = () => {
             <DownloadIcon className="mr-2" />
             Exportar histórico
           </Button>
-          {/* <Button
-           className="bg-green-600 h-max text-white-principal w-max mr-2"
-           onClick ={setIsConfirmacaoModalOpen(true)}>
-            <FileUploadIcon className="mr-2" />
-            Importar histórico
-          </Button>
-          <ModalImportar"
-            open={isConfirmacaoModalOpen}
-            onClose={() => setIsConfirmacaoModalOpen(false)}
-            onConfirm={() => {
-              setIsConfirmacaoModalOpen(false);
-            }}
-          /> */}
         </div>
         <div className="filter flex gap-x-4 w-full justify-between items-end bg-white-principal px-8 py-4 rounded ">
           <div className="flex flex-col flex-1">
