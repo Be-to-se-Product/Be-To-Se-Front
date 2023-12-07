@@ -28,12 +28,22 @@ function TelaPesquisa(props) {
 
   const [mostrarMapa, setMostrarMapa] = useState(false);
 
-  console.log(mostrarMapa);
-  const handleSwitchChange = (isChecked) => {
-    setMostrarMapa(!isChecked);
+  const handleSwitchChange = () => {
+    setMostrarMapa((prevMostrarMapa) => {
+      const newMostrarMapa = !prevMostrarMapa;
+      if (newMostrarMapa) {
+        navigate("/mapa", {
+          state: {
+            nome,
+            distancia,
+            metodoPagamento,
+          },
+        });
+      }
+      return newMostrarMapa;
+    });
   };
   
-
   useEffect(() => {
     if (mostrarMapa) {
       navigate("/mapa", {
@@ -121,7 +131,7 @@ function TelaPesquisa(props) {
                   Método de Pagamento:
                 </label>
                 <Select
-                  className="flex p-4  items-center gap-8  bg-white-principal"
+                  className="flex p-4 w-60  items-center gap-8 h-10 bg-white-principal"
                   onClick={getMetodosPagamento}
                   onChange={handleMetodoChange}
                   value={metodoPagamento ? metodoPagamento : []}
