@@ -35,8 +35,7 @@ const TerceiroPasso = ({ formData, onNext , onBack, onFormChange })=>{
     .post(`/comerciantes`, dadosTratados)
     .then((response) => {
       if (response.status == 201) {
-        // sessionStorage.setItem("USERDETAILS", criptografar(JSON.stringify(response.data)));
-        
+         
         setTimeout(() => {
           navigate("/login");
         }, 3000);
