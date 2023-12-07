@@ -6,7 +6,7 @@ import down from "../../assets/down.svg";
 import Modal from "../../componentes/Modal/Modal";
 
 import ModalLoja from "./componentes/ModalLoja";
-
+//import ModalLoja from "./componentes/ModalLoja";
 const GerenciamentoLoja = () => {
   const [isVisibleModal, setIsVisibleModal] = useState(false);
   const [isVisibleModalDelete, setIsVisibleModalDelete] = useState(false);
