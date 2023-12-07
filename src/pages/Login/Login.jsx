@@ -46,6 +46,7 @@ const Login = () => {
       })
 
       .catch((erro) => {
+        toast.error(erro);
         toast.dismiss(loading);
         if (erro?.response?.data) {
           toast.error(MENSAGENS.usuarios[erro.response.data.message]);
