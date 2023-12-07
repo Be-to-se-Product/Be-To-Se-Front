@@ -4,7 +4,7 @@ import CardProdutoPesquisa from "./componentes/CardProdutoPesquisa";
 import { geolocation } from "../../utils/geolocation";
 import { useEffect, useState } from "react";
 import api from "../../services/api";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { Select, MenuItem } from "@mui/material";
 import { ToastContainer, toast } from "react-toastify";
 import DistanceFilter from "./componentes/DistanceFilter";
@@ -12,6 +12,7 @@ import { useLocation } from "react-router-dom";
 
 function TelaPesquisa(props) {
   const navigate = useNavigate();
+  const location = useLocation();
   const { nomePesquisado } = location.state || {};
 
   const [originCoordinates, setOriginCoordinates] = useState({
