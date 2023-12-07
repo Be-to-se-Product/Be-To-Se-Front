@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import StepperRoot from "../../../componentes/Stepper/StepperRoot";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
 import Button from "../../../componentes/Button/Button";
 import api from "../../../services/api";
+import AplicattionContext from "../../../context/Apllicattion/AplicattionContext";
 
 const FormUpdate = ({ fecharModal, getProdutos, produto }) => {
+  const { idEstabelecimento } = useContext(AplicattionContext);
+
   const [stateAtual, setStateAtual] = useState(0);
   const [infoBanco, setInfoBanco] = useState({
     sessoes: [],
@@ -16,7 +19,7 @@ const FormUpdate = ({ fecharModal, getProdutos, produto }) => {
 
 
   const getSecao = () => {
-    api.get("/secoes").then((response) => {
+    api.get("/secoes/estabelecimento/"+idEstabelecimento).then((response) => {
       setInfoBanco((prev) => ({ ...prev, sessoes: response.data }));
     });
   };

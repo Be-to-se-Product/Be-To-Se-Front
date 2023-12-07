@@ -111,7 +111,7 @@ const CadastroUsuario = () => {
         <NavbarRoot.ContentTop>
           <NavbarRoot.Logo/>
           <NavbarRoot.Pesquisa/>
-          {sessionStorage.USERDETAILS ? (<Authenticated/>) : (<NavbarRoot.Sign/>)}
+          {sessionStorage.USERDETAILS ? (<Navbar.Authenticated/>) : (<NavbarRoot.Sign/>)}
           
         </NavbarRoot.ContentTop>
         <NavbarRoot.Menu>
