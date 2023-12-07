@@ -4,7 +4,7 @@ const DistanceFilter = ({ onChange }) => {
     const [distancia, setDistancia] = useState(50);
 
     return (
-        <div className="flex pt-2 pr-2 pb-2 pl-2 items-center w-60 h-16 border-2 gap-4">
+        <div className="flex pt-2 pr-2 pb-2 pl-2 items-center w-60 h-16 gap-4">
             <span className="w-full mb-1">Distancia</span>
             <input
                 type="range"

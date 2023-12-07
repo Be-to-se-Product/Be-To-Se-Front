@@ -49,14 +49,15 @@ const PedidosComerciante = () => {
       .then((response) => {
         setPedidos([]);
         response.data.forEach((pedido) => {
-          const itensDto = pedido.itens.map((item) => {
+          const itensDto =  pedido.itens.map((item) => {
             return {
               id: item.id,
               nome: item.produtoNome,
               quantidade: item.quantidade,
-              preco: item.preco,
+              produto: item.produto,
             };
           });
+        
 
           const pedidoDto = {
             id: pedido.id,

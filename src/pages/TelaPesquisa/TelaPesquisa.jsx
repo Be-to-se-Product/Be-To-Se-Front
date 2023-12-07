@@ -121,7 +121,7 @@ function TelaPesquisa(props) {
                   Método de Pagamento:
                 </label>
                 <Select
-                  className="flex p-4  items-center gap-8  bg-white-principal"
+                  className="flex h-full  items-center gap-8  bg-white-principal"
                   onClick={getMetodosPagamento}
                   onChange={handleMetodoChange}
                   value={metodoPagamento ? metodoPagamento : []}
