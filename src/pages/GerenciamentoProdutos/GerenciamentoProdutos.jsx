@@ -70,6 +70,23 @@ const GerenciamentoProdutos = () => {
       });
   };
 
+  const handleTxtImport = (event) => {
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append("arquivo", file);
+
+    api
+      .post("/produtos/upload-txt?secao=" + idEstabelecimento, formData)
+      .then((res) => {
+        toast.success("Produtos importados com sucesso!");
+        getProdutos();
+        
+  })
+  .catch((err) => {
+    toast.error("Erro ao importar produtos!");
+  });
+};
+
   const handleChange = (event) => {
     const value = event.target.value;
     setSelectedOption(value);
@@ -308,12 +325,25 @@ const GerenciamentoProdutos = () => {
                 className="h-0 w-0 absolute top-0 opacity-0 "
                 onChange={(e) => handleCsvImport(e)}
               />
+              <input
+                id="fileTxt"
+                type="file"
+                className="h-0 w-0 absolute top-0 opacity-0 "
+                onChange={(e) => handleTxtImport(e)}
+              />
               <label
                 htmlFor="fileCsv"
                 className="cursor-pointer rounded-lg flex justify-center items-center bg-orange-principal text-white-principal text-base w-[200px]"
               >
                 <img src={FileImg} className="w-auto h-auto mr-2" />
-                Importar Produtos
+                Importar Csv
+              </label>
+              <label
+                htmlFor="fileTxt"
+                className="cursor-pointer rounded-lg flex justify-center items-center bg-orange-principal text-white-principal text-base w-[200px]"
+              >
+                <img src={FileImg} className="w-auto h-auto mr-2" />
+                Importar Txt
               </label>
               <div className="w-[293px] h-max bg-white-principal rounded-lg  shadow-lg">
                 <Select
