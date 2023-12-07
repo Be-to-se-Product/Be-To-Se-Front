@@ -24,7 +24,11 @@ function Compra() {
     const [selectedMetodo, setSelectedMetodo] = useState(null);
     const location = useLocation();
     const itens = location.state;
-    console.log(itens);
+    const [ball1Color, setBall1Color] = useState("orange-principal");
+    const [ball2Color, setBall2Color] = useState("black-500");
+    const [ball3Color, setBall3Color] = useState("black-500");
+    const total = produtos.reduce((total, produto) => total + produto.preco, 0);
+    console.log(itens[0].origem);
 
     const handleOptionChange = (option) => {
         setSelectedOption(option);
@@ -32,6 +36,8 @@ function Compra() {
     const handleBack = () => {
         setShowPaymentMoment(true);
         setShowMetodosAceito(false);
+        setBall2Color("black-500");
+        setBall1Color("orange-principal");
     };
 
     const handleFinalize = () => {
@@ -39,7 +45,9 @@ function Compra() {
         setShowMetodosAceito(false);
         setShowOverlay(false);
         setShowSuccess(true);
-        setDivOverlay(false)
+        setDivOverlay(false);
+        setBall2Color("black-500");
+        setBall3Color("orange-principal");
     };
 
     const handleContinue = () => {
@@ -47,6 +55,8 @@ function Compra() {
         } else if (selectedOption === 'pagamentoNoEstabelecimento') {
             setShowPaymentMoment(false);
             setShowMetodosAceito(true);
+            setBall1Color("black-500");
+            setBall2Color("orange-principal");
         }
     };
 
@@ -104,11 +114,13 @@ function Compra() {
             idMetodoPagamento: idMetodoPagamento,
             isPagamentoOnline: false
         }
+        let origem = itens[0].origem
         const data = {
             idConsumidor,
             idEstabelecimento,
             itens,
-            metodo
+            metodo,
+            origem
         };
 
         console.log("Payload:", JSON.stringify(data));
@@ -136,9 +148,9 @@ function Compra() {
         <div className="flex flex-row">
             <div className="flex flex-col h-screen w-40 bg-black-900 items-center justify-center">
                 <div className='flex flex-col gap-y-10'>
-                    <div className='flex h-8 w-8 rounded-full bg-orange-principal'></div>
-                    <div className='flex h-8 w-8 rounded-full bg-black-500'></div>
-                    <div className='flex h-8 w-8 rounded-full bg-black-500'></div>
+                    <div className={`flex h-8 w-8 rounded-full bg-${ball1Color}`}></div>
+                    <div className={`flex h-8 w-8 rounded-full bg-${ball2Color}`}></div>
+                    <div className={`flex h-8 w-8 rounded-full bg-${ball3Color}`}></div>
                 </div>
             </div>
             <div className='flex flex-col w-screen items-center 'style={{ backgroundColor: "#EAEAEA" }}>
@@ -204,7 +216,7 @@ function Compra() {
                             <p className='w-96 text-center'>Seu pedido será enviado para aprovação do comerciante. Para acompanhar o pedido clique no botão abaixo.</p>
                         </div>
                         <div className='flex flex-col gap-y-4'>
-                            <button className='bg-orange-principal py-2 px-8 h-max text-base font-medium rounded-lg'>
+                            <button className='bg-orange-principal py-2 px-8 h-max text-base font-medium rounded-lg' onClick={()=>navigate('/usuario/pedidos')}>
                                 Acompanhar o pedido
                             </button>
                             <button className="py-2 text-xs font-medium text-blue-900" onClick={()=>navigate(`/index`)}>
@@ -225,7 +237,7 @@ function Compra() {
                         </button>
                         <p>Ver itens da compra</p>
                     </div>
-                    <p className='font-medium'>Total a pagar: R$1529,95</p>
+                    <p className='font-medium'>Total a pagar: R${total}</p>
                 </div>
                 <div className='flex flex-col gap-y-4 overflow-auto w-10/12'>
                     {produtos.map((produto) => (
