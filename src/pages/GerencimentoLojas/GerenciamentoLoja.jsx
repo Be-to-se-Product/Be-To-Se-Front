@@ -158,15 +158,15 @@ const GerenciamentoLoja = () => {
                 <div className="flex flex-col gap-y-1">
                   <CardLojaRoot.Row
                     label={"Lograouro"}
-                    texto={element.endereco.rua}
+                    texto={element.endereco?.rua}
                   />
                   <CardLojaRoot.Row
                     label={"Numero"}
-                    texto={element.endereco.numero}
+                    texto={element.endereco?.numero}
                   />
                   <CardLojaRoot.Row
                     label={"Bairro"}
-                    texto={element.endereco.bairro}
+                    texto={element.endereco?.bairro}
                   />
                   <CardLojaRoot.Row
                     label={"Telefone"}

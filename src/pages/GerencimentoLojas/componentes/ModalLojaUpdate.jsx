@@ -22,7 +22,6 @@ const ModalLojaUpdate = ({ closeModal,getLista, id }) => {
           .get(`/estabelecimentos/${id}`)
           .then((response) => {
             console.log("---------");
-            console.log(response.data);
             const diaSemana = {};
             const sessoes = response.data.secao.map(({ nome, id }) => {
               return {
