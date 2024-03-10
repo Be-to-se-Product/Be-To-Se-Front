@@ -8,13 +8,13 @@ import Shop from "../../../assets/shop.svg"
 import { conversorTime } from "../../../utils/conversores";
 import { useNavigate } from "react-router";
 
-const CardProutoPesquisa = ({ produto }) => {
+const CardProutoPesquisa = (produto) => {
     const navigate = useNavigate();
     const imagem = produto.imagens && produto.imagens.length > 0 ? produto.imagens[0] : imgProduto;
 
     return (
         <div
-            className="w-[250px] h-[539px] gap-20 p-4 border-2 rounded-md bg-white-principal flex-start flex-colrounded-md"
+            className="w-[250px] h-[539px] gap-20 p-4 border-2 rounded-md bg-white-principal flex-start flex-col "
             onClick={() => navigate(`/TelaProduto/${produto.id}`)}
         >
             <div className="h-[150px] rounded-md ">
@@ -71,7 +71,7 @@ const CardProutoPesquisa = ({ produto }) => {
                         <img src={Bike} alt="imagem" className="h-10" />
                     </div>
 
-                    <div className="text-sm size-8 gap-8 flex justify-center align-center">
+                    <div className="text-sm  size-8 gap-8 flex justify-center align-center">
                         <p className="">
                             {conversorTime(produto?.estabelecimento?.tempoCarro)}
                         </p>

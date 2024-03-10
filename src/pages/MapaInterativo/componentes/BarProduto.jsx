@@ -10,6 +10,7 @@ import DirectionsCarFilledIcon from "@mui/icons-material/DirectionsCarFilled";
 import DirectionsBikeIcon from "@mui/icons-material/DirectionsBike";
 import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
 import { conversorTime } from "../../../utils/conversores";
+import { useNavigate } from "react-router";
 
 const BarProduto = ({setDestination,profiles,setModePercurssion,rotas,produtoSelecionado}) => {
   const [isTracaRota, setIsTracaRota] = useState(false);
@@ -20,12 +21,12 @@ const trackerRouter = () => {
     setIsTracaRota(false)
     return
   }
-  setDestination({lat:produtoSelecionado.estabelecimento.endereco.latitude,lon:produtoSelecionado.estabelecimento.endereco.longitude})
+  setDestination({lat:produtoSelecionado.estabelecimento?.endereco?.latitude,lon:produtoSelecionado?.estabelecimento?.endereco?.longitude})
   setModePercurssion(profiles[0]);
   setIsTracaRota(true)
 }
 
-
+const navigate = useNavigate();
 
 useEffect(() => {
   if(isTracaRota){
@@ -50,12 +51,12 @@ const produtoImagens = produtoSelecionado?.imagens?.length>0 ? produtoSelecionad
           </div>
           <h3>{produtoSelecionado?.categoria}</h3>
           <span className="flex gap-x-2 items-center">
-            <span>{produtoSelecionado.mediaAvaliacao}</span>
-            <Rating nome="text-feedback" value={Number(produtoSelecionado.mediaAvaliacao)} readOnly size="small" />
+            <span>{produtoSelecionado?.mediaAvaliacao}</span>
+            <Rating nome="text-feedback" value={Number(produtoSelecionado?.mediaAvaliacao)} readOnly size="small" />
             {produtoSelecionado?.avaliacao?.length>0  ? <span>({produtoSelecionado?.avaliacao?.length})</span> : <span>(0)</span>}
           </span>
         </div>
-        <Button className={" rounded-full"}>Reservar</Button>
+        <Button className={" rounded-full"} onClick={() => navigate(`/TelaProduto/${produtoSelecionado.id}`)}>Reservar</Button>
       </div>
 
       <div className="w-full p-4  flex justify-center gap-x-10 ">

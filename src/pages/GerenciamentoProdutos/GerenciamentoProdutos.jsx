@@ -30,11 +30,12 @@ const GerenciamentoProdutos = () => {
       .get("/produtos/estabelecimento/" + idEstabelecimento)
       .then((res) => {
         toast.dismiss();
-        setProdutos(res?.data ? res.data : []);
+        setProdutos(res.data.content ? res.data.content : []);
       })
       .catch((err) => {
         console.log(err);
       });
+      toast.dismiss();
   };
 
   const getProdutosDescription = () => {
@@ -379,8 +380,8 @@ const GerenciamentoProdutos = () => {
               <h2 className="text-2xl font-medium">Produtos Cadastrados</h2>
             </div>
 
-            <div className="content-product flex gap-x-6 gap-y-8 flex-wrap h-full overflow-scroll">
-              {produtos.map((produto) =>
+            <div className="content-product flex gap-x-6 gap-y-8 flex-wrap h-full overflow-scroll scrollbar-hide">
+              {produtos?.map((produto) =>
                 produto.isAtivo ? (
                   <Card
                     key={produto.id}

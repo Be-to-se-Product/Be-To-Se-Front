@@ -23,7 +23,7 @@ const ModalPedidos = ({ modal, setModal, ...props }) => {
       </div>
       <div className="p-2 flex flex-col gap-y-2">
         {modal?.pedido?.itens?.map((item) => (
-          <ItemPedido product={item} key={item.id}/>
+          <ItemPedido produto={item} key={item.id}/>
         ))}
       </div>
     </div>
