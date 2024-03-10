@@ -1,13 +1,9 @@
 import axios from "axios";
 import { descriptografar } from "../utils/Autheticated";
 
-const ips = {
-  cesar: "10.18.6.54",
-  local: "localhost",
-};
 
 const api = axios.create({
-  baseURL: `http://${ips.local}:8080`,
+  baseURL: `http://${import.meta.env.VITE_EASYFIND_API}`,
   timeout: 5000,
 });
 
