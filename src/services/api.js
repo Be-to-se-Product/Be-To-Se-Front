@@ -3,7 +3,7 @@ import { descriptografar } from "../utils/Autheticated";
 
 
 const api = axios.create({
-  baseURL: `http://${import.meta.env.VITE_EASYFIND_API}`,
+  baseURL: `http://localhost:80/api`,
   timeout: 5000,
 });
 
