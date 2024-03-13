@@ -3,7 +3,7 @@ import { descriptografar } from "../utils/Autheticated";
 
 
 const api = axios.create({
-  baseURL: `http://localhost:80/api`,
+  baseURL: `/api`,
   timeout: 5000,
 });
 
