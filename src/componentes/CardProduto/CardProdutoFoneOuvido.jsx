@@ -1,4 +1,3 @@
-import react from "react";
 import imgProduto from "../../../assets/FoneDeOuvido.png"
 import { Rating } from "@mui/material";
 import Carro from "../../../assets/carro.svg"

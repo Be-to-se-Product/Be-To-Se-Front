@@ -1,9 +1,9 @@
 import axios from "axios";
 import { descriptografar } from "../utils/Autheticated";
-
+console.log(import.meta.env.VITE_API_URL);
 
 const api = axios.create({
-  baseURL: `/api`,
+  baseURL: import.meta.env.VITE_API_URL,
   timeout: 5000,
 });
 
@@ -22,7 +22,7 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response.status === 403) {
+    if (error.response && error.response.status === 403) {
       sessionStorage.removeItem("USERDETAILS");
     } 
     return error;

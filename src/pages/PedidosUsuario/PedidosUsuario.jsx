@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import IconSearch from "@assets/search.svg";
 import NavbarRoot from "../../componentes/Navbar/NavbarRoot";
 import { FormControlLabel, Radio, RadioGroup, Skeleton } from "@mui/material";
 import InputRoot from "../../componentes/Input/InputRoot";
@@ -24,7 +25,7 @@ const PedidosUsuario = () => {
     ENTREGUE: "Aprovado",
     CANCELADO: "Cancelado",
     AGUARDANDO_RETIRADA: "Aguardando Retirada",
-  }
+  };
 
   const [isLoading, setIsLoading] = useState(false);
   const [pedidos, setPedidos] = useState([]);
@@ -58,7 +59,7 @@ const PedidosUsuario = () => {
               },
               itens: pedido.itens.map((item) => {
                 return {
-                 produto:item.produto,
+                  produto: item.produto,
                   quantidade: item.quantidade,
                 };
               }),
@@ -99,10 +100,13 @@ const PedidosUsuario = () => {
     <>
       <NavbarRoot.Content>
         <NavbarRoot.ContentTop>
-          <NavbarRoot.Logo/>
-          <NavbarRoot.Pesquisa/>
-          {sessionStorage.USERDETAILS ? (<NavbarRoot.Authenticated/>) : (<NavbarRoot.Sign/>)}
-          
+          <NavbarRoot.Logo />
+          <NavbarRoot.Pesquisa />
+          {sessionStorage.USERDETAILS ? (
+            <NavbarRoot.Authenticated />
+          ) : (
+            <NavbarRoot.Sign />
+          )}
         </NavbarRoot.ContentTop>
         <NavbarRoot.Menu>
           <NavbarRoot.Item></NavbarRoot.Item>
@@ -214,9 +218,13 @@ const PedidosUsuario = () => {
             </div>
 
             <div className="flex h-max  w-1/3  ">
-              <InputRoot.Input className={"h-9"} onChange={filtroPedidos}  placeholder={"Informe o nome da loja"}>
+              <InputRoot.Input
+                className={"h-9"}
+                onChange={filtroPedidos}
+                placeholder={"Informe o nome da loja"}
+              >
                 <InputRoot.Icon>
-                  <img src="/src/assets/search.svg" />
+                  <img src={IconSearch} />
                 </InputRoot.Icon>
               </InputRoot.Input>
             </div>
@@ -234,7 +242,8 @@ const PedidosUsuario = () => {
                   Preço Total: R$
                   {pedidoSelecionado.data?.itens
                     ?.reduce(
-                      (accumulator, element) => accumulator + element.produto.preco,
+                      (accumulator, element) =>
+                        accumulator + element.produto.preco,
                       0
                     )
                     .toFixed(2)}
@@ -262,7 +271,6 @@ const PedidosUsuario = () => {
                   >
                     <CardLojaRoot.Header>
                       <div className="flex gap-x-2">
-                       
                         <div>
                           <h2 className="text-xs font-semibold">
                             {pedido.estabelecimento.nome}
@@ -284,7 +292,7 @@ const PedidosUsuario = () => {
 
                     <CardLojaRoot.ContentInfo>
                       <div className="flex flex-col gap-y-1">
-                        <CardLojaRoot.Row 
+                        <CardLojaRoot.Row
                           label={"Data do pedido"}
                           texto={moment(
                             pedido.data,
@@ -309,11 +317,11 @@ const PedidosUsuario = () => {
                           Preço total: R$
                           {pedido.itens
                             .reduce(
-                              (accumulator, element) =>{
+                              (accumulator, element) => {
                                 console.log(element);
-                                return accumulator + element?.produto?.preco
+                                return accumulator + element?.produto?.preco;
                               },
-                                
+
                               0
                             )
                             .toFixed(2)}

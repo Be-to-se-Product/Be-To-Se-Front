@@ -10,21 +10,21 @@ import CardMapa from "./componentes/CardMapa";
 import { useLocation } from "react-router-dom";
 import api from "../../services/api";
 import ContentBar from "./componentes/ContentBar";
-import { set } from "react-hook-form";
-// Chave de acesso ao Mapbox - Coloque sua chave de acesso no arquivo .env
+
 const API_KEY = import.meta.env.VITE_MAPBOX_TOKEN;
 mapboxgl.accessToken = API_KEY;
 const MapaInterativo = () => {
   const map = useRef(null);
   const mapContainerRef = useRef(null);
 
-
   const [show, setShow] = useState(false);
   const location = useLocation();
   const { distancia, nome, metodoPagamento } = location.state || {};
 
-  const [originCoordinates, setOriginCoordinates] = useState({ lat: null, lon: null }
-  );
+  const [originCoordinates, setOriginCoordinates] = useState({
+    lat: null,
+    lon: null,
+  });
   const [destination, setDestination] = useState({ lat: null, lon: null });
   const [rotas, setRotas] = useState([]);
 
@@ -38,16 +38,12 @@ const MapaInterativo = () => {
   };
   const [modePercurssion, setModePercurssion] = useState(profiles.PEOPLE);
 
-
-
-
   // Função para criar o marcador
   const criarMarcador = (coordenada) => {
     const maker = new mapboxgl.Marker();
     maker.setLngLat(coordenada);
     return maker;
   };
-
 
   // Função para criar o popUp
   const criarPopUp = (componente) => {
@@ -129,14 +125,10 @@ const MapaInterativo = () => {
     }
   };
 
-
-
   // Fazer get dos produtos
-
 
   // Carregar mapa com ponto inicial baseado na localização atual do usuário
   useEffect(() => {
-
     map?.current?.remove();
     //Criar instância do mapa
     map.current = new mapboxgl.Map({
@@ -147,16 +139,13 @@ const MapaInterativo = () => {
     });
     // GERAR MARCADORES ALEATÓRIOS
 
-
     // Capturar evento de carregamento do mapa
     map.current.on("load", () => {
       // Gerar 10 marcadores aleatórios
 
-
       // Adicionar controle de navegação
       map.current.addControl(new mapboxgl.NavigationControl(), "bottom-right");
 
-      // const produtos = getProduto();
       // Gerar marcadores baseado nos dados que o banco esta me retornando
 
       plotarMarcadores(produtos, map);
@@ -179,9 +168,7 @@ const MapaInterativo = () => {
           "circle-color": "#3887be",
         },
       });
-
     });
-
   }, [originCoordinates, produtos]);
 
   // Carregar trajeto quando o destinho ou o modo do percurso muda
@@ -210,8 +197,6 @@ const MapaInterativo = () => {
     };
   }, []);
 
-
-
   useEffect(() => {
     if (!originCoordinates.lat || !originCoordinates.lon) return;
     getProduto({
@@ -221,20 +206,23 @@ const MapaInterativo = () => {
   }, [originCoordinates]);
 
   const getProduto = async (filtro) => {
-    const response = await api.get("/produtos/mapa", {
-      params: {
-        latitude: originCoordinates.lat,
-        longitude: originCoordinates.lon,
-        distancia: filtro.distancia,
-        nome: nome ? nome : null,
-        metodoPagamento: filtro.metodoPagamento,
-      },
-    });
-    setProdutos(response.data);
+      const response = await api.get("/produtos/mapa", {
+        params: {
+          latitude: originCoordinates.lat,
+          longitude: originCoordinates.lon,
+          distancia: filtro.distancia,
+          nome: nome ? nome : null,
+          metodoPagamento: filtro.metodoPagamento,
+        },
+      });
+      setProdutos(response.data);
+  
   };
 
-  const plotarMarcadores = (produtos, map) => {
-    produtos?.forEach((element) => {
+  const plotarMarcadores =async  (produtos, map) => {
+
+
+     produtos?.forEach((element) => {
       const { latitude, longitude } = element.estabelecimento.endereco;
       const maker = criarMarcador({ lat: latitude, lon: longitude });
       const popUp = criarPopUp(
@@ -253,14 +241,12 @@ const MapaInterativo = () => {
 
   return (
     <div className="flex">
-
       <ContentBar show={show} setShow={setShow}>
         <BarProduto
           setDestination={setDestination}
           profiles={profiles}
           setModePercurssion={setModePercurssion}
           rotas={rotas}
-
           produtoSelecionado={produtoSelecionado}
           show={true}
         />

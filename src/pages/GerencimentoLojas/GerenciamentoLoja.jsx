@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import{ useState } from "react";
 import MenuComerciante from "../../componentes/MenuComerciante/MenuComerciante";
 import Button from "../../componentes/Button/Button";
 import CardLojaRoot from "../../componentes/CardLoja/CardLojaRoot";
@@ -6,9 +6,12 @@ import Modal from "../../componentes/Modal/Modal";
 import api from "../../services/api";
 import ModalLoja from "./componentes/ModalLoja";
 import { useEffect } from "react";
-import AplicattionContext from "../../context/Apllicattion/AplicattionContext";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import ModalLojaUpdate from "./componentes/ModalLojaUpdate";
+import IconDelete from "@assets/deletar.svg";
+import IconEdit from "@assets/editar.svg";
+
+
 
 const GerenciamentoLoja = () => {
   const [isVisibleModal, setIsVisibleModal] = useState(false);
@@ -18,7 +21,6 @@ const GerenciamentoLoja = () => {
     id: "",
   });
   const [getEstabelecimento, setEstabelecimento] = useState([]);
-  const { setIdEstabelecimento } = useContext(AplicattionContext);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -42,8 +44,7 @@ const GerenciamentoLoja = () => {
   };
 
   const handlePageProduct = (id) => {
-    setIdEstabelecimento(id);
-    navigate("/comerciante/produtos");
+    navigate("/comerciante/"+id+"/produtos");
   };
 
   return (
@@ -135,8 +136,8 @@ const GerenciamentoLoja = () => {
         </div>
 
         <div className=" mx-auto w-full flex flex-wrap gap-y-10 justify-center gap-x-5 relative ">
-          {getEstabelecimento.map((element) => (
-            <CardLojaRoot.Content>
+          {getEstabelecimento.map((element,index) => (
+            <CardLojaRoot.Content key={index}>
               <CardLojaRoot.Header>
                 <div className="flex gap-x-2 items-center">
                   <img
@@ -170,30 +171,30 @@ const GerenciamentoLoja = () => {
                   />
                   <CardLojaRoot.Row
                     label={"Telefone"}
-                    texto={element.telefoneContato}
+                    texto={element?.telefoneContato}
                   />
                 </div>
                 <div className="flex flex-col gap-y-1">
                   <CardLojaRoot.Row
                     label={"Produtos Cadastrados"}
-                    texto={element.produtosCadastrados}
+                    texto={element?.produtosCadastrados}
                   />
                   <CardLojaRoot.Row
                     label={"Promoções ativas"}
-                    texto={element.promocaoAtiva}
+                    texto={element?.promocaoAtiva}
                   />
                   <CardLojaRoot.Row
                     label={"Segmento"}
-                    texto={element.segmento}
+                    texto={element?.segmento}
                   />
                 </div>
               </CardLojaRoot.ContentInfo>
 
               <CardLojaRoot.Footer>
                 <div className="flex gap-x-2">
-                  <img src="./src/assets/editar.svg" alt="" />
+                  <img src={IconEdit} alt="" />
                   <img
-                    src="./src/assets/deletar.svg"
+                    src={IconDelete}
                     alt=""
                     onClick={() =>
                       setIsVisibleModalDelete(!isVisibleModalDelete)

@@ -1,4 +1,3 @@
-import React from 'react'
 import  "./style/animation-time.css"
 import "./style/animation-popup.css"
 

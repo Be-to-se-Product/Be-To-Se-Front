@@ -1,4 +1,3 @@
-import React from "react";
 import TabInfoLoja from "./TabInfoLoja";
 import Button from "../../../componentes/Button/Button";
 import { Rating } from "@mui/material";
@@ -8,11 +7,11 @@ import DirectionsCarFilledIcon from "@mui/icons-material/DirectionsCarFilled";
 import DirectionsBikeIcon from "@mui/icons-material/DirectionsBike";
 import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
 import BannerImage from "./BannerImage";
-
+import IconMen from "@assets/men.png";
 const BarLoja = () => {
   return (
     <ContentBar>
-      <BannerImage img={"/src/assets/men.png"} />
+      <BannerImage img={IconMen} />
       <div className="flex justify-between p-5 ">
         <div className=" flex flex-col gap-y-2">
           <div className="flex gap-x-4 items-center">

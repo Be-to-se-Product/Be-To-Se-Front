@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import api from "../../services/api";
 import InputRoot from "../../componentes/Input/InputRoot";
 import Button from "../../componentes/Button/Button";
@@ -9,6 +9,12 @@ import { ToastContainer, toast } from "react-toastify";
 import { injectStyle } from "react-toastify/dist/inject-style";
 import { MENSAGENS } from "../../utils/dicionarioRespostas";
 import { criptografar } from "../../utils/Autheticated";
+import Imagem1 from "@/assets/foto-login-1.jpg";
+import Imagem2 from "@/assets/foto-login-2.jpg";
+import Imagem3 from "@/assets/foto-login-3.jpg";
+import Logo from "@/assets/logo-easy.png";
+
+
 
 const Login = () => {
   injectStyle();
@@ -98,7 +104,7 @@ const Login = () => {
         >
           <div className="flex-shrink-0 w-full relative  ">
             <img
-              src="/src/assets/foto-login-3.jpg"
+              src={Imagem3}
               alt=""
               className="object-cover w-full h-full"
             />
@@ -109,7 +115,7 @@ const Login = () => {
           </div>
           <div className="flex-shrink-0 w-full relative">
             <img
-              src="/src/assets/foto-login-1.jpg "
+              src={Imagem1}
               alt=""
               className="object-cover  w-full h-full"
             />
@@ -120,7 +126,7 @@ const Login = () => {
           </div>
           <div className="flex-shrink-0 w-full relative ">
             <img
-              src="/src/assets/foto-login-2.jpg"
+              src={Imagem2}
               alt=""
               className="object-cover  w-full h-full"
             />
@@ -132,7 +138,7 @@ const Login = () => {
           </div>
           <div className="flex-shrink-0 w-full relative ">
             <img
-              src="/src/assets/foto-login-3.jpg"
+              src={Imagem3}
               alt=""
               className="object-cover w-full h-full"
             />
@@ -147,7 +153,7 @@ const Login = () => {
         <div className="flex flex-col w-7/12 max-w-lg  items-center   gap-y-5 ">
           <div className="text-center flex flex-col gap-y-2">
             <img
-              src="/src/assets/logo-easy.png"
+              src={Logo}
               alt=""
               className="w-14 mx-auto"
             />

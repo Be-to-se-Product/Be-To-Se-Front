@@ -1,8 +1,7 @@
 import { Avatar, Rating } from "@mui/material";
 import moment from "moment";
-import React from "react";
 
-const Avaliacao = ({avatar,avaliacao}) => {
+const Avaliacao = ({avaliacao}) => {
   return (
     <div className="flex items-center gap-x-4 w-full ">
       <Avatar

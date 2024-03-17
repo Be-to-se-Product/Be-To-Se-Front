@@ -1,13 +1,11 @@
-import React, { useState } from "react";
 import InputRoot from "../../../componentes/Input/InputRoot";
+import IconDelete from "@assets/deletar.svg";
 
-
-import PropTypes from "prop-types";
 
 const RowSessao = ({ item, setRowSessao }) => {
 
   const handleDelete = () => {
-    setRowSessao(prev => prev.filter((element, index) => element?.id !== item?.id || element.identificador !== item.identificador));
+    setRowSessao(prev => prev.filter((element) => element?.id !== item?.id || element.identificador !== item.identificador));
   };
 
   return (
@@ -22,7 +20,7 @@ const RowSessao = ({ item, setRowSessao }) => {
         role="button"
         tabIndex={0}
       >
-        <img src="/src/assets/deletar.svg" alt="" />
+        <img src={IconDelete} alt="" />
       </span>
     </div>
   );

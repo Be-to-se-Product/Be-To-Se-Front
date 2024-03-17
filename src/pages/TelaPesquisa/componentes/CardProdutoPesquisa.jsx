@@ -8,8 +8,9 @@ import Shop from "../../../assets/shop.svg"
 import { conversorTime } from "../../../utils/conversores";
 import { useNavigate } from "react-router";
 
-const CardProutoPesquisa = (produto) => {
+const CardProutoPesquisa = ({produto}) => {
     const navigate = useNavigate();
+    console.log(produto);
     const imagem = produto.imagens && produto.imagens.length > 0 ? produto.imagens[0] : imgProduto;
 
     return (

@@ -1,5 +1,6 @@
-import React from "react";
 
+
+import IconClose from "@/assets/closeButton.png";
 const ContentModal = ({ children, className, setPedidoSelecionado, show }) => {
   return (
     <div
@@ -22,7 +23,7 @@ const ContentModal = ({ children, className, setPedidoSelecionado, show }) => {
             });
           }}
         >
-          <img src="/src/assets/closeButton.png" alt="close" className="w-10 h-10" />
+          <img src={IconClose} alt="close" className="w-10 h-10" />
         </button>
         {children}
       </dialog>

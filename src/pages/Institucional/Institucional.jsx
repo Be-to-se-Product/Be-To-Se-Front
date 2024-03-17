@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import NavbarRoot from "../../componentes/Navbar/NavbarRoot";
 import Button from "../../componentes/Button/Button";
 import people from "../../assets/PeopleHappy.png";
@@ -8,6 +8,8 @@ import family from "../../assets/family.png";
 import woman from "../../assets/woman-desktop.png";
 import ContainerCard from "../../componentes/CardUser/ContainerCard";
 import apiGithub from "../../services/apiGithub";
+import IconVector from "@assets/vector.png"
+import ImageSquad from "@assets/squad.jpeg"
 
 
 const Insitucional = () => {
@@ -44,11 +46,7 @@ const Insitucional = () => {
   };
 
 
-window.addEventListener("click", (e) => {
-  
-    setIsVisible(false);
-  
-});
+window.addEventListener("click", () => setIsVisible(false));
 
 
 
@@ -193,7 +191,7 @@ window.addEventListener("click", (e) => {
             </div>
 
             <div className="flex flex-col gap-y-10">
-              <img src="./src/assets/vector.png" alt="" className="mx-auto" />
+              <img src={IconVector} alt="" className="mx-auto" />
               <p className="w-1/2 mx-auto text-center text-base">
                 Estamos aqui para proporcionar a você uma experiência de compra
                 que valoriza a conveniência, o atendimento excepcional e o
@@ -229,10 +227,8 @@ window.addEventListener("click", (e) => {
           <div className="absolute top-[480px] left-[550px] w-[120px] h-[220px] cursor-pointer " onClick={(e) => abrirCard("lessamatheuss01", e)}></div>
           <div className="w-full h-full ">
             <img
-              src="/src/assets/squad.jpeg"
+              src={ImageSquad}
               alt=""
-              class=" "
-              
             />
            
           </div>

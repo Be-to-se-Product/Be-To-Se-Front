@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import  { useContext, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import FormContext from "../../../context/Form/FormContext";
 import Button from "../../../componentes/Button/Button";
 import { converterInputImageToBase64 } from "../../../utils/conversores";
-
+import IconCam from "@assets/cam-picture.png";
 const Step6 = () => {
   const { storage, setStorage, prevStep, nextStep, stateAtual } =
     useContext(FormContext);
@@ -81,7 +81,7 @@ const Step6 = () => {
             className="h-full w-80 relative object-cover border-2 top-8 rounded-full z-10"
           />
           <img
-            src="/src/assets/94999.png"
+            src={IconCam}
             alt=""
             className="absolute w-20 mt-12 z-0"
           />

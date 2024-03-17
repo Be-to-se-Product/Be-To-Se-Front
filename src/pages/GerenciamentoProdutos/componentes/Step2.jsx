@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { converterInputImageToBase64 } from "../../../utils/conversores";
 import Compressor from "compressorjs";

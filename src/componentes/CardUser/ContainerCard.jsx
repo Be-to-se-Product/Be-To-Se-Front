@@ -1,4 +1,5 @@
-import React from "react";
+
+import LogoGithub from "@/assets/github-logo.svg";
 
 const ContainerCard = ({
   image,
@@ -21,7 +22,7 @@ const ContainerCard = ({
         </div>
         <a href={link}>
           <h3 className="font-semibold flex items-center gap-x-2 mb-4">
-            <img src="src/assets/github-logo.svg" alt="" className="w-10" />
+            <img src={LogoGithub} alt="" className="w-10" />
 
             {username}
           </h3>

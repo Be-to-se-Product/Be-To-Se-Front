@@ -1,15 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import backIcon from "../../assets/back.svg";
-
-import {  useNavigate } from "react-router-dom";
-
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import api from "../../services/api";
-import AplicattionContext from "../../context/Apllicattion/AplicattionContext";
 
 const MenuComerciante = ({ children, isLogo }) => {
   const [user, setUser] = useState({});
   const [logoEstabelecimento, setLogo] = useState("");
-  const { idEstabelecimento } = useContext(AplicattionContext);
+
+  const { idEstabelecimento } = useParams();
   const navigate = useNavigate();
 
   const getEstabelecimento = () => {
@@ -23,13 +21,11 @@ const MenuComerciante = ({ children, isLogo }) => {
       .catch((erro) => {
         console.log(erro);
       });
-     
   };
 
   useEffect(() => {
     getEstabelecimento();
   }, []);
-
 
   const logout = () => {
     sessionStorage.clear();
@@ -44,17 +40,16 @@ const MenuComerciante = ({ children, isLogo }) => {
           <div className="logo flex items-end  absolute top-[-80px] ">
             {isLogo && (
               <>
-              <img
-                src={logoEstabelecimento}
-                alt=""
-                className="w-[150px] h-[150px] rounded-full"
-              />
-              <h2 className="font-medium py-2 text-base text-white-principal">
-              {user.nome}
-            </h2>
-            </>
+                <img
+                  src={logoEstabelecimento}
+                  alt=""
+                  className="w-[150px] h-[150px] rounded-full"
+                />
+                <h2 className="font-medium py-2 text-base text-white-principal">
+                  {user.nome}
+                </h2>
+              </>
             )}
-            
           </div>
 
           <div className="content-option mt-10 px-7 w-full">

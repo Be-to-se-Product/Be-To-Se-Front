@@ -1,6 +1,6 @@
 import NavbarRoot from "../../componentes/Navbar/NavbarRoot";
 import Switch from "../../componentes/Switch/BotaoSwitch";
-import CardProdutoPesquisa from "./componentes/CardProdutoPesquisa";
+import CardProdutoPesquisa from "./componentes/CardProdutoPesquisa.jsx"
 import { geolocation } from "../../utils/geolocation";
 import { useEffect, useState } from "react";
 import api from "../../services/api";
@@ -10,7 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import DistanceFilter from "./componentes/DistanceFilter";
 import { useLocation } from "react-router-dom";
 
-function TelaPesquisa(props) {
+function TelaPesquisa() {
   const navigate = useNavigate();
   const location = useLocation();
   const { nomePesquisado } = location.state || {};

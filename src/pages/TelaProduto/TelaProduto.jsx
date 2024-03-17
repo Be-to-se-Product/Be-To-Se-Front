@@ -1,15 +1,10 @@
 import NavbarRoot from "../../componentes/Navbar/NavbarRoot";
 import star from "../../assets/star.svg";
-import car from "../../assets/car-black.svg";
-import bike from "../../assets/bike-black.svg";
-import men from "../../assets/men-black.svg";
-
 import fast from "../../assets/fastshop.png";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { injectStyle } from "react-toastify/dist/inject-style";
 import api from "../../services/api";
-import CardAvaliacao from "./componentes/CardAvaliacao";
 import Avaliacao from "../../componentes/Avaliacao/Avaliacao";
 import CardMetodo from "./componentes/CardMetodo";
 import { descriptografar } from "../../utils/Autheticated";
@@ -31,45 +26,27 @@ function TelaProduto() {
   const [mediaAvaliacao, setMediaAvaliacao] = useState(0);
   const nomeEmpresa = produtos?.secao?.estabelecimento?.nome;
   const metodosEmpresa = produtos?.secao?.estabelecimento?.idMetodo;
-  const [imagemDestaque, setImagemDestaque] = useState("/src/assets/default-image.jpeg");
+  const [imagemDestaque, setImagemDestaque] = useState(
+    "/src/assets/default-image.jpeg"
+  );
   const navigate = useNavigate();
 
   const mudarImagem = (novaImagem) => {
     setImagemDestaque(novaImagem);
   };
 
-  const comprarProduto = () =>{
+  const comprarProduto = () => {
     let quantidade = qtd;
     let idProduto = produtoId;
-    let origem= "TelaProduto"
-    const data = [{
+    let origem = "TelaProduto";
+    const data = [
+      {
         idProduto,
         quantidade,
-        origem
-    }];
+        origem,
+      },
+    ];
     navigate(`/compra`, { state: data });
-  }
-
-  const adicionarProduto = () => {
-    let consumidor = userId;
-    let quantidade = qtd;
-    let produto = produtoId;
-
-    const data = {
-      quantidade,
-      produto,
-      consumidor,
-    };
-    const loading = toast.loading("Carregando...");
-    api
-      .post("/carrinhos", data)
-      .then((response) => {
-        toast.dismiss(loading);
-        toast.success("Produto adicionado ao carrinho!", { autoClose: 2000 });
-      })
-      .catch((error) => {
-        toast.dismiss(loading);
-      });
   };
 
   const adicionarAvaliacao = () => {
@@ -86,13 +63,13 @@ function TelaProduto() {
     const loading = toast.loading("Carregando...");
     api
       .post("/avaliacoes", data)
-      .then((response) => {
+      .then(() => {
         toast.dismiss(loading);
         toast.success("Avaliação adicionada com sucesso!", {
           autoClose: 20000,
         });
       })
-      .catch((error) => {
+      .catch(() => {
         toast.dismiss(loading);
         toast.error("Falha ao adicionar avaliação!", { autoClose: 2000 });
       })
@@ -110,10 +87,15 @@ function TelaProduto() {
       .then((res) => {
         toast.dismiss();
         setProdutos(res.data.length == 0 ? [] : res.data);
-        setImagemDestaque(res.data?.imagens?.length>0 ? res.data.imagens[0] : "/src/assets/default-image.jpeg")
-      
+        setImagemDestaque(
+          res.data?.imagens?.length > 0
+            ? res.data.imagens[0]
+            : "/src/assets/default-image.jpeg"
+        );
       })
-      .catch((err) => {});
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   const getAvaliacao = () => {
@@ -136,7 +118,9 @@ function TelaProduto() {
       soma += avaliacoes[i].qtdEstrela;
     }
 
-    setMediaAvaliacao(isNaN(soma / avaliacoes.length) ? 0 : soma / avaliacoes.length);
+    setMediaAvaliacao(
+      isNaN(soma / avaliacoes.length) ? 0 : soma / avaliacoes.length
+    );
   };
 
   const aumentarQuantidade = () => {
@@ -174,7 +158,6 @@ function TelaProduto() {
         <NavbarRoot.Menu>
           <NavbarRoot.Item></NavbarRoot.Item>
         </NavbarRoot.Menu>
-
       </NavbarRoot.Content>
       <main
         className="flex pt-[85px] flex-col"
@@ -183,32 +166,79 @@ function TelaProduto() {
         <div className="flex flex-row justify-between mx-auto w-10/12 ">
           <div className="flex flex-col  ">
             <div id="imagem_destaque" className="mb-6 w-10/12">
-              <img src={imagemDestaque} alt=""  className="h-[550px] rounded-md object-cover w-full"/>
-            </div>
-            <div className="grid grid-cols-4 w-10/12 justify-items-center" id="imagem_adicional">
               <img
-                src= { produtos?.imagens?.length>1 ?produtos.imagens[1] : "/src/assets/default-image.jpeg"}
+                src={imagemDestaque}
+                alt=""
+                className="h-[550px] rounded-md object-cover w-full"
+              />
+            </div>
+            <div
+              className="grid grid-cols-4 w-10/12 justify-items-center"
+              id="imagem_adicional"
+            >
+              <img
+                src={
+                  produtos?.imagens?.length > 1
+                    ? produtos.imagens[1]
+                    : "/src/assets/default-image.jpeg"
+                }
                 alt=""
                 className="h-24 border-solid border-2 border-stroke-principal rounded-lg w-[150px] "
-                onClick={() => mudarImagem(produtos?.imagens?.length>1 ? produtos.imagens[1] : "/src/assets/default-image.jpeg")}
+                onClick={() =>
+                  mudarImagem(
+                    produtos?.imagens?.length > 1
+                      ? produtos.imagens[1]
+                      : "/src/assets/default-image.jpeg"
+                  )
+                }
               />
               <img
-                src={produtos?.imagens?.length>2 ? produtos.imagens[2] : "/src/assets/default-image.jpeg"}
+                src={
+                  produtos?.imagens?.length > 2
+                    ? produtos.imagens[2]
+                    : "/src/assets/default-image.jpeg"
+                }
                 alt=""
                 className="h-24 border-solid border-2 border-stroke-principal rounded-lg w-[150px]"
-                onClick={() => mudarImagem( produtos?.imagens?.length>2 ? produtos.imagens[2] : "/src/assets/default-image.jpeg" )}
+                onClick={() =>
+                  mudarImagem(
+                    produtos?.imagens?.length > 2
+                      ? produtos.imagens[2]
+                      : "/src/assets/default-image.jpeg"
+                  )
+                }
               />
               <img
-                src={produtos?.imagens?.length>3 ? produtos.imagens[3] : "/src/assets/default-image.jpeg"}
+                src={
+                  produtos?.imagens?.length > 3
+                    ? produtos.imagens[3]
+                    : "/src/assets/default-image.jpeg"
+                }
                 alt=""
                 className="h-24 border-solid border-2 border-stroke-principal rounded-lg  "
-                onClick={() => mudarImagem(produtos?.imagens?.length>3 ? produtos.imagens[3] : "/src/assets/default-image.jpeg" )}
+                onClick={() =>
+                  mudarImagem(
+                    produtos?.imagens?.length > 3
+                      ? produtos.imagens[3]
+                      : "/src/assets/default-image.jpeg"
+                  )
+                }
               />
               <img
-                src={produtos?.imagens?.length>0 ? produtos.imagens[0] : "/src/assets/default-image.jpeg" }
+                src={
+                  produtos?.imagens?.length > 0
+                    ? produtos.imagens[0]
+                    : "/src/assets/default-image.jpeg"
+                }
                 alt=""
                 className="h-24 border-solid border-2 border-stroke-principal rounded-lg max-w-[150px]  "
-                onClick={() => mudarImagem(produtos?.imagens?.length>0 ? produtos.imagens[0] :  "/src/assets/default-image.jpeg" )}
+                onClick={() =>
+                  mudarImagem(
+                    produtos?.imagens?.length > 0
+                      ? produtos.imagens[0]
+                      : "/src/assets/default-image.jpeg"
+                  )
+                }
               />
             </div>
             <div className="flex flex-col pt-[80px] max-w-md gap-y-6">
@@ -223,13 +253,17 @@ function TelaProduto() {
               <p className="text-5xl	">RS {produtos.preco?.toFixed(2)}</p>
               <div className="flex flex-row gap-x-2">
                 <div className="flex flex-row gap-x-1">
-                <Rating size="small" value={mediaAvaliacao} readOnly precision={0.5} />
-
+                  <Rating
+                    size="small"
+                    value={mediaAvaliacao}
+                    readOnly
+                    precision={0.5}
+                  />
                 </div>
                 <p>({mediaAvaliacao.toFixed(1)})</p>
               </div>
               <p className="text-2xl">Tempo do percurso</p>
-              
+
               <div className="flex flex-row gap-x-2 items-center">
                 <p className="text-base">Quantidade</p>
                 <input
@@ -241,12 +275,12 @@ function TelaProduto() {
               </div>
             </div>
             <div className="flex pt-[40px] flex-col gap-y-4">
-              <button className="bg-orange-principal py-2 text-2xl font-medium rounded-lg"
-              onClick={comprarProduto}
+              <button
+                className="bg-orange-principal py-2 text-2xl font-medium rounded-lg"
+                onClick={comprarProduto}
               >
                 Reservar na loja
               </button>
-             
             </div>
             <div className="flex flex-col gap-y-9">
               <div className="flex flex-col pt-[52px] gap-y-4">
@@ -256,14 +290,13 @@ function TelaProduto() {
                     {nomeEmpresa}
                   </p>
                 </div>
-               
               </div>
               <div className="flex flex-col gap-y-4">
                 <p className="text-base">Meios de pagamento na loja</p>
                 <div className="flex flex-row gap-x-12">
                   {metodosEmpresa &&
-                    metodosEmpresa.map((metodo) => (
-                      <CardMetodo metodo={metodo} />
+                    metodosEmpresa.map((metodo, key) => (
+                      <CardMetodo metodo={metodo} key={key} />
                     ))}
                 </div>
               </div>

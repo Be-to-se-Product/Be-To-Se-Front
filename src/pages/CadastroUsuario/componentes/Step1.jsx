@@ -70,7 +70,7 @@ const Step1 = ({ getDataForm, children, data }) => {
     <form
       className={`flex flex-col gap-y-4 bg-white-principal p-10 rounded-sm `}
       onSubmit={handleSubmit(getData)}
-      autocomplete={"off"}
+      autoComplete={"off"}
     >
       <div className="flex flex-col ">
         <InputRoot.Input
