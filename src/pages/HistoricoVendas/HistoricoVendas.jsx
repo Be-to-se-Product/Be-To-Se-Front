@@ -28,41 +28,14 @@ const HistoricoVendas = () => {
   const statusOptions = ["Entregue", "Cancelado"];
   const { idEstabelecimento } = useParams();
 
-  const fetchHistoricoVendas = () => {
-    toast.loading("Carregando histórico de vendas...");
-    api
-      .get(`/historico-vendas/${idEstabelecimento}`, {
-        params: {
-          page: page,
-          size: size,
-        },
-      })
-      .then((response) => {
-        toast.dismiss();
-        if (!response?.data) {
-          toast.info("Não existem  realizadas.");
-          return;
-        }
-        const responseData = response.data;
-        if (responseData.content.length === 0) {
-          toast.info("Não existem vendas.");
-        }
-        setVendas(responseData.content);
-        setPage(responseData.number);
-        setSize(responseData.size);
-      })
-      .catch((error) => {
-        console.error(error);
-        toast.dismiss();
-        toast.error("Erro ao carregar o histórico de vendas.");
-      });
-  };
+  
 
   useEffect(() => {
     getMetodosPagamento();
   }, []);
 
   const getHistoricoVendasFiltrado = () => {
+    
     toast.loading("Buscando vendas...");
     const params = {
       de: de,
@@ -99,9 +72,9 @@ const HistoricoVendas = () => {
   const getMetodosPagamento = () => {
     toast.loading("Carregan do métodos de pagamento...");
     api
-      .get(`historico-vendas/1/metodos-pagamento`)
+      .get(`historico-vendas/${idEstabelecimento}/metodos-pagamento`)
       .then((response) => {
-        setMetodosPagamentos(response.data);
+        setMetodosPagamentos(response.data ? response.data : []);
       })
       .catch((error) => {
         console.error(error);
@@ -140,8 +113,8 @@ const HistoricoVendas = () => {
   };
 
   useEffect(() => {
-    fetchHistoricoVendas();
-  }, [page, size]);
+getHistoricoVendasFiltrado()
+  }, []);
 
   const exportar = () => {
     api

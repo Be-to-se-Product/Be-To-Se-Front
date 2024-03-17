@@ -198,7 +198,6 @@ const MapaInterativo = () => {
   }, []);
 
   useEffect(() => {
-    if (!originCoordinates.lat || !originCoordinates.lon) return;
     getProduto({
       distancia: 50,
       metodoPagamento: null,
@@ -206,17 +205,16 @@ const MapaInterativo = () => {
   }, [originCoordinates]);
 
   const getProduto = async (filtro) => {
-      const response = await api.get("/produtos/mapa", {
-        params: {
-          latitude: originCoordinates.lat,
-          longitude: originCoordinates.lon,
-          distancia: filtro.distancia,
-          nome: nome ? nome : null,
-          metodoPagamento: filtro.metodoPagamento,
-        },
-      });
-      setProdutos(response.data);
-  
+    const response = await api.get("/produtos/mapa", {
+      params: {
+        latitude: originCoordinates.lat || null,
+        longitude: originCoordinates.lon || null,
+        distancia: filtro.distancia,
+        nome: nome ? nome : null,
+        metodoPagamento: filtro.metodoPagamento,
+      },
+    });
+    setProdutos(response.data);
   };
 
   const plotarMarcadores =async  (produtos, map) => {

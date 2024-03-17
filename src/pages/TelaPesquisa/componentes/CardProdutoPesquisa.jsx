@@ -16,7 +16,7 @@ const CardProutoPesquisa = ({produto}) => {
     return (
         <div
             className="w-[250px] h-[539px] gap-20 p-4 border-2 rounded-md bg-white-principal flex-start flex-col "
-            onClick={() => navigate(`/TelaProduto/${produto.id}`)}
+            onClick={() => navigate(`/produto/${produto.id}`)}
         >
             <div className="h-[150px] rounded-md ">
                 <div className="rounded-full bg-orange-principal w-7 h-7 text-center flex items-center justify-center ">

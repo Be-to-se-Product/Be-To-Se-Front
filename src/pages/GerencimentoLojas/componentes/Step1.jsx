@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import  { useContext, useEffect, useState } from "react";
 import FormContext from "../../../context/Form/FormContext";
 import { useForm } from "react-hook-form";
 import InputRoot from "../../../componentes/Input/InputRoot";
@@ -129,10 +129,9 @@ const message={
                 )}
               </div>
             <InputRoot.Input register={register("telefoneContato",schemaValidate.telefoneContato)} defaultValue={storage.telefoneContato} />
-     
+  
           </div>
         </div>
-
         <div className="flex flex-col justify-between">
           <div className="flex flex-col gap-y-1">
           <div className="flex  gap-x-2  items-center ">
@@ -179,6 +178,7 @@ const message={
         </div>
       </div>
       <Button type="button" onClick={next}>Avançar</Button>
+      <Button type="button" onClick={prev}>Retroceder</Button>
     </form>
   );
 };

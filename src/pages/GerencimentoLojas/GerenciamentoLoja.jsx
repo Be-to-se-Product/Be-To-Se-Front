@@ -44,7 +44,7 @@ const GerenciamentoLoja = () => {
   };
 
   const handlePageProduct = (id) => {
-    navigate("/comerciante/"+id+"/produtos");
+    navigate("/comerciante/lojas/"+id+"/produtos");
   };
 
   return (

@@ -1,14 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import StepperRoot from "../../../componentes/Stepper/StepperRoot";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
 import Button from "../../../componentes/Button/Button";
 import api from "../../../services/api";
-import AplicattionContext from "../../../context/Apllicattion/AplicattionContext";
+import { useParams } from "react-router-dom";
 
 const FormUpdate = ({ fecharModal, getProdutos, produto }) => {
-  const { idEstabelecimento } = useContext(AplicattionContext);
+  const { idEstabelecimento } = useParams();
 
   const [stateAtual, setStateAtual] = useState(0);
   const [infoBanco, setInfoBanco] = useState({

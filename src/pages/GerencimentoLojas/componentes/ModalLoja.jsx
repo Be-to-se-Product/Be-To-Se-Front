@@ -23,9 +23,6 @@ const ModalLoja = ({ closeModal,getLista }) => {
     }
   };
 
-  const steps=[
-    
-  ]
 
   useEffect(() => {
     if (stateAtual>5) {

@@ -76,6 +76,7 @@ function TelaPesquisa() {
         },
       })
       .then((response) => {
+        console.log(response.data); 
         setProdutos(response.data ? response.data : []);
       })
       .catch((error) => {
