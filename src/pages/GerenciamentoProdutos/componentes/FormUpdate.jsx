@@ -1,79 +1,156 @@
-import axios from "axios";
-import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import Input from "../../../componentes/Input/Input";
+import  { useEffect, useState } from "react";
+import StepperRoot from "../../../componentes/Stepper/StepperRoot";
+import Step1 from "./Step1";
+import Step2 from "./Step2";
+import Step3 from "./Step3";
+import Button from "../../../componentes/Button/Button";
+import api from "../../../services/api";
+import { useParams } from "react-router-dom";
 
-const FormUpdate = ({ produtos, id, fecharModal,getProdutos }) => {
-  const { handleSubmit, register } = useForm();
+const FormUpdate = ({ fecharModal, getProdutos, produto }) => {
+  const { idEstabelecimento } = useParams();
 
-  
-  const produto = produtos.find((produto) => produto.id === id);
+  const [stateAtual, setStateAtual] = useState(0);
+  const [infoBanco, setInfoBanco] = useState({
+    sessoes: [],
+    tag: [],
+  });
 
 
-  useEffect(() => {
-    console.log(produto);
-  }, []);
 
-  const atualizarProduto = (produtoUpdated) => {
-    console.log(produto);
-
-    axios
-      .put(`http://localhost:8080/produtos/${id}`, produtoUpdated)
-      .then((res) => {
-        console.log(res.data);
-        fecharModal();
-        getProdutos();
-        
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const getSecao = () => {
+    api.get("/secoes/estabelecimento/"+idEstabelecimento).then((response) => {
+      setInfoBanco((prev) => ({ ...prev, sessoes: response.data }));
+    });
   };
 
+  const getTags = () => {
+    api.get("/tags").then((response) => {
+      setInfoBanco((prev) => ({ ...prev, tag: response.data }));
+    });
+  };
+
+  useEffect(() => {
+    getTags();
+    getSecao();
+  }, []);
+
+  const [isNext, setIsNext] = useState(false);
+  const [dataStorage, setDataStorage] = useState({
+    nome: produto?.nome,
+    codigoSku: produto?.codigoSku,
+    preco: produto?.preco,
+    descricao: produto?.descricao,
+    precoOferta: produto?.precoOferta,
+    codigoBarras: produto?.codigoBarras,
+    categoria: produto?.categoria,
+    secao: produto?.secao.id,
+    tags: produto?.tags ? produto?.tags : null,
+  });
+
+  const getData = (data) => {
+    setDataStorage({ ...dataStorage, ...data });
+
+    if (isNext) {
+      nextStep(dataStorage,data);
+    } else {
+      prevStep();
+    }
+  };
+
+  function resetarCampos() {
+    setDataStorage({
+      nome: "",
+      codigoSku: "",
+      preco: "",
+      descricao: "",
+      precoOferta: "",
+      codigoBarras: "",
+      categoria: "",
+      secao: "",
+      tag: [],
+    });
+    setStateAtual(0);
+  }
+
+  const saveData = (dadosSalvar,data) => {
+    const produtoSave = {
+      nome: dadosSalvar.nome,
+      codigoSku: dadosSalvar.codigoSku,
+      preco: dadosSalvar.preco,
+      descricao: data.descricao,  
+      precoOferta: dadosSalvar.precoOferta,
+      codigoBarras: dadosSalvar.codigoBarras,
+      categoria: dadosSalvar.categoria,
+      secao: dadosSalvar.secao,
+      tags: dadosSalvar.tags ? dadosSalvar.tags : [],
+    };
+
+    api
+      .put("/produtos/"+produto.id, produtoSave)
+      .then((response) => {
+        getProdutos();
+        resetarCampos();
+        fecharModal("fechar");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const nextStep = (dataSalvar,data) => {
+    if (stateAtual + 1 === steps.length) {
+      saveData(dataStorage,data);
+      return;
+    }
+    setStateAtual(stateAtual + 1);
+    setIsNext(false);
+  };
+  const prevStep = () => {
+    if (stateAtual - 1 >= 0) {
+      setStateAtual(stateAtual - 1);
+    }
+  };
+
+  const steps = [
+    <Step1 getData={getData} infoBanco={infoBanco} dataStorage={dataStorage}>
+      <div className="flex justify-center gap-x-4 mt-4">
+        <Button onClick={() => setIsNext(true)}>Avançar</Button>
+      </div>
+    </Step1>,
+    <Step2 getData={getData} imagens={produto.imagens}>
+      <div className="flex justify-center gap-x-4 mt-4">
+        <Button>Retroceder</Button>
+        <Button onClick={() => setIsNext(true)}>Avançar</Button>
+      </div>
+    </Step2>,
+    <Step3 getData={getData} dataStorage={dataStorage}>
+      <div className="flex justify-center gap-x-4 mt-4">
+        <Button>Retroceder</Button>
+        <Button onClick={() => setIsNext(true)}>Atualizar</Button>
+      </div>
+    </Step3>,
+  ];
+
   return (
-    <>
-      <div className="img flex  w-1/2 justify-center items-center border h-full  ">
-        <input type="file" />
-      </div>
+    <div className=" w-[801px] h-[700px] p-8 bg-white-principal relative rounded-md flex items-center flex-col gap-y-2 justify-around">
+      <div className="absolute top-5  right-8 cursor-pointer" onClick={()=>fecharModal("fechar")}>X</div>
+      <StepperRoot.Content>
+        <StepperRoot.Step number={1} stateAtual={stateAtual}>
+          Informações do produtos
+        </StepperRoot.Step>
 
-      <div className="content-form w-1/2 items-center justify-center  ">
-        <form
-          className="flex flex-col items-center h-full justify-center gap-y-2"
-          onSubmit={handleSubmit(atualizarProduto)}
-        >
-          <Input nome={"Nome"} defaultValue={produto.nome} register={register("nome")} />
-          <div className="flex w-full">
-            <Input nome={"Valor Compra"} defaultValue={(produto.precoCompra)}  register={register("precoCompra")} />
-            <Input nome={"Valor Venda"} defaultValue={produto.precoVenda}  register={register("precoVenda")} />
-          </div>
-          <Input nome={"Categoria"} defaultValue={produto.categoria}  register={register("categoria")} />
-          <Input nome={"Tag"} register={register("tag")} defaultValue={produto.tag}  />
-          <Input nome={"Código SKU"} defaultValue={produto.codigoGtin  } register={register("codigoGtin")} />
-          <div className="w-full flex flex-col px-2">
-            <label htmlFor="" className="mb-2 text-black-800 ">
-              Descricao
-            </label>
-            <textarea
-              className="w-full px-1 py-1 resize-none"
-              {...register("descricao")}
-            defaultValue={produto.descricao}
-            
-            
-            ></textarea>
-          </div>
-          <div className="flex gap-x-1">
+        <StepperRoot.Step number={2} stateAtual={stateAtual}>
+          Uploads de imagens
+        </StepperRoot.Step>
 
-<button type="button" onClick={()=>fecharModal("adicionar")} className="px-8 py-2 bg-black-700 font-bold mt-4 text-white-principal ">
-  Cancelar
-</button>
-<button  className="px-8 py-2 bg-orange-principal font-bold mt-4  ">
-  Salvar
-</button>
+        <StepperRoot.Step number={3} stateAtual={stateAtual}>
+          Descrição do produto
+        </StepperRoot.Step>
+      </StepperRoot.Content>
 
-</div>
-        </form>
-      </div>
-    </>
+
+      {steps[stateAtual]}
+    </div>
   );
 };
 

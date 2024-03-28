@@ -1,9 +1,16 @@
+import scrollbar from "tailwind-scrollbar-hide";
+
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      backgroundImage:{
+        'vector':"url('./src/assets/vector.png')",
+      },
       colors: {
+        background:"#DDDDDD",
         black: {
           100: "#F5F5F5",
           200: "#EEEEEE",
@@ -17,13 +24,19 @@ export default {
         },
         orange: {
           principal: "#FCA622",
+          menu:"#ffa500"
         },
-
+        orange_opacity: {
+          principal: "#F3C886",
+        },
+        stroke: {
+          principal: "#C5D1E2",
+        },  
         white: {
           principal: "#FFFFFF",
         },
       },
     },
   },
-  plugins: [],
+  plugins: [scrollbar],
 };
