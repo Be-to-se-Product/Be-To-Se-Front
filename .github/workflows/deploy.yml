@@ -16,12 +16,12 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v4
       - name: Set Env
-        run:  echo "VITE_API_URL=/api" > .env
+        run:  echo "VITE_API_URL=/api \n VITE_MAPBOX_TOKEN=pk.eyJ1IjoicGVkcm9yb2NzIiwiYSI6ImNsaHV2N3YzMjAzMHUzZm1pMjc0NWoyeDcifQ.q-B0JVg2kdDdye_HkTZw3Q " > .env
       - name: Log in to Docker Hub
         uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
         with:
-          username: pedrorocs
-          password: 3Db01194.
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
