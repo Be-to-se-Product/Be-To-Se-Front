@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -8,7 +8,7 @@ import "./mapaStyle.css";
 import BarProduto from "./componentes/BarProduto";
 import CardMapa from "./componentes/CardMapa";
 import { useLocation } from "react-router-dom";
-import api from "../../services/api";
+import api from "../../services/api.js";
 import ContentBar from "./componentes/ContentBar";
 
 const API_KEY = import.meta.env.VITE_MAPBOX_TOKEN;
@@ -19,7 +19,7 @@ const MapaInterativo = () => {
 
   const [show, setShow] = useState(false);
   const location = useLocation();
-  const { distancia, nome, metodoPagamento } = location.state || {};
+  const { nome } = location.state || {};
 
   const [originCoordinates, setOriginCoordinates] = useState({
     lat: null,
@@ -54,7 +54,7 @@ const MapaInterativo = () => {
     });
     const popUpNode = document.createElement("div");
     const portal = ReactDOM.createPortal(componente, popUpNode);
-    ReactDOM.render(portal, popUpNode);
+    ReactDOM.createRoot(popUpNode).render(portal);
     popUp.setDOMContent(popUpNode);
     popUp.setMaxWidth("none");
     popUp.setOffset([0, -15]);
@@ -217,10 +217,8 @@ const MapaInterativo = () => {
     setProdutos(response.data);
   };
 
-  const plotarMarcadores =async  (produtos, map) => {
-
-
-     produtos?.forEach((element) => {
+  const plotarMarcadores = async (produtos, map) => {
+    produtos?.forEach((element) => {
       const { latitude, longitude } = element.estabelecimento.endereco;
       const maker = criarMarcador({ lat: latitude, lon: longitude });
       const popUp = criarPopUp(
