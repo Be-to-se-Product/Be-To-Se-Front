@@ -20,6 +20,7 @@ import SwitchCadastro from "@/pages/SwitchCadastro/SwitchCadastro.jsx";
 import NotFound from "@/pages/NotFound/NotFound.jsx";
 import Login from "@/pages/Login/Login.jsx";
 import { isPermited } from "../utils/Autheticated";
+import MapaInterativoMobile from "@/pages/MapaInterativo/MapaInterativoMobile.jsx";
 
 const PrivateRoute = ({ element, usuario, ...rest }) => {
   if (!isPermited(usuario)) {
@@ -51,6 +52,7 @@ function Router() {
         <Route path="/cadastro/usuario" element={<CadastroUsuario />} />
         <Route path="/switch" element={<SwitchCadastro />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/mapa/mobile" element={<MapaInterativoMobile/>} />
         <Route path="/login" element={<Login/>} />
         
       </Routes>
