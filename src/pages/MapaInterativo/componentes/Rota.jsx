@@ -1,19 +1,18 @@
 import { Tab, Tabs } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import DirectionsCarFilledIcon from "@mui/icons-material/DirectionsCarFilled";
 import DirectionsBikeIcon from "@mui/icons-material/DirectionsBike";
 import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
 import { conversosMedidasDistancia } from "../../../utils/conversores";
 
-const Rota = ({ profiles, setModePercurssion, rotas,produtoSelecionado }) => {
+const Rota = ({ profiles, setModePercurssion, rotas }) => {
   const [currentPage, setCurrentPage] = useState(0);
-  const {endereco} = produtoSelecionado.estabelecimento;
 
   useEffect(() => {
     const keys = Object.keys(profiles);
     const key = keys[currentPage];
     setModePercurssion(profiles[key]);
-  }, [currentPage]);
+  }, [currentPage, profiles, setModePercurssion]);
 
   return (
     <div className="p-5 w-full flex flex-col justify-center gap-y-4">
