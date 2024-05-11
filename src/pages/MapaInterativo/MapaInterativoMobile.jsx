@@ -35,9 +35,9 @@ const MapaInterativoMobile = () => {
         params: {
           latitude: filtro.latitudeOrigin || null,
           longitude: filtro.longitudeOrigin || null,
-          distance: filtro.distance || null,
-          paymentMethod: filtro.paymentMethod || null,
-          name: filtro.name || null,
+          distancia: filtro.distance || null,
+          metodoPagamento: filtro.paymentMethod || null,
+          nome: filtro.name || null,
         },
       });
       setProdutos(response.data || []);
@@ -184,7 +184,6 @@ const MapaInterativoMobile = () => {
   }, []);
 
   useEffect(() => {
-    
     const config = {
       container: mapContainerRef.current || "",
       style: mapStyle,
