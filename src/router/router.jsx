@@ -41,6 +41,7 @@ function Router() {
           <Route path="produtos" element={<GerenciamentoProdutos />} />
           <Route path="vendas" element={<HistoricoVendas />} />
           <Route path="pedidos" element={<PedidosComerciante />} />
+
         </Route>
         <Route path="/pesquisa" element={<TelaPesquisa />} />
         <Route path="/produto/:id" element={<TelaProduto />} />
@@ -54,7 +55,6 @@ function Router() {
         <Route path="*" element={<NotFound />} />
         <Route path="/mapa/mobile" element={<MapaInterativoMobile/>} />
         <Route path="/login" element={<Login/>} />
-        
       </Routes>
     </BrowserRouter>
   );
