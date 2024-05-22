@@ -10,7 +10,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import ModalLojaUpdate from "./componentes/ModalLojaUpdate";
 import IconDelete from "@assets/deletar.svg";
 import IconEdit from "@assets/editar.svg";
-
+import {descriptografar} from "../../utils/Autheticated";
 
 
 const GerenciamentoLoja = () => {
@@ -23,6 +23,8 @@ const GerenciamentoLoja = () => {
   const [getEstabelecimento, setEstabelecimento] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
+  const userDetailsCrypt = descriptografar(sessionStorage?.USERDETAILS);
+  const { id } = JSON.parse(userDetailsCrypt);
 
   const getLista = () => {
     api
@@ -78,7 +80,7 @@ const GerenciamentoLoja = () => {
             </span>
           </li>
         </Link>
-        <Link to="dashboard">
+        <a href={"https://app.powerbi.com/groups/me/reports/70f574a9-e040-431c-a400-fdc306742e5b/ReportSection?experience=power-bi&filter=estabelecimento%2Fid%20eq%20" + id} target="_blank">
           <li className="text-lg text-white-principal flex gap-x-4  mb-5 items-center">
             <svg
               width="18"
@@ -101,9 +103,7 @@ const GerenciamentoLoja = () => {
               Análises de Venda
             </span>
           </li>
-
-        </Link>
-
+        </a>
         <Link to="/comerciante/dados">
           <li className="text-lg text-white-principal flex gap-x-4 mb-5 items-center">
             <svg
