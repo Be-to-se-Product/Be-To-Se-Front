@@ -11,7 +11,6 @@ import PedidosComerciante from "@/pages/PedidosComerciante/PedidosComerciante.js
 import TelaPesquisa from "@/pages/TelaPesquisa/TelaPesquisa.jsx";
 import TelaProduto from "@/pages/TelaProduto/TelaProduto.jsx";
 import DadosUsuario from "@/pages/DadosUsuario/DadosUsuario.jsx";
-import Dashboard from "@/pages/Dashboard/Dashboard.jsx";
 import DadosComerciante from "@/pages/DadosComerciante/DadosComerciante.jsx";
 import Compra from "@/pages/Compra/Compra.jsx";
 import PedidosUsuario from "@/pages/PedidosUsuario/PedidosUsuario.jsx";
@@ -42,7 +41,6 @@ function Router() {
           <Route path="produtos" element={<GerenciamentoProdutos />} />
           <Route path="vendas" element={<HistoricoVendas />} />
           <Route path="pedidos" element={<PedidosComerciante />} />
-          <Route path="dashboard" element={<Dashboard/>} />
 
         </Route>
         <Route path="/pesquisa" element={<TelaPesquisa />} />
