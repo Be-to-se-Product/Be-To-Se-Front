@@ -109,7 +109,7 @@ const MapaInterativoMobile = () => {
         destination?.lon,
       ];
 
-      if (validation.includes(undefined)) return;
+      if (validation.includes("") || validation.includes(undefined)) return;
 
       const endpoint = `https://api.mapbox.com/directions/v5/mapbox/cycling/${origin.lon},${origin.lat};${destination.lon},${destination.lat}`;
       let response;
