@@ -1,8 +1,11 @@
 # EasyFind 
 
 
+
 Bem-vindo ao Marketplace Local, uma plataforma inovadora que conecta usuários a lojas locais, facilitando a divulgação de produtos e a busca por itens específicos. Nosso foco é proporcionar uma experiência de compra única, considerando a geolocalização do usuário para oferecer resultados relevantes e promover a economia local. 
 Recursos Principais
+
+
 ## 1. Geolocalização
 
 A busca de produtos leva em consideração a localização do usuário, garantindo que os resultados sejam pertinentes à sua região. Isso facilita a descoberta de produtos próximos e incentiva a compra local.

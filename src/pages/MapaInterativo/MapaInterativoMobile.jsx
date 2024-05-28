@@ -35,9 +35,9 @@ const MapaInterativoMobile = () => {
         params: {
           latitude: filtro.latitudeOrigin || null,
           longitude: filtro.longitudeOrigin || null,
-          distance: filtro.distance || null,
-          paymentMethod: filtro.paymentMethod || null,
-          name: filtro.name || null,
+          distancia: filtro.distance || null,
+          metodoPagamento: filtro.paymentMethod || null,
+          nome: filtro.name || null,
         },
       });
       setProdutos(response.data || []);
@@ -109,7 +109,7 @@ const MapaInterativoMobile = () => {
         destination?.lon,
       ];
 
-      if (validation.includes(undefined)) return;
+      if (validation.includes("") || validation.includes(undefined)) return;
 
       const endpoint = `https://api.mapbox.com/directions/v5/mapbox/cycling/${origin.lon},${origin.lat};${destination.lon},${destination.lat}`;
       let response;
@@ -184,7 +184,6 @@ const MapaInterativoMobile = () => {
   }, []);
 
   useEffect(() => {
-    
     const config = {
       container: mapContainerRef.current || "",
       style: mapStyle,
