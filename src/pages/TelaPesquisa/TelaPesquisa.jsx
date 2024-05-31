@@ -14,7 +14,7 @@ function TelaPesquisa() {
   const { register, watch, setValue } = useForm({
     mode: "onChange",
   });
-  const [distanciaOptions, setDistanciaOptions] = useState(0);
+  const [distanciaOptions, setDistanciaOptions] = useState(50);
   const [nome, setNome] = useState("");
   const debounce = useDebounce((nome) => {
     setNome(nome);
@@ -30,14 +30,21 @@ function TelaPesquisa() {
   };
 
   const getProdutos = async (distanciaOptions, metodoOptions, nome) => {
+    const params = {
+      latitude: -23.5505199,
+      longitude: -46.6333094,
+    };
+    if (distanciaOptions) {
+      params.distancia = distanciaOptions;
+    }
+    if (metodoOptions) {
+      params.metodoPagamento = metodoOptions;
+    }
+    if (nome) {
+      params.nome = nome;
+    }
     const response = await api.get("/produtos/mapa", {
-      params: {
-        latitude: -23.5505199,
-        longitude: -46.6333094,
-        distancia: distanciaOptions || 50,
-        metodoPagamento: metodoOptions || "",
-        nome: nome || "",
-      },
+      params,
     });
 
     if (response.status == 204) {

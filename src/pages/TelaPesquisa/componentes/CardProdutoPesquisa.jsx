@@ -1,4 +1,3 @@
-import react from "react";
 import imgProduto from "@assets/default-image.jpeg";
 import { Rating } from "@mui/material";
 import Carro from "@assets/carro.svg";
@@ -19,7 +18,7 @@ const CardProutoPesquisa = ({ produto }) => {
   return (
     <div
       className="w-[250px] h-[539px]   gap-20 p-4 border-2 rounded-md  bg-white-principal flex-start flex-col "
-      onClick={() => navigate(`/produto/${produto.id}`)}
+      onClick={() => navigate(`/test/${produto.id}`)}
     >
       <div className="h-[150px] rounded-md  ">
         <div className="rounded-full cursor-pointer bg-orange-principal w-7 h-7 text-center flex items-center justify-center ">
