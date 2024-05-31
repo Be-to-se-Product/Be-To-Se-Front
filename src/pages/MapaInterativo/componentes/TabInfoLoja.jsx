@@ -1,6 +1,6 @@
 import { Avatar, Rating, Tab, Tabs } from "@mui/material";
 import React, { useState } from "react";
-import Avaliacao from "../../../componentes/Avaliacao/Avaliacao";
+import Avaliacao from "@componentes/Avaliacao/Avaliacao";
 import InfoLoja from "./InfoLoja";
 import ContentAvaliacao from "./ContentAvaliacao";
 
@@ -21,7 +21,7 @@ const TabInfoLoja = () => {
           <Tab
             label="Sobre"
             sx={{
-              "&":{color: "#fff "},
+              "&": { color: "#fff " },
               "&.Mui-selected": {
                 color: "#FF8C00",
               },
@@ -31,7 +31,7 @@ const TabInfoLoja = () => {
           <Tab
             label="Avaliações"
             sx={{
-              "&":{color: "#fff "},
+              "&": { color: "#fff " },
               "&.Mui-selected": {
                 color: "#FF8C00",
               },

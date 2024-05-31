@@ -1,22 +1,20 @@
 import { useState } from "react";
-import NavbarRoot from "../../componentes/Navbar/NavbarRoot";
-import Button from "../../componentes/Button/Button";
-import people from "../../assets/PeopleHappy.png";
-import city from "../../assets/city.png";
-import men from "../../assets/men.png";
-import family from "../../assets/family.png";
-import woman from "../../assets/woman-desktop.png";
-import ContainerCard from "../../componentes/CardUser/ContainerCard";
-import apiGithub from "../../services/apiGithub";
-import IconVector from "@assets/vector.png"
-import ImageSquad from "@assets/squad.jpeg"
-
+import NavbarRoot from "@componentes/Navbar/NavbarRoot";
+import Button from "@componentes/Button/Button";
+import people from "@assets/PeopleHappy.png";
+import city from "@assets/city.png";
+import men from "@assets/men.png";
+import family from "@assets/family.png";
+import woman from "@assets/woman-desktop.png";
+import ContainerCard from "@componentes/CardUser/ContainerCard";
+import apiGithub from "@/services/api/apiGithub";
+import IconVector from "@assets/vector.png";
+import ImageSquad from "@assets/squad.jpeg";
 
 const Insitucional = () => {
-
-  const [userDetails,setUserDetails] = useState({});
-  const [isVisible,setIsVisible] = useState(false);
-  const retornarInformacoesUsuario = async(username) => {
+  const [userDetails, setUserDetails] = useState({});
+  const [isVisible, setIsVisible] = useState(false);
+  const retornarInformacoesUsuario = async (username) => {
     return apiGithub
       .get(`/users/${username}`)
       .then((response) => {
@@ -28,10 +26,10 @@ const Insitucional = () => {
       });
   };
 
-  const abrirCard = async(username, e) => {
-    const {avatar_url,bio,followers,following,html_url} =  await retornarInformacoesUsuario(username);
-    const UserDetails =
-    {
+  const abrirCard = async (username, e) => {
+    const { avatar_url, bio, followers, following, html_url } =
+      await retornarInformacoesUsuario(username);
+    const UserDetails = {
       image: avatar_url,
       username: username,
       bio: bio,
@@ -40,24 +38,24 @@ const Insitucional = () => {
       link: html_url,
       coordenadasXShow: e.clientX,
       coordenadasYShow: e.clientY,
-    }
+    };
     setUserDetails(UserDetails);
     setIsVisible(true);
   };
 
-
-window.addEventListener("click", () => setIsVisible(false));
-
-
+  window.addEventListener("click", () => setIsVisible(false));
 
   return (
-    <div >
-   <NavbarRoot.Content>
+    <div>
+      <NavbarRoot.Content>
         <NavbarRoot.ContentTop>
-          <NavbarRoot.Logo/>
-          <NavbarRoot.Pesquisa/>
-          {sessionStorage.USERDETAILS ? (<NavbarRoot.Authenticated/>) : (<NavbarRoot.Sign/>)}
-          
+          <NavbarRoot.Logo />
+          <NavbarRoot.Pesquisa />
+          {sessionStorage.USERDETAILS ? (
+            <NavbarRoot.Authenticated />
+          ) : (
+            <NavbarRoot.Sign />
+          )}
         </NavbarRoot.ContentTop>
         <NavbarRoot.Menu>
           <NavbarRoot.Item></NavbarRoot.Item>
@@ -223,16 +221,18 @@ window.addEventListener("click", () => setIsVisible(false));
             className="absolute top-[500px] left-[920px] w-[200px] h-[300px] cursor-pointer"
             onClick={(e) => abrirCard("NathanBin", e)}
           ></div>
-          <div className="absolute top-[300px] left-[580px] w-[120px] h-[150px] cursor-pointer "  onClick={(e) => abrirCard("pedrohmunizs", e)}></div>
-          <div className="absolute top-[480px] left-[550px] w-[120px] h-[220px] cursor-pointer " onClick={(e) => abrirCard("lessamatheuss01", e)}></div>
+          <div
+            className="absolute top-[300px] left-[580px] w-[120px] h-[150px] cursor-pointer "
+            onClick={(e) => abrirCard("pedrohmunizs", e)}
+          ></div>
+          <div
+            className="absolute top-[480px] left-[550px] w-[120px] h-[220px] cursor-pointer "
+            onClick={(e) => abrirCard("lessamatheuss01", e)}
+          ></div>
           <div className="w-full h-full ">
-            <img
-              src={ImageSquad}
-              alt=""
-            />
-           
+            <img src={ImageSquad} alt="" />
           </div>
-          <ContainerCard {...userDetails} isVisible={isVisible}/>
+          <ContainerCard {...userDetails} isVisible={isVisible} />
         </section>
       </main>
     </div>

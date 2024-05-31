@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-import BoxComerciante from "../../componentes/BoxComerciante/BoxComerciante";
-import InputRoot from "../../componentes/Input/InputRoot";
-import Button from "../../componentes/Button/Button";
-import api from "../../services/api";
+import BoxComerciante from "@componentes/BoxComerciante/BoxComerciante";
+import InputRoot from "@componentes/Input/InputRoot";
+import Button from "@componentes/Button/Button";
+import api from "@/services/api/services";
 import { ToastContainer, toast } from "react-toastify";
 import DownloadIcon from "@mui/icons-material/Download";
 import { MenuItem, Pagination, Select } from "@mui/material";
 import ModalPedidos from "./componentes/ModalPedidos";
-import TableRoot from "../../componentes/Table/TableRoot";
+import TableRoot from "@componentes/Table/TableRoot";
 import moment from "moment";
 import { useParams } from "react-router-dom";
 const HistoricoVendas = () => {
@@ -28,14 +28,11 @@ const HistoricoVendas = () => {
   const statusOptions = ["Entregue", "Cancelado"];
   const { idEstabelecimento } = useParams();
 
-  
-
   useEffect(() => {
     getMetodosPagamento();
   }, []);
 
   const getHistoricoVendasFiltrado = () => {
-    
     toast.loading("Buscando vendas...");
     const params = {
       de: de,
@@ -113,7 +110,7 @@ const HistoricoVendas = () => {
   };
 
   useEffect(() => {
-getHistoricoVendasFiltrado()
+    getHistoricoVendasFiltrado();
   }, []);
 
   const exportar = () => {

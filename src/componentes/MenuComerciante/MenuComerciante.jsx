@@ -1,7 +1,7 @@
-import  { useEffect, useState } from "react";
-import backIcon from "../../assets/back.svg";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
-import api from "../../services/api";
+import { useEffect, useState } from "react";
+import backIcon from "@assets/back.svg";
+import { useNavigate, useParams } from "react-router-dom";
+import api from "@/services/api/services";
 
 const MenuComerciante = ({ children, isLogo }) => {
   const [user, setUser] = useState({});

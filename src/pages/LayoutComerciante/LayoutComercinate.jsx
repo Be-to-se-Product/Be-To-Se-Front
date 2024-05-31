@@ -1,4 +1,4 @@
-import MenuComerciante from "@/componentes/MenuComerciante/MenuComerciante.jsx";
+import MenuComerciante from "@componentes/MenuComerciante/MenuComerciante.jsx";
 import { NavLink, Outlet, useParams } from "react-router-dom";
 import IconProduct from "@/assets/icon-product.svg";
 import IconShop from "@assets/icon-shop.svg";
@@ -18,7 +18,7 @@ const LayoutComercinate = () => {
       icon: IconProduct,
       text: "Gerenciar Produtos",
     },
-   
+
     {
       router: `/comerciante/lojas/${idEstabelecimento}/vendas`,
       icon: IconVenda,

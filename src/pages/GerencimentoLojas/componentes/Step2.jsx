@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
-import FormContext from "../../../context/Form/FormContext";
+import FormContext from "@/context/Form/FormContext";
 import { useForm } from "react-hook-form";
-import InputRoot from "../../../componentes/Input/InputRoot";
+import InputRoot from "@componentes/Input/InputRoot";
 import Select from "@mui/material/Select";
-import Button from "../../../componentes/Button/Button";
+import Button from "@componentes/Button/Button";
 import MenuItem from "@mui/material/MenuItem";
 const Step2 = () => {
-
-  const { setStorage, storage, prevStep, nextStep, stateAtual } =useContext(FormContext);
+  const { setStorage, storage, prevStep, nextStep, stateAtual } =
+    useContext(FormContext);
   const {
     register,
     handleSubmit,
@@ -20,24 +20,21 @@ const Step2 = () => {
       estado: storage?.estado || "",
     },
   });
-  const [isApplyDefault,setIsApplyDefault] = useState(false);
+  const [isApplyDefault, setIsApplyDefault] = useState(false);
 
-
-  useEffect(()=>{
-    if(!isApplyDefault && Object.keys(storage).length>0){
-
-    setValue("cep",storage?.cep?.replace("-",""))
-    setValue("logradouro",storage?.logradouro)
-    setValue("numero",storage?.numero)
-    setValue("bairro",storage?.bairro)
-    setValue("cidade",storage?.cidade)
-    setValue("estado",storage?.estado)
-    handleCep(storage?.cep?.replace("-",""))
-    setIsApplyDefault(true);
+  useEffect(() => {
+    if (!isApplyDefault && Object.keys(storage).length > 0) {
+      setValue("cep", storage?.cep?.replace("-", ""));
+      setValue("logradouro", storage?.logradouro);
+      setValue("numero", storage?.numero);
+      setValue("bairro", storage?.bairro);
+      setValue("cidade", storage?.cidade);
+      setValue("estado", storage?.estado);
+      handleCep(storage?.cep?.replace("-", ""));
+      setIsApplyDefault(true);
     }
-  },[storage])
+  }, [storage]);
 
-  
   const message = {
     required: "Campo obrigatório",
   };
@@ -117,7 +114,6 @@ const Step2 = () => {
   };
 
   const prev = () => {
- 
     prevStep();
   };
 
@@ -129,7 +125,7 @@ const Step2 = () => {
         return;
       }
       const { logradouro, bairro, localidade, uf } = data;
-      
+
       setValue("logradouro", logradouro);
       setValue("bairro", bairro);
       setValue("cidade", localidade);
@@ -141,18 +137,19 @@ const Step2 = () => {
       <div className="flex flex-col w-10/12  mx-auto h-[300px]  gap-y-4 rounded-lg">
         <div className=" flex  ">
           <div className="flex flex-col gap-y-1 w-2/6 ">
-          <div className="flex  gap-x-2  items-center ">
-              
+            <div className="flex  gap-x-2  items-center ">
               <InputRoot.Label>CEP</InputRoot.Label>
-                {errors?.cep && (
-                  <div className="text-red-500 text-xs w-max h-full  text-center flex items-center mb-2  ">
-                    <div className="flex items-center justify-center"><span className="h-3"> *</span></div> {message[errors.logradouro.type]}
-                  </div>
-                )}
-              </div>
+              {errors?.cep && (
+                <div className="text-red-500 text-xs w-max h-full  text-center flex items-center mb-2  ">
+                  <div className="flex items-center justify-center">
+                    <span className="h-3"> *</span>
+                  </div>{" "}
+                  {message[errors.logradouro.type]}
+                </div>
+              )}
+            </div>
             <InputRoot.Input
               register={register("cep", schemaValidate.cep)}
-              
               onChange={(e) => handleCep(e.target.value)}
             ></InputRoot.Input>
           </div>
@@ -160,15 +157,17 @@ const Step2 = () => {
 
         <div className="flex  gap-x-8">
           <div className="flex flex-col gap-y-1">
-          <div className="flex  gap-x-2  items-center ">
-              
+            <div className="flex  gap-x-2  items-center ">
               <InputRoot.Label>Logradouro</InputRoot.Label>
-                {errors?.logradouro && (
-                  <div className="text-red-500 text-xs w-max h-full  text-center flex items-center mb-2  ">
-                    <div className="flex items-center justify-center"><span className="h-3"> *</span></div> {message[errors?.logradouro?.type]}
-                  </div>
-                )}
-              </div>
+              {errors?.logradouro && (
+                <div className="text-red-500 text-xs w-max h-full  text-center flex items-center mb-2  ">
+                  <div className="flex items-center justify-center">
+                    <span className="h-3"> *</span>
+                  </div>{" "}
+                  {message[errors?.logradouro?.type]}
+                </div>
+              )}
+            </div>
             <InputRoot.Input
               register={register("logradouro", schemaValidate.logradouro)}
               defaultValue={storage?.logradouro}
@@ -176,13 +175,14 @@ const Step2 = () => {
           </div>
 
           <div className="flex flex-col gap-y-1 w-2/6">
-          
             <div className="flex  gap-x-2  items-center ">
-              
-            <InputRoot.Label>Numero</InputRoot.Label>
+              <InputRoot.Label>Numero</InputRoot.Label>
               {errors?.numero && (
                 <div className="text-red-500 text-xs w-max h-full   flex items-center mb-2  ">
-                  <div className="flex items-center "><span className="h-3"> *</span></div> {message[errors.numero.type]}
+                  <div className="flex items-center ">
+                    <span className="h-3"> *</span>
+                  </div>{" "}
+                  {message[errors.numero.type]}
                 </div>
               )}
             </div>
@@ -195,15 +195,17 @@ const Step2 = () => {
 
         <div className="flex  gap-x-8 ">
           <div className="flex flex-col gap-y-1">
-          <div className="flex  gap-x-2  items-center ">
-              
+            <div className="flex  gap-x-2  items-center ">
               <InputRoot.Label>Bairro</InputRoot.Label>
-                {errors?.bairro && (
-                  <div className="text-red-500 text-xs w-max h-full  text-center flex items-center mb-2  ">
-                    <div className="flex items-center justify-center"><span className="h-3"> *</span></div> {message[errors?.bairro?.type]}
-                  </div>
-                )}
-              </div>
+              {errors?.bairro && (
+                <div className="text-red-500 text-xs w-max h-full  text-center flex items-center mb-2  ">
+                  <div className="flex items-center justify-center">
+                    <span className="h-3"> *</span>
+                  </div>{" "}
+                  {message[errors?.bairro?.type]}
+                </div>
+              )}
+            </div>
             <InputRoot.Input
               register={register("bairro", schemaValidate.bairro)}
               defaultValue={storage.bairro}
@@ -211,15 +213,17 @@ const Step2 = () => {
           </div>
 
           <div className="flex flex-col gap-y-1">
-          <div className="flex  gap-x-2  items-center ">
-              
+            <div className="flex  gap-x-2  items-center ">
               <InputRoot.Label>Cidade</InputRoot.Label>
-                {errors?.cidade && (
-                  <div className="text-red-500 text-xs w-max h-full  text-center flex items-center mb-2  ">
-                    <div className="flex items-center justify-center"><span className="h-3"> *</span></div> {message[errors?.cidade?.type]}
-                  </div>
-                )}
-              </div>
+              {errors?.cidade && (
+                <div className="text-red-500 text-xs w-max h-full  text-center flex items-center mb-2  ">
+                  <div className="flex items-center justify-center">
+                    <span className="h-3"> *</span>
+                  </div>{" "}
+                  {message[errors?.cidade?.type]}
+                </div>
+              )}
+            </div>
             <InputRoot.Input
               register={register("cidade", schemaValidate.cidade)}
               defaultValue={storage.cidade}
@@ -227,19 +231,20 @@ const Step2 = () => {
           </div>
 
           <div className="flex flex-col gap-y-1">
-          <div className="flex  gap-x-2  items-center ">
-              
+            <div className="flex  gap-x-2  items-center ">
               <InputRoot.Label>Estado</InputRoot.Label>
-                {errors?.estado && (
-                  <div className="text-red-500 text-xs w-max h-full  text-center flex items-center mb-2  ">
-                    <div className="flex items-center justify-center"><span className="h-3"> *</span></div> {message[errors?.estado?.type]}
-                  </div>
-                )}
-              </div>
+              {errors?.estado && (
+                <div className="text-red-500 text-xs w-max h-full  text-center flex items-center mb-2  ">
+                  <div className="flex items-center justify-center">
+                    <span className="h-3"> *</span>
+                  </div>{" "}
+                  {message[errors?.estado?.type]}
+                </div>
+              )}
+            </div>
             <Select
               value={watch("estado")}
               className="h-11 w-20"
-              
               {...register("estado", schemaValidate.estado)}
               sx={{
                 "& .MuiSelect-select": {

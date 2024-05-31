@@ -1,5 +1,4 @@
-import React from 'react'
-import InputRoot from '../../Input/InputRoot';
+import InputRoot from "@componentes/Input/InputRoot";
 
 const PesquisaNavbar = ({ onChange }) => {
   const handleInputChange = (event) => {
@@ -9,14 +8,10 @@ const PesquisaNavbar = ({ onChange }) => {
 
   return (
     <div className="flex w-1/2">
-      <InputRoot.Input
-        className="text-black-900 pl-4 pr-10  py-1 text-base w-full mb-0 rounded outline-none h-10"
+      <InputRoot.ContentInput
+        icon={"/search.svg"}
         onChange={handleInputChange}
-      >
-        <InputRoot.Icon>
-          <img src={""} alt="" className="w-5 " />
-        </InputRoot.Icon>
-      </InputRoot.Input>
+      ></InputRoot.ContentInput>
     </div>
   );
 };

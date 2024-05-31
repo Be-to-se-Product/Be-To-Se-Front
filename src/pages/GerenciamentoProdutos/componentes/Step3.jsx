@@ -1,14 +1,11 @@
 import React from "react";
-import InputRoot from "../../../componentes/Input/InputRoot";
+import InputRoot from "@componentes/Input/InputRoot";
 import { useForm } from "react-hook-form";
 
-const Step3 = ({getData,children,dataStorage}) => {
-
-    const {register, handleSubmit} = useForm(); 
+const Step3 = ({ getData, children, dataStorage }) => {
+  const { register, handleSubmit } = useForm();
   return (
-    <form className={`flex  flex-col w-full`}
-    onSubmit={handleSubmit(getData)}
-    >
+    <form className={`flex  flex-col w-full`} onSubmit={handleSubmit(getData)}>
       <div className="flex flex-col gap-2 w-full">
         <InputRoot.Label>Descrição</InputRoot.Label>
         <textarea

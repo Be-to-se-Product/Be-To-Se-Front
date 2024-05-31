@@ -1,6 +1,6 @@
 import { Rating } from "@mui/material";
 import { useEffect, useState } from "react";
-import Button from "../../../componentes/Button/Button";
+import Button from "@componentes/Button/Button";
 import TabInfoProduto from "./TabInfoProduto";
 import Rota from "./Rota";
 import BannerImage from "./BannerImage";
@@ -8,7 +8,7 @@ import ItemDeslocamento from "./ItemDeslocamento";
 import DirectionsCarFilledIcon from "@mui/icons-material/DirectionsCarFilled";
 import DirectionsBikeIcon from "@mui/icons-material/DirectionsBike";
 import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
-import { conversorTime } from "../../../utils/conversores";
+import { conversorTime } from "@utils/conversores";
 import { useNavigate } from "react-router";
 
 const BarProduto = ({

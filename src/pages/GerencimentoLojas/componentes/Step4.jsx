@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import AplicattionContext from "../../../context/Apllicattion/AplicattionContext";
+import AplicattionContext from "@/context/Apllicattion/AplicattionContext";
 import { Checkbox } from "@mui/material";
 import { orange } from "@mui/material/colors";
-import Button from "../../../componentes/Button/Button";
-import FormContext from "../../../context/Form/FormContext";
-import api from "../../../services/api";
-const Step4 = ({setTeste,teste}) => {
+import Button from "@componentes/Button/Button";
+import FormContext from "@/context/Form/FormContext";
+import api from "@/services/api/services";
+const Step4 = ({ setTeste, teste }) => {
   const { storage, setStorage, stateAtual, nextStep, prevStep } =
     useContext(FormContext);
   const {
@@ -14,16 +14,13 @@ const Step4 = ({setTeste,teste}) => {
     handleSubmit,
     formState: { errors },
     watch,
-    setValue
+    setValue,
   } = useForm();
   const [metodosPagamento, setMetodosPagamento] = useState([]);
   const [isApplyDefault, setIsApplyDefault] = useState(false);
 
-
- 
   useEffect(() => {
     getMetodosPagamento();
-    
   }, []);
 
   useEffect(() => {
@@ -38,7 +35,7 @@ const Step4 = ({setTeste,teste}) => {
         setIsApplyDefault(true);
       }
     }
-     setTeste(prev=>prev+1)
+    setTeste((prev) => prev + 1);
   }, [storage]);
 
   const getMetodosPagamento = () => {
@@ -50,17 +47,12 @@ const Step4 = ({setTeste,teste}) => {
       .catch((error) => {
         console.log(error);
       });
-      
   };
   const submit = (data, callback) => {
     const metodosPagamento = [];
     console.log(data);
     for (const [key, value] of Object.entries(data)) {
-     
       if (value) {
-      
-        
-        
         metodosPagamento.push(key);
         console.log(metodosPagamento);
       }
@@ -84,9 +76,6 @@ const Step4 = ({setTeste,teste}) => {
     prevStep();
   };
 
-
- 
-
   const validStep = () => {
     const campos = watch();
     return Object.entries(campos).find(([key, value]) => value) ? true : false;
@@ -94,7 +83,6 @@ const Step4 = ({setTeste,teste}) => {
 
   return (
     <form className={`flex flex-col gap-y-8 ${stateAtual != 3 && "hidden"}`}>
-      
       {!validStep() && (
         <div className=" h-1 text-center">
           Selecione ao menos um método de pagamento

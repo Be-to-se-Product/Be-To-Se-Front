@@ -1,16 +1,16 @@
 import Card from "./componentes/Card";
-import Modal from "../../componentes/Modal/Modal";
+import Modal from "@componentes/Modal/Modal";
 import FormAdicionar from "./componentes/FormAdicionar";
 import FormUpdate from "./componentes/FormUpdate";
 import ContentDelete from "./componentes/ContentDelete";
 import { useEffect, useState } from "react";
-import searchIcon from "../../assets/search.svg";
+import searchIcon from "@assets/search.svg";
 import { MenuItem, Select } from "@mui/material";
-import api from "../../services/api";
+import api from "@/services/api/services";
 import { ToastContainer, toast } from "react-toastify";
 import { injectStyle } from "react-toastify/dist/inject-style";
-import FileImg from "../../assets/file.png";
-import {  useParams } from "react-router-dom";
+import FileImg from "@assets/file.png";
+import { useParams } from "react-router-dom";
 
 injectStyle();
 
@@ -20,7 +20,6 @@ const GerenciamentoProdutos = () => {
   const [state, setState] = useState(0);
   const [selectedOption, setSelectedOption] = useState("  ");
   const { idEstabelecimento } = useParams();
-  
 
   const getProdutos = () => {
     toast.loading("Carregando...");
@@ -33,7 +32,7 @@ const GerenciamentoProdutos = () => {
       .catch((err) => {
         console.log(err);
       });
-      toast.dismiss();
+    toast.dismiss();
   };
 
   // const getProdutosDescription = () => {
@@ -78,12 +77,11 @@ const GerenciamentoProdutos = () => {
       .then(() => {
         toast.success("Produtos importados com sucesso!");
         getProdutos();
-        
-  })
-  .catch(() => {
-    toast.error("Erro ao importar produtos!");
-  });
-};
+      })
+      .catch(() => {
+        toast.error("Erro ao importar produtos!");
+      });
+  };
 
   const handleChange = (event) => {
     const value = event.target.value;
@@ -221,103 +219,101 @@ const GerenciamentoProdutos = () => {
 
   return (
     <>
-        <div className="h-screen  bg-gray-300"></div>
-        <section className="w-full  text-2xl mx-[33px]">
-          <div className="flex py-20 justify-between ">
-            <div className="  relative w-[346px] h-max  bg-white-principal  rounded-lg  shadow-lg">
-              <div
-                className="cursor-pointer absolute right-5 top-0 w-6 h-full flex  items-center justify-center"
-              >
-                <img src={searchIcon} alt="" className="w-full " />
-              </div>
-              <input
-                type="text"
-                className="barraPesquisa w-full text-base  rounded-lg px-4 py-2  outline-none  bg-transparent"
-                placeholder="Pesquisar produto"
-              />
+      <div className="h-screen  bg-gray-300"></div>
+      <section className="w-full  text-2xl mx-[33px]">
+        <div className="flex py-20 justify-between ">
+          <div className="  relative w-[346px] h-max  bg-white-principal  rounded-lg  shadow-lg">
+            <div className="cursor-pointer absolute right-5 top-0 w-6 h-full flex  items-center justify-center">
+              <img src={searchIcon} alt="" className="w-full " />
             </div>
-            <div className="flex gap-x-4">
-              <input
-                id="fileCsv"
-                type="file"
-                className="h-0 w-0 absolute top-0 opacity-0 "
-                onChange={(e) => handleCsvImport(e)}
-              />
-              <input
-                id="fileTxt"
-                type="file"
-                className="h-0 w-0 absolute top-0 opacity-0 "
-                onChange={(e) => handleTxtImport(e)}
-              />
-              <label
-                htmlFor="fileCsv"
-                className="cursor-pointer rounded-lg flex justify-center items-center bg-orange-principal text-white-principal text-base w-[200px]"
+            <input
+              type="text"
+              className="barraPesquisa w-full text-base  rounded-lg px-4 py-2  outline-none  bg-transparent"
+              placeholder="Pesquisar produto"
+            />
+          </div>
+          <div className="flex gap-x-4">
+            <input
+              id="fileCsv"
+              type="file"
+              className="h-0 w-0 absolute top-0 opacity-0 "
+              onChange={(e) => handleCsvImport(e)}
+            />
+            <input
+              id="fileTxt"
+              type="file"
+              className="h-0 w-0 absolute top-0 opacity-0 "
+              onChange={(e) => handleTxtImport(e)}
+            />
+            <label
+              htmlFor="fileCsv"
+              className="cursor-pointer rounded-lg flex justify-center items-center bg-orange-principal text-white-principal text-base w-[200px]"
+            >
+              <img src={FileImg} className="w-auto h-auto mr-2" />
+              Importar Csv
+            </label>
+            <label
+              htmlFor="fileTxt"
+              className="cursor-pointer rounded-lg flex justify-center items-center bg-orange-principal text-white-principal text-base w-[200px]"
+            >
+              <img src={FileImg} className="w-auto h-auto mr-2" />
+              Importar Txt
+            </label>
+            <div className="w-[293px] h-max bg-white-principal rounded-lg  shadow-lg">
+              <Select
+                id="demo-simple-select"
+                className="w-full h-[42px]"
+                value={selectedOption}
+                onChange={handleChange}
               >
-                <img src={FileImg} className="w-auto h-auto mr-2" />
-                Importar Csv
-              </label>
-              <label
-                htmlFor="fileTxt"
-                className="cursor-pointer rounded-lg flex justify-center items-center bg-orange-principal text-white-principal text-base w-[200px]"
-              >
-                <img src={FileImg} className="w-auto h-auto mr-2" />
-                Importar Txt
-              </label>
-              <div className="w-[293px] h-max bg-white-principal rounded-lg  shadow-lg">
-                <Select
-                  id="demo-simple-select"
-                  className="w-full h-[42px]"
-                  value={selectedOption}
-                  onChange={handleChange}
-                >
-                  <MenuItem value={"NomeAsc"}>
-                    Ordenar por Nome Crescente
-                  </MenuItem>
-                  <MenuItem value={"NomeDesc"}>
-                    Ordenar por Nome Decrescente
-                  </MenuItem>
-                  <MenuItem value={"ValueAsc"}>
-                    Ordenar por Valor Crescente
-                  </MenuItem>
-                  <MenuItem value={"ValueDesc"}>
-                    Ordenar por Valor Decrescente
-                  </MenuItem>
-                </Select>
-              </div>
+                <MenuItem value={"NomeAsc"}>
+                  Ordenar por Nome Crescente
+                </MenuItem>
+                <MenuItem value={"NomeDesc"}>
+                  Ordenar por Nome Decrescente
+                </MenuItem>
+                <MenuItem value={"ValueAsc"}>
+                  Ordenar por Valor Crescente
+                </MenuItem>
+                <MenuItem value={"ValueDesc"}>
+                  Ordenar por Valor Decrescente
+                </MenuItem>
+              </Select>
             </div>
           </div>
-          <div className="flex flex-col gap-y-8   ">
-            <div className="flex justify-center items-center relative  w-full">
-              <button
-                className="px-4 py-2 bg-orange-principal absolute left-0  text-white-principal rounded-lg text-xl font-medium"
-                onClick={() => openModal("add")}
-              >
-                Cadastar Produto
-              </button>
-              <h2 className="text-2xl font-medium">Produtos Cadastrados</h2>
-            </div>
+        </div>
+        <div className="flex flex-col gap-y-8   ">
+          <div className="flex justify-center items-center relative  w-full">
+            <button
+              className="px-4 py-2 bg-orange-principal absolute left-0  text-white-principal rounded-lg text-xl font-medium"
+              onClick={() => openModal("add")}
+            >
+              Cadastar Produto
+            </button>
+            <h2 className="text-2xl font-medium">Produtos Cadastrados</h2>
+          </div>
 
-            <div className="content-product flex gap-x-6 gap-y-8 flex-wrap h-full overflow-scroll scrollbar-hide">
-              {produtos?.map((produto) =>
-                produto.isAtivo ? (
-                  <Card
-                    key={produto.id}
-                    produto={produto}
-                    openModal={openModal}
-                    color="#F9F9F9"
-                  />
-                ) : (
-                  <Card
-                    key={produto.id}
-                    produto={produto}
-                    openModal={openModal}
-                    color="#C0B7B7"
-                  />
-                )
-              )}
-            </div>
+          <div className="content-product flex gap-x-6 gap-y-8 flex-wrap h-full overflow-scroll scrollbar-hide">
+            {produtos?.map((produto) =>
+              produto.isAtivo ? (
+                <Card
+                  key={produto.id}
+                  produto={produto}
+                  openModal={openModal}
+                  color="#F9F9F9"
+                />
+              ) : (
+                <Card
+                  key={produto.id}
+                  produto={produto}
+                  openModal={openModal}
+                  color="#C0B7B7"
+                />
+              )
+            )}
           </div>
-        </section>
+        </div>
+      </section>
       {stateForm}
       <ToastContainer />
     </>

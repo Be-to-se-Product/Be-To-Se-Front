@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import ModalHorario from "../../../componentes/ModalHorario/ModalHorario";
+import ModalHorario from "@componentes/ModalHorario/ModalHorario";
 import LanguageIcon from "@mui/icons-material/Language";
 import RoomIcon from "@mui/icons-material/Room";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import QueryBuilderIcon from "@mui/icons-material/QueryBuilder";
 import moment from "moment";
-import { converterDiaSemana } from "../../../utils/conversores";
+import { converterDiaSemana } from "@utils/conversores";
 
 const InfoLoja = ({ produtoSelecionado }) => {
   const { agenda } = produtoSelecionado.estabelecimento;
@@ -34,7 +34,11 @@ const InfoLoja = ({ produtoSelecionado }) => {
             fontSize: "40px",
           }}
         />
-        <h3 className="text-base">{produtoSelecionado.estabelecimento.endereco.rua}, {produtoSelecionado.estabelecimento.endereco.bairro} - N° {produtoSelecionado.estabelecimento.endereco.numero} </h3>
+        <h3 className="text-base">
+          {produtoSelecionado.estabelecimento.endereco.rua},{" "}
+          {produtoSelecionado.estabelecimento.endereco.bairro} - N°{" "}
+          {produtoSelecionado.estabelecimento.endereco.numero}{" "}
+        </h3>
       </div>
 
       <div className="flex gap-x-4 items-center relative">

@@ -1,8 +1,6 @@
-import { Input } from "postcss";
-import NavbarRoot from "../../componentes/Navbar/NavbarRoot";
-import Button from "../../componentes/Button/Button";
+import NavbarRoot from "@componentes/Navbar/NavbarRoot";
 import CardProduto from "./componentes/CardProduto";
-import BotaoSwitch from "../../componentes/Switch/BotaoSwitch";
+import BotaoSwitch from "@componentes/Switch/BotaoSwitch";
 import CardLoja from "./componentes/CardLoja";
 import CardCategoria from "./componentes/CardCategoria";
 import CardOfertaFoneOuvido from "./componentes/CardOfertaFoneOuvido";
@@ -11,14 +9,15 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CardOfertaCocaCola from "./componentes/CardOfertaCocaCola";
 import { useEffect, useState } from "react";
-import api from "../../services/api";
-import { geolocation } from "../../utils/geolocation";
+import api from "@/services/api/services";
+import { geolocation } from "@utils/geolocation";
 
-
-
-function TelaInicial(props) {
+function TelaInicial() {
   const [produtos, setProdutos] = useState([]);
-  const [originCoordinates, setOriginCoordinates] = useState({ lat: null, lon: null });
+  const [originCoordinates, setOriginCoordinates] = useState({
+    lat: null,
+    lon: null,
+  });
 
   const settings = {
     dots: true,
@@ -35,21 +34,23 @@ function TelaInicial(props) {
   }, []);
 
   useEffect(() => {
-    api.get("/produtos/mapa", {
-      params: {
-        latitude: originCoordinates.lat,
-        longitude: originCoordinates.lon,
-        distancia: 50,
-        nome: null,
-        metodoPagamento: null,
-      },
-    }).then((response) => {
-      setProdutos(response.data);
-    }).catch((error) => {
-      console.log(error);
-    });
+    api
+      .get("/produtos/mapa", {
+        params: {
+          latitude: originCoordinates.lat,
+          longitude: originCoordinates.lon,
+          distancia: 50,
+          nome: null,
+          metodoPagamento: null,
+        },
+      })
+      .then((response) => {
+        setProdutos(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, [originCoordinates]);
-
 
   return (
     <div>
@@ -57,8 +58,11 @@ function TelaInicial(props) {
         <NavbarRoot.ContentTop>
           <NavbarRoot.Logo />
           <NavbarRoot.Pesquisa />
-          {sessionStorage.USERDETAILS ? (<NavbarRoot.Authenticated />) : (<NavbarRoot.Sign />)}
-
+          {sessionStorage.USERDETAILS ? (
+            <NavbarRoot.Authenticated />
+          ) : (
+            <NavbarRoot.Sign />
+          )}
         </NavbarRoot.ContentTop>
         <NavbarRoot.Menu>
           <NavbarRoot.Item></NavbarRoot.Item>

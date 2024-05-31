@@ -1,9 +1,9 @@
-import  { useEffect, useState } from "react";
-import BoxComerciante from "../../componentes/BoxComerciante/BoxComerciante";
+import { useEffect, useState } from "react";
+import BoxComerciante from "@componentes/BoxComerciante/BoxComerciante";
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 
 import ModalPedidos from "../HistoricoVendas/componentes/ModalPedidos";
-import api from "../../services/api";
+import api from "@/services/api/services";
 import { ToastContainer, toast } from "react-toastify";
 
 import CardPedido from "./componentes/CardPedido/CardPedidoRoot";
@@ -21,7 +21,6 @@ const PedidosComerciante = () => {
 
   const { idEstabelecimento } = useParams();
 
-  
   const handleStatus = (e, pedido) => {
     const status = e.target.value;
     api
@@ -45,12 +44,14 @@ const PedidosComerciante = () => {
 
   const getPedidos = () => {
     api
-      .get(`/pedidos/estabelecimento/${idEstabelecimento}/status?status=` + status)
+      .get(
+        `/pedidos/estabelecimento/${idEstabelecimento}/status?status=` + status
+      )
       .then((response) => {
         setPedidos([]);
         response.data.forEach((pedido) => {
-          console.log(pedido)
-          const itensDto =  pedido.itens.map((item) => {
+          console.log(pedido);
+          const itensDto = pedido.itens.map((item) => {
             return {
               id: item.id,
               nome: item.produto.nome,
@@ -58,7 +59,6 @@ const PedidosComerciante = () => {
               produto: item.produto,
             };
           });
-        
 
           const pedidoDto = {
             id: pedido.id,
@@ -73,25 +73,20 @@ const PedidosComerciante = () => {
         });
       })
       .catch((err) => {
-        if(err.response.status === 404){
-          setPedidos([])
-        }
-        else if(err.response.status === 500){
-          toast.error("Erro ao buscar pedidos")
-        }
-        else if(err.response.status === 400){
-          toast.error("Erro ao buscar pedidos")
-        }
-
-        else if(err.response.status === 403){
-          toast.error("Acesso negado a esses pedidos")
+        if (err.response.status === 404) {
+          setPedidos([]);
+        } else if (err.response.status === 500) {
+          toast.error("Erro ao buscar pedidos");
+        } else if (err.response.status === 400) {
+          toast.error("Erro ao buscar pedidos");
+        } else if (err.response.status === 403) {
+          toast.error("Acesso negado a esses pedidos");
         }
       });
   };
 
   return (
-    
-<>
+    <>
       <BoxComerciante className="flex flex-col pt-10 gap-y-10 ">
         <div className="w-full text-center flex flex-col     font-semibold mb-0 gap-y-4">
           <h2>Pedidos</h2>
@@ -166,7 +161,8 @@ const PedidosComerciante = () => {
                     }}
                   />
                 }
-                label="Entregue"reço: R$
+                label="Entregue"
+                reço:R$
               />
             </RadioGroup>
           </div>
@@ -183,9 +179,7 @@ const PedidosComerciante = () => {
               </CardPedido.Header>
               <CardPedido.Info
                 pedido={pedido}
-                onClick={() =>
-                  setModal({ isAtivo: true, pedido: pedido })
-                }
+                onClick={() => setModal({ isAtivo: true, pedido: pedido })}
               />
             </CardPedido.Content>
           ))}

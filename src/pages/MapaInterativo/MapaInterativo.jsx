@@ -8,8 +8,9 @@ import "./mapaStyle.css";
 import BarProduto from "./componentes/BarProduto";
 import CardMapa from "./componentes/CardMapa";
 import { useLocation } from "react-router-dom";
-import api from "../../services/api.js";
+
 import ContentBar from "./componentes/ContentBar";
+import api from "@/services/api/services";
 
 const API_KEY = import.meta.env.VITE_MAPBOX_TOKEN;
 mapboxgl.accessToken = API_KEY;

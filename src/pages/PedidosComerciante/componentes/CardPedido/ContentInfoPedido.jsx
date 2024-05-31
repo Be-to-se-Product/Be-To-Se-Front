@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "../../../../componentes/Button/Button";
+import Button from "@componentes/Button/Button";
 
 const ContentInfoPedido = ({ pedido, children, ...props }) => {
   return (
@@ -9,7 +9,8 @@ const ContentInfoPedido = ({ pedido, children, ...props }) => {
         <span>
           Valor Total: R$
           {pedido.itens.reduce(
-            (accumulator, element) => accumulator + element.produto.preco,0
+            (accumulator, element) => accumulator + element.produto.preco,
+            0
           )}
         </span>
       </div>

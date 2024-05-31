@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
-import StepperRoot from "../../../componentes/Stepper/StepperRoot";
-import FormContext from "../../../context/Form/FormContext";
+import StepperRoot from "@componentes/Stepper/StepperRoot";
+import FormContext from "@/context/Form/FormContext";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
 import Step4 from "./Step4";
 import Step5 from "./Step5";
-import api from "../../../services/api";
+import api from "@/services/api/services";
 import Step6 from "./Step6";
 import moment from "moment";
 
-const ModalLojaUpdate = ({ closeModal,getLista, id }) => {
+const ModalLojaUpdate = ({ closeModal, getLista, id }) => {
   const [stateAtual, setStateAtual] = useState(0);
   const [storage, setStorage] = useState({});
-  const [teste,setTeste] = useState(0);
+  const [teste, setTeste] = useState(0);
 
   useEffect(() => {
     (async () => {
@@ -30,19 +30,34 @@ const ModalLojaUpdate = ({ closeModal,getLista, id }) => {
               };
             });
 
-            const dias = response.data.agenda.map((agenda) => agenda.dia.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase());
+            const dias = response.data.agenda.map((agenda) =>
+              agenda.dia
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .toLowerCase()
+            );
 
             for (const dia of dias) {
               diaSemana[dia] = {
                 isOpen: true,
                 horarioInicio: moment(
-                  response.data.agenda.find((agenda) => (agenda.dia.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()) == dia)
-                    .horarioInicio,
+                  response.data.agenda.find(
+                    (agenda) =>
+                      agenda.dia
+                        .normalize("NFD")
+                        .replace(/[\u0300-\u036f]/g, "")
+                        .toLowerCase() == dia
+                  ).horarioInicio,
                   "HH:mm:ss"
                 ).format("HH:mm"),
                 horarioFim: moment(
-                  response.data.agenda.find((agenda) => (agenda.dia.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()) == dia)
-                    .horarioFim,
+                  response.data.agenda.find(
+                    (agenda) =>
+                      agenda.dia
+                        .normalize("NFD")
+                        .replace(/[\u0300-\u036f]/g, "")
+                        .toLowerCase() == dia
+                  ).horarioFim,
                   "HH:mm:ss"
                 ).format("HH:mm"),
               };
@@ -111,12 +126,10 @@ const ModalLojaUpdate = ({ closeModal,getLista, id }) => {
       }
     }
     const secao = json.sessoes.map((sessao) => {
-     
       return {
         nome: sessao.texto,
         id: sessao?.id ? sessao.id : null,
       };
-      
     });
     const estabelecimento = {
       nome: json.nome,
@@ -144,7 +157,7 @@ const ModalLojaUpdate = ({ closeModal,getLista, id }) => {
   const saveEstabelecimento = (storage) => {
     const estabelecimento = mapearJsonEstabelecimento(storage);
     api
-      .put("/estabelecimentos/"+id, estabelecimento)
+      .put("/estabelecimentos/" + id, estabelecimento)
       .then((response) => {
         closeModal(false);
         getLista();
@@ -195,7 +208,7 @@ const ModalLojaUpdate = ({ closeModal,getLista, id }) => {
         <Step1 />
         <Step2 />
         <Step3 />
-        <Step4  setTeste={setTeste} teste={teste}/>
+        <Step4 setTeste={setTeste} teste={teste} />
         <Step5 />
         <Step6 />
       </FormContext.Provider>

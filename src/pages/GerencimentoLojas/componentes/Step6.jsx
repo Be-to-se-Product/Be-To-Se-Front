@@ -1,8 +1,8 @@
-import  { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import FormContext from "../../../context/Form/FormContext";
-import Button from "../../../componentes/Button/Button";
-import { converterInputImageToBase64 } from "../../../utils/conversores";
+import FormContext from "@/context/Form/FormContext";
+import Button from "@componentes/Button/Button";
+import { converterInputImageToBase64 } from "@utils/conversores";
 import IconCam from "@assets/cam-picture.png";
 const Step6 = () => {
   const { storage, setStorage, prevStep, nextStep, stateAtual } =
@@ -33,10 +33,9 @@ const Step6 = () => {
   };
 
   const next = () => {
-      handleSubmit((data) => {
-        submit(data, nextStep);
-      })();
-    
+    handleSubmit((data) => {
+      submit(data, nextStep);
+    })();
   };
 
   const prev = () => {
@@ -47,15 +46,15 @@ const Step6 = () => {
   };
 
   const [isApplyDefault, setIsApplyDefault] = useState(false);
-  useEffect(()=>{
-    if(!isApplyDefault && Object.keys(storage).length>0){
-      if(storage?.imagens){
-      slot.current.src = storage?.imagens["0"]?.url ;
+  useEffect(() => {
+    if (!isApplyDefault && Object.keys(storage).length > 0) {
+      if (storage?.imagens) {
+        slot.current.src = storage?.imagens["0"]?.url;
       }
-      
-      setIsApplyDefault(true)
+
+      setIsApplyDefault(true);
     }
-  },[storage])
+  }, [storage]);
 
   useEffect(() => {
     if (imagem?.length > 0) {
@@ -80,11 +79,7 @@ const Step6 = () => {
             alt=""
             className="h-full w-80 relative object-cover border-2 top-8 rounded-full z-10"
           />
-          <img
-            src={IconCam}
-            alt=""
-            className="absolute w-20 mt-12 z-0"
-          />
+          <img src={IconCam} alt="" className="absolute w-20 mt-12 z-0" />
           <label
             htmlFor="imagem1"
             className=" h-full flex items-center justify-center absolute opacity-0 hover:opacity-100 bg-black-900 bg-opacity-60 z-10 transition-all rounded-full w-80 cursor-pointer top-8  "

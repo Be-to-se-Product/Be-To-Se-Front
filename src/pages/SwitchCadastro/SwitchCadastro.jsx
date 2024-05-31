@@ -1,6 +1,6 @@
 import React from "react";
-import NavbarRoot from "../../componentes/Navbar/NavbarRoot";
-import Button from "../../componentes/Button/Button";
+import NavbarRoot from "@componentes/Navbar/NavbarRoot";
+import Button from "@componentes/Button/Button";
 import { useNavigate } from "react-router-dom";
 const SwitchCadastro = () => {
   const navigate = useNavigate();
@@ -31,9 +31,8 @@ const SwitchCadastro = () => {
               Sou usuário
             </Button>
             <Button onClick={() => navigate("/cadastro/comerciante")}>
-            Sou comerciante
+              Sou comerciante
             </Button>
-           
           </div>
         </div>
       </div>

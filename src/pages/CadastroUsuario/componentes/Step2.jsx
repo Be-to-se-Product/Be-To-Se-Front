@@ -1,22 +1,20 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import InputRoot from "../../../componentes/Input/InputRoot";
-import { validarEmail } from "../../../utils/validadores";
+import InputRoot from "@componentes/Input/InputRoot";
+import { validarEmail } from "@utils/validadores";
 
-const Step2 = ({ getDataForm,children,data}) => {
-  const { register, formState, handleSubmit,getValues } = useForm();
-
+const Step2 = ({ getDataForm, children, data }) => {
+  const { register, formState, handleSubmit, getValues } = useForm();
 
   const getData = (data) => {
     getDataForm(data);
   };
 
-
   const message = {
     required: "Esse campo não pode ser nulo",
     email: "Email inválido",
     confSenha: "As senhas não coincidem",
-  }
+  };
 
   const schemaValidation = {
     email: {
@@ -34,12 +32,12 @@ const Step2 = ({ getDataForm,children,data}) => {
       },
     },
   };
-  
+
   return (
     <form
       className={`flex flex-col gap-y-4 bg-white-principal p-10 rounded-sm `}
       onSubmit={handleSubmit(getData)}
-        autoComplete={"off"}
+      autoComplete={"off"}
     >
       <div>
         <InputRoot.Input
@@ -61,7 +59,7 @@ const Step2 = ({ getDataForm,children,data}) => {
           type="password"
           placeholder="Nome"
           defaultValue={data?.senha}
-          register={register("senha",schemaValidation.senha)}
+          register={register("senha", schemaValidation.senha)}
         >
           <InputRoot.Label>Senha</InputRoot.Label>
         </InputRoot.Input>
@@ -77,7 +75,7 @@ const Step2 = ({ getDataForm,children,data}) => {
           type="password"
           placeholder="Nome"
           defaultValue={data?.confSenha}
-          register={register("confSenha",schemaValidation.confSenha)}
+          register={register("confSenha", schemaValidation.confSenha)}
         >
           <InputRoot.Label>Confirme sua senha</InputRoot.Label>
         </InputRoot.Input>
@@ -86,8 +84,8 @@ const Step2 = ({ getDataForm,children,data}) => {
             message[formState?.errors?.confSenha?.type]}
         </span>
       </div>
-      
-     {children}
+
+      {children}
     </form>
   );
 };

@@ -1,56 +1,57 @@
 import React, { useContext, useEffect, useState } from "react";
-import FormContext from "../../../context/Form/FormContext";
+import FormContext from "@/context/Form/FormContext";
 import { useForm } from "react-hook-form";
 import RowSessao from "./RowSessao";
-import Button from "../../../componentes/Button/Button";
+import Button from "@componentes/Button/Button";
 
 const Step5 = () => {
-    const {storage, setStorage,stateAtual,nextStep,prevStep } = useContext(FormContext);
+  const { storage, setStorage, stateAtual, nextStep, prevStep } =
+    useContext(FormContext);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const [rowSessao, setRowSessao] = useState([]);
-  const [isApplyDefault,setIsApplyDefault] = useState(false);
+  const [isApplyDefault, setIsApplyDefault] = useState(false);
   useEffect(() => {
-    if(!isApplyDefault && Object.keys(storage).length>0){
-      if(storage?.sessoes?.length>0){
-      setRowSessao(storage.sessoes)
-      setIsApplyDefault(true);
+    if (!isApplyDefault && Object.keys(storage).length > 0) {
+      if (storage?.sessoes?.length > 0) {
+        setRowSessao(storage.sessoes);
+        setIsApplyDefault(true);
       }
     }
-  },[storage])
+  }, [storage]);
 
-  const submit = (data,callback) => {
-   
+  const submit = (data, callback) => {
     setStorage({ ...storage, sessoes: rowSessao });
     callback?.();
   };
 
-
   const next = () => {
-    if(rowSessao.length==0 || rowSessao[0].texto.length==0){
-      alert("Adicione pelo menos uma sessão")
-      return
+    if (rowSessao.length == 0 || rowSessao[0].texto.length == 0) {
+      alert("Adicione pelo menos uma sessão");
+      return;
     }
-    handleSubmit((data)=>{submit(data,nextStep)})();
+    handleSubmit((data) => {
+      submit(data, nextStep);
+    })();
   };
 
   const prev = () => {
-    handleSubmit((data)=>{submit(data)})();
-    prevStep()
+    handleSubmit((data) => {
+      submit(data);
+    })();
+    prevStep();
   };
 
-
-
-  
-  
   return (
     <form
-      className={`relative  flex-col gap-y-8 ${stateAtual!=4 && "hidden"} ` }
+      className={`relative  flex-col gap-y-8 ${stateAtual != 4 && "hidden"} `}
     >
-        <div className="text-center">Crie no minimo seção para os seus produtos</div>
+      <div className="text-center">
+        Crie no minimo seção para os seus produtos
+      </div>
       <div className="w-full px-14 flex justify-between  border-b-orange-200 border-b-[1px] py-2 absolute  top-7 z-10 bg-white-principal ">
         <span>Nome da sessão</span>
         <span>Excluir</span>

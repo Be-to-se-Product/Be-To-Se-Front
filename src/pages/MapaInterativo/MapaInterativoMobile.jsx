@@ -4,11 +4,12 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import axios from "axios";
 import "./mapaStyle.css";
-import api from "../../services/api.js";
+
 import { useSearchParams } from "react-router-dom";
 import { getQueryParams } from "@/utils/utils.js";
 import CardMapa from "./componentes/CardMapa.jsx";
 import { createRoot } from "react-dom/client";
+import api from "@/services/api/services";
 const API_KEY = import.meta.env.VITE_MAPBOX_TOKEN;
 mapboxgl.accessToken = API_KEY;
 

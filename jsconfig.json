@@ -1,22 +1,23 @@
 {
   "compilerOptions": {
-    "module": "NodeNext",
-    "jsx": "react-jsx",
-    "target": "ES6",
-    "moduleResolution": "nodenext",
+    "baseUrl": ".",
     "paths": {
       "@/*": [
         "./src/*"
       ],
-      "@components/*": [
-        "./src/components/*"
+      "@componentes/*": [
+        "./src/componentes/*"
       ],
       "@pages/*": [
         "./src/pages/*"
       ],
       "@assets/*": [
         "./src/assets/*"
+      ],
+      "@utils/*": [
+        "./src/utils/*"
       ]
+      
     }
   },
   "include": [

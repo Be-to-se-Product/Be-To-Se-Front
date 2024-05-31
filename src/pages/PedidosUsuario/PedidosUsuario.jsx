@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import IconSearch from "@assets/search.svg";
-import NavbarRoot from "../../componentes/Navbar/NavbarRoot";
+import NavbarRoot from "@componentes/Navbar/NavbarRoot";
 import { FormControlLabel, Radio, RadioGroup, Skeleton } from "@mui/material";
-import InputRoot from "../../componentes/Input/InputRoot";
-import CardLojaRoot from "../../componentes/CardLoja/CardLojaRoot";
-import Button from "../../componentes/Button/Button";
-import api from "../../services/api";
+import InputRoot from "@componentes/Input/InputRoot";
+import CardLojaRoot from "@componentes/CardLoja/CardLojaRoot";
+import Button from "@componentes/Button/Button";
+
 import moment from "moment";
-import ContentModal from "../../componentes/COntentModal/ContentModal";
+import ContentModal from "@componentes/COntentModal/ContentModal";
 import CardItemVenda from "./componentes/CardItemVenda";
+import api from "@/services/api/services";
 
 const PedidosUsuario = () => {
   const statusColors = {

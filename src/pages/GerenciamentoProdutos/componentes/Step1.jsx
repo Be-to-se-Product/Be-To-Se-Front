@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import InputRoot from "../../../componentes/Input/InputRoot";
+import InputRoot from "@componentes/Input/InputRoot";
 import { useForm } from "react-hook-form";
 import { MenuItem, Select, Autocomplete, TextField, Chip } from "@mui/material";
-import BotaoSwitch from "../../../componentes/Switch/BotaoSwitch";
+import BotaoSwitch from "@componentes/Switch/BotaoSwitch";
 const Step1 = ({ getData, children, infoBanco, dataStorage }) => {
   const { register, handleSubmit, setValue, formState, watch } = useForm();
 

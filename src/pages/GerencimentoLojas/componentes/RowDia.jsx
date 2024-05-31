@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Checkbox } from "@mui/material";
 import orange from "@mui/material/colors/orange";
-import InputRoot from "../../../componentes/Input/InputRoot";
+import InputRoot from "@componentes/Input/InputRoot";
 
 const RowDia = ({ register, dia, watch }) => {
   const ativo = watch(

@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import InputRoot from "../../../componentes/Input/InputRoot";
-import InputDate from "../../../componentes/InputDate/InputDate";
-import { validarCpf } from "../../../utils/validadores";
+import InputRoot from "@componentes/Input/InputRoot";
+import InputDate from "@componentes/InputDate/InputDate";
+import { validarCpf } from "@utils/validadores";
 import {
   inputFormatoTelefone,
   mascaraFormatoCpf,
   removerMascaraTelefone,
-} from "../../../utils/formatadores";
+} from "@utils/formatadores";
 import moment from "moment";
 import Select from "@mui/material/Select";
-import MenuItem from '@mui/material/MenuItem';
+import MenuItem from "@mui/material/MenuItem";
 
 const Step1 = ({ getDataForm, children, data }) => {
   const { register, formState, handleSubmit } = useForm();
@@ -107,9 +107,9 @@ const Step1 = ({ getDataForm, children, data }) => {
           </span>
         </div>
         <div className="flex flex-col">
-            <InputRoot.Label>Gênero</InputRoot.Label>   
+          <InputRoot.Label>Gênero</InputRoot.Label>
           <Select
-          className="h-[42px]"
+            className="h-[42px]"
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             defaultValue={data?.genero}

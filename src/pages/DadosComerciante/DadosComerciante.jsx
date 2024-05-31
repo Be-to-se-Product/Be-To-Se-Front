@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import MenuComerciante from "../../componentes/MenuComerciante/MenuComerciante";
+import MenuComerciante from "@componentes/MenuComerciante/MenuComerciante";
 import { ArrowForwardIos } from "@mui/icons-material";
 import { ArrowBackIos } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
-import api from "../../services/api";
-import {descriptografar} from "../../utils/Autheticated"
+import api from "@/services/api/services";
+import { descriptografar } from "@utils/Autheticated";
 import { ToastContainer, toast } from "react-toastify";
 import { injectStyle } from "react-toastify/dist/inject-style";
-import axios from 'axios';
+import axios from "axios";
 
 function DadosComerciante() {
   injectStyle();
@@ -21,20 +21,22 @@ function DadosComerciante() {
 
   const getComerciantes = (id) => {
     toast.loading("Carregando...");
-    api.get(`/comerciantes/${id}`).then((res) => {
+    api
+      .get(`/comerciantes/${id}`)
+      .then((res) => {
         toast.dismiss();
         setComerciantes(res.data.length == 0 ? {} : res.data);
-      }).catch((err) => {
-      });
+      })
+      .catch((err) => {});
   };
 
-  const atualizarComerciante = () =>{
+  const atualizarComerciante = () => {
     let cnpj = comerciante.cnpj;
     let nome = comerciante.nome;
-    let razaoSocial =comerciante.razaoSocial;
+    let razaoSocial = comerciante.razaoSocial;
     let email = comerciante.email;
     let cep = comerciante?.endereco?.cep;
-    cep = cep.replace(/-/g, '');
+    cep = cep.replace(/-/g, "");
     let numero = comerciante?.endereco?.numero;
     const data = {
       cnpj,
@@ -50,7 +52,7 @@ function DadosComerciante() {
       .put(`/comerciantes/${userId}`, data)
       .then((res) => {
         toast.dismiss(loading);
-        toast.success("Dados atualizados com sucesso!",{autoClose:2000});
+        toast.success("Dados atualizados com sucesso!", { autoClose: 2000 });
         setTimeout(() => {
           navigate("/index");
         }, 3000);
@@ -64,7 +66,7 @@ function DadosComerciante() {
     let cep = comerciante?.endereco?.cep;
     try {
       const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-  
+
       const enderecoData = response.data;
       setComerciantes((prevComerciantes) => {
         return {
@@ -75,7 +77,7 @@ function DadosComerciante() {
             bairro: enderecoData.bairro || "",
             cep: response.data.cep,
             cidade: enderecoData.localidade,
-            estado:enderecoData.uf
+            estado: enderecoData.uf,
           },
         };
       });
@@ -87,7 +89,7 @@ function DadosComerciante() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setComerciantes((prevComerciantes) => {
-      if (['cep', 'rua', 'bairro', 'numero'].includes(name)) {
+      if (["cep", "rua", "bairro", "numero"].includes(name)) {
         return {
           ...prevComerciantes,
           endereco: {
@@ -103,13 +105,13 @@ function DadosComerciante() {
       }
     });
   };
-  
+
   useEffect(() => {
     const userDetailsCrypt = descriptografar(sessionStorage?.USERDETAILS);
     const { id } = JSON.parse(userDetailsCrypt);
     setUserId(id);
     getComerciantes(id);
-    getEnderecos(comerciante?.endereco?.cep)
+    getEnderecos(comerciante?.endereco?.cep);
   }, [userId]);
 
   useEffect(() => {
@@ -183,8 +185,7 @@ function DadosComerciante() {
             >
               <path
                 d="M4.5 16H13.5V14H4.5V16ZM4.5 12H13.5V10H4.5V12ZM2.25 20C1.63125 20 1.10156 19.8042 0.660937 19.4125C0.220312 19.0208 0 18.55 0 18V2C0 1.45 0.220312 0.979167 0.660937 0.5875C1.10156 0.195833 1.63125 0 2.25 0H11.25L18 6V18C18 18.55 17.7797 19.0208 17.3391 19.4125C16.8984 19.8042 16.3687 20 15.75 20H2.25ZM10.125 7V2H2.25V18H15.75V7H10.125Z"
-                fill={ location.pathname === "/comerciante/dados" &&
-                "orange"}
+                fill={location.pathname === "/comerciante/dados" && "orange"}
               />
             </svg>
 
@@ -259,10 +260,10 @@ function DadosComerciante() {
               </div>
               <button
                 className="ml-36"
-                onClick={() =>{
-                    setBall1Color("black-500");
-                    setBall2Color("orange-principal");
-                    setDivAtual(divAtual === "div1" ? "div2" : "div1")
+                onClick={() => {
+                  setBall1Color("black-500");
+                  setBall2Color("orange-principal");
+                  setDivAtual(divAtual === "div1" ? "div2" : "div1");
                 }}
               >
                 {<ArrowForwardIos />}
@@ -273,10 +274,10 @@ function DadosComerciante() {
             <div className="flex flex-row">
               <button
                 className="mr-36"
-                onClick={() =>{
-                    setBall1Color("orange-principal");
-                    setBall2Color("black-500");
-                    setDivAtual(divAtual === "div1" ? "div2" : "div1")
+                onClick={() => {
+                  setBall1Color("orange-principal");
+                  setBall2Color("black-500");
+                  setDivAtual(divAtual === "div1" ? "div2" : "div1");
                 }}
               >
                 {<ArrowBackIos />}

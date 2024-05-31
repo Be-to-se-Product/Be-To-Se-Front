@@ -1,118 +1,66 @@
-import NavbarRoot from "../../componentes/Navbar/NavbarRoot";
-import Switch from "../../componentes/Switch/BotaoSwitch";
-import CardProdutoPesquisa from "./componentes/CardProdutoPesquisa.jsx"
-import { geolocation } from "../../utils/geolocation";
+import NavbarRoot from "@componentes/Navbar/NavbarRoot.jsx";
+import CardProduto from "../TelaInicial/componentes/CardProduto";
+import api from "@/services/api/services";
 import { useEffect, useState } from "react";
-import api from "../../services/api";
-import { useNavigate } from "react-router-dom";
-import { Select, MenuItem } from "@mui/material";
-import { ToastContainer, toast } from "react-toastify";
+import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import DistanceFilter from "./componentes/DistanceFilter";
-import { useLocation } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import useDebounce from "@/hooks/useDebounce";
 
 function TelaPesquisa() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { nomePesquisado } = location.state || {};
-
-  const [originCoordinates, setOriginCoordinates] = useState({
-    lat: null,
-    lon: null,
-  });
   const [produtos, setProdutos] = useState([]);
-  //filtros
-  const [metodosPagamento, setMetodosPagamento] = useState([]);
-  const [nome, setNome] = useState(nomePesquisado ? nomePesquisado : null);
-  const [metodoPagamento, setMetodoPagamento] = useState();
-  const [distancia, setDistancia] = useState(50);
+  const [metodoPagamento, setMetodoPagamento] = useState([{}]);
+  const { register, watch } = useForm({
+    mode: "onChange",
+  });
+  const [distanciaOptions, setDistanciaOptions] = useState(0);
+  const [nome, setNome] = useState("");
+  const debounce = useDebounce((nome) => {
+    setNome(nome);
+  }, 500);
+  const metodoOptions = watch("metodoPagamento");
 
-  const [mostrarMapa, setMostrarMapa] = useState(false);
+  const getMetodoPagamento = async () => {
+    const response = await api.get("/metodos-pagamentos");
 
-  const handleSwitchChange = () => {
-    setMostrarMapa((prevMostrarMapa) => {
-      const newMostrarMapa = !prevMostrarMapa;
-      if (newMostrarMapa) {
-        navigate("/mapa", {
-          state: {
-            nome,
-            distancia,
-            metodoPagamento,
-          },
-        });
-      }
-      return newMostrarMapa;
-    });
-  };
-  
-  useEffect(() => {
-    if (mostrarMapa) {
-      navigate("/mapa", {
-        state: {
-          nome,
-          distancia,
-          metodoPagamento,
-        },
-      });
+    if (response?.data) {
+      setMetodoPagamento(response.data);
     }
-  }, [mostrarMapa]);
+  };
+
+  const getProdutos = async (distanciaOptions, metodoOptions, nome) => {
+    const response = await api.get("/produtos/mapa", {
+      params: {
+        latitude: -23.5505199,
+        longitude: -46.6333094,
+        distancia: distanciaOptions || 50,
+        metodoPagamento: metodoOptions || "",
+        nome: nome || "",
+      },
+    });
+
+    if (response.status == 204) {
+      setProdutos([]);
+    }
+    if (response?.data) {
+      setProdutos(response.data);
+    }
+  };
 
   useEffect(() => {
-    geolocation(setOriginCoordinates);
+    getProdutos(distanciaOptions, metodoOptions, nome);
+  }, [distanciaOptions, metodoOptions, nome]);
+
+  useEffect(() => {
+    getMetodoPagamento();
   }, []);
-
-  const handleNomeChange = (novoNome) => {
-    setNome(novoNome);
-  };
-
-  useEffect(() => {
-    api
-      .get("/produtos/mapa", {
-        params: {
-          latitude: originCoordinates.lat,
-          longitude: originCoordinates.lon,
-          distancia: distancia,
-          nome: nome,
-          metodoPagamento: metodoPagamento,
-        },
-      })
-      .then((response) => {
-        console.log(response.data); 
-        setProdutos(response.data ? response.data : []);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        toast.dismiss();
-      });
-  }, [originCoordinates, nome, metodoPagamento, distancia]);
-
-  useEffect(() => {
-    getMetodosPagamento();
-  }, []);
-
-  const getMetodosPagamento = () => {
-    api
-      .get("/metodos-pagamentos")
-      .then((response) => {
-        setMetodosPagamento(response.data ? response.data : []);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const handleMetodoChange = (event) => {
-    setMetodoPagamento(event.target.value);
-  };
-
   return (
-    <div>
+    <div className="bg-black-100">
       <NavbarRoot.Content>
         <NavbarRoot.ContentTop>
           <NavbarRoot.Logo />
-          <NavbarRoot.Pesquisa onChange={handleNomeChange} />
-          {sessionStorage.USERDETAILS ? (
+          <NavbarRoot.Pesquisa onChange={debounce} />
+          {sessionStorage?.USERDETAILS ? (
             <NavbarRoot.Authenticated />
           ) : (
             <NavbarRoot.Sign />
@@ -123,53 +71,57 @@ function TelaPesquisa() {
         </NavbarRoot.Menu>
       </NavbarRoot.Content>
 
-      <main className="flex pt-[48px] flex-col items-center gap-[48px]">
-        <main className="flex w-auto flex-col items-center gap-[48px]">
-          <div className="flex flex-row w-full justify-between items-center ">
-            <div className="flex w-[715px] h-[39px] gap-6 pl-4">
-              <div className="flex flex-col">
-                <label className="text-sm font-semibold mb-1">
-                  Método de Pagamento:
-                </label>
-                <Select
-                  className="flex h-full  items-center gap-8  bg-white-principal"
-                  onClick={getMetodosPagamento}
-                  onChange={handleMetodoChange}
-                  value={metodoPagamento ? metodoPagamento : []}
+      <section className="px-24 flex py-10">
+        <div className="flex flex-col justify-start gap-y-4 w-[300px]">
+          <h2 className="text-xl font-medium">Filtros</h2>
+          <div className="flex flex-col">
+            <form className="flex flex-col gap-y-3">
+              <div>
+                <div className="flex flex-col gap-y-2">
+                  <h2 className="text-lg font-medium text">Distancia</h2>
+                  <DistanceFilter onChange={setDistanciaOptions} />
+                </div>
+                <h2 className="text-lg font-medium text">
+                  Método de pagamento
+                </h2>
+                <RadioGroup
+                  aria-labelledby="demo-radio-buttons-group-label"
+                  defaultValue="female"
+                  name="radio-buttons-group"
+                  key={1}
                 >
-                  {metodosPagamento?.map((metodo) => (
-                    <MenuItem key={metodo.id} value={metodo.descricao}>
-                      {metodo.descricao}
-                    </MenuItem>
+                  {metodoPagamento.map((metodo) => (
+                    <FormControlLabel
+                      key={metodo.id}
+                      value={metodo.id}
+                      {...register("metodoPagamento")}
+                      control={
+                        <Radio
+                          sx={{
+                            "& .MuiSvgIcon-root": {
+                              color: "#FCA622",
+                            },
+                            // pintar efeito Ripple
+                            "&.Mui-checked": {
+                              color: "#FCA622",
+                            },
+                          }}
+                        />
+                      }
+                      label={metodo.descricao}
+                    />
                   ))}
-                </Select>
+                </RadioGroup>
               </div>
-              <div className="flex flex-col">
-                <label className="text-sm font-semibold mb-1">Distância:</label>
-                <DistanceFilter onChange={(filter) => setDistancia(filter)} />
-              </div>
-            </div>
-            <div className="flex w-[200px] justify-end items-center gap-3">
-              <p className="" onClick={handleSwitchChange}>
-                Ver no mapa
-              </p>
-              <Switch onChange={handleSwitchChange}></Switch>
-            </div>
+            </form>
           </div>
-
-          <div className="flex w-full gap-10 items-center pl-4">
-            <h2 className="text-xl">Resultados da pesquisa:</h2>
-            <p className="text-xl">{`${nome ? nome : ""}`}</p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            {produtos?.map((produto) => (
-              <CardProdutoPesquisa key={produto?.id} produto={produto} />
-            ))}
-          </div>
-        </main>
-      </main>
-      <ToastContainer></ToastContainer>
+        </div>
+        <div className="grid grid-cols-4 w-full gap-y-10">
+          {produtos.map((produto) => (
+            <CardProduto key={produto.id} id={produto.id} produto={produto} />
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

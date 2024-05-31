@@ -1,12 +1,11 @@
-import Icon from "./componentes/Icon";
-import Input from "./componentes/Input";
-import Label from "./componentes/Label";
+import ContentInput from "./componentes/ContentInput.jsx";
+import LabelInput from "./componentes/LabelInput.jsx";
+import TextAreaInput from "./componentes/TextAreaInput.jsx";
 
 const InputRoot = {
-    Input:Input,
-    Label:Label,
-    Icon:Icon
-}
+  Label: LabelInput,
+  ContentInput,
+  TextArea: TextAreaInput,
+};
 
-
-export default InputRoot
+export default InputRoot;

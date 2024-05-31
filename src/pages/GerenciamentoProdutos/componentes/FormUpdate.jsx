@@ -1,10 +1,10 @@
-import  { useEffect, useState } from "react";
-import StepperRoot from "../../../componentes/Stepper/StepperRoot";
+import { useEffect, useState } from "react";
+import StepperRoot from "@componentes/Stepper/StepperRoot";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
-import Button from "../../../componentes/Button/Button";
-import api from "../../../services/api";
+import Button from "@componentes/Button/Button";
+import api from "@/services/api/services";
 import { useParams } from "react-router-dom";
 
 const FormUpdate = ({ fecharModal, getProdutos, produto }) => {
@@ -16,10 +16,8 @@ const FormUpdate = ({ fecharModal, getProdutos, produto }) => {
     tag: [],
   });
 
-
-
   const getSecao = () => {
-    api.get("/secoes/estabelecimento/"+idEstabelecimento).then((response) => {
+    api.get("/secoes/estabelecimento/" + idEstabelecimento).then((response) => {
       setInfoBanco((prev) => ({ ...prev, sessoes: response.data }));
     });
   };
@@ -52,7 +50,7 @@ const FormUpdate = ({ fecharModal, getProdutos, produto }) => {
     setDataStorage({ ...dataStorage, ...data });
 
     if (isNext) {
-      nextStep(dataStorage,data);
+      nextStep(dataStorage, data);
     } else {
       prevStep();
     }
@@ -73,12 +71,12 @@ const FormUpdate = ({ fecharModal, getProdutos, produto }) => {
     setStateAtual(0);
   }
 
-  const saveData = (dadosSalvar,data) => {
+  const saveData = (dadosSalvar, data) => {
     const produtoSave = {
       nome: dadosSalvar.nome,
       codigoSku: dadosSalvar.codigoSku,
       preco: dadosSalvar.preco,
-      descricao: data.descricao,  
+      descricao: data.descricao,
       precoOferta: dadosSalvar.precoOferta,
       codigoBarras: dadosSalvar.codigoBarras,
       categoria: dadosSalvar.categoria,
@@ -87,7 +85,7 @@ const FormUpdate = ({ fecharModal, getProdutos, produto }) => {
     };
 
     api
-      .put("/produtos/"+produto.id, produtoSave)
+      .put("/produtos/" + produto.id, produtoSave)
       .then((response) => {
         getProdutos();
         resetarCampos();
@@ -97,9 +95,9 @@ const FormUpdate = ({ fecharModal, getProdutos, produto }) => {
         console.log(error);
       });
   };
-  const nextStep = (dataSalvar,data) => {
+  const nextStep = (dataSalvar, data) => {
     if (stateAtual + 1 === steps.length) {
-      saveData(dataStorage,data);
+      saveData(dataStorage, data);
       return;
     }
     setStateAtual(stateAtual + 1);
@@ -133,7 +131,12 @@ const FormUpdate = ({ fecharModal, getProdutos, produto }) => {
 
   return (
     <div className=" w-[801px] h-[700px] p-8 bg-white-principal relative rounded-md flex items-center flex-col gap-y-2 justify-around">
-      <div className="absolute top-5  right-8 cursor-pointer" onClick={()=>fecharModal("fechar")}>X</div>
+      <div
+        className="absolute top-5  right-8 cursor-pointer"
+        onClick={() => fecharModal("fechar")}
+      >
+        X
+      </div>
       <StepperRoot.Content>
         <StepperRoot.Step number={1} stateAtual={stateAtual}>
           Informações do produtos
@@ -147,7 +150,6 @@ const FormUpdate = ({ fecharModal, getProdutos, produto }) => {
           Descrição do produto
         </StepperRoot.Step>
       </StepperRoot.Content>
-
 
       {steps[stateAtual]}
     </div>

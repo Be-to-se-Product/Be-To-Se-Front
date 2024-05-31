@@ -1,15 +1,10 @@
 import { useEffect } from "react";
-import imgProduto from "../../../assets/cocacola.svg";
-import Button from "../../../componentes/Button/Button";
+import imgProduto from "@assets/cocacola.svg";
+import Button from "@componentes/Button/Button";
 
 const Card = ({ color, openModal, produto }) => {
-
-
   return (
-    <div
-      className="w-[181px] border-solid  bg-white-principal   p-4 flex flex-col gap-4 rounded-md "
-      
-    >
+    <div className="w-[181px] border-solid  bg-white-principal   p-4 flex flex-col gap-4 rounded-md ">
       <div className="flex justify-center items-center relative border border-gray-300 h-[150px] rounded-md overflow-hidden">
         <div className=" flex flex-col 1  absolute  right-2  gap-2 top-2 "></div>
         <img

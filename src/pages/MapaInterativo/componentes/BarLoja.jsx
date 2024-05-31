@@ -1,5 +1,5 @@
 import TabInfoLoja from "./TabInfoLoja";
-import Button from "../../../componentes/Button/Button";
+import Button from "@componentes/Button/Button";
 import { Rating } from "@mui/material";
 import ContentBar from "./ContentBar";
 import ItemDeslocamento from "./ItemDeslocamento";

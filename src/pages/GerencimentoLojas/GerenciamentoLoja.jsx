@@ -1,17 +1,16 @@
-import{ useState } from "react";
-import MenuComerciante from "../../componentes/MenuComerciante/MenuComerciante";
-import Button from "../../componentes/Button/Button";
-import CardLojaRoot from "../../componentes/CardLoja/CardLojaRoot";
-import Modal from "../../componentes/Modal/Modal";
-import api from "../../services/api";
+import { useState } from "react";
+import MenuComerciante from "@componentes/MenuComerciante/MenuComerciante";
+import Button from "@componentes/Button/Button";
+import CardLojaRoot from "@componentes/CardLoja/CardLojaRoot";
+import Modal from "@componentes/Modal/Modal";
+import api from "@/services/api/services";
 import ModalLoja from "./componentes/ModalLoja";
 import { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import ModalLojaUpdate from "./componentes/ModalLojaUpdate";
 import IconDelete from "@assets/deletar.svg";
 import IconEdit from "@assets/editar.svg";
-import {descriptografar} from "../../utils/Autheticated";
-
+import { descriptografar } from "@utils/Autheticated";
 
 const GerenciamentoLoja = () => {
   const [isVisibleModal, setIsVisibleModal] = useState(false);
@@ -46,7 +45,7 @@ const GerenciamentoLoja = () => {
   };
 
   const handlePageProduct = (id) => {
-    navigate("/comerciante/lojas/"+id+"/produtos");
+    navigate("/comerciante/lojas/" + id + "/produtos");
   };
 
   return (
@@ -80,7 +79,13 @@ const GerenciamentoLoja = () => {
             </span>
           </li>
         </Link>
-        <a href={"https://app.powerbi.com/groups/me/reports/70f574a9-e040-431c-a400-fdc306742e5b/ReportSection?experience=power-bi&filter=estabelecimento%2Fid%20eq%20" + id} target="_blank">
+        <a
+          href={
+            "https://app.powerbi.com/groups/me/reports/70f574a9-e040-431c-a400-fdc306742e5b/ReportSection?experience=power-bi&filter=estabelecimento%2Fid%20eq%20" +
+            id
+          }
+          target="_blank"
+        >
           <li className="text-lg text-white-principal flex gap-x-4  mb-5 items-center">
             <svg
               width="18"
@@ -139,7 +144,7 @@ const GerenciamentoLoja = () => {
         </div>
 
         <div className=" mx-auto w-full flex flex-wrap gap-y-10 justify-center gap-x-5 relative ">
-          {getEstabelecimento.map((element,index) => (
+          {getEstabelecimento.map((element, index) => (
             <CardLojaRoot.Content key={index}>
               <CardLojaRoot.Header>
                 <div className="flex gap-x-2 items-center">
@@ -214,7 +219,9 @@ const GerenciamentoLoja = () => {
                   </Button>
                   <Button
                     className={"rounded-lg"}
-                    onClick={() => setIsVisibleModalUpdate({open:true, id:element.id})}
+                    onClick={() =>
+                      setIsVisibleModalUpdate({ open: true, id: element.id })
+                    }
                   >
                     Atualizar
                   </Button>
@@ -225,17 +232,21 @@ const GerenciamentoLoja = () => {
         </div>
       </section>
       {isVisibleModalUpdate.open && (
-        <Modal isVisible={isVisibleModalUpdate.open} >
-          <ModalLojaUpdate closeModal={setIsVisibleModalUpdate} id={isVisibleModalUpdate.id} getLista={getLista} />
+        <Modal isVisible={isVisibleModalUpdate.open}>
+          <ModalLojaUpdate
+            closeModal={setIsVisibleModalUpdate}
+            id={isVisibleModalUpdate.id}
+            getLista={getLista}
+          />
         </Modal>
       )}
       {isVisibleModal && (
-        <Modal isVisible={isVisibleModal} >
-          <ModalLoja closeModal={setIsVisibleModal} getLista={getLista}/>
+        <Modal isVisible={isVisibleModal}>
+          <ModalLoja closeModal={setIsVisibleModal} getLista={getLista} />
         </Modal>
       )}
 
-      <Modal isVisible={isVisibleModalDelete} >
+      <Modal isVisible={isVisibleModalDelete}>
         <div className="bg-white-principal px-10 py-8 flex flex-col gap-y-8 rounded-sm">
           <h2 className="text-2xl">Deseja realmente deletar a Loja ?</h2>
           <div className="content-button w-full flex gap-x-4 justify-center">

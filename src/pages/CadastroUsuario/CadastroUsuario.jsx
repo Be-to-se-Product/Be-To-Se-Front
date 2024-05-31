@@ -1,24 +1,20 @@
-import  { useState } from "react";
-import Navbar from "../../componentes/Navbar/NavbarRoot";
+import { useState } from "react";
+import Navbar from "@componentes/Navbar/NavbarRoot";
 
-import StepperRoot from "../../componentes/Stepper/StepperRoot";
-import Button from "../../componentes/Button/Button";
-import api from "../../services/api";
+import StepperRoot from "@componentes/Stepper/StepperRoot";
+import Button from "@componentes/Button/Button";
 
 import Step1 from "./componentes/Step1";
 import Step2 from "./componentes/Step2";
 import CircularProgress from "@mui/material/CircularProgress";
-import {
-  removerMascaraCpf,
-  removerMascaraTelefone,
-} from "../../utils/formatadores";
-import { criptografar } from "../../utils/Autheticated";
+import { removerMascaraCpf, removerMascaraTelefone } from "@utils/formatadores";
+import { criptografar } from "@utils/Autheticated";
 
 import IconSelect from "@assets/selection.png";
 
-
-import {  useNavigate } from "react-router-dom";
-import NavbarRoot from "../../componentes/Navbar/NavbarRoot";
+import { useNavigate } from "react-router-dom";
+import NavbarRoot from "@componentes/Navbar/NavbarRoot";
+import api from "@/services/api/services";
 const CadastroUsuario = () => {
   const [stateAtual, setStateAtual] = useState(0);
   const [data, setData] = useState({});
@@ -28,22 +24,19 @@ const CadastroUsuario = () => {
   const navigate = useNavigate();
 
   const avancar = () => {
-    if(steps.length-1 == stateAtual+1) {
+    if (steps.length - 1 == stateAtual + 1) {
       saveUser(data);
       return;
     }
-      setStateAtual(stateAtual + 1);
-      setIsAvancar(false);
-      
+    setStateAtual(stateAtual + 1);
+    setIsAvancar(false);
   };
 
   const saveLocalStorage = (data) => {
     setData((prevState) => ({ ...prevState, ...data }));
-    if(isAvancar) avancar();
-    if(isRetroceder) retroceder();
-  }
-  
-  
+    if (isAvancar) avancar();
+    if (isRetroceder) retroceder();
+  };
 
   const saveUser = (dataFunction) => {
     const dataMerge = { ...data, ...dataFunction };
@@ -66,7 +59,10 @@ const CadastroUsuario = () => {
       .post("/consumidores", dataRequest)
       .then((response) => {
         if (response.status == 201) {
-          sessionStorage.setItem("USERDETAILS", criptografar(JSON.stringify(response.data)));
+          sessionStorage.setItem(
+            "USERDETAILS",
+            criptografar(JSON.stringify(response.data))
+          );
           setStateAtual(stateAtual + 1);
 
           setTimeout(() => {
@@ -87,18 +83,19 @@ const CadastroUsuario = () => {
   const steps = [
     <Step1 key="step1" getDataForm={saveLocalStorage} data={data}>
       <div className="flex w-10/12 mx-auto justify-center mt-8 gap-x-5">
-        <Button onClick={()=>setIsAvancar(true)}>Avançar</Button>
+        <Button onClick={() => setIsAvancar(true)}>Avançar</Button>
       </div>
     </Step1>,
     <Step2 key="step2" getDataForm={saveLocalStorage} data={data}>
       <div className="flex w-10/12 mx-auto justify-center mt-8 gap-x-5">
-        <Button  onClick={()=>setIsRetroceder(true)}>
-          Retroceder
-        </Button>
-        <Button onClick={()=>setIsAvancar(true)}>Cadastrar</Button>
+        <Button onClick={() => setIsRetroceder(true)}>Retroceder</Button>
+        <Button onClick={() => setIsAvancar(true)}>Cadastrar</Button>
       </div>
     </Step2>,
-    <div key="step3" className="flex flex-col w-9/12 mx-auto justify-center items-center mt-20 gap-y-5 bg-white-principal py-20 rounded">
+    <div
+      key="step3"
+      className="flex flex-col w-9/12 mx-auto justify-center items-center mt-20 gap-y-5 bg-white-principal py-20 rounded"
+    >
       <img src={IconSelect} alt="" className="w-44" />
       <div className="text-center flex flex-col gap-y-2">
         <h2 className="text-xl">Cadastrado concluído com sucesso!</h2>
@@ -112,10 +109,13 @@ const CadastroUsuario = () => {
     <>
       <NavbarRoot.Content>
         <NavbarRoot.ContentTop>
-          <NavbarRoot.Logo/>
-          <NavbarRoot.Pesquisa/>
-          {sessionStorage.USERDETAILS ? (<Navbar.Authenticated/>) : (<NavbarRoot.Sign/>)}
-          
+          <NavbarRoot.Logo />
+          <NavbarRoot.Pesquisa />
+          {sessionStorage.USERDETAILS ? (
+            <Navbar.Authenticated />
+          ) : (
+            <NavbarRoot.Sign />
+          )}
         </NavbarRoot.ContentTop>
         <NavbarRoot.Menu>
           <NavbarRoot.Item></NavbarRoot.Item>

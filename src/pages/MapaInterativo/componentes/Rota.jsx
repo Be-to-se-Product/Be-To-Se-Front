@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import DirectionsCarFilledIcon from "@mui/icons-material/DirectionsCarFilled";
 import DirectionsBikeIcon from "@mui/icons-material/DirectionsBike";
 import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
-import { conversosMedidasDistancia } from "../../../utils/conversores";
+import { conversosMedidasDistancia } from "@utils/conversores";
 
 const Rota = ({ profiles, setModePercurssion, rotas }) => {
   const [currentPage, setCurrentPage] = useState(0);

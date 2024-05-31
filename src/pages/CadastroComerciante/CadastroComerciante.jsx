@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 // Informações abaixo importadas do Header
-import NavbarRoot from "../../componentes/Navbar/NavbarRoot";
+import NavbarRoot from "@componentes/Navbar/NavbarRoot";
 // import BreadCrumbCadastroCliente from "./Breadcrumbs/BreadCrumbCadastroCliente";
-import Breadcrumb from "../../componentes/CadastroComerciante/Breadcrumbs/Breadcrumb";
+import Breadcrumb from "@componentes/CadastroComerciante/Breadcrumbs/Breadcrumb";
 // Informações abaixo essenciais para renderização dos componentes de cadastro
-import PrimeiroPasso from "../../componentes/CadastroComerciante/PasosDoCadastro/PrimeiroPasso";
-import SegundoPasso from "../../componentes/CadastroComerciante/PasosDoCadastro/SegundoPasso";
-import TerceiroPasso from "../../componentes/CadastroComerciante/PasosDoCadastro/TerceiroPasso";
+import PrimeiroPasso from "@componentes/CadastroComerciante/PasosDoCadastro/PrimeiroPasso";
+import SegundoPasso from "@componentes/CadastroComerciante/PasosDoCadastro/SegundoPasso";
+import TerceiroPasso from "@componentes/CadastroComerciante/PasosDoCadastro/TerceiroPasso";
 
 const CadastroComerciante = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -77,62 +77,58 @@ const CadastroComerciante = () => {
   };
 
   return (
-   
-    
-
-      <div className="h-screen">
-        <NavbarRoot.Content>
-          <NavbarRoot.ContentTop>
-            <NavbarRoot.Logo />
-            <NavbarRoot.Pesquisa />
-            {sessionStorage.USERDETAILS ? (
-              <NavbarRoot.Authenticated />
-            ) : (
-              <NavbarRoot.Sign />
-            )}
-          </NavbarRoot.ContentTop>
-          <NavbarRoot.Menu>
-            <NavbarRoot.Item></NavbarRoot.Item>
-          </NavbarRoot.Menu>
-        </NavbarRoot.Content>
-        <div className="flex flex-col items-center justify-center h-full  bg-black-300 ">
-          <div
-            style={{ backgroundColor: "#FFFFFF" }}
-            className="   p-10 rounded shadow-md w-100 mx-auto"
-          >
-            {/* <BreadCrumbCadastroCliente /> */}
-            <Breadcrumb steps={[1, 2, 3]} currentStep={currentStep} />
-            <h2 className="text-2xl font-semibold mb-4">
-              Cadastro de Comerciante
-            </h2>
-            {/* Formulário de Cadastro */}
-            {currentStep === 0 && (
-              <PrimeiroPasso
-                formData={formData}
-                onNext={handleNext}
-                onFormChange={handleFormChange}
-              />
-            )}
-            {currentStep === 1 && (
-              <SegundoPasso
-                formData={formData}
-                onNext={handleNext}
-                onBack={handleBack}
-                onFormChange={handleFormChange}
-              />
-            )}
-            {currentStep === 2 && (
-              <TerceiroPasso
-                formData={formData}
-                onNext={handleNext}
-                onBack={handleBack}
-                onFormChange={handleFormChange}
-              />
-            )}
-          </div>
+    <div className="h-screen">
+      <NavbarRoot.Content>
+        <NavbarRoot.ContentTop>
+          <NavbarRoot.Logo />
+          <NavbarRoot.Pesquisa />
+          {sessionStorage.USERDETAILS ? (
+            <NavbarRoot.Authenticated />
+          ) : (
+            <NavbarRoot.Sign />
+          )}
+        </NavbarRoot.ContentTop>
+        <NavbarRoot.Menu>
+          <NavbarRoot.Item></NavbarRoot.Item>
+        </NavbarRoot.Menu>
+      </NavbarRoot.Content>
+      <div className="flex flex-col items-center justify-center h-full  bg-black-300 ">
+        <div
+          style={{ backgroundColor: "#FFFFFF" }}
+          className="   p-10 rounded shadow-md w-100 mx-auto"
+        >
+          {/* <BreadCrumbCadastroCliente /> */}
+          <Breadcrumb steps={[1, 2, 3]} currentStep={currentStep} />
+          <h2 className="text-2xl font-semibold mb-4">
+            Cadastro de Comerciante
+          </h2>
+          {/* Formulário de Cadastro */}
+          {currentStep === 0 && (
+            <PrimeiroPasso
+              formData={formData}
+              onNext={handleNext}
+              onFormChange={handleFormChange}
+            />
+          )}
+          {currentStep === 1 && (
+            <SegundoPasso
+              formData={formData}
+              onNext={handleNext}
+              onBack={handleBack}
+              onFormChange={handleFormChange}
+            />
+          )}
+          {currentStep === 2 && (
+            <TerceiroPasso
+              formData={formData}
+              onNext={handleNext}
+              onBack={handleBack}
+              onFormChange={handleFormChange}
+            />
+          )}
         </div>
       </div>
-  
+    </div>
   );
 };
 export default CadastroComerciante;

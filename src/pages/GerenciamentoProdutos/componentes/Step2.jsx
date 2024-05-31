@@ -1,9 +1,9 @@
 import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
-import { converterInputImageToBase64 } from "../../../utils/conversores";
+import { converterInputImageToBase64 } from "@utils/conversores";
 import Compressor from "compressorjs";
 
-const Step2 = ({ getData, children, dataStorage,imagens }) => {
+const Step2 = ({ getData, children, dataStorage, imagens }) => {
   const slot1 = useRef(null);
   const slot2 = useRef(null);
   const slot3 = useRef(null);
@@ -16,13 +16,20 @@ const Step2 = ({ getData, children, dataStorage,imagens }) => {
   const imagem3 = watch("imagem3");
   const imagem4 = watch("imagem4");
 
-
-useEffect(()=>{
-  dataStorage?.imagem1 ? setValue("imagem1", dataStorage.imagem1) : setValue("imagem1", [])
-  dataStorage?.imagem2 ? setValue("imagem2", dataStorage.imagem2) : setValue("imagem2", [])
-  dataStorage?.imagem3 ? setValue("imagem3", dataStorage.imagem3) : setValue("imagem3", [])
-  dataStorage?.imagem4 ? setValue("imagem4", dataStorage.imagem4) : setValue("imagem4", [])
-},[])
+  useEffect(() => {
+    dataStorage?.imagem1
+      ? setValue("imagem1", dataStorage.imagem1)
+      : setValue("imagem1", []);
+    dataStorage?.imagem2
+      ? setValue("imagem2", dataStorage.imagem2)
+      : setValue("imagem2", []);
+    dataStorage?.imagem3
+      ? setValue("imagem3", dataStorage.imagem3)
+      : setValue("imagem3", []);
+    dataStorage?.imagem4
+      ? setValue("imagem4", dataStorage.imagem4)
+      : setValue("imagem4", []);
+  }, []);
 
   useEffect(() => {
     if (!imagem1) return;
@@ -51,7 +58,8 @@ useEffect(()=>{
           compressedResult,
           (data) => (slot2.current.src = data.imagem)
         );
-        setValue("imagem2", [new File([compressedResult])]);      },
+        setValue("imagem2", [new File([compressedResult])]);
+      },
     });
   }, [imagem2]);
 
@@ -71,7 +79,6 @@ useEffect(()=>{
     });
   }, [imagem3]);
 
-
   useEffect(() => {
     if (!imagem4) return;
     if (!imagem4[0] || imagem4[0].length == 0) return;
@@ -87,8 +94,6 @@ useEffect(()=>{
       },
     });
   }, [imagem4]);
-
-
 
   useEffect(() => {
     if (imagens) {
