@@ -1,7 +1,7 @@
 import useMessages from "@/hooks/useMessages";
 import api from "@/services/api/services";
 import { criptografar } from "@/utils/Autheticated";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { injectStyle } from "react-toastify/dist/inject-style";
@@ -10,6 +10,7 @@ import InputRoot from "@componentes/Input/InputRoot";
 
 import { TEXTS } from "@/utils/text-placeholders";
 import Button from "@componentes/Button/Button";
+import { handler } from "tailwind-scrollbar-hide";
 
 function Login() {
   injectStyle();
@@ -20,7 +21,7 @@ function Login() {
   const { showMessage } = useMessages();
   let itemAtual = 1;
 
-  const logar = async () => {
+  const logar = useCallback(async () => {
     toast.dismiss();
     const loading = toast.loading("Carregando...");
 
@@ -53,7 +54,7 @@ function Login() {
         toast.dismiss(loading);
         toast.error(showMessage(erro.response));
       });
-  };
+  }, [email, senha, navigate, showMessage]);
 
   let timeCarrossel;
 
@@ -78,13 +79,27 @@ function Login() {
       startCarrossel();
     }
   };
-
+  const handleEnter = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        logar();
+      }
+    },
+    [logar]
+  );
   useEffect(() => {
     startCarrossel();
     return () => clearTimeout(timeCarrossel);
   }, []);
 
   // Inicie o carrossel
+
+  useEffect(() => {
+    document.addEventListener("keypress", handleEnter);
+    return () => {
+      document.removeEventListener("keypress", handleEnter);
+    };
+  }, []);
 
   return (
     <main

@@ -6,11 +6,12 @@ import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import DistanceFilter from "./componentes/DistanceFilter";
 import { useForm } from "react-hook-form";
 import useDebounce from "@/hooks/useDebounce";
+import Button from "@/componentes/Button/Button";
 
 function TelaPesquisa() {
   const [produtos, setProdutos] = useState([]);
   const [metodoPagamento, setMetodoPagamento] = useState([{}]);
-  const { register, watch } = useForm({
+  const { register, watch, setValue } = useForm({
     mode: "onChange",
   });
   const [distanciaOptions, setDistanciaOptions] = useState(0);
@@ -55,11 +56,11 @@ function TelaPesquisa() {
     getMetodoPagamento();
   }, []);
   return (
-    <div className="bg-black-100">
+    <div className="bg-black-100 min-h-screen">
       <NavbarRoot.Content>
         <NavbarRoot.ContentTop>
           <NavbarRoot.Logo />
-          <NavbarRoot.Pesquisa onChange={debounce} />
+          <NavbarRoot.Pesquisa onChange={debounce} nome={nome} />
           {sessionStorage?.USERDETAILS ? (
             <NavbarRoot.Authenticated />
           ) : (
@@ -79,21 +80,24 @@ function TelaPesquisa() {
               <div>
                 <div className="flex flex-col gap-y-2">
                   <h2 className="text-lg font-medium text">Distancia</h2>
-                  <DistanceFilter onChange={setDistanciaOptions} />
+                  <DistanceFilter
+                    distancia={distanciaOptions}
+                    onChange={setDistanciaOptions}
+                    clear={distanciaOptions == 50}
+                  />
                 </div>
                 <h2 className="text-lg font-medium text">
                   Método de pagamento
                 </h2>
                 <RadioGroup
                   aria-labelledby="demo-radio-buttons-group-label"
-                  defaultValue="female"
                   name="radio-buttons-group"
-                  key={1}
                 >
                   {metodoPagamento.map((metodo) => (
                     <FormControlLabel
                       key={metodo.id}
                       value={metodo.id}
+                      checked={metodoOptions == metodo.id}
                       {...register("metodoPagamento")}
                       control={
                         <Radio
@@ -114,6 +118,17 @@ function TelaPesquisa() {
                 </RadioGroup>
               </div>
             </form>
+            <div className="w-10/12">
+              <Button
+                onClick={() => {
+                  setDistanciaOptions(50);
+                  setNome("");
+                  setValue("metodoPagamento", 0);
+                }}
+              >
+                Limpar Filtros
+              </Button>
+            </div>
           </div>
         </div>
         <div className="grid grid-cols-4 w-full gap-y-10">
