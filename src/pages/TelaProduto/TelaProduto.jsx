@@ -1,12 +1,10 @@
 import NavbarRoot from "@componentes/Navbar/NavbarRoot";
-import star from "@assets/star.svg";
 import fast from "@assets/fastshop.png";
 import { useCallback, useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { injectStyle } from "react-toastify/dist/inject-style";
 import api from "@/services/api/services";
 import Avaliacao from "@componentes/Avaliacao/Avaliacao";
-import { descriptografar } from "@utils/Autheticated";
 import StarAvaliacao from "./componentes/StarAvaliacao";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -19,12 +17,7 @@ import { conversorTime } from "@/utils/conversores";
 import { geolocation } from "@/utils/geolocation";
 import Button from "@/componentes/Button/Button";
 import InputRoot from "@/componentes/Input/InputRoot";
-import {
-  Add,
-  Delete,
-  DeleteForeverOutlined,
-  Remove,
-} from "@mui/icons-material";
+import { Add, Remove } from "@mui/icons-material";
 import { ENUMMETODOPAGAMENTO } from "@/utils/utils";
 injectStyle();
 function TelaProduto() {
@@ -286,6 +279,7 @@ function TelaProduto() {
             <div className="flex flex-col gap-y-10 ">
               <div className="flex flex-col gap-y-2">
                 <InputRoot.TextArea
+                  placeholder="Descreva sua avaliação"
                   className={"resize-none"}
                   onChange={(e) =>
                     setPostAvaliacao((prev) => ({

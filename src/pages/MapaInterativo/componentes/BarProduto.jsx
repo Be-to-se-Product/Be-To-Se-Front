@@ -72,12 +72,17 @@ const BarProduto = ({
             )}
           </span>
         </div>
-        <Button
-          className={" rounded-full"}
-          onClick={() => navigate(`/TelaProduto/${produtoSelecionado.id}`)}
-        >
-          Reservar
-        </Button>
+        <div>
+          <Button
+            variants={{
+              sizes: "max",
+              class: "rounded-full px-10",
+            }}
+            onClick={() => navigate(`/produto/${produtoSelecionado.id}`)}
+          >
+            Reservar
+          </Button>
+        </div>
       </div>
 
       <div className="w-full p-4  flex justify-center gap-x-10 ">
@@ -116,12 +121,14 @@ const BarProduto = ({
         />
       </div>
       <div className="flex justify-center py-1 ">
-        <div className="flex items-center gap-x-4">
-          <h3 className="text-sm">
+        <div className="flex items-center gap-x-4 ">
+          <h3 className="text-sm min-w-max">
             {isTracaRota ? "Voltar para informações do produto" : "Traçar rota"}
           </h3>
           <Button
-            className={"bg-orange-principal rounded-full   "}
+            variants={{
+              class: "rounded-full w-[40px] h-[40px] ",
+            }}
             onClick={trackerRouter}
           >
             {">"}

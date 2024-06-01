@@ -22,3 +22,8 @@ export const ENUMMETODOPAGAMENTO = {
   "Vale Alimentação": "/alimentacao.png",
   Outros: "Outros.png",
 };
+
+export const TIPO_FLUXO = {
+  RETIRE_LOJA: "Retire na loja",
+  PAGUE_LOJA: "Pague na loja",
+};
