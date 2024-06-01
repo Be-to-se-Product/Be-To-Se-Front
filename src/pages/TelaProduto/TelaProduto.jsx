@@ -33,8 +33,10 @@ function TelaProduto() {
 
   const comprarProduto = () => {
     let quantidade = qtd;
-    let origem = "TelaProduto";
-    const data = [{ idProduto, quantidade, origem }];
+    let origem = "produto";
+    const idEstabelecimento = produto.estabelecimento?.id;
+
+    const data = [{ idProduto, quantidade, origem, idEstabelecimento }];
     navigate(`/compra`, { state: data });
   };
 

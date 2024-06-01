@@ -19,17 +19,25 @@ const CardItemVenda = ({ produto }) => {
         </div>
         <div className="flex flex-col gap-y-1">
           <h2 className="text-base">{produto?.produto?.nome}</h2>
+
           <h3 className="text-xs font-normal">
-            R$ {produto?.produto?.preco?.toFixed(2)}
+            R$ {produto?.produto?.preco?.toFixed(2)} X{" "}
+            {produto?.produto?.quantidade === 1
+              ? "1 unidade"
+              : `${produto?.produto?.quantidade} unidades`}
           </h3>
         </div>
       </div>
-      <Button
-        className=" text-black-900 py-3 h-max "
-        onClick={() => navigate(`/TelaProduto/${produto?.produto?.id}`)}
-      >
-        Ver item
-      </Button>
+      <div className="w-15">
+        <Button
+          variants={{
+            sizes: "max",
+          }}
+          onClick={() => navigate(`/produto/${produto?.produto?.id}`)}
+        >
+          Ver item
+        </Button>
+      </div>
     </div>
   );
 };

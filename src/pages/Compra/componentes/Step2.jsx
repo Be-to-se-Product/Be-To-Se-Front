@@ -35,7 +35,7 @@ const Step2 = () => {
               onClick={() => {
                 setData((prev) => ({
                   ...prev,
-                  metodoPagamento: metodo.metodo,
+                  metodoPagamento: metodo.id,
                 }));
               }}
             >
