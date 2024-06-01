@@ -9,7 +9,7 @@ function TextAreaInput({ register = {}, className, ...props }) {
       rows={4}
       cols={50}
       className={twMerge(
-        "w-full h-full  outline-none bg-white-gray group-hover:bg-white-95 transition-all duration-300 ease-in-out border border-gray-75  rounded-lg relative  pl-4 pr-10 py-2 shadow focus:ring-[0.5] focus:ring-orange-full focus:border-orange-full font-normal text-black-full text-base disabled:text-gray-75 disabled:bg-gray-50 disabled:cursor-not-allowed  ",
+        "w-full h-full  outline-none bg-white-gray group-hover:bg-white-full transition-all duration-300 ease-in-out border border-gray-200  rounded-lg relative  pl-4 pr-10 py-4 shadow focus:ring-[0.5] focus:ring-orange-principal focus:border-orange-principal font-normal text-black-full text-base disabled:text-gray-75 disabled:bg-gray-50 disabled:cursor-not-allowed  ",
         className
       )}
       {...props}
@@ -26,6 +26,6 @@ TextAreaInput.propTypes = {
 TextAreaInput.defaultProps = {
   register: {},
   className: "",
-}
+};
 
 export default TextAreaInput;

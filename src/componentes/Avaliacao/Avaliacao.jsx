@@ -1,26 +1,21 @@
-import { Avatar, Rating } from "@mui/material";
+import { Rating } from "@mui/material";
 import moment from "moment";
 
-const Avaliacao = ({avaliacao}) => {
+const Avaliacao = ({ avaliacao }) => {
   return (
-    <div className="flex items-center gap-x-4 w-full ">
-      <Avatar
-        sx={{
-          width: 50,
-          height: 50,
-        }}
-      ></Avatar>
-      <div className="flex flex-col gap-y-2">
-        <div className="flex flex-col  ">
-          <h3 className="font-medium">{avaliacao?.nome}</h3>
-          <div className="flex items-center gap-x-2">
-            <Rating size="small" value={avaliacao?.stars} readOnly precision={0.5} />
-            - <span className="text-xs">{moment(avaliacao.dt).format("DD/MM/YYYY")}</span>
-          </div>
+    <div className="border-1 shadow-md grid py-3 px-4 items-center  rounded-md bg-white-principal border w-full h-[200px]">
+      <div>
+        <h2 className="font-medium ">{avaliacao.usuario}</h2>
+        <h3 className="text-xs">
+          {moment(avaliacao.dt).format("DD/MM/YYYY ")}
+        </h3>
+      </div>
+      <hr />
+      <div className="min-h-[85px]">
+        <div>
+          <Rating value={avaliacao.stars} readOnly size="small" />
         </div>
-        <p className="text-sm  ">
-          {avaliacao?.comentario}
-        </p>
+        <p className="text-sm">{avaliacao.comentario}</p>
       </div>
     </div>
   );

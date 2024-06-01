@@ -1,72 +1,68 @@
 import NavbarRoot from "@componentes/Navbar/NavbarRoot";
 import star from "@assets/star.svg";
 import fast from "@assets/fastshop.png";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { injectStyle } from "react-toastify/dist/inject-style";
 import api from "@/services/api/services";
 import Avaliacao from "@componentes/Avaliacao/Avaliacao";
-import CardMetodo from "./componentes/CardMetodo";
 import { descriptografar } from "@utils/Autheticated";
 import StarAvaliacao from "./componentes/StarAvaliacao";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Rating from "@mui/material/Rating";
-
+import ImageContainer from "./componentes/ImageContainer";
+import Carro from "@assets/carro.svg";
+import Pe from "@assets/pe.svg";
+import Bike from "@assets/bike.svg";
+import { conversorTime } from "@/utils/conversores";
+import { geolocation } from "@/utils/geolocation";
+import Button from "@/componentes/Button/Button";
+import InputRoot from "@/componentes/Input/InputRoot";
+import {
+  Add,
+  Delete,
+  DeleteForeverOutlined,
+  Remove,
+} from "@mui/icons-material";
+import { ENUMMETODOPAGAMENTO } from "@/utils/utils";
+injectStyle();
 function TelaProduto() {
-  const { id } = useParams();
-  injectStyle();
-  const [produtos, setProdutos] = useState([]);
-  const [avaliacoes, setAvalicoes] = useState([]);
-  const [qtd, setQtd] = useState(1);
-  const produtoId = id;
-  const [userId, setUserId] = useState(null);
-  const [comentario, setComentario] = useState("");
-  const [qtdEstrela, setQtdEstrela] = useState(null);
-  const [mediaAvaliacao, setMediaAvaliacao] = useState(0);
-  const nomeEmpresa = produtos?.secao?.estabelecimento?.nome;
-  const metodosEmpresa = produtos?.secao?.estabelecimento?.idMetodo;
-  const [imagemDestaque, setImagemDestaque] = useState(
-    "/src/assets/default-image.jpeg"
-  );
+  const { id: idProduto } = useParams();
   const navigate = useNavigate();
-
-  const mudarImagem = (novaImagem) => {
-    setImagemDestaque(novaImagem);
-  };
+  const [produto, setProduto] = useState([]);
+  const [avaliacoes, setAvaliacoes] = useState([]);
+  const [qtd, setQtd] = useState(1);
+  const [postAvaliacao, setPostAvaliacao] = useState({
+    qtdEstrela: 0,
+    comentario: "",
+  });
 
   const comprarProduto = () => {
     let quantidade = qtd;
-    let idProduto = produtoId;
     let origem = "TelaProduto";
-    const data = [
-      {
-        idProduto,
-        quantidade,
-        origem,
-      },
-    ];
+    const data = [{ idProduto, quantidade, origem }];
     navigate(`/compra`, { state: data });
   };
 
   const adicionarAvaliacao = () => {
-    let consumidor = userId;
-    let produto = produtoId;
-
     const data = {
-      qtdEstrela,
-      comentario,
-      consumidor,
-      produto,
+      qtdEstrela: postAvaliacao.qtdEstrela,
+      comentario: postAvaliacao.comentario,
+      produto: idProduto,
     };
 
     const loading = toast.loading("Carregando...");
+
     api
       .post("/avaliacoes", data)
       .then(() => {
         toast.dismiss(loading);
         toast.success("Avaliação adicionada com sucesso!", {
           autoClose: 20000,
+        });
+        geolocation(({ lat, lon }) => {
+          getProduto(lat, lon);
         });
       })
       .catch(() => {
@@ -76,75 +72,71 @@ function TelaProduto() {
       .finally(() => {
         toast.dismiss(loading);
         getAvaliacao();
-        calcularMediaAvaliacao();
       });
   };
 
-  const getProduto = () => {
-    toast.loading("Carregando...");
-    api
-      .get(`/produtos/${produtoId}`)
-      .then((res) => {
-        toast.dismiss();
-        setProdutos(res.data.length == 0 ? [] : res.data);
-        setImagemDestaque(
-          res.data?.imagens?.length > 0
-            ? res.data.imagens[0]
-            : "/src/assets/default-image.jpeg"
-        );
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
+  const getProduto = useCallback(
+    ({ latitude = -23.5505199, longitude = -46.6333094 }) => {
+      toast.loading("Carregando...");
 
-  const getAvaliacao = () => {
+      const params = {};
+      if (latitude && longitude) {
+        params.latitude = latitude;
+        params.longitude = longitude;
+      }
+      api
+        .get(`/produtos/mobile/${idProduto}`, {
+          params,
+        })
+        .then((res) => {
+          toast.dismiss();
+          setProduto(res.data ? res.data : {});
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+    [idProduto]
+  );
+
+  const getAvaliacao = useCallback(() => {
     toast.loading("Carregando...");
     api
-      .get(`/avaliacoes/${produtoId}`)
+      .get(`/avaliacoes/${idProduto}`)
       .then((res) => {
         toast.dismiss();
-        setAvalicoes(res.data.length == 0 ? [] : res.data);
+        setAvaliacoes(res.data.length == 0 ? [] : res.data.reverse());
       })
       .catch((err) => {
         console.log(err);
       });
-  };
-
-  const calcularMediaAvaliacao = () => {
-    let soma = 0;
-
-    for (let i = 0; i < avaliacoes.length; i++) {
-      soma += avaliacoes[i].qtdEstrela;
-    }
-
-    setMediaAvaliacao(
-      isNaN(soma / avaliacoes.length) ? 0 : soma / avaliacoes.length
-    );
-  };
-
-  const aumentarQuantidade = () => {
-    setQtd(qtd + 1);
-  };
+  }, [idProduto]);
 
   const handleRatingChange = (novaClassificacao) => {
-    setQtdEstrela(novaClassificacao);
+    setPostAvaliacao({ ...postAvaliacao, qtdEstrela: novaClassificacao });
   };
 
   useEffect(() => {
-    const userDetailsCrypt = descriptografar(sessionStorage?.USERDETAILS);
-    const { id } = JSON.parse(userDetailsCrypt);
-    setUserId(id);
     getAvaliacao();
-    getProduto();
-  }, []);
+    geolocation(({ lat, lon }) => {
+      getProduto(lat, lon);
+    });
+  }, [getAvaliacao, getProduto]);
 
-  useEffect(() => {
-    calcularMediaAvaliacao();
-  }, [avaliacoes]);
+  const mapper = {
+    nome: produto.nome || "Produto",
+    categoria: produto.categoria || "Categoria",
+    preco: produto.precoAtual || 0,
+    imagemEstabelecimento: produto.estabelecimento?.imagem || fast,
+    estabelecimento: produto?.estabelecimento?.nome || "Estabelecimento",
+    mediaAvaliacao: produto?.mediaAvaliacao || 0,
+    tempoEntrega: produto?.estabelecimento?.tempoPessoa || 0,
+    tempoEntregaCarro: produto?.estabelecimento?.tempoCarro || 0,
+    tempoEntregaBike: produto?.estabelecimento?.tempoBike || 0,
+  };
 
   return (
-    <div>
+    <div className="bg-black-200">
       <NavbarRoot.Content>
         <NavbarRoot.ContentTop>
           <NavbarRoot.Logo />
@@ -159,214 +151,186 @@ function TelaProduto() {
           <NavbarRoot.Item></NavbarRoot.Item>
         </NavbarRoot.Menu>
       </NavbarRoot.Content>
-      <main
-        className="flex pt-[85px] flex-col"
-        style={{ backgroundColor: "#EAEAEA" }}
-      >
-        <div className="flex flex-row justify-between mx-auto w-10/12 ">
-          <div className="flex flex-col  ">
-            <div id="imagem_destaque" className="mb-6 w-10/12">
-              <img
-                src={imagemDestaque}
-                alt=""
-                className="h-[550px] rounded-md object-cover w-full"
-              />
-            </div>
-            <div
-              className="grid grid-cols-4 w-10/12 justify-items-center"
-              id="imagem_adicional"
-            >
-              <img
-                src={
-                  produtos?.imagens?.length > 1
-                    ? produtos.imagens[1]
-                    : "/src/assets/default-image.jpeg"
-                }
-                alt=""
-                className="h-24 border-solid border-2 border-stroke-principal rounded-lg w-[150px] "
-                onClick={() =>
-                  mudarImagem(
-                    produtos?.imagens?.length > 1
-                      ? produtos.imagens[1]
-                      : "/src/assets/default-image.jpeg"
-                  )
-                }
-              />
-              <img
-                src={
-                  produtos?.imagens?.length > 2
-                    ? produtos.imagens[2]
-                    : "/src/assets/default-image.jpeg"
-                }
-                alt=""
-                className="h-24 border-solid border-2 border-stroke-principal rounded-lg w-[150px]"
-                onClick={() =>
-                  mudarImagem(
-                    produtos?.imagens?.length > 2
-                      ? produtos.imagens[2]
-                      : "/src/assets/default-image.jpeg"
-                  )
-                }
-              />
-              <img
-                src={
-                  produtos?.imagens?.length > 3
-                    ? produtos.imagens[3]
-                    : "/src/assets/default-image.jpeg"
-                }
-                alt=""
-                className="h-24 border-solid border-2 border-stroke-principal rounded-lg  "
-                onClick={() =>
-                  mudarImagem(
-                    produtos?.imagens?.length > 3
-                      ? produtos.imagens[3]
-                      : "/src/assets/default-image.jpeg"
-                  )
-                }
-              />
-              <img
-                src={
-                  produtos?.imagens?.length > 0
-                    ? produtos.imagens[0]
-                    : "/src/assets/default-image.jpeg"
-                }
-                alt=""
-                className="h-24 border-solid border-2 border-stroke-principal rounded-lg max-w-[150px]  "
-                onClick={() =>
-                  mudarImagem(
-                    produtos?.imagens?.length > 0
-                      ? produtos.imagens[0]
-                      : "/src/assets/default-image.jpeg"
-                  )
-                }
-              />
-            </div>
-            <div className="flex flex-col pt-[80px] max-w-md gap-y-6">
-              <h2 className="text-2xl">Descrição</h2>
-              <p className="text-justify">{produtos.descricao}</p>
-            </div>
-          </div>
+      <main className="flex py-20 w-10/12 gap-y-20 max-w-[1200px] mx-auto flex-col">
+        <div className="flex justify-between w-full mx-auto ">
+          <ImageContainer images={produto.imagens || []} />
 
-          <div className="w-[600px]">
+          <div>
             <div className="flex flex-col gap-y-6">
-              <h2 className="text-2xl font-medium">{produtos.nome}</h2>
-              <p className="text-5xl	">RS {produtos.preco?.toFixed(2)}</p>
+              <h2 className="text-2xl font-medium">{mapper.nome}</h2>
+              <p className="text-5xl	">
+                RS{" "}
+                {mapper.preco.toLocaleString("pt-BR", {
+                  minimumFractionDigits: 2,
+                })}
+              </p>
               <div className="flex flex-row gap-x-2">
                 <div className="flex flex-row gap-x-1">
                   <Rating
                     size="small"
-                    value={mediaAvaliacao}
+                    value={mapper.mediaAvaliacao}
                     readOnly
                     precision={0.5}
                   />
                 </div>
-                <p>({mediaAvaliacao.toFixed(1)})</p>
+                <p>({mapper.mediaAvaliacao.toFixed(1)})</p>
               </div>
               <p className="text-2xl">Tempo do percurso</p>
+              <div className="flex gap-x-4 items-center justify-around">
+                <div className="flex flex-col gap-y-2 justify-center items-center">
+                  <img src={Pe} alt="" className="w-7 h-7 " />
+                  <h4 className="text-sm">
+                    {conversorTime(mapper.tempoEntrega)}
+                  </h4>
+                </div>
+                <div className="flex flex-col gap-y-2 justify-center items-center">
+                  <img src={Carro} alt="" className="w-7 h-7 " />
+                  <h4 className="text-sm">
+                    {conversorTime(mapper.tempoEntregaCarro)}
+                  </h4>
+                </div>
+                <div className="flex flex-col gap-y-2 justify-center items-center">
+                  <img src={Bike} alt="" className="w-7 h-7 " />
+                  <h4 className="text-sm">
+                    {conversorTime(mapper.tempoEntregaBike)}
+                  </h4>
+                </div>
+              </div>
 
               <div className="flex flex-row gap-x-2 items-center">
-                <p className="text-base">Quantidade</p>
-                <input
-                  className="px-4 py-2 w-16 rounded-lg"
-                  type="text"
-                  value={qtd}
-                />
-                <button onClick={aumentarQuantidade}>+</button>
+                <div className="bg-black-300  w-full py-4 rounded-lg flex justify-around items-center">
+                  <div className="">
+                    <Button
+                      variants={{
+                        colors: "neutral",
+                      }}
+                      onClick={() =>
+                        setQtd((prev) => (prev > 0 ? prev - 1 : 0))
+                      }
+                    >
+                      <Remove fontSize="small" />
+                    </Button>
+                  </div>
+                  <span className="font-medium">{qtd}</span>
+                  <div>
+                    <Button
+                      variants={{
+                        colors: "neutral",
+                      }}
+                      onClick={() => setQtd((prev) => prev + 1)}
+                    >
+                      <Add fontSize="small" />
+                    </Button>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="flex pt-[40px] flex-col gap-y-4">
-              <button
-                className="bg-orange-principal py-2 text-2xl font-medium rounded-lg"
+              <Button
                 onClick={comprarProduto}
+                variants={{
+                  sizes: "lg",
+                  class: "font-medium",
+                }}
               >
                 Reservar na loja
-              </button>
+              </Button>
             </div>
             <div className="flex flex-col gap-y-9">
               <div className="flex flex-col pt-[52px] gap-y-4">
                 <div className="flex flex-row gap-x-12 items-center">
-                  <img src={fast} alt="" className="rounded-full" />
-                  <p className="text-3xl font-medium max-w-min">
-                    {nomeEmpresa}
+                  <img
+                    src={mapper.imagemEstabelecimento}
+                    alt=""
+                    className="rounded-full w-[70px] h-[70px]"
+                  />
+                  <p className="text-3xl font-medium ">
+                    {mapper.estabelecimento}
                   </p>
                 </div>
               </div>
-              <div className="flex flex-col gap-y-4">
-                <p className="text-base">Meios de pagamento na loja</p>
-                <div className="flex flex-row gap-x-12">
-                  {metodosEmpresa &&
-                    metodosEmpresa.map((metodo, key) => (
-                      <CardMetodo metodo={metodo} key={key} />
-                    ))}
+              {console.log(produto.estabelecimento?.metodoPagamento)}
+              {produto.estabelecimento?.metodoPagamento?.length > 0 && (
+                <div className="flex flex-col gap-y-4">
+                  <p className="text-base">Meios de pagamento na loja</p>
+                  <div className="flex flex-row gap-x-12">
+                    {produto.estabelecimento?.metodoPagamento?.map(
+                      (metodoPagamento) => (
+                        <img
+                          src={ENUMMETODOPAGAMENTO[metodoPagamento.nome]}
+                          key={metodoPagamento}
+                          className="w-12 h-12"
+                        />
+                      )
+                    )}
+                  </div>
                 </div>
-              </div>
-              <button className="bg-black-100 px-8 py-2 drop-shadow-lg rounded-lg text-blue-900">
-                Ver catálogo completo de produtos
-              </button>
+              )}
             </div>
           </div>
         </div>
-        <div className="flex flex-col   mx-auto pt-[44px] justify-between  gap-y-10 w-10/12">
-          <div className="flex flex-row gap-x-64 w-max justify-between">
-            <div className="flex flex-col gap-y-8">
-              <h2 className="text-base">Adicione uma nota</h2>
+
+        <div className="min-h-[250px]">
+          <h2 className="text-3xl font-medium mb-5 ">Descricao</h2>
+          <p className="text-lg">{produto.descricao}</p>
+        </div>
+
+        <div className="flex flex-col w-full justify-between  gap-y-10 ">
+          <div className="flex flex-col gap-y-4 w-full  justify-between">
+            <div className="flex flex-col gap-y-2">
+              <h2 className="text-xl font-medium">Adicione uma avaliação</h2>
               <div className="flex flex-row gap-x-2">
                 <StarAvaliacao onRatingChange={handleRatingChange} />
               </div>
             </div>
-            <div className="flex flex-col gap-y-10">
+            <div className="flex flex-col gap-y-10 ">
               <div className="flex flex-col gap-y-2">
-                <p>Adicione um comentário</p>
-                <textarea
-                  name=""
-                  id="comentario_avaliacao"
-                  placeholder="Digite aqui"
-                  cols="65"
-                  rows="3"
-                  className="rounded-lg px-4 py-2 border-solid border-2 border-stroke-principal"
-                  onChange={(e) => setComentario(e.target.value)}
-                ></textarea>
+                <InputRoot.TextArea
+                  className={"resize-none"}
+                  onChange={(e) =>
+                    setPostAvaliacao((prev) => ({
+                      ...prev,
+                      comentario: e.target.value,
+                    }))
+                  }
+                />
               </div>
-              <button
-                className="bg-orange-400 px-4 py-2 ml-auto font-medium rounded-lg"
-                onClick={adicionarAvaliacao}
-              >
-                Publicar
-              </button>
-            </div>
-          </div>
-          <div className="flex flex-row justify-between gap-80">
-            <div className=" flex flex-col">
-              <p>Notas dos clientes</p>
-              <div className="flex flex-row">
-                <div className="flex flex-row items-end	gap-x-2">
-                  <p className="text-4xl">{mediaAvaliacao.toFixed(1)}</p>
-                  <img src={star} alt="" className="h-2.5 mb-2" />
+              <div className="flex justify-end ">
+                <div className="w-min">
+                  <Button
+                    variants={{
+                      class: "px-20 w-max font-medium ",
+                      sizes: "lg",
+                    }}
+                    onClick={adicionarAvaliacao}
+                  >
+                    Publicar
+                  </Button>
                 </div>
               </div>
             </div>
+          </div>
+          <div className="flex flex-row justify-between gap-80">
             <div className="flex flex-col justify-start gap-y-8 w-full">
-              <select
-                className="bg-orange-400 px-2 py-2  font-medium rounded-full w-32"
-                name=""
-                id=""
-              >
-                <option value="">Ordernar</option>
-                <option value="">Maior nota</option>
-                <option value="">Menor nota</option>
-              </select>
-              {avaliacoes.map((avaliacao) => (
-                <>
-                  <Avaliacao
-                    key={avaliacao.id}
-                    avaliacao={{
-                      comentario: avaliacao.comentario,
-                      stars: avaliacao.qtdEstrela,
-                      dt: avaliacao.data,
-                    }}
-                  />
-                </>
-              ))}
+              <div>
+                <h2 className="text-2xl font-medium mb-5">Avaliações</h2>
+                <hr className="border-gray-300" />
+              </div>
+              <div className="grid grid-cols-2 gap-10">
+                {avaliacoes.map((avaliacao) => (
+                  <>
+                    <Avaliacao
+                      key={avaliacao.id}
+                      avaliacao={{
+                        comentario: avaliacao.comentario,
+                        stars: avaliacao.qtdEstrela,
+                        dt: avaliacao.data,
+                        usuario: avaliacao?.usuario,
+                      }}
+                    />
+                  </>
+                ))}
+              </div>
             </div>
           </div>
         </div>

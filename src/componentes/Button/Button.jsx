@@ -12,7 +12,7 @@ QUero fazer esse efeito aqui:
 
 // Quero fazer um efeito de no click ele fazer um efeito de preenchimento com o after
 
-function Button({ children, variants, className, ...props }) {
+function Button({ children, variants, ...props }) {
   const button = tv({
     base: "border border-orange-principal font-  text-black-full p-2 text-center w-full    rounded  ",
     variants: {
