@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { Checkbox } from "@mui/material";
 import orange from "@mui/material/colors/orange";
 import InputRoot from "@componentes/Input/InputRoot";
@@ -10,11 +9,6 @@ const RowDia = ({ register, dia, watch }) => {
       .replace(/[\u0300-\u036f]/g, "")
       .toLowerCase()}.isOpen`
   );
-  const diaState = watch();
-
-  useEffect(() => {
-    console.log(diaState);
-  }, [diaState]);
 
   return (
     <div className=" grid grid-cols-[repeat(4,120px)] items-center   gap-x-4">

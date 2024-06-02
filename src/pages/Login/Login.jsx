@@ -10,7 +10,6 @@ import InputRoot from "@componentes/Input/InputRoot";
 
 import { TEXTS } from "@/utils/text-placeholders";
 import Button from "@componentes/Button/Button";
-import { handler } from "tailwind-scrollbar-hide";
 
 function Login() {
   injectStyle();
@@ -90,6 +89,7 @@ function Login() {
   useEffect(() => {
     startCarrossel();
     return () => clearTimeout(timeCarrossel);
+    // eslint-disable-next-line
   }, []);
 
   // Inicie o carrossel
@@ -99,6 +99,7 @@ function Login() {
     return () => {
       document.removeEventListener("keypress", handleEnter);
     };
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -113,7 +114,7 @@ function Login() {
         >
           <div className="flex-shrink-0 w-full relative  ">
             <img
-              src="/src/assets/foto-login-3.jpg"
+              src="/foto-login-3.jpg"
               alt=""
               className="object-cover w-full h-full"
             />
@@ -124,7 +125,7 @@ function Login() {
           </div>
           <div className="flex-shrink-0 w-full relative">
             <img
-              src="/src/assets/foto-login-1.jpg "
+              src="/foto-login-1.jpg"
               alt=""
               className="object-cover  w-full h-full"
             />
@@ -135,7 +136,7 @@ function Login() {
           </div>
           <div className="flex-shrink-0 w-full relative ">
             <img
-              src="/src/assets/foto-login-2.jpg"
+              src="/foto-login-2.jpg"
               alt=""
               className="object-cover  w-full h-full"
             />
@@ -147,7 +148,7 @@ function Login() {
           </div>
           <div className="flex-shrink-0 w-full relative ">
             <img
-              src="/src/assets/foto-login-3.jpg"
+              src="/foto-login-3.jpg"
               alt=""
               className="object-cover w-full h-full"
             />
@@ -161,11 +162,7 @@ function Login() {
       <div className="w-1/2 flex flex-col h-full items-center justify-center relative">
         <div className="flex flex-col w-7/12 max-w-lg  items-center   gap-y-5 ">
           <div className="text-center flex flex-col gap-y-2">
-            <img
-              src="/src/assets/logo-easy.png"
-              alt=""
-              className="w-14 mx-auto"
-            />
+            <img src="/logo-easy.png" alt="" className="w-14 mx-auto" />
             <h2 className="text-3xl font-medium">Bem vindo a EasyFind</h2>
             <p className="text-xl">Conectando você ao comercio local</p>
           </div>

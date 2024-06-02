@@ -1,6 +1,6 @@
 import { ProgressContext } from "@/context/Progress/ProgressContext";
 import api from "@/services/api/services";
-import { ENUMMETODOPAGAMENTO } from "@/utils/utils";
+import { ENUM_METODO_PAGAMENTO } from "@/utils/utils";
 import { useContext, useEffect, useState } from "react";
 
 const Step2 = () => {
@@ -41,7 +41,7 @@ const Step2 = () => {
             >
               <input type="radio" name="metodoPagamento" id={metodo.metodo} />
               <img
-                src={ENUMMETODOPAGAMENTO[metodo.descricao]}
+                src={ENUM_METODO_PAGAMENTO[metodo.descricao]}
                 alt={metodo.metodo}
                 className="w-10 "
               />

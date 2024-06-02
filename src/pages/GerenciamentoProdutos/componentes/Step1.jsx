@@ -58,13 +58,12 @@ const Step1 = ({ getData, children, infoBanco, dataStorage }) => {
       <div className={`flex gap-x-4`}>
         <div className="w-1/2 flex flex-col gap-y-4">
           <div className="h-24">
-            <InputRoot.Input
+            <InputRoot.Label>Nome</InputRoot.Label>
+            <InputRoot.ContentInput
               placeholder="Nome do produto"
               defaultValue={dataStorage?.nome}
               register={register("nome", schemaValidate.nome)}
-            >
-              <InputRoot.Label>Nome</InputRoot.Label>
-            </InputRoot.Input>
+            />
 
             <span className="text-xs text-red-600 font-medium">
               {formState?.errors?.nome?.type &&

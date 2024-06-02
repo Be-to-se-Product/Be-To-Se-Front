@@ -1,16 +1,12 @@
 import ProgressRoot from "@/componentes/Progress/ProgressRoot";
 import useProgress from "@/hooks/useProgress";
 import NavbarRoot from "@/componentes/Navbar/NavbarRoot";
-import CardMetodo from "./componentes/CardMetodo";
 import Button from "@/componentes/Button/Button";
 import Step1 from "./componentes/Step1";
 import ProgressProvider from "@/context/Progress/ProgressContext";
 import Step2 from "./componentes/Step2";
 import Step3FluxoEstabelecimento from "./componentes/Step3FluxoEstabelecimento";
-import axios from "axios";
 import ModalRoot from "@/componentes/ModalCompostion/ModalRoot";
-import ModalHorario from "@/componentes/ModalHorario/ModalHorario";
-import { Modal } from "@mui/base";
 import CardItemVenda from "../PedidosUsuario/componentes/CardItemVenda";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -21,21 +17,44 @@ function Compra() {
   const { nextStep, prevStep, currentStep, setData, data } = useProgress(3, {});
   const steps = [Step1, Step2, Step3FluxoEstabelecimento];
   const [openModal, setOpenModal] = useState(false);
+  const [itens, setItens] = useState([{}]);
   const location = useLocation();
 
-  const postPedido = async () => {
-    console.log(location.state);
+  useEffect(() => {
+    const dataLocation = [...location.state];
+    api
+      .post("/produtos/venda", dataLocation)
+      .then((response) => {
+        const mapper = response.data.map((item) => {
+          return {
+            produto: {
+              id: item?.id,
+              nome: item?.nome,
+              preco: item?.preco,
+              quantidade: item?.qtd,
+              imagens: item?.imagem ? [item?.imagem] : [],
+            },
+          };
+        });
 
+        setItens(mapper);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [location.state]);
+
+  const postPedido = async () => {
     const dataLocation = [...location.state][0];
-    console.log(data);
+
     const mapper = {
       idEstabelecimento: dataLocation.idEstabelecimento,
-      itens: [
-        {
-          idProduto: dataLocation.idProduto,
-          quantidade: dataLocation.quantidade,
-        },
-      ],
+      itens: itens.map((item) => {
+        return {
+          idProduto: item.produto.id,
+          quantidade: item.produto.quantidade,
+        };
+      }),
       metodo: {
         idMetodoPagamento: data.metodoPagamento,
         isPagamentoOnline: false,
@@ -48,7 +67,7 @@ function Compra() {
     await api
       .post("/pedidos", mapper)
       .then((response) => {
-        if (response.status === 201) {
+        if (response.status === 200) {
           nextStep();
         }
       })
@@ -87,21 +106,23 @@ function Compra() {
               Terceira Fase
             </ProgressRoot.Step>
           </ProgressRoot.Content>
-          <form action="">
+          <form>
             <ProgressProvider values={{ setData }}>
               {steps.map((Step, index) =>
                 index === currentStep() ? <Step key={index} /> : null
               )}
-              <div className="mx-auto w-min mt-3">
-                <Button
-                  onClick={() => setOpenModal(!openModal)}
-                  variants={{
-                    sizes: "max",
-                  }}
-                >
-                  Ver itens do pedido
-                </Button>
-              </div>
+              {currentStep() != 2 && (
+                <div className="mx-auto w-5/12 mt-10">
+                  <Button
+                    onClick={() => setOpenModal(!openModal)}
+                    variants={{
+                      class: "w-full",
+                    }}
+                  >
+                    Ver itens do pedido
+                  </Button>
+                </div>
+              )}
             </ProgressProvider>
             {currentStep() != 2 && (
               <div className="flex gap-x-4 mt-4 w-5/12 mx-auto">
@@ -125,53 +146,11 @@ function Compra() {
           <h2 className="text-white-principal">Itens do pedido</h2>
           <ModalRoot.Close onClick={() => setOpenModal(!openModal)} />
         </ModalRoot.Header>
-        <div className="bg-white-principal w-[400px] max-h-[350px] overflow-auto  flex flex-col gap-y-4 ">
-          <div>
-            <CardItemVenda
-              produto={{
-                produto: {
-                  nome: "Produto 1",
-                  preco: 10,
-                  quantidade: 1,
-                },
-              }}
-            />
-            <CardItemVenda
-              produto={{
-                produto: {
-                  nome: "Produto 1",
-                  preco: 10,
-                  quantidade: 1,
-                },
-              }}
-            />
-            <CardItemVenda
-              produto={{
-                produto: {
-                  nome: "Produto 1",
-                  preco: 10,
-                  quantidade: 1,
-                },
-              }}
-            />
-            <CardItemVenda
-              produto={{
-                produto: {
-                  nome: "Produto 1",
-                  preco: 10,
-                  quantidade: 1,
-                },
-              }}
-            />
-            <CardItemVenda
-              produto={{
-                produto: {
-                  nome: "Produto 1",
-                  preco: 10,
-                  quantidade: 1,
-                },
-              }}
-            />
+        <div className="bg-white-principal w-[490px] max-h-[350px] overflow-auto  flex flex-col gap-y-4 ">
+          <div className="pb-16">
+            {itens.map((item) => (
+              <CardItemVenda key={item.id} produto={item} />
+            ))}
           </div>
 
           <div className="px-6 py-4 flex justify-end absolute bottom-0 bg-black-100 w-full border-t-orange-principal border-4 ">

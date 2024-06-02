@@ -2,13 +2,14 @@ import NavbarRoot from "@componentes/Navbar/NavbarRoot.jsx";
 import CardProduto from "../TelaInicial/componentes/CardProduto";
 import api from "@/services/api/services";
 import { useEffect, useState } from "react";
-import { FormControlLabel, Radio, RadioGroup, Switch } from "@mui/material";
+import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import DistanceFilter from "./componentes/DistanceFilter";
 import { useForm } from "react-hook-form";
 import useDebounce from "@/hooks/useDebounce";
 import Button from "@/componentes/Button/Button";
 import BotaoSwitch from "@/componentes/Switch/BotaoSwitch";
 import { useNavigate } from "react-router-dom";
+import { geolocation } from "@/utils/geolocation";
 
 function TelaPesquisa() {
   const [produtos, setProdutos] = useState([]);
@@ -16,12 +17,20 @@ function TelaPesquisa() {
   const { register, watch, setValue } = useForm({
     mode: "onChange",
   });
+  const [location, setLocation] = useState({ latitude: 0, longitude: 0 });
   const [distanciaOptions, setDistanciaOptions] = useState(50);
   const [nome, setNome] = useState("");
   const navigate = useNavigate();
   const debounce = useDebounce((nome) => {
     setNome(nome);
   }, 500);
+
+  useEffect(() => {
+    geolocation(({ lat, lon }) => {
+      setLocation({ latitude: lat, longitude: lon });
+    });
+  }, []);
+
   const metodoOptions = watch("metodoPagamento");
 
   const getMetodoPagamento = async () => {
@@ -32,11 +41,18 @@ function TelaPesquisa() {
     }
   };
 
-  const getProdutos = async (distanciaOptions, metodoOptions, nome) => {
+  const getProdutos = async (
+    distanciaOptions,
+    metodoOptions,
+    nome,
+    latitude,
+    longitude
+  ) => {
     const params = {
-      latitude: -23.5505199,
-      longitude: -46.6333094,
+      latitude: latitude,
+      longitude: longitude,
     };
+
     if (distanciaOptions) {
       params.distancia = distanciaOptions;
     }
@@ -59,8 +75,14 @@ function TelaPesquisa() {
   };
 
   useEffect(() => {
-    getProdutos(distanciaOptions, metodoOptions, nome);
-  }, [distanciaOptions, metodoOptions, nome]);
+    getProdutos(
+      distanciaOptions,
+      metodoOptions,
+      nome,
+      location?.latitude,
+      location?.longitude
+    );
+  }, [distanciaOptions, metodoOptions, nome, location]);
 
   useEffect(() => {
     getMetodoPagamento();

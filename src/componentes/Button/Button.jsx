@@ -5,7 +5,7 @@ import { TERipple } from "tw-elements-react";
 
 function Button({ children, variants, ...props }) {
   const button = tv({
-    base: "border border-orange-principal disabled:bg-gray-200 disabled:border-none disabled:text-gray-400 text-black-full p-2 text-center w-full    rounded  ",
+    base: "border w-max border-orange-principal disabled:bg-gray-200 disabled:border-none disabled:text-gray-400 text-black-full p-2 text-center w-full    rounded  ",
     variants: {
       colors: {
         primary: "text-black-full  bg-orange-principal ",
@@ -25,7 +25,6 @@ function Button({ children, variants, ...props }) {
         sm: "text-sm p-2",
         md: "text-md p-2",
         lg: "text-lg p-3",
-        max: "w-max",
       },
     },
     defaultVariants: {

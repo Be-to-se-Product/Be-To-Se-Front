@@ -5,9 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { validarEmail } from "@utils/validadores";
 import { ToastContainer, toast } from "react-toastify";
 import api from "@/services/api/services";
+import { injectStyle } from "react-toastify/dist/inject-style";
 
-const TerceiroPasso = ({ formData, onNext, onBack, onFormChange }) => {
-  // injectStyle();
+const TerceiroPasso = ({ formData, onBack, onFormChange }) => {
+  injectStyle();
 
   const navigate = useNavigate();
   const handleChange = (field, event) => {
@@ -25,11 +26,13 @@ const TerceiroPasso = ({ formData, onNext, onBack, onFormChange }) => {
       cep: formData.cep.replace(/[.-]/g, ""),
     };
 
-    toast.loading("Realizando Cadastro...");
+    toast.loading("Realizando Cadastro...", { autoClose: 2000 });
     sessionStorage.clear();
     api
       .post(`/comerciantes`, dadosTratados)
       .then((response) => {
+        toast.dismiss();
+        toast.success("Cadastro realizado com sucesso!", { autoClose: 2000 });
         if (response.status == 201) {
           setTimeout(() => {
             navigate("/login");
@@ -37,8 +40,10 @@ const TerceiroPasso = ({ formData, onNext, onBack, onFormChange }) => {
         }
       })
       .catch((error) => {
+        toast.dismiss();
         toast.error(
-          "Problema durante conexão com o servidor, tente novamente mais tarde!"
+          "Problema durante conexão com o servidor, tente novamente mais tarde!",
+          { autoClose: 2000 }
         );
 
         if (error.response) {

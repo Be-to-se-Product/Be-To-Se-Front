@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import StepperRoot from "@componentes/Stepper/StepperRoot";
 import FormContext from "@/context/Form/FormContext";
 import Step1 from "./Step1";
@@ -8,6 +8,7 @@ import Step4 from "./Step4";
 import Step5 from "./Step5";
 import api from "@/services/api/services";
 import Step6 from "./Step6";
+import { toast } from "react-toastify";
 
 const ModalLoja = ({ closeModal, getLista }) => {
   const [stateAtual, setStateAtual] = useState(0);
@@ -28,6 +29,7 @@ const ModalLoja = ({ closeModal, getLista }) => {
       saveEstabelecimento(storage);
       closeModal();
     }
+    // eslint-disable-next-line
   }, [stateAtual]);
 
   const saveEstabelecimento = (storage) => {
@@ -71,7 +73,13 @@ const ModalLoja = ({ closeModal, getLista }) => {
           formData.append("imagem", storage.imagem[0]);
           api
             .post(`/estabelecimentos/${response.data.id}/imagem`, formData)
-            .then((response) => {})
+            .then((response) => {
+              if (response.status == 201) {
+                toast.success("Loja cadastrada com sucesso", {
+                  autoClose: 2000,
+                });
+              }
+            })
             .catch((error) => {
               console.log(error);
             });

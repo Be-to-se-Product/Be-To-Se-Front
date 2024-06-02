@@ -85,6 +85,7 @@ const GerenciamentoLoja = () => {
             id
           }
           target="_blank"
+          rel="noreferrer"
         >
           <li className="text-lg text-white-principal flex gap-x-4  mb-5 items-center">
             <svg
@@ -138,7 +139,12 @@ const GerenciamentoLoja = () => {
       <section className="  flex flex-col text-2xl mx-[33px] w-10/12 py-20 gap-y-10 overflow-scroll h-screen  scrollbar-hide">
         <div className="flex justify-center items-center w-4xl mx-auto w-full  relative flex-col gap-y-4">
           <h2 className="text-3xl font-medium">Lojas Cadastradas </h2>
-          <Button className={" h-max "} onClick={changeModal}>
+          <Button
+            variants={{
+              sizes: "max",
+            }}
+            onClick={changeModal}
+          >
             Cadastrar Nova Loja
           </Button>
         </div>

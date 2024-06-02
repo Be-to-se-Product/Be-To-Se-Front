@@ -30,7 +30,7 @@ const GerenciamentoProdutos = () => {
         setProdutos(res.data ? res.data : []);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
     toast.dismiss();
   };
@@ -167,6 +167,7 @@ const GerenciamentoProdutos = () => {
 
   useEffect(() => {
     getProdutos();
+    //eslint-disable-next-line
   }, []);
 
   const openModal = (tipo, id) => {

@@ -1,12 +1,12 @@
-
 export const isPermited = (usuario) => {
   const userDetailsCrypt = descriptografar(sessionStorage?.USERDETAILS);
   if (userDetailsCrypt == "{}") return false;
   const tipoUsuario = JSON.parse(userDetailsCrypt)?.tipoUsuario.toLowerCase();
-  return tipoUsuario === usuario;
+
+  if (!tipoUsuario || !usuario) return false;
+  
+  return tipoUsuario.toLowerCase() === usuario.toLowerCase();
 };
-
-
 
 export const criptografar = (infoUser) => {
   const infoUserCriptografada = btoa(infoUser);

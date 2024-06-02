@@ -6,7 +6,7 @@ function CloseModal({ ...props }) {
     <div className="w-10 ml-auto">
       <Button
         variants={{
-          sizes: "max",
+          class: "w-min",
         }}
         {...props}
       >

@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import InputRoot from "@componentes/Input/InputRoot";
 import { validarEmail } from "@utils/validadores";
@@ -40,14 +39,14 @@ const Step2 = ({ getDataForm, children, data }) => {
       autoComplete={"off"}
     >
       <div>
-        <InputRoot.Input
+        <InputRoot.Label>Email</InputRoot.Label>
+        <InputRoot.ContentInput
           type="text"
           placeholder="Nome"
           defaultValue={data?.email}
           register={register("email", schemaValidation.email)}
-        >
-          <InputRoot.Label>Email</InputRoot.Label>
-        </InputRoot.Input>
+        />
+
         <span className="text-xs font-medium text-red-600">
           {formState?.errors?.email?.type &&
             message[formState?.errors?.email?.type]}
@@ -55,14 +54,13 @@ const Step2 = ({ getDataForm, children, data }) => {
       </div>
 
       <div className="flex flex-col gap-y-4  ">
-        <InputRoot.Input
+        <InputRoot.Label>Senha</InputRoot.Label>
+        <InputRoot.ContentInput
           type="password"
           placeholder="Nome"
           defaultValue={data?.senha}
           register={register("senha", schemaValidation.senha)}
-        >
-          <InputRoot.Label>Senha</InputRoot.Label>
-        </InputRoot.Input>
+        />
 
         <span className="text-xs font-medium text-red-600">
           {formState?.errors?.senha?.type &&
@@ -71,14 +69,13 @@ const Step2 = ({ getDataForm, children, data }) => {
       </div>
 
       <div className="flex flex-col gap-y-4  ">
-        <InputRoot.Input
+        <InputRoot.Label>Confirme sua senha</InputRoot.Label>
+        <InputRoot.ContentInput
           type="password"
           placeholder="Nome"
           defaultValue={data?.confSenha}
           register={register("confSenha", schemaValidation.confSenha)}
-        >
-          <InputRoot.Label>Confirme sua senha</InputRoot.Label>
-        </InputRoot.Input>
+        />
         <span className="text-xs font-medium text-red-600">
           {formState?.errors?.confSenha?.type &&
             message[formState?.errors?.confSenha?.type]}

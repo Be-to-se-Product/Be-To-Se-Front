@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import StepperRoot from "@componentes/Stepper/StepperRoot";
 import FormContext from "@/context/Form/FormContext";
 import Step1 from "./Step1";
@@ -9,6 +9,7 @@ import Step5 from "./Step5";
 import api from "@/services/api/services";
 import Step6 from "./Step6";
 import moment from "moment";
+import { toast } from "react-toastify";
 
 const ModalLojaUpdate = ({ closeModal, getLista, id }) => {
   const [stateAtual, setStateAtual] = useState(0);
@@ -21,7 +22,6 @@ const ModalLojaUpdate = ({ closeModal, getLista, id }) => {
         await api
           .get(`/estabelecimentos/${id}`)
           .then((response) => {
-            console.log("---------");
             const diaSemana = {};
             const sessoes = response.data.secao.map(({ nome, id }) => {
               return {
@@ -95,6 +95,7 @@ const ModalLojaUpdate = ({ closeModal, getLista, id }) => {
           });
       }
     })();
+    // eslint-disable-next-line
   }, []);
   const nextStep = () => {
     setStateAtual((prev) => prev + 1);
@@ -112,6 +113,7 @@ const ModalLojaUpdate = ({ closeModal, getLista, id }) => {
         return { ...prev, open: false };
       });
     }
+    // eslint-disable-next-line
   }, [stateAtual]);
 
   const mapearJsonEstabelecimento = (json) => {
@@ -159,6 +161,9 @@ const ModalLojaUpdate = ({ closeModal, getLista, id }) => {
     api
       .put("/estabelecimentos/" + id, estabelecimento)
       .then((response) => {
+        if (response.status === 200) {
+          toast.success("Loja atualizada com sucesso!");
+        }
         closeModal(false);
         getLista();
       })

@@ -18,7 +18,7 @@ import { geolocation } from "@/utils/geolocation";
 import Button from "@/componentes/Button/Button";
 import InputRoot from "@/componentes/Input/InputRoot";
 import { Add, Remove } from "@mui/icons-material";
-import { ENUMMETODOPAGAMENTO } from "@/utils/utils";
+import { ENUM_METODO_PAGAMENTO } from "@/utils/utils";
 injectStyle();
 function TelaProduto() {
   const { id: idProduto } = useParams();
@@ -71,7 +71,7 @@ function TelaProduto() {
   };
 
   const getProduto = useCallback(
-    ({ latitude = -23.5505199, longitude = -46.6333094 }) => {
+    (latitude, longitude) => {
       toast.loading("Carregando...");
 
       const params = {};
@@ -244,15 +244,16 @@ function TelaProduto() {
                   </p>
                 </div>
               </div>
-              {console.log(produto.estabelecimento?.metodoPagamento)}
               {produto.estabelecimento?.metodoPagamento?.length > 0 && (
                 <div className="flex flex-col gap-y-4">
                   <p className="text-base">Meios de pagamento na loja</p>
                   <div className="flex flex-row gap-x-12">
-                    {produto.estabelecimento?.metodoPagamento?.map(
+                    {produto?.estabelecimento?.metodoPagamento?.map(
                       (metodoPagamento) => (
                         <img
-                          src={ENUMMETODOPAGAMENTO[metodoPagamento.nome]}
+                          src={
+                            ENUM_METODO_PAGAMENTO[metodoPagamento?.nome] || ""
+                          }
                           key={metodoPagamento}
                           className="w-12 h-12"
                         />

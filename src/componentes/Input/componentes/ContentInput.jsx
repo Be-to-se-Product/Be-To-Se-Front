@@ -9,11 +9,15 @@ function ContentInput({ icon, register = {}, type, ...props }) {
   const [viewPassoword, setViewPassword] = React.useState(false);
   return (
     <div className="w-full relative">
-      <div className="flex justify-center items-center absolute h-full right-0 top-0 p-2">
-        <img src="/search.svg" alt="icon-input" className="w-10 h-10" />
-      </div>
+      {icon && (
+        <div className="flex px-4 z-10 justify-center items-center absolute h-full right-0 top-0 p-2">
+          <img src={icon} alt="icon-input" className="w-5 h-5" />
+        </div>
+      )}
+
       <input
         type={type === "password" && viewPassoword ? "text" : type}
+        autoComplete="off"
         className="w-full h-full  outline-none bg-white-principal group-hover:bg-white-principal transition-all duration-300 ease-in-out border border-gray-300  rounded-lg relative  pl-4 pr-10 py-2 shadow focus:ring-[0.5] focus:ring-orange-principal focus:border-orange-principal font-normal text-black-900 text-base disabled:text-gray-75 disabled:bg-gray-400 disabled:cursor-not-allowed   "
         {...props}
         {...register}

@@ -1,8 +1,6 @@
 import Button from "@componentes/Button/Button";
 
 const ItemPedido = (produto) => {
-  console.log(produto);
-
   return (
     <div className="w-max flex items-center gap-x-4 py-2 px-4 border rounded-md  ">
       <div className="flex">

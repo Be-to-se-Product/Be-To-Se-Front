@@ -4,14 +4,14 @@ import { useNavigate } from "react-router-dom";
 const CardItemVenda = ({ produto }) => {
   const navigate = useNavigate();
   return (
-    <div className="w-full py-4 px-4 text-lg border-b flex justify-between items-center">
+    <div className="w-full  py-4 px-4 text-lg border-b flex justify-between items-center">
       <div className="flex gap-x-2">
         <div className="w-[50px] h-12 rounded">
           <img
             src={
               produto?.produto?.imagens?.length > 0
                 ? produto.produto.imagens[0]
-                : "/src/assets/default-image.jpeg  "
+                : "/default-image.jpeg  "
             }
             alt=""
             className="h-full rounded"

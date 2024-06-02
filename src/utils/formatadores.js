@@ -32,30 +32,33 @@ export const inputFormatoTelefone = (value) => {
 };
 
 export const removerMascaraTelefone = (value) => {
-
   return value.replace(/\D/g, "");
 };
 
-export const removerMascaraCpf = (value)=>{
-return value.replace(/[^\d]/g,"");
-}
+export const removerMascaraCpf = (value) => {
+  return value?.replace(/[^\d]/g, "");
+};
 
-
-export const mascaraFormatoCpf = (value)=> {
-  let valueLimpo = value.replace(/[^0-9]/g,"");
-  let valueFormatado = valueLimpo.replace(/(\d{3})/,"$1.");
-  if(valueLimpo.length>=6){
-    valueFormatado =  valueLimpo.replace(/(\d{3})(\d{3})/,"$1.$2.")
+export const mascaraFormatoCpf = (value) => {
+  let valueLimpo = value.replace(/[^0-9]/g, "");
+  let valueFormatado = valueLimpo.replace(/(\d{3})/, "$1.");
+  if (valueLimpo.length >= 6) {
+    valueFormatado = valueLimpo.replace(/(\d{3})(\d{3})/, "$1.$2.");
   }
 
-  if(valueLimpo.length>=9){
-    valueFormatado =  valueLimpo.replace(/(\d{3})(\d{3})(\d{3})(\d)$/,"$1.$2.$3-$4")
+  if (valueLimpo.length >= 9) {
+    valueFormatado = valueLimpo.replace(
+      /(\d{3})(\d{3})(\d{3})(\d)$/,
+      "$1.$2.$3-$4"
+    );
   }
 
-  if(valueLimpo.length==11){
-    valueFormatado = valueLimpo.replace(/(\d{3})(\d{3})(\d{3})(\d{2})$/,"$1.$2.$3-$4")
+  if (valueLimpo.length == 11) {
+    valueFormatado = valueLimpo.replace(
+      /(\d{3})(\d{3})(\d{3})(\d{2})$/,
+      "$1.$2.$3-$4"
+    );
   }
 
-  
   return valueFormatado;
-} 
+};

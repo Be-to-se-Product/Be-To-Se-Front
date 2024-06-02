@@ -1,7 +1,6 @@
 function CardProduto(props) {
   const { quantidade, preco } = props;
   const valorFinal = quantidade * preco;
-  console.log(props);
   return (
     <div className="flex flex-row items-center justify-between gap-x-16 px-14 py-4">
       <div className="flex flex-row gap-x-16 items-center">

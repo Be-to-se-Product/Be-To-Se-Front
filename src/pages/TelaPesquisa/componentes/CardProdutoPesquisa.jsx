@@ -9,7 +9,6 @@ import { useNavigate } from "react-router";
 
 const CardProutoPesquisa = ({ produto }) => {
   const navigate = useNavigate();
-  console.log(produto);
   const imagem =
     produto.imagens && produto.imagens.length > 0
       ? produto.imagens[0]

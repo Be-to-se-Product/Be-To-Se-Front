@@ -1,12 +1,9 @@
-import React, { useState } from "react";
-// Informações abaixo importadas do Header
 import NavbarRoot from "@componentes/Navbar/NavbarRoot";
-// import BreadCrumbCadastroCliente from "./Breadcrumbs/BreadCrumbCadastroCliente";
 import Breadcrumb from "@componentes/CadastroComerciante/Breadcrumbs/Breadcrumb";
-// Informações abaixo essenciais para renderização dos componentes de cadastro
 import PrimeiroPasso from "@componentes/CadastroComerciante/PasosDoCadastro/PrimeiroPasso";
 import SegundoPasso from "@componentes/CadastroComerciante/PasosDoCadastro/SegundoPasso";
 import TerceiroPasso from "@componentes/CadastroComerciante/PasosDoCadastro/TerceiroPasso";
+import { useState } from "react";
 
 const CadastroComerciante = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -27,46 +24,13 @@ const CadastroComerciante = () => {
     confirmarSenha: "",
     concordouTermos: "",
   });
-  // "DTO para envio de dados ao BackEnd"
-  const [dadosTratados, setDadosTratados] = useState({
-    cnpj: "",
-    nome: "",
-    razaoSocial: "",
-    usuarioCriacaoDTO: {
-      email: "",
-      senha: "",
-    },
-    cep: "",
-  });
 
   const handleNext = () => {
     setCurrentStep(currentStep + 1);
-
-    const dadosTratados = {
-      cnpj: formData.cnpj.replace(/[.-//-]/g, ""),
-      nome: formData.nome,
-      razaoSocial: formData.razaoSocial,
-      usuarioCriacaoDTO: {
-        email: formData.email,
-        senha: formData.senha,
-      },
-      cep: formData.cep.replace(/[.-]/g, ""),
-    };
   };
 
   const handleBack = () => {
-    // Certifique-se de não ir abaixo de 0 no currentStep
     setCurrentStep(Math.max(currentStep - 1, 0));
-    const dadosTratados = {
-      cnpj: formData.cnpj.replace(/[.-//-]/g, ""),
-      nome: formData.nome,
-      razaoSocial: formData.razaoSocial,
-      usuarioCriacaoDTO: {
-        email: formData.email,
-        senha: formData.senha,
-      },
-      cep: formData.cep.replace(/[.-]/g, ""),
-    };
   };
 
   const handleFormChange = (field, value) => {
@@ -92,17 +56,12 @@ const CadastroComerciante = () => {
           <NavbarRoot.Item></NavbarRoot.Item>
         </NavbarRoot.Menu>
       </NavbarRoot.Content>
-      <div className="flex flex-col items-center justify-center h-full  bg-black-300 ">
-        <div
-          style={{ backgroundColor: "#FFFFFF" }}
-          className="   p-10 rounded shadow-md w-100 mx-auto"
-        >
-          {/* <BreadCrumbCadastroCliente /> */}
+      <div className="flex flex-col items-center h-full bg-black-300 ">
+        <div className="bg-[#fff] p-10 mt-28 rounded-lg shadow-md w-100  ">
           <Breadcrumb steps={[1, 2, 3]} currentStep={currentStep} />
           <h2 className="text-2xl font-semibold mb-4">
             Cadastro de Comerciante
           </h2>
-          {/* Formulário de Cadastro */}
           {currentStep === 0 && (
             <PrimeiroPasso
               formData={formData}

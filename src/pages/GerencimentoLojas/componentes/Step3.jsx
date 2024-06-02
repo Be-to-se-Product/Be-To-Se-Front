@@ -1,10 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import FormContext from "@/context/Form/FormContext";
-import InputRoot from "@componentes/Input/InputRoot";
-import { orange } from "@mui/material/colors";
 import Button from "@componentes/Button/Button";
-import { Checkbox, Select } from "@mui/material";
 import RowDia from "./RowDia";
 
 const Step3 = () => {
@@ -19,8 +16,8 @@ const Step3 = () => {
   const validarStep = () => {
     const campos = watch();
     return (
-      Object.entries(campos.diaSemana).find(
-        ([key, value]) =>
+      Object.values(campos.diaSemana).find(
+        (value) =>
           value.isOpen &&
           (value.horarioInicio.length > 0 || value.horarioFim.length > 0)
       ) !== undefined
@@ -46,7 +43,6 @@ const Step3 = () => {
   useEffect(() => {
     if (!isApplyDefault && Object.keys(storage).length > 0) {
       if (storage?.diaSemana) {
-        console.log(storage.diaSemana);
         Object.entries(storage.diaSemana).forEach(([key, value]) => {
           setValue(`diaSemana.${key.toLowerCase()}.isOpen`, value.isOpen);
           setValue(
@@ -61,6 +57,7 @@ const Step3 = () => {
         setIsApplyDefault(true);
       }
     }
+    // eslint-disable-next-line
   }, [storage]);
 
   return (

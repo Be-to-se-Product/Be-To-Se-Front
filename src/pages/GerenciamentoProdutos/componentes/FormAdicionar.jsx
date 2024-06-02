@@ -8,7 +8,7 @@ import Button from "@componentes/Button/Button";
 import api from "@/services/api/services";
 import { useParams } from "react-router-dom";
 
-const FormAdicionar = ({ fecharModal, getProdutos, setState }) => {
+const FormAdicionar = ({ fecharModal, getProdutos }) => {
   const { idEstabelecimento } = useParams();
   const [stateAtual, setStateAtual] = useState(0);
   const [infoBanco, setInfoBanco] = useState({
@@ -31,6 +31,7 @@ const FormAdicionar = ({ fecharModal, getProdutos, setState }) => {
   useEffect(() => {
     getTags();
     getSecao();
+    // eslint-disable-next-line
   }, []);
 
   const [isNext, setIsNext] = useState(false);
@@ -73,17 +74,17 @@ const FormAdicionar = ({ fecharModal, getProdutos, setState }) => {
           }
           api
             .post(`/produtos/${response.data.id}/imagens`, formData)
-            .then((response) => {
+            .then(() => {
               getProdutos();
               fecharModal("fechar");
             })
             .catch((error) => {
-              console.log(error);
+              console.error(error);
             });
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
   const nextStep = (dadosSalvar, data) => {

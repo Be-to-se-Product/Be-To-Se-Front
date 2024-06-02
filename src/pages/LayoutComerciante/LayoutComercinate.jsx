@@ -1,6 +1,6 @@
 import MenuComerciante from "@componentes/MenuComerciante/MenuComerciante.jsx";
 import { NavLink, Outlet, useParams } from "react-router-dom";
-import IconProduct from "@/assets/icon-product.svg";
+import IconProduct from "@assets/icon-product.svg";
 import IconShop from "@assets/icon-shop.svg";
 import IconVenda from "@assets/icon-venda.svg";
 import IconPedido from "@assets/icon-pedido.svg";
