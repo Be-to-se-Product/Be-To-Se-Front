@@ -6,7 +6,7 @@ import RowDia from "./RowDia";
 
 const Step3 = () => {
   const { register, handleSubmit, watch, setValue } = useForm();
-  const { setStorage, storage, stateAtual, nextStep, prevStep } =
+  const { setStorage, storage, currentStep, nextStep, prevStep } =
     useContext(FormContext);
   const submit = (data, callback) => {
     setStorage({ ...storage, ...data });
@@ -63,7 +63,7 @@ const Step3 = () => {
   return (
     <form
       className={`relative mx-auto flex flex-col gap-y-8 ${
-        stateAtual != 2 && "hidden"
+        currentStep() != 2 && "hidden"
       }`}
     >
       <div className="text-center">

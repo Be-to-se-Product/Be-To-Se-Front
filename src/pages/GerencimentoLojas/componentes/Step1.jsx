@@ -5,7 +5,7 @@ import InputRoot from "@componentes/Input/InputRoot";
 import Button from "@componentes/Button/Button";
 
 const Step1 = () => {
-  const { setStorage, storage, nextStep, prevStep, stateAtual } =
+  const { setStorage, storage, nextStep, prevStep, currentStep } =
     useContext(FormContext);
   const [isApplyDefault, setIsApplyDefault] = useState(false);
   const {
@@ -34,6 +34,7 @@ const Step1 = () => {
       setValue("referenciaFacebook", storage.referenciaFacebook);
       setIsApplyDefault(false);
     }
+    // eslint-disable-next-line
   }, [storage]);
 
   const message = {
@@ -80,7 +81,9 @@ const Step1 = () => {
   };
 
   return (
-    <form className={` flex flex-col gap-y-8 ${stateAtual != 0 && "hidden"}`}>
+    <form
+      className={` flex flex-col gap-y-8 ${currentStep() != 0 && "hidden"}`}
+    >
       <div
         className={` w-full  mx-auto grid grid-cols-2  gap-x-8 rounded-lg h-[300px] `}
       >
@@ -97,10 +100,10 @@ const Step1 = () => {
                 </div>
               )}
             </div>
-            <InputRoot.Input
+            <InputRoot.ContentInput
               register={register("nome", schemaValidate.nome)}
               defaultValue={storage.nome}
-            ></InputRoot.Input>
+            />
           </div>
 
           <div className="flex flex-col gap-y-1">
@@ -115,14 +118,14 @@ const Step1 = () => {
                 </div>
               )}
             </div>
-            <InputRoot.Input
+            <InputRoot.ContentInput
               register={register("segmento", schemaValidate.segmento)}
-            ></InputRoot.Input>
+            />
           </div>
 
           <div className="flex flex-col gap-y-1">
             <div className="flex  gap-x-2  items-center ">
-              <InputRoot.Label>Numero do contaot</InputRoot.Label>
+              <InputRoot.Label>Numero do contato</InputRoot.Label>
               {errors?.telefoneContato && (
                 <div className="text-red-500 text-xs w-max h-full  text-center flex items-center mb-2  ">
                   <div className="flex items-center justify-center">
@@ -132,7 +135,7 @@ const Step1 = () => {
                 </div>
               )}
             </div>
-            <InputRoot.Input
+            <InputRoot.ContentInput
               register={register(
                 "telefoneContato",
                 schemaValidate.telefoneContato
@@ -154,7 +157,7 @@ const Step1 = () => {
                 </div>
               )}
             </div>
-            <InputRoot.Input
+            <InputRoot.ContentInput
               register={register("emailContato", schemaValidate.emailContato)}
               defaultValue={storage.emailContato}
             />
@@ -172,7 +175,7 @@ const Step1 = () => {
                 </div>
               )}
             </div>
-            <InputRoot.Input
+            <InputRoot.ContentInput
               register={register(
                 "referenciaInstagram",
                 schemaValidate.referenciaInstagram
@@ -193,13 +196,13 @@ const Step1 = () => {
                 </div>
               )}
             </div>
-            <InputRoot.Input
+            <InputRoot.ContentInput
               register={register(
                 "referenciaFacebook",
                 schemaValidate.referenciaFacebook
               )}
               defaultValue={storage.referenciaFacebook}
-            ></InputRoot.Input>
+            />
           </div>
         </div>
       </div>

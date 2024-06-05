@@ -58,7 +58,7 @@ const BarProduto = ({
           </div>
           <h3>{produtoSelecionado?.categoria}</h3>
           <span className="flex gap-x-2 items-center">
-            <span>{produtoSelecionado?.mediaAvaliacao}</span>
+            <span>{produtoSelecionado?.mediaAvaliacao.toFixed(1)}</span>
             <Rating
               nome="text-feedback"
               value={Number(produtoSelecionado?.mediaAvaliacao)}

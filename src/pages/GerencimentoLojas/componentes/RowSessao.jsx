@@ -15,11 +15,10 @@ const RowSessao = ({ item, setRowSessao }) => {
   return (
     <div className="w-10/12 flex justify-between">
       <div className="w-2/5">
-        <InputRoot.Input
-          className="h-10"
+        <InputRoot.ContentInput
           defaultValue={item.texto}
           onChange={(e) => (item.texto = e.target.value)}
-        ></InputRoot.Input>
+        />
       </div>
       <span
         className="flex justify-center items-center w-12"

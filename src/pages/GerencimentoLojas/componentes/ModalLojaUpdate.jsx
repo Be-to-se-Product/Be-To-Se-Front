@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import StepperRoot from "@componentes/Stepper/StepperRoot";
 import FormContext from "@/context/Form/FormContext";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
@@ -10,18 +9,21 @@ import api from "@/services/api/services";
 import Step6 from "./Step6";
 import moment from "moment";
 import { toast } from "react-toastify";
+import ProgressRoot from "@/componentes/Progress/ProgressRoot";
+import useProgress from "@/hooks/useProgress";
+import { converterImageToFile } from "@/utils/conversores";
 
 const ModalLojaUpdate = ({ closeModal, getLista, id }) => {
-  const [stateAtual, setStateAtual] = useState(0);
   const [storage, setStorage] = useState({});
   const [teste, setTeste] = useState(0);
+  const { currentStep, nextStep, prevStep } = useProgress(6, {});
 
   useEffect(() => {
     (async () => {
       if (id) {
         await api
           .get(`/estabelecimentos/${id}`)
-          .then((response) => {
+          .then(async (response) => {
             const diaSemana = {};
             const sessoes = response.data.secao.map(({ nome, id }) => {
               return {
@@ -47,7 +49,7 @@ const ModalLojaUpdate = ({ closeModal, getLista, id }) => {
                         .normalize("NFD")
                         .replace(/[\u0300-\u036f]/g, "")
                         .toLowerCase() == dia
-                  ).horarioInicio,
+                  ).horarioInicio || "00:00:00",
                   "HH:mm:ss"
                 ).format("HH:mm"),
                 horarioFim: moment(
@@ -57,23 +59,24 @@ const ModalLojaUpdate = ({ closeModal, getLista, id }) => {
                         .normalize("NFD")
                         .replace(/[\u0300-\u036f]/g, "")
                         .toLowerCase() == dia
-                  ).horarioFim,
+                  ).horarioFim || "00:00:00",
                   "HH:mm:ss"
                 ).format("HH:mm"),
               };
             }
 
+            const request = response.data.imagens.map((imagem) =>
+              converterImageToFile(imagem, imagem)
+            );
+
+            const images = await Promise.all(request);
+
             const model = {
-              imagens: {
-                0: {
-                  url: response?.data?.imagens[0],
-                  id: response?.data?.imagem?.id,
-                },
-              },
               sessoes,
               metodosPagamento: response.data.metodoPagamento.map((element) => {
                 return { [element.id]: true };
               }),
+              images,
               diaSemana: diaSemana,
               nome: response.data.nome,
               segmento: response.data.segmento,
@@ -97,24 +100,10 @@ const ModalLojaUpdate = ({ closeModal, getLista, id }) => {
     })();
     // eslint-disable-next-line
   }, []);
-  const nextStep = () => {
-    setStateAtual((prev) => prev + 1);
-  };
-  const prevStep = () => {
-    if (stateAtual - 1 >= 0) {
-      setStateAtual((prev) => prev - 1);
-    }
-  };
 
   useEffect(() => {
-    if (stateAtual > 5) {
-      saveEstabelecimento(storage);
-      closeModal((prev) => {
-        return { ...prev, open: false };
-      });
-    }
-    // eslint-disable-next-line
-  }, [stateAtual]);
+    console.log(storage);
+  }, [storage]);
 
   const mapearJsonEstabelecimento = (json) => {
     const agenda = [];
@@ -156,20 +145,40 @@ const ModalLojaUpdate = ({ closeModal, getLista, id }) => {
     return estabelecimento;
   };
 
-  const saveEstabelecimento = (storage) => {
+  const saveEstabelecimento = async (storage) => {
     const estabelecimento = mapearJsonEstabelecimento(storage);
-    api
-      .put("/estabelecimentos/" + id, estabelecimento)
-      .then((response) => {
-        if (response.status === 200) {
-          toast.success("Loja atualizada com sucesso!");
+
+    try {
+      const response = await api.put(
+        "/estabelecimentos/" + id,
+        estabelecimento
+      );
+
+      if (response.status === 200 && storage.imagem.length > 0) {
+        const formData = new FormData();
+        formData.append("imagem", storage.imagem[0]);
+        const responseImage = await api.post(
+          `/estabelecimentos/${response.data.id}/imagem`,
+          formData
+        );
+
+        if (responseImage.status === 204) {
+          closeModal(false);
+          getLista();
+          toast.success("Loja atualizada com sucesso", {
+            autoClose: 2000,
+          });
         }
-        closeModal(false);
-        getLista();
-      })
-      .catch((error) => {
-        console.log(error);
+        return;
+      }
+      closeModal(false);
+      getLista();
+      toast.success("Loja atualizada com sucesso", {
+        autoClose: 2000,
       });
+    } catch (e) {
+      console.log(e);
+    }
   };
   return (
     <section className="flex flex-col w-[900px]  bg-white-principal gap-y-10 h-[750px] py-20 px-16 ">
@@ -184,31 +193,28 @@ const ModalLojaUpdate = ({ closeModal, getLista, id }) => {
         X
       </div>
       <div className="flex flex-col items-center  justify-center w-full gap-y-10">
-        <h2 className="text-2xl font-medium">Cadastro de Loja</h2>
-        <StepperRoot.Content percentage={100}>
-          <StepperRoot.Step number={1} stateAtual={stateAtual}>
+        <h2 className="texStoraget-2xl font-medium">Cadastro de Loja</h2>
+        <ProgressRoot.Content currentStep={currentStep}>
+          <ProgressRoot.Step className="text-white">
             Dados da loja
-          </StepperRoot.Step>
-          <StepperRoot.Step number={2} stateAtual={stateAtual}>
-            Endereço
-          </StepperRoot.Step>
-          <StepperRoot.Step number={3} stateAtual={stateAtual}>
-            Agenda
-          </StepperRoot.Step>
-          <StepperRoot.Step number={4} stateAtual={stateAtual}>
-            Seções
-          </StepperRoot.Step>
-          <StepperRoot.Step number={5} stateAtual={stateAtual}>
-            Met. de pagamento
-          </StepperRoot.Step>
-          <StepperRoot.Step number={6} stateAtual={stateAtual}>
-            Foto
-          </StepperRoot.Step>
-        </StepperRoot.Content>
+          </ProgressRoot.Step>
+          <ProgressRoot.Step className="text-white">Endereço</ProgressRoot.Step>
+          <ProgressRoot.Step className="text-white">Agenda</ProgressRoot.Step>
+          <ProgressRoot.Step className="text-white">Seções</ProgressRoot.Step>
+          <ProgressRoot.Step className="text-white">Seções</ProgressRoot.Step>
+          <ProgressRoot.Step className="text-white">Foto</ProgressRoot.Step>
+        </ProgressRoot.Content>
       </div>
 
       <FormContext.Provider
-        value={{ storage, setStorage, nextStep, prevStep, stateAtual }}
+        value={{
+          storage,
+          setStorage,
+          nextStep,
+          prevStep,
+          currentStep,
+          saveEstabelecimento,
+        }}
       >
         <Step1 />
         <Step2 />

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import FormContext from "@/context/Form/FormContext";
 import { useForm } from "react-hook-form";
 import InputRoot from "@componentes/Input/InputRoot";
@@ -6,7 +6,7 @@ import Select from "@mui/material/Select";
 import Button from "@componentes/Button/Button";
 import MenuItem from "@mui/material/MenuItem";
 const Step2 = () => {
-  const { setStorage, storage, prevStep, nextStep, stateAtual } =
+  const { setStorage, storage, prevStep, nextStep, currentStep } =
     useContext(FormContext);
   const {
     register,
@@ -33,6 +33,7 @@ const Step2 = () => {
       handleCep(storage?.cep?.replace("-", ""));
       setIsApplyDefault(true);
     }
+    // eslint-disable-next-line
   }, [storage]);
 
   const message = {
@@ -133,7 +134,7 @@ const Step2 = () => {
     }
   };
   return (
-    <form className={`flex flex-col gap-y-6 ${stateAtual != 1 && "hidden"}`}>
+    <form className={`flex flex-col gap-y-6 ${currentStep() != 1 && "hidden"}`}>
       <div className="flex flex-col w-10/12  mx-auto h-[300px]  gap-y-4 rounded-lg">
         <div className=" flex  ">
           <div className="flex flex-col gap-y-1 w-2/6 ">
@@ -148,10 +149,10 @@ const Step2 = () => {
                 </div>
               )}
             </div>
-            <InputRoot.Input
+            <InputRoot.ContentInput
               register={register("cep", schemaValidate.cep)}
               onChange={(e) => handleCep(e.target.value)}
-            ></InputRoot.Input>
+            />
           </div>
         </div>
 
@@ -168,10 +169,10 @@ const Step2 = () => {
                 </div>
               )}
             </div>
-            <InputRoot.Input
+            <InputRoot.ContentInput
               register={register("logradouro", schemaValidate.logradouro)}
               defaultValue={storage?.logradouro}
-            ></InputRoot.Input>
+            />
           </div>
 
           <div className="flex flex-col gap-y-1 w-2/6">
@@ -186,10 +187,10 @@ const Step2 = () => {
                 </div>
               )}
             </div>
-            <InputRoot.Input
+            <InputRoot.ContentInput
               register={register("numero", schemaValidate.numero)}
               defaultValue={storage.numero}
-            ></InputRoot.Input>
+            />
           </div>
         </div>
 
@@ -206,10 +207,10 @@ const Step2 = () => {
                 </div>
               )}
             </div>
-            <InputRoot.Input
+            <InputRoot.ContentInput
               register={register("bairro", schemaValidate.bairro)}
               defaultValue={storage.bairro}
-            ></InputRoot.Input>
+            />
           </div>
 
           <div className="flex flex-col gap-y-1">
@@ -224,10 +225,10 @@ const Step2 = () => {
                 </div>
               )}
             </div>
-            <InputRoot.Input
+            <InputRoot.ContentInput
               register={register("cidade", schemaValidate.cidade)}
               defaultValue={storage.cidade}
-            ></InputRoot.Input>
+            />
           </div>
 
           <div className="flex flex-col gap-y-1">

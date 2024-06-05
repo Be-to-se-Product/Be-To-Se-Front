@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import StepperRoot from "@componentes/Stepper/StepperRoot";
+import { useState } from "react";
 import FormContext from "@/context/Form/FormContext";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
@@ -9,30 +8,15 @@ import Step5 from "./Step5";
 import api from "@/services/api/services";
 import Step6 from "./Step6";
 import { toast } from "react-toastify";
+import ProgressRoot from "@/componentes/Progress/ProgressRoot";
+import useProgress from "@/hooks/useProgress";
 
 const ModalLoja = ({ closeModal, getLista }) => {
-  const [stateAtual, setStateAtual] = useState(0);
   const [storage, setStorage] = useState({});
   const [teste, setTeste] = useState(0);
+  const { currentStep, nextStep, prevStep } = useProgress(6, {});
 
-  const nextStep = () => {
-    setStateAtual((prev) => prev + 1);
-  };
-  const prevStep = () => {
-    if (stateAtual - 1 >= 0) {
-      setStateAtual((prev) => prev - 1);
-    }
-  };
-
-  useEffect(() => {
-    if (stateAtual > 5) {
-      saveEstabelecimento(storage);
-      closeModal();
-    }
-    // eslint-disable-next-line
-  }, [stateAtual]);
-
-  const saveEstabelecimento = (storage) => {
+  const saveEstabelecimento = async (storage) => {
     const agenda = [];
     for (const [key, value] of Object.entries(storage.diaSemana)) {
       if (value.isOpen) {
@@ -65,34 +49,34 @@ const ModalLoja = ({ closeModal, getLista }) => {
       metodoPagamento: storage.metodosPagamento,
     };
 
-    api
-      .post("/estabelecimentos", estabelecimento)
-      .then((response) => {
-        if (response.status == 201 && storage.imagem.length > 0) {
-          const formData = new FormData();
-          formData.append("imagem", storage.imagem[0]);
-          api
-            .post(`/estabelecimentos/${response.data.id}/imagem`, formData)
-            .then((response) => {
-              if (response.status == 201) {
-                toast.success("Loja cadastrada com sucesso", {
-                  autoClose: 2000,
-                });
-              }
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-          closeModal(false);
-          getLista();
+    try {
+      const response = await api.post("/estabelecimentos", estabelecimento);
+
+      if (response.status == 201 && storage.imagem.length > 0) {
+        const formData = new FormData();
+        formData.append("imagem", storage.imagem[0]);
+        const responseImage = await api.post(
+          `/estabelecimentos/${response.data.id}/imagem`,
+          formData
+        );
+
+        if (responseImage.status == 204) {
+          toast.success("Loja cadastrada com sucesso", {
+            autoClose: 2000,
+          });
         }
-      })
-      .catch((error) => {
-        console.log(error);
+        closeModal(false);
+        getLista();
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Erro ao cadastrar loja", {
+        autoClose: 2000,
       });
+    }
   };
   return (
-    <section className="flex flex-col w-[900px]  bg-white-principal gap-y-10 h-[750px] py-20 px-16 ">
+    <section className="flex flex-col w-[900px]  bg-white-principal gap-y-10 h-[750px] py-20 px-16  ">
       <div
         className="absolute top-8 right-12 font-semibold cursor-pointer"
         onClick={() => closeModal()}
@@ -101,30 +85,27 @@ const ModalLoja = ({ closeModal, getLista }) => {
       </div>
       <div className="flex flex-col items-center  justify-center w-full gap-y-10">
         <h2 className="text-2xl font-medium">Cadastro de Loja</h2>
-        <StepperRoot.Content percentage={100}>
-          <StepperRoot.Step number={1} stateAtual={stateAtual}>
+        <ProgressRoot.Content currentStep={currentStep}>
+          <ProgressRoot.Step className="text-white">
             Dados da loja
-          </StepperRoot.Step>
-          <StepperRoot.Step number={2} stateAtual={stateAtual}>
-            Endereço
-          </StepperRoot.Step>
-          <StepperRoot.Step number={3} stateAtual={stateAtual}>
-            Agenda
-          </StepperRoot.Step>
-          <StepperRoot.Step number={4} stateAtual={stateAtual}>
-            Seções
-          </StepperRoot.Step>
-          <StepperRoot.Step number={5} stateAtual={stateAtual}>
-            Met. de pagamento
-          </StepperRoot.Step>
-          <StepperRoot.Step number={6} stateAtual={stateAtual}>
-            Foto
-          </StepperRoot.Step>
-        </StepperRoot.Content>
+          </ProgressRoot.Step>
+          <ProgressRoot.Step className="text-white">Endereço</ProgressRoot.Step>
+          <ProgressRoot.Step className="text-white">Agenda</ProgressRoot.Step>
+          <ProgressRoot.Step className="text-white">Seções</ProgressRoot.Step>
+          <ProgressRoot.Step className="text-white">Seções</ProgressRoot.Step>
+          <ProgressRoot.Step className="text-white">Foto</ProgressRoot.Step>
+        </ProgressRoot.Content>
       </div>
 
       <FormContext.Provider
-        value={{ storage, setStorage, nextStep, prevStep, stateAtual }}
+        value={{
+          storage,
+          setStorage,
+          nextStep,
+          prevStep,
+          currentStep,
+          saveEstabelecimento,
+        }}
       >
         <Step1 />
         <Step2 />

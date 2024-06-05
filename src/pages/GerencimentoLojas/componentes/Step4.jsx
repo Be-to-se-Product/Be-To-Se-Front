@@ -6,7 +6,7 @@ import Button from "@componentes/Button/Button";
 import FormContext from "@/context/Form/FormContext";
 import api from "@/services/api/services";
 const Step4 = ({ setTeste, teste }) => {
-  const { storage, setStorage, stateAtual, nextStep, prevStep } =
+  const { storage, setStorage, currentStep, nextStep, prevStep } =
     useContext(FormContext);
   const { register, handleSubmit, watch, setValue } = useForm();
   const [metodosPagamento, setMetodosPagamento] = useState([]);
@@ -36,6 +36,7 @@ const Step4 = ({ setTeste, teste }) => {
       .get("/metodos-pagamentos")
       .then((response) => {
         setMetodosPagamento(response.data || []);
+        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -43,6 +44,7 @@ const Step4 = ({ setTeste, teste }) => {
   };
   const submit = (data, callback) => {
     const metodosPagamento = [];
+    console.log(data);
     for (const [key, value] of Object.entries(data)) {
       if (value) {
         metodosPagamento.push(key);
@@ -52,7 +54,7 @@ const Step4 = ({ setTeste, teste }) => {
     callback?.();
   };
 
-  const next = () => {
+  const handle = () => {
     if (validStep()) {
       handleSubmit((data) => {
         submit(data, nextStep);
@@ -69,11 +71,11 @@ const Step4 = ({ setTeste, teste }) => {
 
   const validStep = () => {
     const campos = watch();
-    return Object.values(campos).find((value) => value) ? true : false;
+    return !!Object.values(campos).find((value) => value);
   };
 
   return (
-    <form className={`flex flex-col gap-y-8 ${stateAtual != 3 && "hidden"}`}>
+    <form className={`flex flex-col gap-y-8 ${currentStep() != 3 && "hidden"}`}>
       {!validStep() && (
         <div className=" h-1 text-center">
           Selecione ao menos um método de pagamento
@@ -93,9 +95,11 @@ const Step4 = ({ setTeste, teste }) => {
                     color: orange[600],
                   },
                 }}
-                defaultChecked={storage?.metodosPagamento?.find(
-                  (el) => Object.keys(el)[0] == item.id.toString()
-                )}
+                defaultChecked={
+                  !!storage?.metodosPagamento?.find(
+                    (el) => Object.keys(el)[0] == item.id.toString()
+                  )
+                }
                 {...register(item.id.toString())}
               />
               <span className="text-center">{item.descricao}</span>
@@ -107,7 +111,7 @@ const Step4 = ({ setTeste, teste }) => {
         <Button onClick={prev} type="button">
           Retroceder
         </Button>
-        <Button onClick={next} type="button">
+        <Button onClick={handle} type="button">
           Avançar{" "}
         </Button>
       </div>

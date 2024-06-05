@@ -31,7 +31,7 @@ const RowDia = ({ register, dia, watch }) => {
       </span>
       <span>{dia}</span>
       <span>
-        <InputRoot.Input
+        <InputRoot.ContentInput
           type="time"
           disabled={!ativo}
           register={register(
@@ -43,7 +43,7 @@ const RowDia = ({ register, dia, watch }) => {
         />
       </span>
       <span>
-        <InputRoot.Input
+        <InputRoot.ContentInput
           type="time"
           disabled={!ativo}
           register={register(
