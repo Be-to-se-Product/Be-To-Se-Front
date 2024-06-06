@@ -1,16 +1,21 @@
 import { useEffect, useState } from "react";
 
-import StepperRoot from "@componentes/Stepper/StepperRoot";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
 import Button from "@componentes/Button/Button";
 import api from "@/services/api/services";
 import { useParams } from "react-router-dom";
+import ProgressRoot from "@/componentes/Progress/ProgressRoot";
+import useProgress from "@/hooks/useProgress";
 
 const FormAdicionar = ({ fecharModal, getProdutos }) => {
   const { idEstabelecimento } = useParams();
-  const [stateAtual, setStateAtual] = useState(0);
+  const { currentStep, nextStep, prevStep, setData, data } = useProgress({
+    steps: 3,
+  });
+
+  const current = currentStep();
   const [infoBanco, setInfoBanco] = useState({
     sessoes: [],
     tag: [],
@@ -34,21 +39,7 @@ const FormAdicionar = ({ fecharModal, getProdutos }) => {
     // eslint-disable-next-line
   }, []);
 
-  const [isNext, setIsNext] = useState(false);
-
-  const [dataStorage, setDataStorage] = useState({});
-
-  const getData = (data) => {
-    setDataStorage({ ...dataStorage, ...data });
-    const dadosSalvar = { ...dataStorage, ...data };
-    if (isNext) {
-      nextStep(dadosSalvar, data);
-    } else {
-      prevStep();
-    }
-  };
-
-  const saveData = (dadosSalvar, data) => {
+  const saveData = (dadosSalvar) => {
     const produto = {
       nome: dadosSalvar.nome,
       codigoSku: dadosSalvar.codigoSku,
@@ -61,17 +52,17 @@ const FormAdicionar = ({ fecharModal, getProdutos }) => {
       tags: dadosSalvar.tags ? dadosSalvar.tags : null,
     };
 
+    const formData = new FormData();
+    for (let i = 0; i < 4; i++) {
+      if (data[`imagem${i + 1}`][0]) {
+        formData.append("imagens", data[`imagem${i + 1}`][0]);
+      }
+    }
+
     api
       .post("/produtos", produto)
       .then((response) => {
         if (response.status === 201) {
-          const formData = new FormData();
-          for (let i = 1; i <= 4; i++) {
-            const imagem = dadosSalvar[`imagem${i}`];
-            if (imagem) {
-              formData.append("imagens", imagem[0]);
-            }
-          }
           api
             .post(`/produtos/${response.data.id}/imagens`, formData)
             .then(() => {
@@ -87,41 +78,44 @@ const FormAdicionar = ({ fecharModal, getProdutos }) => {
         console.error(error);
       });
   };
-  const nextStep = (dadosSalvar, data) => {
-    if (stateAtual + 1 === steps.length) {
-      saveData(dadosSalvar, data);
-      return;
-    }
-    setStateAtual(stateAtual + 1);
-    setIsNext(false);
-  };
-  const prevStep = () => {
-    if (stateAtual - 1 >= 0) {
-      setStateAtual(stateAtual - 1);
-    }
-  };
 
   const steps = [
     <Step1
       key={1}
-      getData={getData}
+      setData={(dataStorage) => {
+        setData((prev) => ({ ...prev, ...dataStorage }));
+        nextStep();
+      }}
       infoBanco={infoBanco}
-      dataStorage={dataStorage}
+      dataStorage={data}
     >
       <div className="flex justify-center gap-x-4 mt-4">
-        <Button onClick={() => setIsNext(true)}>Avançar</Button>
+        <Button type="submit">Avançar</Button>
       </div>
     </Step1>,
-    <Step2 key={2} getData={getData} dataStorage={dataStorage}>
+    <Step2
+      key={2}
+      setData={(data) => {
+        setData((prev) => ({ ...prev, ...data }));
+        nextStep();
+      }}
+      dataStorage={data}
+    >
       <div className="flex justify-center gap-x-4 mt-4">
-        <Button>Retroceder</Button>
-        <Button onClick={() => setIsNext(true)}>Avançar</Button>
+        <Button onClick={prevStep}>Retroceder</Button>
+        <Button type="submit">Avançar</Button>
       </div>
     </Step2>,
-    <Step3 key={3} getData={getData} dataStorage={dataStorage}>
+    <Step3
+      key={3}
+      setData={(dataValue) => {
+        saveData({ ...dataValue, ...data });
+      }}
+      dataStorage={data}
+    >
       <div className="flex justify-center gap-x-4 mt-4">
-        <Button>Retroceder</Button>
-        <Button onClick={() => setIsNext(true)}>Cadastrar</Button>
+        <Button onClick={prevStep}>Retroceder</Button>
+        <Button type="submit">Cadastrar</Button>
       </div>
     </Step3>,
   ];
@@ -134,21 +128,16 @@ const FormAdicionar = ({ fecharModal, getProdutos }) => {
       >
         X
       </div>
-      <StepperRoot.Content>
-        <StepperRoot.Step number={1} stateAtual={stateAtual}>
-          Informações do produtos
-        </StepperRoot.Step>
+      <ProgressRoot.Content currentStep={currentStep}>
+        <ProgressRoot.Step className="text-white">
+          Dados <br />
+          do Produto{" "}
+        </ProgressRoot.Step>
+        <ProgressRoot.Step className="text-white">Imagens</ProgressRoot.Step>
+        <ProgressRoot.Step className="text-white">Descrição</ProgressRoot.Step>
+      </ProgressRoot.Content>
 
-        <StepperRoot.Step number={2} stateAtual={stateAtual}>
-          Uploads de imagens
-        </StepperRoot.Step>
-
-        <StepperRoot.Step number={3} stateAtual={stateAtual}>
-          Descrição do produto
-        </StepperRoot.Step>
-      </StepperRoot.Content>
-
-      {steps[stateAtual]}
+      {steps[current]}
     </div>
   );
 };

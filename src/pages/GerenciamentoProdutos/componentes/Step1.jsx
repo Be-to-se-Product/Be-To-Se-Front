@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import InputRoot from "@componentes/Input/InputRoot";
 import { useForm } from "react-hook-form";
 import { MenuItem, Select, Autocomplete, TextField, Chip } from "@mui/material";
 import BotaoSwitch from "@componentes/Switch/BotaoSwitch";
-const Step1 = ({ getData, children, infoBanco, dataStorage }) => {
+const Step1 = ({ setData, children, infoBanco, dataStorage }) => {
   const { register, handleSubmit, setValue, formState, watch } = useForm();
 
   const mensagens = {
@@ -42,14 +42,14 @@ const Step1 = ({ getData, children, infoBanco, dataStorage }) => {
     },
   };
   useEffect(() => {
-    dataStorage.tags
+    dataStorage?.tags
       ? setValue("tags", dataStorage.tags)
       : setValue("tags", []);
-  }, []);
+  }, [dataStorage?.tags, setValue]);
   return (
     <form
       className={`flex  flex-col items-center `}
-      onSubmit={handleSubmit(getData)}
+      onSubmit={handleSubmit(setData)}
     >
       <div className="w-full mb-3 flex justify-end gap-x-3 items-center">
         Ativar Promoção
@@ -73,26 +73,26 @@ const Step1 = ({ getData, children, infoBanco, dataStorage }) => {
 
           <div className="flex w-full  items-end gap-x-2">
             <div className="h-24">
-              <InputRoot.Input
+              <InputRoot.Label>Valor Total</InputRoot.Label>
+              <InputRoot.ContentInput
                 placeholder={"R$ 12,00"}
                 defaultValue={dataStorage?.preco}
                 register={register("preco", schemaValidate.preco)}
-              >
-                <InputRoot.Label>Valor Total</InputRoot.Label>
-              </InputRoot.Input>
+              />
+
               <span className="text-xs text-red-600 font-medium">
                 {formState?.errors?.preco?.type &&
                   mensagens[formState.errors.preco.type]}
               </span>
             </div>
             <div className="h-24">
-              <InputRoot.Input
+              <InputRoot.Label>Valor Oferta</InputRoot.Label>
+
+              <InputRoot.ContentInput
                 placeholder="R$ 12,00"
                 defaultValue={dataStorage?.precoOferta}
                 register={register("precoOferta", schemaValidate.precoOferta)}
-              >
-                <InputRoot.Label>Valor Oferta</InputRoot.Label>
-              </InputRoot.Input>
+              />
               <span className="text-xs text-red-600 font-medium">
                 {formState?.errors?.precoOferta?.type &&
                   mensagens[formState.errors.precoOferta.type]}
@@ -131,7 +131,9 @@ const Step1 = ({ getData, children, infoBanco, dataStorage }) => {
               {...register("secao", schemaValidate.secao)}
             >
               {infoBanco.sessoes.map((secao) => (
-                <MenuItem value={secao.id}>{secao.descricao}</MenuItem>
+                <MenuItem key={secao.toString()} value={secao.id}>
+                  {secao.descricao}
+                </MenuItem>
               ))}
             </Select>
             <span className="text-xs text-red-600 font-medium">
@@ -141,21 +143,19 @@ const Step1 = ({ getData, children, infoBanco, dataStorage }) => {
           </div>
 
           <div className="flex flex-col h-24">
-            <InputRoot.Input
+            <InputRoot.Label>Código SKU</InputRoot.Label>
+            <InputRoot.ContentInput
               nome={"Categoria"}
               defaultValue={dataStorage?.codigoSku}
               register={register("codigoSku")}
-            >
-              <InputRoot.Label>Código SKU</InputRoot.Label>
-            </InputRoot.Input>
+            />
           </div>
-          <InputRoot.Input
+          <InputRoot.Label>Código de barras</InputRoot.Label>
+          <InputRoot.ContentInput
             nome={"Categoria"}
             defaultValue={dataStorage?.codigoBarras}
             register={register("codigoBarras")}
-          >
-            <InputRoot.Label>Código de barras</InputRoot.Label>
-          </InputRoot.Input>
+          />
         </div>
       </div>
       <div className="flex  w-full flex-col gap-x-2 h-24">
@@ -180,6 +180,7 @@ const Step1 = ({ getData, children, infoBanco, dataStorage }) => {
           renderTags={(value, getTagProps) => {
             return value.map((option, index) => (
               <Chip
+                key={index}
                 variant="outlined"
                 label={option?.nome}
                 {...getTagProps({ index })}
