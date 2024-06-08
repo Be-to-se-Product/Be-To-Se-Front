@@ -101,9 +101,7 @@ const ModalLojaUpdate = ({ closeModal, getLista, id }) => {
     // eslint-disable-next-line
   }, []);
 
-  useEffect(() => {
-    console.log(storage);
-  }, [storage]);
+ 
 
   const mapearJsonEstabelecimento = (json) => {
     const agenda = [];
@@ -130,7 +128,7 @@ const ModalLojaUpdate = ({ closeModal, getLista, id }) => {
         bairro: json.bairro,
         cidade: json.cidade,
         estado: json.estado,
-        rua: json.logradouro,
+        logradouro: json.logradouro,
       },
       agenda,
       segmento: json.segmento,

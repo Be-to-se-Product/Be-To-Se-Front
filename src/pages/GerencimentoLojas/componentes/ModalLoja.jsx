@@ -37,7 +37,7 @@ const ModalLoja = ({ closeModal, getLista }) => {
         bairro: storage.bairro,
         cidade: storage.cidade,
         estado: storage.estado,
-        rua: storage.logradouro,
+        logradouro: storage.logradouro,
       },
       agenda,
       segmento: storage.segmento,

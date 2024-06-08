@@ -119,6 +119,7 @@ const Step2 = () => {
   };
 
   const handleCep = async (cep) => {
+    console.log(cep);
     if (cep && cep.length == 8) {
       const data = await getEndereco(cep);
       if (data.erro) {
@@ -133,6 +134,7 @@ const Step2 = () => {
       setValue("estado", uf);
     }
   };
+
   return (
     <form className={`flex flex-col gap-y-6 ${currentStep() != 1 && "hidden"}`}>
       <div className="flex flex-col w-10/12  mx-auto h-[300px]  gap-y-4 rounded-lg">
@@ -150,6 +152,7 @@ const Step2 = () => {
               )}
             </div>
             <InputRoot.ContentInput
+              maxLength={8}
               register={register("cep", schemaValidate.cep)}
               onChange={(e) => handleCep(e.target.value)}
             />

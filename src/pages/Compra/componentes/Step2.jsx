@@ -4,13 +4,13 @@ import { ENUM_METODO_PAGAMENTO } from "@/utils/utils";
 import { useContext, useEffect, useState } from "react";
 
 const Step2 = () => {
-  const { setData } = useContext(ProgressContext);
+  const { setData, idEstabelecimento } = useContext(ProgressContext);
   const [metodosPagamento, setMetodoPagamento] = useState([]);
 
   useEffect(() => {
     const getMetodoPagamento = () => {
       api
-        .get(`/estabelecimentos/metodos/1`)
+        .get(`/estabelecimentos/metodos/${idEstabelecimento}`)
         .then((response) => {
           setMetodoPagamento(response.data);
         })

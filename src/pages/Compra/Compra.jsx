@@ -19,9 +19,10 @@ function Compra() {
   const [openModal, setOpenModal] = useState(false);
   const [itens, setItens] = useState([{}]);
   const location = useLocation();
+  const dataLocation = [...location.state];
+  const idEstabelecimento = dataLocation[0].idEstabelecimento;
 
   useEffect(() => {
-    const dataLocation = [...location.state];
     api
       .post("/produtos/venda", dataLocation)
       .then((response) => {
@@ -107,7 +108,7 @@ function Compra() {
             </ProgressRoot.Step>
           </ProgressRoot.Content>
           <form>
-            <ProgressProvider values={{ setData }}>
+            <ProgressProvider values={{ setData, idEstabelecimento }}>
               {steps.map((Step, index) =>
                 index === currentStep() ? <Step key={index} /> : null
               )}

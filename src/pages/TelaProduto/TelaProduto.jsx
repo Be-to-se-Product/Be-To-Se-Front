@@ -146,12 +146,12 @@ function TelaProduto() {
           <NavbarRoot.Item></NavbarRoot.Item>
         </NavbarRoot.Menu>
       </NavbarRoot.Content>
-      <main className="flex py-20 w-10/12 gap-y-20 max-w-[1200px] mx-auto flex-col">
+      <main className="flex py-20 w-10/12 gap-y-20 max-w-[1300px] mx-auto flex-col">
         <div className="flex justify-between w-full mx-auto ">
           <ImageContainer images={produto.imagens || []} />
 
           <div>
-            <div className="flex flex-col gap-y-6">
+            <div className="flex flex-col gap-y-6 min-w-[500px]">
               <h2 className="text-2xl font-medium">{mapper.nome}</h2>
               <p className="text-5xl	">
                 RS{" "}

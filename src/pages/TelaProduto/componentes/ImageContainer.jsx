@@ -8,10 +8,10 @@ const ImageContainer = ({ images }) => {
   }, [images]);
 
   return (
-    <div className=" flex flex-col gap-y-10">
+    <div className=" flex flex-col  gap-y-10">
       <img
         src={image}
-        className="w-full h-[520px] object-cover rounded-md"
+        className="max-w-[590px] h-[520px] object-cover rounded-md"
         alt="Imagem do produto"
       />
       <div className="flex justify-between gap-x-20">

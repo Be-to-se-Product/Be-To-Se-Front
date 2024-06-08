@@ -52,13 +52,14 @@ const FormAdicionar = ({ fecharModal, getProdutos }) => {
       tags: dadosSalvar.tags ? dadosSalvar.tags : null,
     };
 
-    const formData = new FormData();
-    for (let i = 0; i < 4; i++) {
-      if (data[`imagem${i + 1}`][0]) {
-        formData.append("imagens", data[`imagem${i + 1}`][0]);
-      }
-    }
+    console.log(produto);
 
+    const formData = new FormData();
+    const imagens = dadosSalvar.imagens.map((imagem) => imagem.file);
+
+    imagens.forEach((imagem) => {
+      formData.append("imagens", imagem);
+    });
     api
       .post("/produtos", produto)
       .then((response) => {
@@ -95,8 +96,8 @@ const FormAdicionar = ({ fecharModal, getProdutos }) => {
     </Step1>,
     <Step2
       key={2}
-      setData={(data) => {
-        setData((prev) => ({ ...prev, ...data }));
+      setData={(dataStorage) => {
+        setData((prev) => ({ ...prev, ...dataStorage }));
         nextStep();
       }}
       dataStorage={data}
@@ -121,7 +122,7 @@ const FormAdicionar = ({ fecharModal, getProdutos }) => {
   ];
 
   return (
-    <div className=" w-[801px] h-[700px] p-8 bg-white-principal relative rounded-md flex items-center flex-col gap-y-2 justify-around">
+    <div className=" w-[1000px] h-[90vh] overflow-auto p-8 bg-white-principal relative rounded-md flex items-center flex-col gap-y-2 justify-around">
       <div
         className="absolute top-5  right-8 cursor-pointer"
         onClick={() => fecharModal("fechar")}
