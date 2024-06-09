@@ -40,6 +40,7 @@ const PedidosComerciante = () => {
 
   useEffect(() => {
     getPedidos();
+    // eslint-disable-next-line
   }, [status]);
 
   const getPedidos = () => {
@@ -50,7 +51,6 @@ const PedidosComerciante = () => {
       .then((response) => {
         setPedidos([]);
         response.data.forEach((pedido) => {
-          console.log(pedido);
           const itensDto = pedido.itens.map((item) => {
             return {
               id: item.id,

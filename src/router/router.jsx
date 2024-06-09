@@ -21,8 +21,9 @@ import NotFound from "@/pages/NotFound/NotFound.jsx";
 import Login from "@/pages/Login/Login.jsx";
 import { isPermited } from "../utils/Autheticated";
 import MapaInterativoMobile from "@/pages/MapaInterativo/MapaInterativoMobile.jsx";
+import TelaCadastro from "@/pages/TelaCadastro/TelaCadastro";
 
-const PrivateRoute = ({ element, usuario, ...rest }) => {
+const PrivateRoute = ({ element, usuario }) => {
   if (!isPermited(usuario)) {
     return <NotFound />;
   }
@@ -36,12 +37,27 @@ function Router() {
         <Route path="/" element={<Insitucional />} />
         <Route path="/index" element={<TelaInicial />} />
         <Route path="/cadastro/comerciante" element={<CadastroComerciante />} />
-        <Route path="/comerciante/lojas" element={<GerenciamentoLoja />}/>
-        <Route path="/comerciante/lojas/:idEstabelecimento" element={<LayoutComercinate />}> 
+        <Route
+          path="/comerciante/lojas"
+          element={
+            <PrivateRoute
+              element={<GerenciamentoLoja />}
+              usuario={"COMERCIANTE"}
+            />
+          }
+        />
+        <Route
+          path="/comerciante/lojas/:idEstabelecimento"
+          element={
+            <PrivateRoute
+              element={<LayoutComercinate />}
+              usuario={"COMERCIANTE"}
+            />
+          }
+        >
           <Route path="produtos" element={<GerenciamentoProdutos />} />
           <Route path="vendas" element={<HistoricoVendas />} />
           <Route path="pedidos" element={<PedidosComerciante />} />
-
         </Route>
         <Route path="/pesquisa" element={<TelaPesquisa />} />
         <Route path="/produto/:id" element={<TelaProduto />} />
@@ -53,12 +69,12 @@ function Router() {
         <Route path="/cadastro/usuario" element={<CadastroUsuario />} />
         <Route path="/switch" element={<SwitchCadastro />} />
         <Route path="*" element={<NotFound />} />
-        <Route path="/mapa/mobile" element={<MapaInterativoMobile/>} />
-        <Route path="/login" element={<Login/>} />
+        <Route path="/cadastro" element={<TelaCadastro />} />
+        <Route path="/mapa/mobile" element={<MapaInterativoMobile />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
   );
 }
 
 export default Router;
-

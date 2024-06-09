@@ -105,7 +105,7 @@ const Insitucional = () => {
           <h2 className="text-center text-4xl font-medium">Nossas soluções</h2>
 
           <div className="flex gap-x-10">
-            <div className="flex bg-black-900 flex w-1/2 h-[300px] rounded gap-y-2 ">
+            <div className="bg-black-900 flex w-1/2 h-[300px] rounded gap-y-2 ">
               <div className="p-[30px] flex flex-col justify-between w-1/2 ">
                 <h2 className="text-2xl text-orange-principal font-medium mb-2">
                   {" "}
@@ -131,7 +131,7 @@ const Insitucional = () => {
               </div>
             </div>
 
-            <div className="flex bg-black-900 flex w-1/2 h-[300px] rounded gap-y-2 ">
+            <div className="bg-black-900 flex w-1/2 h-[300px] rounded gap-y-2 ">
               <div className="p-[30px] flex flex-col justify-between w-1/2 ">
                 <h2 className="text-2xl text-orange-principal font-medium mb-2">
                   Para clientes

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Button from "@componentes/Button/Button";
-import { set } from "react-hook-form";
+import BotaoSwitch from "@/componentes/Switch/BotaoSwitch";
 
 const FilterBar = ({ getProduto }) => {
   const [showFilter, setShowFilter] = useState(false);
@@ -12,26 +12,17 @@ const FilterBar = ({ getProduto }) => {
   });
 
   return (
-    <div className="fixed right-10 top-3 z-10 flex flex-col gap-y-4">
-      <Button
-        className="bg-orange-principal"
-        onClick={() => setShowFilter(!showFilter)}
-      >
+    <div className="fixed right-10 top-3 z-10 flex flex-col w-[300px] gap-y-4">
+      
+      <Button onClick={() => setShowFilter(!showFilter)}>
         Todos os filtros
       </Button>
       <div
         className={`p-5 bg-black-900 text-white-principal h-0   rounded ${
-          showFilter ? "h-[415px]" : " invisible opacity-0"
-        } overflow-auto transition-all duration-150 w-full`}
+          showFilter ? "h-[398px]" : " invisible opacity-0"
+        } overflow-auto scrollbar-hide transition-all duration-150 w-full flex flex-col gap-y-8`}
       >
-        <ul className="flex flex-col gap-y-4">
-          <li className="flex gap-x-2">
-            <span className="font-medium">Exibir por:</span>
-            <select className="w-max bg-transparent ">
-              <option value="">Mais relevantes</option>
-            </select>
-          </li>
-          {filtro.metodoPagamento}
+        <ul className="flex flex-col gap-y-4 ">
           <li className="flex flex-col">
             <div className="flex flex-col justify-end items-end">
               <span className="w-full mb-1">Distancia</span>
@@ -121,34 +112,34 @@ const FilterBar = ({ getProduto }) => {
             />
           </li>
         </ul>
-        <Button
-          className="w-full h-max mt-4"
-          onClick={() => {
-            getProduto({
-              distancia: filtro.distancia,
-              metodoPagamento: filtro.metodoPagamento,
-            });
-          }}
-        >
-          Filtrar
-        </Button>
-
-        {(filtro.distancia != 50 || filtro.metodoPagamento) && (
+        <div className="flex flex-col gap-y-4">
           <Button
-            className="w-full h-max mt-4"
             onClick={() => {
-              const filtroReset = {
-                distancia: 50,
-                nome: null,
-                metodoPagamento: null,
-              };
-              setFiltro(filtroReset);
-              getProduto(filtroReset);
+              getProduto({
+                distancia: filtro.distancia,
+                metodoPagamento: filtro.metodoPagamento,
+              });
             }}
           >
-            Limpar Filtro
+            Filtrar
           </Button>
-        )}
+
+          {(filtro.distancia != 50 || filtro.metodoPagamento) && (
+            <Button
+              onClick={() => {
+                const filtroReset = {
+                  distancia: 50,
+                  nome: null,
+                  metodoPagamento: null,
+                };
+                setFiltro(filtroReset);
+                getProduto(filtroReset);
+              }}
+            >
+              Limpar Filtro
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   );

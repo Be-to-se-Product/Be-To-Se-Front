@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import IconSearch from "@assets/search.svg";
 import NavbarRoot from "@componentes/Navbar/NavbarRoot";
 import { FormControlLabel, Radio, RadioGroup, Skeleton } from "@mui/material";
@@ -7,9 +7,10 @@ import CardLojaRoot from "@componentes/CardLoja/CardLojaRoot";
 import Button from "@componentes/Button/Button";
 
 import moment from "moment";
-import ContentModal from "@componentes/COntentModal/ContentModal";
+import ContentModal from "@/componentes/ContentModal/ContentModal";
 import CardItemVenda from "./componentes/CardItemVenda";
 import api from "@/services/api/services";
+import useDebounce from "@/hooks/useDebounce";
 
 const PedidosUsuario = () => {
   const statusColors = {
@@ -37,10 +38,14 @@ const PedidosUsuario = () => {
     data: {},
   });
 
-  const getPedidos = () => {
+  const getPedidos = useCallback(() => {
     setIsLoading(true);
     api
-      .get("/pedidos/consumidor?status=" + status)
+      .get("/pedidos/consumidor", {
+        params: {
+          status: status,
+        },
+      })
       .then((response) => {
         if (response.status == 200) {
           const pedidosRefactor = response.data?.map((pedido) => {
@@ -58,12 +63,12 @@ const PedidosUsuario = () => {
                   bairro: pedido.estabelecimento.endereco.bairro,
                 },
               },
-              itens: pedido.itens.map((item) => {
-                return {
-                  produto: item.produto,
+              itens: pedido.itens.map((item) => ({
+                produto: {
+                  ...item.produto,
                   quantidade: item.quantidade,
-                };
-              }),
+                },
+              })),
             };
             return pedidoDto;
           });
@@ -80,7 +85,7 @@ const PedidosUsuario = () => {
       .finally(() => {
         setIsLoading(false);
       });
-  };
+  }, [status]);
 
   const filtroPedidos = (e) => {
     if (e.target.value != "") {
@@ -93,8 +98,10 @@ const PedidosUsuario = () => {
     setPedidosFiltrados(pedidos);
   };
 
+  const debounce = useDebounce(filtroPedidos, 300);
   useEffect(() => {
     getPedidos();
+    // eslint-disable-next-line
   }, [status]);
 
   return (
@@ -219,21 +226,17 @@ const PedidosUsuario = () => {
             </div>
 
             <div className="flex h-max  w-1/3  ">
-              <InputRoot.Input
-                className={"h-9"}
-                onChange={filtroPedidos}
+              <InputRoot.ContentInput
+                icon={IconSearch}
+                onChange={debounce}
                 placeholder={"Informe o nome da loja"}
-              >
-                <InputRoot.Icon>
-                  <img src={IconSearch} />
-                </InputRoot.Icon>
-              </InputRoot.Input>
+              />
             </div>
           </div>
 
           <div className="w-full flex relative flex-wrap gap-y-8 gap-x-10">
             <ContentModal
-              className={`w-[500px] `}
+              className={`w-[500px]`}
               show={pedidoSelecionado.show}
               setPedidoSelecionado={setPedidoSelecionado}
             >
@@ -244,16 +247,18 @@ const PedidosUsuario = () => {
                   {pedidoSelecionado.data?.itens
                     ?.reduce(
                       (accumulator, element) =>
-                        accumulator + element.produto.preco,
+                        (accumulator + element.produto.preco) *
+                        element.produto.quantidade,
                       0
                     )
                     .toFixed(2)}
                 </h2>
               </div>
-
-              {pedidoSelecionado.data?.itens?.map((item, index) => (
-                <CardItemVenda produto={item} key={`item_${index}`} />
-              ))}
+              <div className="h-[300px] overflow-y-auto">
+                {pedidoSelecionado.data?.itens?.map((item, index) => (
+                  <CardItemVenda produto={item} key={`item_${index}`} />
+                ))}
+              </div>
             </ContentModal>
 
             {isLoading
@@ -318,26 +323,24 @@ const PedidosUsuario = () => {
                           Preço total: R$
                           {pedido.itens
                             .reduce(
-                              (accumulator, element) => {
-                                console.log(element);
-                                return accumulator + element?.produto?.preco;
-                              },
-
+                              (accumulator, element) =>
+                                accumulator + element?.produto?.preco,
                               0
                             )
                             .toFixed(2)}
                         </span>
-                        <Button
-                          className=" text-black-900 text-xs"
-                          onClick={() =>
-                            setPedidoSelecionado({
-                              show: true,
-                              data: pedido,
-                            })
-                          }
-                        >
-                          Ver itens da compra
-                        </Button>
+                        <div>
+                          <Button
+                            onClick={() =>
+                              setPedidoSelecionado({
+                                show: true,
+                                data: pedido,
+                              })
+                            }
+                          >
+                            Ver itens da compra
+                          </Button>
+                        </div>
                       </div>
                     </CardLojaRoot.Footer>
                   </CardLojaRoot.Content>

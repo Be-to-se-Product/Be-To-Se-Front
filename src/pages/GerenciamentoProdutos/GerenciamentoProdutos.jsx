@@ -1,4 +1,3 @@
-import Card from "./componentes/Card";
 import Modal from "@componentes/Modal/Modal";
 import FormAdicionar from "./componentes/FormAdicionar";
 import FormUpdate from "./componentes/FormUpdate";
@@ -11,6 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { injectStyle } from "react-toastify/dist/inject-style";
 import FileImg from "@assets/file.png";
 import { useParams } from "react-router-dom";
+import TableRoot from "@/componentes/TableNew/TableRoot";
 
 injectStyle();
 
@@ -30,7 +30,7 @@ const GerenciamentoProdutos = () => {
         setProdutos(res.data ? res.data : []);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
     toast.dismiss();
   };
@@ -167,6 +167,7 @@ const GerenciamentoProdutos = () => {
 
   useEffect(() => {
     getProdutos();
+    //eslint-disable-next-line
   }, []);
 
   const openModal = (tipo, id) => {
@@ -293,25 +294,93 @@ const GerenciamentoProdutos = () => {
             <h2 className="text-2xl font-medium">Produtos Cadastrados</h2>
           </div>
 
-          <div className="content-product flex gap-x-6 gap-y-8 flex-wrap h-full overflow-scroll scrollbar-hide">
-            {produtos?.map((produto) =>
-              produto.isAtivo ? (
-                <Card
-                  key={produto.id}
-                  produto={produto}
-                  openModal={openModal}
-                  color="#F9F9F9"
-                />
-              ) : (
-                <Card
-                  key={produto.id}
-                  produto={produto}
-                  openModal={openModal}
-                  color="#C0B7B7"
-                />
-              )
-            )}
-          </div>
+          <div className="content-product flex gap-x-6 gap-y-8 flex-wrap h-full overflow-scroll scrollbar-hide"></div>
+
+          <TableRoot.Content>
+            <TableRoot.Header className="grid-cols-[1.5fr,0.9fr,1fr,1fr,1fr,1fr,0.5fr,1fr] py-3 rounded-t-lg bg-black-full gap-0 text-white-full text-xs px-5 font-medium">
+              <TableRoot.Cell className="border-none ">Nome</TableRoot.Cell>
+
+              <TableRoot.Cell className="border-none ">SKU</TableRoot.Cell>
+              <TableRoot.Cell className="border-none ">
+                Categoria
+              </TableRoot.Cell>
+              <TableRoot.Cell className="border-none ">Preço</TableRoot.Cell>
+              <TableRoot.Cell className="border-none ">
+                Preço Oferta
+              </TableRoot.Cell>
+              <TableRoot.Cell className="border-none ">
+                Adicionado
+              </TableRoot.Cell>
+              <TableRoot.Cell className="border-none ">Status</TableRoot.Cell>
+              <TableRoot.Cell className="border-none text-center">
+                Ações
+              </TableRoot.Cell>
+            </TableRoot.Header>
+
+            {produtos.map((produto) => (
+              <TableRoot.Row
+                className="grid-cols-[1.5fr,0.9fr,1fr,1fr,1fr,1fr,0.5fr,1fr] font-medium  border-gray-75 border-b-1 border-t-0 border-l-0 border-r-0 px-5 py-4 "
+                key={produto.id}
+              >
+                <TableRoot.Cell className="border-none">
+                  <div className="flex items-center">
+                    <div className="w-10 h-10 bg-black-900 rounded-md ">
+                      <img
+                        src={produto.imagens[0]}
+                        alt=""
+                        className="object-cover rounded-md h-full"
+                      />
+                    </div>
+                    <span className="ml-2">{produto.nome}</span>
+                  </div>
+                </TableRoot.Cell>
+                <TableRoot.Cell className="border-none">
+                  {produto.codigoSku}
+                </TableRoot.Cell>
+                <TableRoot.Cell className="border-none">
+                  {produto.categoria}
+                </TableRoot.Cell>
+                <TableRoot.Cell className="border-none">
+                  {produto.preco
+                    ? "R$" +
+                      produto?.preco.toLocaleString("pt-BR", {
+                        minimumFractionDigits: 2,
+                      })
+                    : "Não possui"}
+                </TableRoot.Cell>
+                <TableRoot.Cell className="border-none">
+                  {produto?.precoOferta
+                    ? "R$" +
+                      produto.precoOferta.toLocaleString("pt-BR", {
+                        minimumFractionDigits: 2,
+                      })
+                    : "Não possui"}
+                </TableRoot.Cell>
+                <TableRoot.Cell className="border-none">
+                  12/08/2004
+                </TableRoot.Cell>
+                <TableRoot.Cell className="border-none">
+                  {produto.isAtivo ? "Ativo" : "Inativo"}
+                </TableRoot.Cell>
+                <TableRoot.Cell className="border-none">
+                  <button
+                    type="button"
+                    onClick={() => changeModal("update", produto.id)}
+                  >
+                    {" "}
+                    Editar
+                  </button>
+                  {" | "}{" "}
+                  <button
+                    type="button"
+                    onClick={() => changeModal("delete", produto.id)}
+                  >
+                    Deletar
+                  </button>
+                </TableRoot.Cell>
+              </TableRoot.Row>
+            ))}
+          </TableRoot.Content>
         </div>
       </section>
       {stateForm}

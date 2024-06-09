@@ -1,17 +1,12 @@
 import { useState } from "react";
-import Navbar from "@componentes/Navbar/NavbarRoot";
-
 import StepperRoot from "@componentes/Stepper/StepperRoot";
 import Button from "@componentes/Button/Button";
-
 import Step1 from "./componentes/Step1";
 import Step2 from "./componentes/Step2";
 import CircularProgress from "@mui/material/CircularProgress";
 import { removerMascaraCpf, removerMascaraTelefone } from "@utils/formatadores";
 import { criptografar } from "@utils/Autheticated";
-
 import IconSelect from "@assets/selection.png";
-
 import { useNavigate } from "react-router-dom";
 import NavbarRoot from "@componentes/Navbar/NavbarRoot";
 import api from "@/services/api/services";
@@ -40,10 +35,9 @@ const CadastroUsuario = () => {
 
   const saveUser = (dataFunction) => {
     const dataMerge = { ...data, ...dataFunction };
-
     const dataRequest = {
       nome: dataMerge.nome,
-      cpf: removerMascaraCpf(dataMerge.cpf),
+      cpf: removerMascaraCpf(dataMerge?.cpf),
       celular: removerMascaraTelefone(dataMerge.telefone),
       dataNascimento: dataMerge.dtNascimento,
       genero: dataMerge.genero,
@@ -52,7 +46,6 @@ const CadastroUsuario = () => {
         senha: dataMerge.senha,
       },
     };
-
     sessionStorage.clear();
 
     api
@@ -83,13 +76,24 @@ const CadastroUsuario = () => {
   const steps = [
     <Step1 key="step1" getDataForm={saveLocalStorage} data={data}>
       <div className="flex w-10/12 mx-auto justify-center mt-8 gap-x-5">
-        <Button onClick={() => setIsAvancar(true)}>Avançar</Button>
+        <Button
+          type="submit"
+          onClick={() => {
+            setIsAvancar(true);
+          }}
+        >
+          Avançar
+        </Button>
       </div>
     </Step1>,
     <Step2 key="step2" getDataForm={saveLocalStorage} data={data}>
       <div className="flex w-10/12 mx-auto justify-center mt-8 gap-x-5">
-        <Button onClick={() => setIsRetroceder(true)}>Retroceder</Button>
-        <Button onClick={() => setIsAvancar(true)}>Cadastrar</Button>
+        <Button type="submit" onClick={() => setIsRetroceder(true)}>
+          Retroceder
+        </Button>
+        <Button type="submit" onClick={() => setIsAvancar(true)}>
+          Cadastrar
+        </Button>
       </div>
     </Step2>,
     <div
@@ -112,7 +116,7 @@ const CadastroUsuario = () => {
           <NavbarRoot.Logo />
           <NavbarRoot.Pesquisa />
           {sessionStorage.USERDETAILS ? (
-            <Navbar.Authenticated />
+            <NavbarRoot.Authenticated />
           ) : (
             <NavbarRoot.Sign />
           )}

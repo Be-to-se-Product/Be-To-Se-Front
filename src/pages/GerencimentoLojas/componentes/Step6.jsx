@@ -5,7 +5,7 @@ import Button from "@componentes/Button/Button";
 import { converterInputImageToBase64 } from "@utils/conversores";
 import IconCam from "@assets/cam-picture.png";
 const Step6 = () => {
-  const { storage, setStorage, prevStep, nextStep, stateAtual } =
+  const { storage, prevStep, saveEstabelecimento, currentStep } =
     useContext(FormContext);
   const { register, handleSubmit, watch, setValue } = useForm({
     defaultValues: {
@@ -27,14 +27,12 @@ const Step6 = () => {
         metodosPagamento.push(key);
       }
     }
-
-    setStorage({ ...storage, ...data });
-    callback?.();
+    callback?.({ ...storage, ...data });
   };
 
   const next = () => {
     handleSubmit((data) => {
-      submit(data, nextStep);
+      submit(data, saveEstabelecimento);
     })();
   };
 
@@ -48,8 +46,13 @@ const Step6 = () => {
   const [isApplyDefault, setIsApplyDefault] = useState(false);
   useEffect(() => {
     if (!isApplyDefault && Object.keys(storage).length > 0) {
-      if (storage?.imagens) {
-        slot.current.src = storage?.imagens["0"]?.url;
+      console.log(storage);
+
+      if (storage?.images) {
+        (async () => {
+          const base64 = await converterInputImageToBase64(storage?.images[0]);
+          slot.current.src = base64;
+        })();
       }
 
       setIsApplyDefault(true);
@@ -57,16 +60,20 @@ const Step6 = () => {
   }, [storage]);
 
   useEffect(() => {
+    console.log(imagem);
     if (imagem?.length > 0) {
-      converterInputImageToBase64(
-        imagem[0],
-        (base64) => (slot.current.src = base64.imagem)
-      );
+      (async () => {
+        const file = imagem[0];
+        const base64 = await converterInputImageToBase64(file);
+        slot.current.src = base64;
+      })();
     }
   }, [imagem]);
   return (
     <form
-      className={`relative  flex-col gap-y-8 ${stateAtual != 5 && "hidden"} `}
+      className={`relative  flex-col gap-y-8 ${
+        currentStep() != 5 && "hidden"
+      } `}
     >
       <div className="text-center">
         Insira uma imagem para o seu estabelecimento
@@ -95,13 +102,17 @@ const Step6 = () => {
             {...register("imagem")}
           />
         </div>
-        <Button
-          type="button"
-          className={"h-max absolute right-0 mt-10 "}
-          onClick={removerFoto}
-        >
-          Remover Foto
-        </Button>
+        <div>
+          <Button
+            type="button"
+            variants={{
+              class: " absolute right-[-150px] w-max",
+            }}
+            onClick={removerFoto}
+          >
+            Remover Foto
+          </Button>
+        </div>
       </div>
       <div className="flex justify-center mt-14 gap-x-4">
         <Button type="button" onClick={prev}>

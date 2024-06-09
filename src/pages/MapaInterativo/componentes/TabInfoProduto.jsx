@@ -1,8 +1,9 @@
-import { Tab, Tabs } from "@mui/material";
+import { Rating, Tab, Tabs } from "@mui/material";
 import React, { useState } from "react";
 import Avaliacao from "@componentes/Avaliacao/Avaliacao";
 import ContentAvaliacao from "./ContentAvaliacao";
 import InfoLoja from "./InfoLoja";
+import RatingComponent from "@/pages/TelaProduto/componentes/StarAvaliacao";
 
 const TabInfoProduto = ({ produtoSelecionado }) => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -67,29 +68,27 @@ const TabInfoProduto = ({ produtoSelecionado }) => {
         <div className="p-5">
           <h2 className="font-medium text-xl mb-4">Coca Cola</h2>
           <p className="text-xs">{produtoSelecionado?.descricao}</p>
-
-          <h3 className="mt-5 mb-4">Caracteristicas</h3>
-          <ul className="list-disc px-5">
-            <li>Teste</li>
-            <li>Teste</li>
-            <li>Teste</li>
-            <li>Teste</li>
-          </ul>
         </div>
       )}
 
       {currentPage == 1 && (
         <ContentAvaliacao>
           {produtoSelecionado?.avaliacao?.map((avaliacao) => (
-            <Avaliacao
-              key={avaliacao.id}
-              avaliacao={{
-                nome: avaliacao.usuario,
-                stars: avaliacao.qtdEstrela,
-                comentario: avaliacao.descricao,
-                data: avaliacao.data,
-              }}
-            />
+            <div key={avaliacao} className="flex flex-col gap-y-4 mb-5">
+              <div className="flex gap-x-4">
+                <h2>{avaliacao.usuario}</h2>
+                <span>
+                  <Rating
+                    nome="text-feedback"
+                    value={Number(produtoSelecionado?.mediaAvaliacao)}
+                    readOnly
+                    size="small"
+                  />
+                </span>
+              </div>
+              <hr className="border-gray-400" />
+              <p>{avaliacao.descricao}</p>
+            </div>
           ))}
           {produtoSelecionado.avaliacao?.length <= 0 && (
             <>Não há avaliações por enquanto</>

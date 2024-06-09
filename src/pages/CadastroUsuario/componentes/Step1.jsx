@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import InputRoot from "@componentes/Input/InputRoot";
 import InputDate from "@componentes/InputDate/InputDate";
@@ -73,14 +72,13 @@ const Step1 = ({ getDataForm, children, data }) => {
       autoComplete={"off"}
     >
       <div className="flex flex-col ">
-        <InputRoot.Input
+        <InputRoot.Label>Nome </InputRoot.Label>
+        <InputRoot.ContentInput
           type="text"
           placeholder="Informe o seu nome completo"
           register={register("nome", schemaValidation.nome)}
           defaultValue={data?.nome}
-        >
-          <InputRoot.Label>Nome </InputRoot.Label>
-        </InputRoot.Input>
+        />
         <span className="text-xs font-medium text-red-600">
           {formState?.errors?.nome?.type &&
             message[formState?.errors?.nome?.type]}
@@ -89,7 +87,8 @@ const Step1 = ({ getDataForm, children, data }) => {
 
       <div className="grid grid-cols-[2fr,1.5fr] gap-x-4">
         <div>
-          <InputRoot.Input
+          <InputRoot.Label>CPF</InputRoot.Label>
+          <InputRoot.ContentInput
             type="text"
             placeholder="Informe o seu CPF"
             maxlength={14}
@@ -98,9 +97,8 @@ const Step1 = ({ getDataForm, children, data }) => {
             onInput={(e) => {
               e.target.value = mascaraFormatoCpf(e.target.value);
             }}
-          >
-            <InputRoot.Label>CPF</InputRoot.Label>
-          </InputRoot.Input>
+          />
+
           <span className="text-xs font-medium text-red-600">
             {formState?.errors?.cpf?.type &&
               message[formState?.errors?.cpf?.type]}
@@ -140,7 +138,8 @@ const Step1 = ({ getDataForm, children, data }) => {
           </span>
         </div>
         <div>
-          <InputRoot.Input
+          <InputRoot.Label>Telefone</InputRoot.Label>
+          <InputRoot.ContentInput
             type="tel"
             placeholder="Informe seu telefone"
             register={register("telefone", schemaValidation.telefone)}
@@ -148,9 +147,8 @@ const Step1 = ({ getDataForm, children, data }) => {
             onInput={(e) => {
               e.target.value = inputFormatoTelefone(e.target.value);
             }}
-          >
-            <InputRoot.Label>Telefone</InputRoot.Label>
-          </InputRoot.Input>
+          />
+
           <span className="text-xs font-medium text-red-600">
             {formState?.errors?.telefone?.type &&
               message[formState?.errors?.telefone?.type]}

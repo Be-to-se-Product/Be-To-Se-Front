@@ -1,12 +1,10 @@
 import NavbarRoot from "@componentes/Navbar/NavbarRoot";
-import star from "@assets/star.svg";
 import fast from "@assets/fastshop.png";
 import { useCallback, useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { injectStyle } from "react-toastify/dist/inject-style";
 import api from "@/services/api/services";
 import Avaliacao from "@componentes/Avaliacao/Avaliacao";
-import { descriptografar } from "@utils/Autheticated";
 import StarAvaliacao from "./componentes/StarAvaliacao";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -19,13 +17,8 @@ import { conversorTime } from "@/utils/conversores";
 import { geolocation } from "@/utils/geolocation";
 import Button from "@/componentes/Button/Button";
 import InputRoot from "@/componentes/Input/InputRoot";
-import {
-  Add,
-  Delete,
-  DeleteForeverOutlined,
-  Remove,
-} from "@mui/icons-material";
-import { ENUMMETODOPAGAMENTO } from "@/utils/utils";
+import { Add, Remove } from "@mui/icons-material";
+import { ENUM_METODO_PAGAMENTO } from "@/utils/utils";
 injectStyle();
 function TelaProduto() {
   const { id: idProduto } = useParams();
@@ -40,8 +33,10 @@ function TelaProduto() {
 
   const comprarProduto = () => {
     let quantidade = qtd;
-    let origem = "TelaProduto";
-    const data = [{ idProduto, quantidade, origem }];
+    let origem = "produto";
+    const idEstabelecimento = produto.estabelecimento?.id;
+
+    const data = [{ idProduto, quantidade, origem, idEstabelecimento }];
     navigate(`/compra`, { state: data });
   };
 
@@ -76,7 +71,7 @@ function TelaProduto() {
   };
 
   const getProduto = useCallback(
-    ({ latitude = -23.5505199, longitude = -46.6333094 }) => {
+    (latitude, longitude) => {
       toast.loading("Carregando...");
 
       const params = {};
@@ -151,12 +146,12 @@ function TelaProduto() {
           <NavbarRoot.Item></NavbarRoot.Item>
         </NavbarRoot.Menu>
       </NavbarRoot.Content>
-      <main className="flex py-20 w-10/12 gap-y-20 max-w-[1200px] mx-auto flex-col">
+      <main className="flex py-20 w-10/12 gap-y-20 max-w-[1300px] mx-auto flex-col">
         <div className="flex justify-between w-full mx-auto ">
           <ImageContainer images={produto.imagens || []} />
 
           <div>
-            <div className="flex flex-col gap-y-6">
+            <div className="flex flex-col gap-y-6 min-w-[500px]">
               <h2 className="text-2xl font-medium">{mapper.nome}</h2>
               <p className="text-5xl	">
                 RS{" "}
@@ -249,15 +244,16 @@ function TelaProduto() {
                   </p>
                 </div>
               </div>
-              {console.log(produto.estabelecimento?.metodoPagamento)}
               {produto.estabelecimento?.metodoPagamento?.length > 0 && (
                 <div className="flex flex-col gap-y-4">
                   <p className="text-base">Meios de pagamento na loja</p>
                   <div className="flex flex-row gap-x-12">
-                    {produto.estabelecimento?.metodoPagamento?.map(
+                    {produto?.estabelecimento?.metodoPagamento?.map(
                       (metodoPagamento) => (
                         <img
-                          src={ENUMMETODOPAGAMENTO[metodoPagamento.nome]}
+                          src={
+                            ENUM_METODO_PAGAMENTO[metodoPagamento?.nome] || ""
+                          }
                           key={metodoPagamento}
                           className="w-12 h-12"
                         />
@@ -286,6 +282,7 @@ function TelaProduto() {
             <div className="flex flex-col gap-y-10 ">
               <div className="flex flex-col gap-y-2">
                 <InputRoot.TextArea
+                  placeholder="Descreva sua avaliação"
                   className={"resize-none"}
                   onChange={(e) =>
                     setPostAvaliacao((prev) => ({

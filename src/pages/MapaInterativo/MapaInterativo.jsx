@@ -227,7 +227,9 @@ const MapaInterativo = () => {
           produto={element}
           onClick={() => {
             setProdutoSelecionado(element);
-            setShow(!show);
+            setTimeout(() => {
+              setShow(true);
+            }, 1);
           }}
         />
       );
@@ -238,16 +240,18 @@ const MapaInterativo = () => {
 
   return (
     <div className="flex">
-      <ContentBar show={show} setShow={setShow}>
-        <BarProduto
-          setDestination={setDestination}
-          profiles={profiles}
-          setModePercurssion={setModePercurssion}
-          rotas={rotas}
-          produtoSelecionado={produtoSelecionado}
-          show={true}
-        />
-      </ContentBar>
+      {produtoSelecionado?.id && (
+        <ContentBar show={show} setShow={setShow}>
+          <BarProduto
+            setDestination={setDestination}
+            profiles={profiles}
+            setModePercurssion={setModePercurssion}
+            rotas={rotas}
+            produtoSelecionado={produtoSelecionado}
+            show={show}
+          />
+        </ContentBar>
+      )}
 
       <FilterBar getProduto={getProduto} />
       <div ref={mapContainerRef} className="w-full h-screen"></div>

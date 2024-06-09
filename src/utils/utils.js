@@ -8,7 +8,7 @@ export const getQueryParams = (searhParams) => {
   return Object.fromEntries(params);
 };
 
-export const ENUMMETODOPAGAMENTO = {
+export const ENUM_METODO_PAGAMENTO = {
   "Cartão de Crédito": "/cartao.png",
   "Cartão de Débito": "/cartao.png",
   Boleto: "/boleto.png",
@@ -21,4 +21,9 @@ export const ENUMMETODOPAGAMENTO = {
   "Vale Refeição": "/refeicao.svg",
   "Vale Alimentação": "/alimentacao.png",
   Outros: "Outros.png",
+};
+
+export const TIPO_FLUXO = {
+  RETIRE_LOJA: "Retire na loja",
+  PAGUE_LOJA: "Pague na loja",
 };

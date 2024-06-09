@@ -1,21 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import AplicattionContext from "@/context/Apllicattion/AplicattionContext";
 import { Checkbox } from "@mui/material";
 import { orange } from "@mui/material/colors";
 import Button from "@componentes/Button/Button";
 import FormContext from "@/context/Form/FormContext";
 import api from "@/services/api/services";
 const Step4 = ({ setTeste, teste }) => {
-  const { storage, setStorage, stateAtual, nextStep, prevStep } =
+  const { storage, setStorage, currentStep, nextStep, prevStep } =
     useContext(FormContext);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-    setValue,
-  } = useForm();
+  const { register, handleSubmit, watch, setValue } = useForm();
   const [metodosPagamento, setMetodosPagamento] = useState([]);
   const [isApplyDefault, setIsApplyDefault] = useState(false);
 
@@ -27,7 +20,6 @@ const Step4 = ({ setTeste, teste }) => {
     if (!isApplyDefault && Object.keys(storage).length > 0) {
       if (storage?.metodosPagamento) {
         storage.metodosPagamento.forEach((value) => {
-          console.log(Object.entries(value));
           Object.entries(value).forEach(([key, value]) => {
             setValue(key, value);
           });
@@ -36,6 +28,7 @@ const Step4 = ({ setTeste, teste }) => {
       }
     }
     setTeste((prev) => prev + 1);
+    // eslint-disable-next-line
   }, [storage]);
 
   const getMetodosPagamento = () => {
@@ -43,6 +36,7 @@ const Step4 = ({ setTeste, teste }) => {
       .get("/metodos-pagamentos")
       .then((response) => {
         setMetodosPagamento(response.data || []);
+        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -54,14 +48,13 @@ const Step4 = ({ setTeste, teste }) => {
     for (const [key, value] of Object.entries(data)) {
       if (value) {
         metodosPagamento.push(key);
-        console.log(metodosPagamento);
       }
     }
     setStorage({ ...storage, metodosPagamento: metodosPagamento });
     callback?.();
   };
 
-  const next = () => {
+  const handle = () => {
     if (validStep()) {
       handleSubmit((data) => {
         submit(data, nextStep);
@@ -78,11 +71,11 @@ const Step4 = ({ setTeste, teste }) => {
 
   const validStep = () => {
     const campos = watch();
-    return Object.entries(campos).find(([key, value]) => value) ? true : false;
+    return !!Object.values(campos).find((value) => value);
   };
 
   return (
-    <form className={`flex flex-col gap-y-8 ${stateAtual != 3 && "hidden"}`}>
+    <form className={`flex flex-col gap-y-8 ${currentStep() != 3 && "hidden"}`}>
       {!validStep() && (
         <div className=" h-1 text-center">
           Selecione ao menos um método de pagamento
@@ -93,7 +86,7 @@ const Step4 = ({ setTeste, teste }) => {
         key={teste}
       >
         <div className="grid grid-cols-2 gap-4 gap-y-2 mx-auto">
-          {metodosPagamento.map((item, index) => (
+          {metodosPagamento.map((item) => (
             <div className="flex items-center gap-y-1" key={item.id}>
               <Checkbox
                 sx={{
@@ -102,9 +95,11 @@ const Step4 = ({ setTeste, teste }) => {
                     color: orange[600],
                   },
                 }}
-                defaultChecked={storage?.metodosPagamento?.find(
-                  (el) => Object.keys(el)[0] == item.id.toString()
-                )}
+                defaultChecked={
+                  !!storage?.metodosPagamento?.find(
+                    (el) => Object.keys(el)[0] == item.id.toString()
+                  )
+                }
                 {...register(item.id.toString())}
               />
               <span className="text-center">{item.descricao}</span>
@@ -116,7 +111,7 @@ const Step4 = ({ setTeste, teste }) => {
         <Button onClick={prev} type="button">
           Retroceder
         </Button>
-        <Button onClick={next} type="button">
+        <Button onClick={handle} type="button">
           Avançar{" "}
         </Button>
       </div>

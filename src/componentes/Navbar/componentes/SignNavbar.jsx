@@ -5,24 +5,29 @@ const SignNavbar = () => {
   const navigate = useNavigate();
   return (
     <div className="flex gap-x-3">
-      <Button
-        variants={{
-          colors: "secondary",
-          effects: "hover",
-        }}
-        onClick={() => navigate("/login")}
-      >
-        Login
-      </Button>
-      <Button
-        variants={{
-          colors: "secondary",
-          effects: "hover",
-        }}
-        onClick={() => navigate("/switch")}
-      >
-        Crie sua conta
-      </Button>
+      <div className="w-[100px]">
+        <Button
+          variants={{
+            colors: "secondary",
+            effects: "hover",
+          }}
+          onClick={() => navigate("/login")}
+        >
+          Login
+        </Button>
+      </div>
+      <div className="w-[140px]">
+        <Button
+          variants={{
+            colors: "secondary",
+            sizes: "sm",
+            effects: "hover",
+          }}
+          onClick={() => navigate("/switch")}
+        >
+          Crie sua conta
+        </Button>
+      </div>
     </div>
   );
 };

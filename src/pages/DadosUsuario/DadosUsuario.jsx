@@ -13,30 +13,36 @@ function DadosUsuario() {
   const navigate = useNavigate();
 
   const getConsumidores = (id) => {
-    console.log("caiu");
     toast.loading("Carregando...");
     api
       .get(`/consumidores/${id}`)
       .then((res) => {
         toast.dismiss();
         setConsumidores(res.data.length == 0 ? [] : res.data);
-        console.log(res.data);
       })
-      .catch((err) => {});
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
+        toast.dismiss();
+      });
   };
 
   const atualizarConsumidor = () => {
     const loading = toast.loading("Carregando...");
     api
       .patch(`/consumidores/${userId}`, consumidores)
-      .then((res) => {
+      .then(() => {
         toast.dismiss(loading);
         toast.success("Dados atualizados com sucesso!", { autoClose: 2000 });
         setTimeout(() => {
-          // navigate("/index");
+          navigate("/index");
         }, 3000);
       })
       .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
         toast.dismiss(loading);
       });
   };
@@ -51,7 +57,6 @@ function DadosUsuario() {
 
   useEffect(() => {
     const userDetailsCrypt = descriptografar(sessionStorage?.USERDETAILS);
-    console.log(userDetailsCrypt);
     const { id } = JSON.parse(userDetailsCrypt);
     setUserId(id);
     getConsumidores(id);

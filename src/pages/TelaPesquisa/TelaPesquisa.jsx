@@ -7,6 +7,9 @@ import DistanceFilter from "./componentes/DistanceFilter";
 import { useForm } from "react-hook-form";
 import useDebounce from "@/hooks/useDebounce";
 import Button from "@/componentes/Button/Button";
+import BotaoSwitch from "@/componentes/Switch/BotaoSwitch";
+import { useNavigate } from "react-router-dom";
+import { geolocation } from "@/utils/geolocation";
 
 function TelaPesquisa() {
   const [produtos, setProdutos] = useState([]);
@@ -14,11 +17,20 @@ function TelaPesquisa() {
   const { register, watch, setValue } = useForm({
     mode: "onChange",
   });
+  const [location, setLocation] = useState({ latitude: 0, longitude: 0 });
   const [distanciaOptions, setDistanciaOptions] = useState(50);
   const [nome, setNome] = useState("");
+  const navigate = useNavigate();
   const debounce = useDebounce((nome) => {
     setNome(nome);
   }, 500);
+
+  useEffect(() => {
+    geolocation(({ lat, lon }) => {
+      setLocation({ latitude: lat, longitude: lon });
+    });
+  }, []);
+
   const metodoOptions = watch("metodoPagamento");
 
   const getMetodoPagamento = async () => {
@@ -29,11 +41,18 @@ function TelaPesquisa() {
     }
   };
 
-  const getProdutos = async (distanciaOptions, metodoOptions, nome) => {
+  const getProdutos = async (
+    distanciaOptions,
+    metodoOptions,
+    nome,
+    latitude,
+    longitude
+  ) => {
     const params = {
-      latitude: -23.5505199,
-      longitude: -46.6333094,
+      latitude: latitude,
+      longitude: longitude,
     };
+
     if (distanciaOptions) {
       params.distancia = distanciaOptions;
     }
@@ -56,8 +75,14 @@ function TelaPesquisa() {
   };
 
   useEffect(() => {
-    getProdutos(distanciaOptions, metodoOptions, nome);
-  }, [distanciaOptions, metodoOptions, nome]);
+    getProdutos(
+      distanciaOptions,
+      metodoOptions,
+      nome,
+      location?.latitude,
+      location?.longitude
+    );
+  }, [distanciaOptions, metodoOptions, nome, location]);
 
   useEffect(() => {
     getMetodoPagamento();
@@ -79,7 +104,7 @@ function TelaPesquisa() {
         </NavbarRoot.Menu>
       </NavbarRoot.Content>
 
-      <section className="px-24 flex py-10">
+      <section className="px-24 flex py-10 relative">
         <div className="flex flex-col justify-start gap-y-4 w-[300px]">
           <h2 className="text-xl font-medium">Filtros</h2>
           <div className="flex flex-col">
@@ -138,10 +163,20 @@ function TelaPesquisa() {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-4 w-full gap-y-10">
-          {produtos.map((produto) => (
-            <CardProduto key={produto.id} id={produto.id} produto={produto} />
-          ))}
+        <div className="w-full flex flex-col items-end gap-y-4">
+          <div className="flex w-min px-10 gap-x-4 items-center">
+            <BotaoSwitch
+              onChange={(value) => {
+                if (value) setTimeout(() => navigate("/mapa"), 1000);
+              }}
+            />
+            Mostrar
+          </div>
+          <div className="grid grid-cols-4 w-full gap-y-10">
+            {produtos.map((produto) => (
+              <CardProduto key={produto.id} id={produto.id} produto={produto} />
+            ))}
+          </div>
         </div>
       </section>
     </div>

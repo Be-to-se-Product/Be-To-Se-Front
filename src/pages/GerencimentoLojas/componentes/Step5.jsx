@@ -1,17 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import FormContext from "@/context/Form/FormContext";
 import { useForm } from "react-hook-form";
 import RowSessao from "./RowSessao";
 import Button from "@componentes/Button/Button";
 
 const Step5 = () => {
-  const { storage, setStorage, stateAtual, nextStep, prevStep } =
+  const { storage, setStorage, currentStep, nextStep, prevStep } =
     useContext(FormContext);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { handleSubmit } = useForm();
   const [rowSessao, setRowSessao] = useState([]);
   const [isApplyDefault, setIsApplyDefault] = useState(false);
   useEffect(() => {
@@ -21,6 +17,7 @@ const Step5 = () => {
         setIsApplyDefault(true);
       }
     }
+    // eslint-disable-next-line
   }, [storage]);
 
   const submit = (data, callback) => {
@@ -47,7 +44,9 @@ const Step5 = () => {
 
   return (
     <form
-      className={`relative  flex-col gap-y-8 ${stateAtual != 4 && "hidden"} `}
+      className={`relative  flex-col gap-y-8 ${
+        currentStep() != 4 && "hidden"
+      } `}
     >
       <div className="text-center">
         Crie no minimo seção para os seus produtos

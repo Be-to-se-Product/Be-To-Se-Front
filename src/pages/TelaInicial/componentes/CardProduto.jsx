@@ -1,4 +1,3 @@
-import React from "react";
 import { Rating } from "@mui/material";
 import Carro from "@assets/carro.svg";
 import Pe from "@assets/pe.svg";
@@ -80,15 +79,15 @@ const CardProduto = ({ produto }) => {
       <div className="flex gap-x-4 items-center justify-around">
         <div className="flex flex-col gap-y-2 justify-center items-center">
           <img src={Pe} alt="" className="w-7 h-7 " />
-          <h4 className="text-sm">{conversorTime(mapper.tempoEntrega)}</h4>
+          <h4 className="text-xs">{conversorTime(mapper.tempoEntrega)}</h4>
         </div>
         <div className="flex flex-col gap-y-2 justify-center items-center">
           <img src={Carro} alt="" className="w-7 h-7 " />
-          <h4 className="text-sm">{conversorTime(mapper.tempoEntregaCarro)}</h4>
+          <h4 className="text-xs">{conversorTime(mapper.tempoEntregaCarro)}</h4>
         </div>
         <div className="flex flex-col gap-y-2 justify-center items-center">
           <img src={Bike} alt="" className="w-7 h-7 " />
-          <h4 className="text-sm">{conversorTime(mapper.tempoEntregaBike)}</h4>
+          <h4 className="text-xs">{conversorTime(mapper.tempoEntregaBike)}</h4>
         </div>
       </div>
     </div>
