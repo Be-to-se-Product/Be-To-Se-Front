@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import BoxComerciante from "@componentes/BoxComerciante/BoxComerciante";
-import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
+import {
+  CircularProgress,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+} from "@mui/material";
 
 import ModalPedidos from "../HistoricoVendas/componentes/ModalPedidos";
 import api from "@/services/api/services";
@@ -20,6 +25,7 @@ const PedidosComerciante = () => {
   const [status, setStatus] = useState("PENDENTE");
 
   const { idEstabelecimento } = useParams();
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleStatus = (e, pedido) => {
     const status = e.target.value;
@@ -44,6 +50,7 @@ const PedidosComerciante = () => {
   }, [status]);
 
   const getPedidos = () => {
+    setIsLoading(true);
     api
       .get(
         `/pedidos/estabelecimento/${idEstabelecimento}/status?status=` + status
@@ -82,6 +89,9 @@ const PedidosComerciante = () => {
         } else if (err.response.status === 403) {
           toast.error("Acesso negado a esses pedidos");
         }
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -169,20 +179,32 @@ const PedidosComerciante = () => {
         </div>
 
         <div className=" flex flex-col overflow-auto gap-y-6">
-          {pedidos.map((pedido) => (
-            <CardPedido.Content key={pedido.id}>
-              <CardPedido.Header pedido={pedido}>
-                <SelectPedido
-                  pedido={pedido}
-                  onChange={(e) => handleStatus(e, pedido)}
-                />
-              </CardPedido.Header>
-              <CardPedido.Info
-                pedido={pedido}
-                onClick={() => setModal({ isAtivo: true, pedido: pedido })}
+          {isLoading ? (
+            <div className="flex flex-col justify-center items-center mt-[180px]">
+              <CircularProgress
+                sx={{
+                  color: "#FFB800",
+                  width: "120px",
+                }}
               />
-            </CardPedido.Content>
-          ))}
+              <p className="text-lg text-black-900 mt-2">Carregando Pedidos</p>
+            </div>
+          ) : (
+            pedidos.map((pedido) => (
+              <CardPedido.Content key={pedido.id}>
+                <CardPedido.Header pedido={pedido}>
+                  <SelectPedido
+                    pedido={pedido}
+                    onChange={(e) => handleStatus(e, pedido)}
+                  />
+                </CardPedido.Header>
+                <CardPedido.Info
+                  pedido={pedido}
+                  onClick={() => setModal({ isAtivo: true, pedido: pedido })}
+                />
+              </CardPedido.Content>
+            ))
+          )}
         </div>
       </BoxComerciante>
       <ToastContainer />

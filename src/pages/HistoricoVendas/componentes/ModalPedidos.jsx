@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import Close from "@componentes/Close/Close";
 import styled from "../animations/ModalAnimation.module.css";
 import ItemPedido from "./ItemPedido";

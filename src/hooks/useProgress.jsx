@@ -1,8 +1,10 @@
-import {  useState } from "react";
+import { useState } from "react";
 
 const useProgress = (steps, storage) => {
   const [step, setStep] = useState(0);
   const [data, setData] = useState(storage);
+
+  console.log(storage);
 
   const nextStep = () => {
     if (step + 1 >= steps) return;
@@ -20,9 +22,23 @@ const useProgress = (steps, storage) => {
 
   const currentStep = () => step;
 
+  const resetData = () => {
+    const dataReset = { ...storage };
+    Object.keys(dataReset).forEach((key) => {
+      dataReset[key] = "";
+    });
+    setData(dataReset);
+  };
 
-
-  return { currentStep, nextStep, prevStep, resetStep, setData, data };
+  return {
+    currentStep,
+    nextStep,
+    prevStep,
+    resetStep,
+    setData,
+    data,
+    resetData,
+  };
 };
 
 export default useProgress;

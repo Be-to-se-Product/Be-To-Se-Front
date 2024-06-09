@@ -63,10 +63,14 @@ export const converterImageToFile = (image, nome) => {
         ctx.drawImage(img, 0, 0, width, height);
         ctx.canvas.toBlob(
           (blob) => {
-            const file = new File([blob], nome || nomeImagemSemExtensao, {
-              type: `image/${extensaoArquivo}`,
-              lastModified: Date.now(),
-            });
+            const file = new File(
+              [blob],
+              `${nomeImagemSemExtensao}.${extensaoArquivo}`,
+              {
+                type: `image/${extensaoArquivo}`,
+                lastModified: Date.now(),
+              }
+            );
             resolve(file);
           },
           "image/png",
