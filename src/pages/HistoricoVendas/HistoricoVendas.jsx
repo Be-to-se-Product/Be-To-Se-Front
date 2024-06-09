@@ -227,7 +227,7 @@ const HistoricoVendas = () => {
             <TableRoot.Cell>AÇÕES</TableRoot.Cell>
           </TableRoot.Header>
 
-          {vendas?.map((venda, index) => (
+          {vendas?.map((venda) => (
             <TableRoot.Row
               key={venda.id}
               className="grid-cols-[1.5fr,0.9fr,1fr,1fr,1fr,0.5fr,0.8fr,0.6fr] font-medium  border-gray-75 border-b-1 border-t-0 border-l-0 border-r-0 px-5 py-4 "
