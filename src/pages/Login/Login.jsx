@@ -186,7 +186,7 @@ function Login() {
             <InputRoot.Label>{TEXTS.TITLES.SENHA}</InputRoot.Label>
             <InputRoot.ContentInput
               type="password"
-              placeholder={TEXTS.PLACEHOLDERS.SENHA}
+              placeholder={TEXTS.PLACEHOLDERS.PASSWORD}
               onChange={(e) => setSenha(e.target.value)}
             />
             {}

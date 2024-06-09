@@ -57,12 +57,15 @@ const InfoLoja = ({ produtoSelecionado }) => {
             }
           }}
         >
-          {calcularTempo(diaAtual().horarioInicio, diaAtual().horarioFim) ? (
+          {calcularTempo(diaAtual()?.horarioInicio, diaAtual()?.horarioFim) ? (
             <span className="font-semibold text-green-500">Aberto {">"}</span>
           ) : (
             <span className="font-medium text-red-500">
-              Fechado, abre as{" "}
-              {moment(diaAtual().horarioInicio, "HH:mm:ss").format("HH:mm")}{" "}
+              Fechado
+              {diaAtual()?.horarioInicio &&
+                diaAtual()?.horarioFim &&
+                ", abre as " +
+                  moment(diaAtual()?.horarioInicio, "HH:mm:ss").format("HH:mm")}
               {">"}
             </span>
           )}
