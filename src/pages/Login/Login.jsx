@@ -20,40 +20,43 @@ function Login() {
   const { showMessage } = useMessages();
   let itemAtual = 1;
 
-  const logar = useCallback(async () => {
-    toast.dismiss();
-    const loading = toast.loading("Carregando...");
+  const logar = useCallback(
+    async (email, senha) => {
+      toast.dismiss();
+      const loading = toast.loading("Carregando...");
 
-    if (!email || !senha) {
-      toast.error("Email e senha são obrigatórios");
-      toast.dismiss(loading);
-      return;
-    }
-
-    api
-      .post("/usuarios/login", { email, senha })
-      .then((resposta) => {
+      if (!email || !senha) {
+        toast.error("Email e senha são obrigatórios");
         toast.dismiss(loading);
-        if (resposta.data.error) {
-          toast.error(resposta.data.message);
-          return;
-        }
-        const usuario = resposta.data;
-        sessionStorage.USERDETAILS = criptografar(JSON.stringify(usuario));
-        toast.success("Seu login foi realizado com sucesso!", {
-          autoClose: 2000,
+        return;
+      }
+
+      api
+        .post("/usuarios/login", { email, senha })
+        .then((resposta) => {
+          toast.dismiss(loading);
+          if (resposta.data.error) {
+            toast.error(resposta.data.message);
+            return;
+          }
+          const usuario = resposta.data;
+          sessionStorage.USERDETAILS = criptografar(JSON.stringify(usuario));
+          toast.success("Seu login foi realizado com sucesso!", {
+            autoClose: 2000,
+          });
+          setTimeout(() => {
+            if (usuario.tipoUsuario === "CONSUMIDOR") navigate("/pesquisa");
+            else navigate("/comerciante/lojas");
+          }, 3000);
+        })
+
+        .catch((erro) => {
+          toast.dismiss(loading);
+          toast.error(showMessage(erro.response));
         });
-        setTimeout(() => {
-          if (usuario.tipoUsuario === "CONSUMIDOR") navigate("/pesquisa");
-          else navigate("/comerciante/lojas");
-        }, 3000);
-      })
-
-      .catch((erro) => {
-        toast.dismiss(loading);
-        toast.error(showMessage(erro.response));
-      });
-  }, [email, senha, navigate, showMessage]);
+    },
+    [navigate, showMessage]
+  );
 
   let timeCarrossel;
 
@@ -81,10 +84,10 @@ function Login() {
   const handleEnter = useCallback(
     (e) => {
       if (e.key === "Enter") {
-        logar();
+        logar(email, senha);
       }
     },
-    [logar]
+    [email, logar, senha]
   );
   useEffect(() => {
     startCarrossel();
@@ -193,7 +196,7 @@ function Login() {
           </div>
           <div className="w-10/12">
             <Button
-              onClick={logar}
+              onClick={() => logar(email, senha)}
               variants={{
                 class: "w-full",
               }}

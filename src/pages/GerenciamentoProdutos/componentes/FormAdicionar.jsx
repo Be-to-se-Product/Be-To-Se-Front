@@ -52,7 +52,6 @@ const FormAdicionar = ({ fecharModal, getProdutos }) => {
       tags: dadosSalvar.tags ? dadosSalvar.tags : null,
     };
 
-    console.log(produto);
 
     const formData = new FormData();
     const imagens = dadosSalvar.imagens.map((imagem) => imagem.file);

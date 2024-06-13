@@ -46,7 +46,6 @@ const Step6 = () => {
   const [isApplyDefault, setIsApplyDefault] = useState(false);
   useEffect(() => {
     if (!isApplyDefault && Object.keys(storage).length > 0) {
-      console.log(storage);
 
       if (storage?.images) {
         (async () => {

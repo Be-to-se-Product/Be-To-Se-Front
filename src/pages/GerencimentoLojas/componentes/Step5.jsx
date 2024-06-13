@@ -81,7 +81,7 @@ const Step5 = () => {
           Retroceder
         </Button>
         <Button onClick={next} type="button">
-          Finalizar Cadastro
+          Avançar
         </Button>
       </div>
     </form>

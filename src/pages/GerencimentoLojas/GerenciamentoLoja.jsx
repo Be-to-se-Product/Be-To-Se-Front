@@ -11,6 +11,7 @@ import ModalLojaUpdate from "./componentes/ModalLojaUpdate";
 import { descriptografar } from "@utils/Autheticated";
 import { ToastContainer, toast } from "react-toastify";
 import { injectStyle } from "react-toastify/dist/inject-style";
+import { CircularProgress } from "@mui/material";
 
 const GerenciamentoLoja = () => {
   injectStyle();
@@ -28,8 +29,9 @@ const GerenciamentoLoja = () => {
   const location = useLocation();
   const userDetailsCrypt = descriptografar(sessionStorage?.USERDETAILS);
   const { id } = JSON.parse(userDetailsCrypt);
-
+  const [isLoading, setIsLoading] = useState(true);
   const getLista = () => {
+    setIsLoading(true);
     api
       .get("estabelecimentos/comerciante")
       .then((resposta) => {
@@ -37,6 +39,9 @@ const GerenciamentoLoja = () => {
       })
       .catch((erro) => {
         console.log(erro);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -169,69 +174,81 @@ const GerenciamentoLoja = () => {
           </div>
 
           <div className=" mx-auto w-full flex flex-wrap gap-y-10 justify-center gap-x-5 relative ">
-            {getEstabelecimento.map((element, index) => (
-              <CardRoot.Content key={`card-${index * 2}`}>
-                <CardRoot.Cover img={element.imagens} />
-                <CardRoot.ContentInfo>
-                  <CardRoot.Header>
-                    <div className="w-full font-medium flex flex-col gap-y-2">
-                      <h2 className="">{element.nome}</h2>
-                      <h3 className="text-orange-full">{element.segmento}</h3>
-                    </div>
-                    <div className="flex gap-x-2">
-                      <div
-                        onClick={() => {
-                          setIsVisibleModalUpdate({
-                            open: true,
-                            id: element.id,
-                          });
-                        }}
-                      >
-                        <img
-                          src="/config.png"
-                          alt="icone de configuração"
-                          className="cursor-pointer"
-                        />
+            {isLoading ? (
+              <div className="flex flex-col justify-center items-center mt-[180px]">
+                <CircularProgress
+                  sx={{
+                    color: "#FFB800",
+                    width: "120px",
+                  }}
+                />
+                <p className="text-lg text-black-900 mt-2">Carregando Lojas</p>
+              </div>
+            ) : (
+              getEstabelecimento.map((element, index) => (
+                <CardRoot.Content key={`card-${index * 2}`}>
+                  <CardRoot.Cover img={element.imagens} />
+                  <CardRoot.ContentInfo>
+                    <CardRoot.Header>
+                      <div className="w-full font-medium flex flex-col gap-y-2">
+                        <h2 className="">{element.nome}</h2>
+                        <h3 className="text-orange-full">{element.segmento}</h3>
                       </div>
-                      <div
+                      <div className="flex gap-x-2">
+                        <div
+                          onClick={() => {
+                            setIsVisibleModalUpdate({
+                              open: true,
+                              id: element.id,
+                            });
+                          }}
+                        >
+                          <img
+                            src="/config.png"
+                            alt="icone de configuração"
+                            className="cursor-pointer"
+                          />
+                        </div>
+                        <div
+                          onClick={() =>
+                            setIsVisibleModalDelete({
+                              open: true,
+                              id: element.id,
+                            })
+                          }
+                        >
+                          <img
+                            src="/delete.svg"
+                            alt="icone de delete"
+                            className="cursor-pointer w-4"
+                          />
+                        </div>
+                      </div>
+                    </CardRoot.Header>
+                    <CardRoot.Footer>
+                      <CardRoot.FooterContent>
+                        <h3>Pedidos Restantes</h3>
+                        <span>{element?.pedidosPendentes}</span>
+                      </CardRoot.FooterContent>
+                      <CardRoot.FooterContent>
+                        <h3>ProdutosAtivos</h3>
+                        <span>{element?.produtosAtivos}</span>
+                      </CardRoot.FooterContent>
+                    </CardRoot.Footer>
+
+                    <div>
+                      <Button
                         onClick={() =>
-                          setIsVisibleModalDelete({
-                            open: true,
-                            id: element.id,
-                          })
+                          navigate(`/comerciante/lojas/${element.id}/produtos`)
                         }
                       >
-                        <img
-                          src="/delete.svg"
-                          alt="icone de delete"
-                          className="cursor-pointer w-4"
-                        />
-                      </div>
+                        Gerenciar
+                      </Button>
                     </div>
-                  </CardRoot.Header>
-                  <CardRoot.Footer>
-                    <CardRoot.FooterContent>
-                      <h3>Pedidos Restantes</h3>
-                      <span>{element?.pedidosPendentes}</span>
-                    </CardRoot.FooterContent>
-                    <CardRoot.FooterContent>
-                      <h3>ProdutosAtivos</h3>
-                      <span>{element?.produtosAtivos}</span>
-                    </CardRoot.FooterContent>
-                  </CardRoot.Footer>
-
-                  <div>
-                    <Button
-                      onClick={() =>
-                        navigate(`/comerciante/lojas/${element.id}/produtos`)
-                      }
-                    >
-                      Gerenciar
-                    </Button>
-                  </div>
-                </CardRoot.ContentInfo>
-              </CardRoot.Content>
-            ))}
+                  </CardRoot.ContentInfo>
+                </CardRoot.Content>
+              ))
+            )}
           </div>
         </section>
         {isVisibleModalUpdate.open && (

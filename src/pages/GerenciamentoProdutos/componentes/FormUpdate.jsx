@@ -1,20 +1,105 @@
-import { useEffect, useState } from "react";
-import StepperRoot from "@componentes/Stepper/StepperRoot";
+import { useCallback, useEffect, useState } from "react";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
 import Button from "@componentes/Button/Button";
 import api from "@/services/api/services";
 import { useParams } from "react-router-dom";
+import useProgress from "@/hooks/useProgress";
+import ProgressRoot from "@/componentes/Progress/ProgressRoot";
+import { converterImageToFile } from "@/utils/conversores";
+import { toast } from "react-toastify";
 
 const FormUpdate = ({ fecharModal, getProdutos, produto }) => {
   const { idEstabelecimento } = useParams();
 
-  const [stateAtual, setStateAtual] = useState(0);
+  const { currentStep, nextStep, prevStep, data, setData, resetData } =
+    useProgress(4, {
+      nome: produto.nome,
+      codigoSku: produto.codigoSku,
+      preco: produto.preco,
+      descricao: produto.descricao,
+      precoOferta: produto.precoOferta,
+      codigoBarras: produto.codigoBarras,
+      categoria: produto.categoria,
+      secao: produto.secao.id,
+      tags: produto.tags,
+      imagens: [],
+    });
+
+  const current = currentStep() < 4 ? currentStep() : 3;
   const [infoBanco, setInfoBanco] = useState({
     sessoes: [],
     tag: [],
   });
+
+  useEffect(() => {
+    (async () => {
+      const request = produto.imagens.map((imagem) =>
+        converterImageToFile(imagem, imagem)
+      );
+
+      const images = await Promise.all(request);
+
+      const formatImagens = images.map((imagem) => ({
+        preview: URL.createObjectURL(imagem),
+        file: imagem,
+      }));
+
+      setData((prev) => ({ ...prev, imagens: formatImagens }));
+    })();
+  }, [produto.imagens, setData]);
+
+  const steps = [
+    <Step1
+      key={1}
+      setData={(data) => {
+        setData((prev) => ({ ...prev, ...data }));
+        nextStep();
+      }}
+      infoBanco={infoBanco}
+      dataStorage={data}
+    >
+      <div className="flex justify-center gap-x-4 mt-4">
+        <Button type="submit" onClick={() => setTimeout(nextStep, 50)}>
+          Avançar
+        </Button>
+      </div>
+    </Step1>,
+    <Step2
+      key={2}
+      dataStorage={data}
+      setData={(data) => setData((prev) => ({ ...prev, ...data }))}
+      imagens={data.imagens}
+    >
+      <div className="flex justify-center gap-x-4 mt-4">
+        <Button type="submit" onClick={() => setTimeout(prevStep, 50)}>
+          Retroceder
+        </Button>
+        <Button type="submit" onClick={() => setTimeout(nextStep, 50)}>
+          Avançar
+        </Button>
+      </div>
+    </Step2>,
+    <Step3
+      key={3}
+      dataStorage={data}
+      setData={(dataStore) => {
+        setData((prev) => ({ ...prev, ...data }));
+
+        saveData({ ...data, ...dataStore });
+      }}
+    >
+      <div className="flex justify-center gap-x-4 mt-4">
+        <Button type="submit" onClick={() => setTimeout(prevStep, 200)}>
+          Retroceder
+        </Button>
+        <Button type="submit" onClick={() => nextStep}>
+          Atualizar
+        </Button>
+      </div>
+    </Step3>,
+  ];
 
   const getSecao = () => {
     api.get("/secoes/estabelecimento/" + idEstabelecimento).then((response) => {
@@ -33,125 +118,90 @@ const FormUpdate = ({ fecharModal, getProdutos, produto }) => {
     getSecao();
   }, []);
 
-  const [isNext, setIsNext] = useState(false);
-  const [dataStorage, setDataStorage] = useState({
-    nome: produto?.nome,
-    codigoSku: produto?.codigoSku,
-    preco: produto?.preco,
-    descricao: produto?.descricao,
-    precoOferta: produto?.precoOferta,
-    codigoBarras: produto?.codigoBarras,
-    categoria: produto?.categoria,
-    secao: produto?.secao.id,
-    tags: produto?.tags ? produto?.tags : null,
-  });
+  const saveData = useCallback(
+    (data) => {
+      const produtoSave = {
+        nome: data.nome,
+        codigoSku: data.codigoSku,
+        preco: data.preco,
+        descricao: data.descricao,
+        precoOferta: data.precoOferta,
+        codigoBarras: data.codigoBarras,
+        categoria: data.categoria,
+        secao: data.secao,
+        tags: data.tags ? data.tags : [],
+      };
 
-  const getData = (data) => {
-    setDataStorage({ ...dataStorage, ...data });
+      const formData = new FormData();
+      const imagens = data.imagens.map((imagem) => imagem.file);
 
-    if (isNext) {
-      nextStep(dataStorage, data);
-    } else {
-      prevStep();
+      imagens.forEach((imagem) => formData.append("imagens", imagem));
+      toast.loading("Atualizando produto");
+      api
+        .put("/produtos/" + produto.id, produtoSave)
+        .then(() => {
+          api
+            .post(`/produtos/${produto.id}/imagens`, formData)
+            .then((resposta) => {
+              if (resposta.status === 201) {
+                getProdutos();
+                resetData();
+                fecharModal("fechar");
+              }
+              toast.dismiss();
+            })
+            .catch((error) => {
+              console.error(error);
+              toast.dismiss();
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.dismiss();
+        });
+    },
+    [fecharModal, getProdutos, produto.id, resetData]
+  );
+
+  useEffect(() => {
+    if (current === 4) {
+      saveData(data);
     }
-  };
-
-  function resetarCampos() {
-    setDataStorage({
-      nome: "",
-      codigoSku: "",
-      preco: "",
-      descricao: "",
-      precoOferta: "",
-      codigoBarras: "",
-      categoria: "",
-      secao: "",
-      tag: [],
-    });
-    setStateAtual(0);
-  }
-
-  const saveData = (dadosSalvar, data) => {
-    const produtoSave = {
-      nome: dadosSalvar.nome,
-      codigoSku: dadosSalvar.codigoSku,
-      preco: dadosSalvar.preco,
-      descricao: data.descricao,
-      precoOferta: dadosSalvar.precoOferta,
-      codigoBarras: dadosSalvar.codigoBarras,
-      categoria: dadosSalvar.categoria,
-      secao: dadosSalvar.secao,
-      tags: dadosSalvar.tags ? dadosSalvar.tags : [],
-    };
-
-    api
-      .put("/produtos/" + produto.id, produtoSave)
-      .then((response) => {
-        getProdutos();
-        resetarCampos();
-        fecharModal("fechar");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  const nextStep = (dataSalvar, data) => {
-    if (stateAtual + 1 === steps.length) {
-      saveData(dataStorage, data);
-      return;
-    }
-    setStateAtual(stateAtual + 1);
-    setIsNext(false);
-  };
-  const prevStep = () => {
-    if (stateAtual - 1 >= 0) {
-      setStateAtual(stateAtual - 1);
-    }
-  };
-
-  const steps = [
-    <Step1 getData={getData} infoBanco={infoBanco} dataStorage={dataStorage}>
-      <div className="flex justify-center gap-x-4 mt-4">
-        <Button onClick={() => setIsNext(true)}>Avançar</Button>
-      </div>
-    </Step1>,
-    <Step2 getData={getData} imagens={produto.imagens}>
-      <div className="flex justify-center gap-x-4 mt-4">
-        <Button>Retroceder</Button>
-        <Button onClick={() => setIsNext(true)}>Avançar</Button>
-      </div>
-    </Step2>,
-    <Step3 getData={getData} dataStorage={dataStorage}>
-      <div className="flex justify-center gap-x-4 mt-4">
-        <Button>Retroceder</Button>
-        <Button onClick={() => setIsNext(true)}>Atualizar</Button>
-      </div>
-    </Step3>,
-  ];
+  }, [current, data, saveData]);
 
   return (
-    <div className=" w-[801px] h-[700px] p-8 bg-white-principal relative rounded-md flex items-center flex-col gap-y-2 justify-around">
+    <div className=" w-[1000px] h-[90vh] overflow-auto p-8 bg-white-principal relative rounded-md flex items-center flex-col gap-y-2 justify-around">
       <div
         className="absolute top-5  right-8 cursor-pointer"
         onClick={() => fecharModal("fechar")}
       >
         X
       </div>
-      <StepperRoot.Content>
-        <StepperRoot.Step number={1} stateAtual={stateAtual}>
-          Informações do produtos
-        </StepperRoot.Step>
+      <ProgressRoot.Content currentStep={currentStep}>
+        <ProgressRoot.Step
+          size={3}
+          currentStep={currentStep}
+          className="text-white-principal"
+        >
+          Teste
+        </ProgressRoot.Step>
+        <ProgressRoot.Step
+          size={3}
+          currentStep={currentStep}
+          className="text-white-principal"
+        >
+          Teste
+        </ProgressRoot.Step>
+        <ProgressRoot.Step
+          size={3}
+          currentStep={currentStep}
+          className="text-white-principal"
+        >
+          Teste
+        </ProgressRoot.Step>
+      </ProgressRoot.Content>
 
-        <StepperRoot.Step number={2} stateAtual={stateAtual}>
-          Uploads de imagens
-        </StepperRoot.Step>
-
-        <StepperRoot.Step number={3} stateAtual={stateAtual}>
-          Descrição do produto
-        </StepperRoot.Step>
-      </StepperRoot.Content>
-
-      {steps[stateAtual]}
+      {steps[current]}
     </div>
   );
 };

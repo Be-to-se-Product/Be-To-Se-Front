@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { MenuItem, Select, Autocomplete, TextField, Chip } from "@mui/material";
 import BotaoSwitch from "@componentes/Switch/BotaoSwitch";
 const Step1 = ({ setData, children, infoBanco, dataStorage }) => {
-  const { register, handleSubmit, setValue, formState, watch } = useForm();
+  const { register, handleSubmit, setValue, formState } = useForm();
 
   const mensagens = {
     required: "Campo obrigatório",

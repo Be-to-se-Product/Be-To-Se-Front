@@ -11,6 +11,7 @@ import { injectStyle } from "react-toastify/dist/inject-style";
 import FileImg from "@assets/file.png";
 import { useParams } from "react-router-dom";
 import TableRoot from "@/componentes/TableNew/TableRoot";
+import { Delete, DeleteForeverOutlined, Edit } from "@mui/icons-material";
 
 injectStyle();
 
@@ -20,9 +21,11 @@ const GerenciamentoProdutos = () => {
   const [state, setState] = useState(0);
   const [selectedOption, setSelectedOption] = useState("  ");
   const { idEstabelecimento } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
 
   const getProdutos = () => {
     toast.loading("Carregando...");
+    setIsLoading(true);
     api
       .get("/produtos/estabelecimento/" + idEstabelecimento)
       .then((res) => {
@@ -31,6 +34,9 @@ const GerenciamentoProdutos = () => {
       })
       .catch((err) => {
         console.error(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
     toast.dismiss();
   };
@@ -296,8 +302,8 @@ const GerenciamentoProdutos = () => {
 
           <div className="content-product flex gap-x-6 gap-y-8 flex-wrap h-full overflow-scroll scrollbar-hide"></div>
 
-          <TableRoot.Content>
-            <TableRoot.Header className="grid-cols-[1.5fr,0.9fr,1fr,1fr,1fr,1fr,0.5fr,1fr] py-3 rounded-t-lg bg-black-full gap-0 text-white-full text-xs px-5 font-medium">
+          <TableRoot.Content isLoading={isLoading} className="h-[400px]">
+            <TableRoot.Header className="grid-cols-[1.5fr,0.9fr,1fr,1fr,1fr,0.5fr,0.8fr,0.6fr] py-3 rounded-t-lg bg-black-full gap-0 text-white-full text-xs px-5 font-medium">
               <TableRoot.Cell className="border-none ">Nome</TableRoot.Cell>
 
               <TableRoot.Cell className="border-none ">SKU</TableRoot.Cell>
@@ -308,10 +314,11 @@ const GerenciamentoProdutos = () => {
               <TableRoot.Cell className="border-none ">
                 Preço Oferta
               </TableRoot.Cell>
-              <TableRoot.Cell className="border-none ">
-                Adicionado
-              </TableRoot.Cell>
               <TableRoot.Cell className="border-none ">Status</TableRoot.Cell>
+              <TableRoot.Cell className="border-none ">
+                Cod de barras
+              </TableRoot.Cell>
+
               <TableRoot.Cell className="border-none text-center">
                 Ações
               </TableRoot.Cell>
@@ -319,7 +326,7 @@ const GerenciamentoProdutos = () => {
 
             {produtos.map((produto) => (
               <TableRoot.Row
-                className="grid-cols-[1.5fr,0.9fr,1fr,1fr,1fr,1fr,0.5fr,1fr] font-medium  border-gray-75 border-b-1 border-t-0 border-l-0 border-r-0 px-5 py-4 "
+                className="grid-cols-[1.5fr,0.9fr,1fr,1fr,1fr,0.5fr,0.8fr,0.6fr] font-medium  border-gray-75 border-b-1 border-t-0 border-l-0 border-r-0 px-5 py-4 "
                 key={produto.id}
               >
                 <TableRoot.Cell className="border-none">
@@ -335,7 +342,7 @@ const GerenciamentoProdutos = () => {
                   </div>
                 </TableRoot.Cell>
                 <TableRoot.Cell className="border-none">
-                  {produto.codigoSku}
+                  <p className="truncate w-[120px]">{produto.codigoSku}</p>
                 </TableRoot.Cell>
                 <TableRoot.Cell className="border-none">
                   {produto.categoria}
@@ -357,25 +364,24 @@ const GerenciamentoProdutos = () => {
                     : "Não possui"}
                 </TableRoot.Cell>
                 <TableRoot.Cell className="border-none">
-                  12/08/2004
-                </TableRoot.Cell>
-                <TableRoot.Cell className="border-none">
                   {produto.isAtivo ? "Ativo" : "Inativo"}
                 </TableRoot.Cell>
+                <TableRoot.Cell className="border-none ">
+                  <p className="truncate w-[100px]">{produto.codigoBarras}</p>
+                </TableRoot.Cell>
+
                 <TableRoot.Cell className="border-none">
                   <button
                     type="button"
                     onClick={() => changeModal("update", produto.id)}
                   >
-                    {" "}
-                    Editar
+                    <Edit />
                   </button>
-                  {" | "}{" "}
                   <button
                     type="button"
                     onClick={() => changeModal("delete", produto.id)}
                   >
-                    Deletar
+                    <Delete color="error" />
                   </button>
                 </TableRoot.Cell>
               </TableRoot.Row>
