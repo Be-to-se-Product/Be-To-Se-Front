@@ -11,7 +11,7 @@ import { injectStyle } from "react-toastify/dist/inject-style";
 import FileImg from "@assets/file.png";
 import { useParams } from "react-router-dom";
 import TableRoot from "@/componentes/TableNew/TableRoot";
-import { Delete, DeleteForeverOutlined, Edit } from "@mui/icons-material";
+import { Delete, Edit } from "@mui/icons-material";
 
 injectStyle();
 

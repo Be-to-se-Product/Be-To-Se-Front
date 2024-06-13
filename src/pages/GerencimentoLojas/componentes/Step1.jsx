@@ -87,7 +87,7 @@ const Step1 = () => {
       <div
         className={` w-full  mx-auto grid grid-cols-2  gap-x-8 rounded-lg h-[300px] `}
       >
-        <div className=" flex flex-col gap-y-6 ">
+        <div className=" flex flex-col justify-between ">
           <div className="flex flex-col gap-y-1">
             <div className="flex  gap-x-2  items-center ">
               <InputRoot.Label>Nome da Loja</InputRoot.Label>
@@ -206,12 +206,16 @@ const Step1 = () => {
           </div>
         </div>
       </div>
-      <Button type="button" onClick={next}>
-        Avançar
-      </Button>
-      <Button type="button" onClick={prev}>
-        Retroceder
-      </Button>
+      <div className="flex justify-center gap-x-2">
+        <div className="flex justify-center w-2/4 mx-auto gap-x-3">
+          <Button type="button" onClick={prev}>
+            Retroceder
+          </Button>
+          <Button type="button" onClick={next}>
+            Avançar
+          </Button>
+        </div>
+      </div>
     </form>
   );
 };

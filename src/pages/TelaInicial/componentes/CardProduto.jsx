@@ -20,7 +20,7 @@ const CardProduto = ({ produto }) => {
     nome: produto?.nome || "Produto",
     categoria: produto?.categoria || "Categoria",
     preco:
-      produto?.precoAtual.toLocaleString("pt-br", {
+      produto?.precoAtual?.toLocaleString("pt-br", {
         style: "currency",
         currency: "BRL",
       }) || 0,

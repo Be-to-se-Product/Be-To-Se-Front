@@ -85,7 +85,7 @@ const ModalLojaUpdate = ({ closeModal, getLista, id }) => {
               referenciaInstagram: response.data.referenciaInstagram,
               referenciaFacebook: response.data.referenciaFacebook,
               cep: response.data.endereco.cep,
-              logradouro: response.data.endereco.rua,
+              rua: response.data.endereco.rua,
               bairro: response.data?.endereco?.bairro,
               cidade: response.data?.endereco?.cidade,
               estado: response.data?.endereco?.estado,
@@ -100,8 +100,6 @@ const ModalLojaUpdate = ({ closeModal, getLista, id }) => {
     })();
     // eslint-disable-next-line
   }, []);
-
- 
 
   const mapearJsonEstabelecimento = (json) => {
     const agenda = [];
