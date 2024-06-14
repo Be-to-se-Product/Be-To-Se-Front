@@ -55,6 +55,7 @@ const Step6 = () => {
 
       setIsApplyDefault(true);
     }
+    // eslint-disable-next-line
   }, [storage]);
 
   useEffect(() => {

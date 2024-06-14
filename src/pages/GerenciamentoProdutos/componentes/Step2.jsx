@@ -25,6 +25,7 @@ const Step2 = ({ setData, children, dataStorage }) => {
     if (dataStorage?.imagens) {
       setImagem(dataStorage.imagens);
     }
+    // eslint-disable-next-line
   }, []);
 
   return (
