@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import "./style/animation.css";
 
-const BotaoSwitch = ({ onChange }) => {
+const BotaoSwitch = ({ onChange, defaultValue = false }) => {
   const [isChecked, setIsChecked] = useState(false);
+  useEffect(() => {
+    setIsChecked(defaultValue);
+  }, []);
 
   const handleClick = () => {
     setIsChecked(!isChecked);
@@ -21,14 +24,12 @@ const BotaoSwitch = ({ onChange }) => {
       />
       <div className="w-[65px] py-1 px-1 bg-black-500 rounded-full flex relative content-switch items-center">
         <h2 className="text-[12px] absolute left-2  font-semibold text-white-principal">
-          OFF
-        </h2>
-        <h2 className="text-[12px] absolute right-2 font-semibold text-white-principal">
           ON
         </h2>
-        <button
-          className="p-3  rounded-full bg-white-principal relative   btn-check"
-        ></button>
+        <h2 className="text-[11px] absolute right-2 font-semibold text-white-principal">
+          OFF
+        </h2>
+        <button className="p-3  rounded-full bg-white-principal relative   btn-check"></button>
       </div>
     </div>
   );

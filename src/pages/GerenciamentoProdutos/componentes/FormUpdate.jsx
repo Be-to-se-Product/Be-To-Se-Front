@@ -23,9 +23,12 @@ const FormUpdate = ({ fecharModal, getProdutos, produto }) => {
       codigoBarras: produto.codigoBarras,
       categoria: produto.categoria,
       secao: produto.secao.id,
+      promocao: produto.isPromocaoAtiva,
       tags: produto.tags,
       imagens: [],
     });
+
+  console.log(produto);
 
   const current = currentStep() < 4 ? currentStep() : 3;
   const [infoBanco, setInfoBanco] = useState({
@@ -49,6 +52,8 @@ const FormUpdate = ({ fecharModal, getProdutos, produto }) => {
       setData((prev) => ({ ...prev, imagens: formatImagens }));
     })();
   }, [produto.imagens, setData]);
+
+  console.log(data);
 
   const steps = [
     <Step1
@@ -119,7 +124,7 @@ const FormUpdate = ({ fecharModal, getProdutos, produto }) => {
   }, []);
 
   const saveData = useCallback(
-    (data) => {
+    async (data) => {
       const produtoSave = {
         nome: data.nome,
         codigoSku: data.codigoSku,
@@ -130,35 +135,29 @@ const FormUpdate = ({ fecharModal, getProdutos, produto }) => {
         categoria: data.categoria,
         secao: data.secao,
         tags: data.tags ? data.tags : [],
+        promocao: !!data?.promocao,
       };
-
       const formData = new FormData();
       const imagens = data.imagens.map((imagem) => imagem.file);
-
       imagens.forEach((imagem) => formData.append("imagens", imagem));
-      toast.loading("Atualizando produto");
-      api
-        .put("/produtos/" + produto.id, produtoSave)
-        .then(() => {
-          api
-            .post(`/produtos/${produto.id}/imagens`, formData)
-            .then((resposta) => {
-              if (resposta.status === 201) {
-                getProdutos();
-                resetData();
-                fecharModal("fechar");
-              }
-              toast.dismiss();
-            })
-            .catch((error) => {
-              console.error(error);
-              toast.dismiss();
-            });
-        })
-        .catch((error) => {
-          console.log(error);
+      toast.loading("Atualizando produto", { autoClose: false });
+      try {
+        const response = await api.put("/produtos/" + produto.id, produtoSave);
+        if (response.status === 200) {
+          await api.post(`/produtos/${produto.id}/imagens`, formData);
+          await api.patch(
+            `/produtos/promocao/${produto.id}?status=${produtoSave?.promocao}`
+          );
+
+          getProdutos();
+          resetData();
+          fecharModal("fechar");
           toast.dismiss();
-        });
+        }
+      } catch (error) {
+        console.log(error);
+        toast.dismiss();
+      }
     },
     [fecharModal, getProdutos, produto.id, resetData]
   );

@@ -11,7 +11,7 @@ import moment from "moment";
 import { toast } from "react-toastify";
 import ProgressRoot from "@/componentes/Progress/ProgressRoot";
 import useProgress from "@/hooks/useProgress";
-import { converterImageToFile } from "@/utils/conversores";
+import { compressorImage, converterImageToFile } from "@/utils/conversores";
 
 const ModalLojaUpdate = ({ closeModal, getLista, id }) => {
   const [storage, setStorage] = useState({});
@@ -66,7 +66,7 @@ const ModalLojaUpdate = ({ closeModal, getLista, id }) => {
             }
 
             const request = response.data.imagens.map((imagem) =>
-              converterImageToFile(imagem, imagem)
+              converterImageToFile  (imagem, imagem)
             );
 
             const images = await Promise.all(request);
@@ -85,13 +85,14 @@ const ModalLojaUpdate = ({ closeModal, getLista, id }) => {
               referenciaInstagram: response.data.referenciaInstagram,
               referenciaFacebook: response.data.referenciaFacebook,
               cep: response.data.endereco.cep,
-              logradouro: response.data.endereco.rua,
+              rua: response.data.endereco.rua,
               bairro: response.data?.endereco?.bairro,
               cidade: response.data?.endereco?.cidade,
               estado: response.data?.endereco?.estado,
               numero: response.data?.endereco?.numero,
             };
             setStorage(model);
+            console.log(model);
           })
           .catch((error) => {
             console.log(error);
@@ -100,8 +101,6 @@ const ModalLojaUpdate = ({ closeModal, getLista, id }) => {
     })();
     // eslint-disable-next-line
   }, []);
-
- 
 
   const mapearJsonEstabelecimento = (json) => {
     const agenda = [];

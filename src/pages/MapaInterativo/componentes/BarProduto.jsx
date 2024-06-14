@@ -53,7 +53,11 @@ const BarProduto = ({
         <div className=" flex flex-col gap-y-2">
           <div className="flex gap-x-4 items-center">
             <h2 className="text-xl font-medium">
-              {produtoSelecionado?.nome} - {}
+              {produtoSelecionado?.nome} - R$
+              {produtoSelecionado?.precoAtual?.toLocaleString({
+                style: "currency",
+                currency: "BRL",
+              })}
             </h2>
           </div>
           <h3>{produtoSelecionado?.categoria}</h3>

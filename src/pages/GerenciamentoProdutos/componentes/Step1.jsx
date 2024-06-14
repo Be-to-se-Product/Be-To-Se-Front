@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import InputRoot from "@componentes/Input/InputRoot";
 import { useForm } from "react-hook-form";
 import { MenuItem, Select, Autocomplete, TextField, Chip } from "@mui/material";
-import BotaoSwitch from "@componentes/Switch/BotaoSwitch";
+import BotaoSwitch from "@/componentes/Switch/BotaoSwitch";
+
 const Step1 = ({ setData, children, infoBanco, dataStorage }) => {
   const { register, handleSubmit, setValue, formState } = useForm();
 
@@ -41,6 +42,7 @@ const Step1 = ({ setData, children, infoBanco, dataStorage }) => {
       required: true,
     },
   };
+
   useEffect(() => {
     dataStorage?.tags
       ? setValue("tags", dataStorage.tags)
@@ -53,10 +55,15 @@ const Step1 = ({ setData, children, infoBanco, dataStorage }) => {
     >
       <div className="w-full mb-3 flex justify-end gap-x-3 items-center">
         Ativar Promoção
-        <BotaoSwitch />
+        <BotaoSwitch
+          defaultValue={!!dataStorage?.promocao}
+          onChange={(value) => {
+            setValue("promocao", value);
+          }}
+        />
       </div>
       <div className={`flex gap-x-4`}>
-        <div className="w-1/2 flex flex-col gap-y-4">
+        <div className="w-1/2 flex flex-col ">
           <div className="h-24">
             <InputRoot.Label>Nome</InputRoot.Label>
             <InputRoot.ContentInput
@@ -121,7 +128,7 @@ const Step1 = ({ setData, children, infoBanco, dataStorage }) => {
           </div>
         </div>
 
-        <div className="w-1/2 flex flex-col gap-y-4 ">
+        <div className="w-1/2 flex flex-col  ">
           <div className="flex flex-col w-full h-24">
             <InputRoot.Label>Seção da Loja</InputRoot.Label>
             <Select

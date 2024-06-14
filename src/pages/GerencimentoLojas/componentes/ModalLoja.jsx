@@ -37,7 +37,7 @@ const ModalLoja = ({ closeModal, getLista }) => {
         bairro: storage.bairro,
         cidade: storage.cidade,
         estado: storage.estado,
-        logradouro: storage.logradouro,
+        rua: storage.logradouro,
       },
       agenda,
       segmento: storage.segmento,
@@ -48,6 +48,7 @@ const ModalLoja = ({ closeModal, getLista }) => {
       secao,
       metodoPagamento: storage.metodosPagamento,
     };
+
 
     try {
       const response = await api.post("/estabelecimentos", estabelecimento);
