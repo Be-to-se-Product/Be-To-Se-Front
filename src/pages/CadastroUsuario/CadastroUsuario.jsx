@@ -10,31 +10,15 @@ import IconSelect from "@assets/selection.png";
 import { useNavigate } from "react-router-dom";
 import NavbarRoot from "@componentes/Navbar/NavbarRoot";
 import api from "@/services/api/services";
+import ProgressRoot from "@/componentes/Progress/ProgressRoot";
+import useProgress from "@/hooks/useProgress";
 const CadastroUsuario = () => {
-  const [stateAtual, setStateAtual] = useState(0);
-  const [data, setData] = useState({});
-  const [isAvancar, setIsAvancar] = useState(false);
-  const [isRetroceder, setIsRetroceder] = useState(false);
+  const { currentStep, data, nextStep, prevStep, setData } = useProgress(3);
 
   const navigate = useNavigate();
+  const curr = currentStep();
 
-  const avancar = () => {
-    if (steps.length - 1 == stateAtual + 1) {
-      saveUser(data);
-      return;
-    }
-    setStateAtual(stateAtual + 1);
-    setIsAvancar(false);
-  };
-
-  const saveLocalStorage = (data) => {
-    setData((prevState) => ({ ...prevState, ...data }));
-    if (isAvancar) avancar();
-    if (isRetroceder) retroceder();
-  };
-
-  const saveUser = (dataFunction) => {
-    const dataMerge = { ...data, ...dataFunction };
+  const saveUser = (dataMerge) => {
     const dataRequest = {
       nome: dataMerge.nome,
       cpf: removerMascaraCpf(dataMerge?.cpf),
@@ -56,7 +40,6 @@ const CadastroUsuario = () => {
             "USERDETAILS",
             criptografar(JSON.stringify(response.data))
           );
-          setStateAtual(stateAtual + 1);
 
           setTimeout(() => {
             navigate("/index");
@@ -68,32 +51,32 @@ const CadastroUsuario = () => {
       });
   };
 
-  const retroceder = () => {
-    setStateAtual(stateAtual - 1);
-    setIsRetroceder(false);
-  };
-
   const steps = [
-    <Step1 key="step1" getDataForm={saveLocalStorage} data={data}>
+    <Step1
+      key="step1"
+      getDataForm={(data) => {
+        setData((prev) => ({ ...prev, ...data }));
+        nextStep();
+      }}
+      data={data}
+    >
       <div className="flex w-10/12 mx-auto justify-center mt-8 gap-x-5">
-        <Button
-          type="submit"
-          onClick={() => {
-            setIsAvancar(true);
-          }}
-        >
-          Avançar
-        </Button>
+        <Button type="submit">Avançar</Button>
       </div>
     </Step1>,
-    <Step2 key="step2" getDataForm={saveLocalStorage} data={data}>
+    <Step2
+      key="step2"
+      getDataForm={(dataStore) => {
+        saveUser({ ...dataStore, ...data });
+        nextStep();
+      }}
+      data={data}
+    >
       <div className="flex w-10/12 mx-auto justify-center mt-8 gap-x-5">
-        <Button type="submit" onClick={() => setIsRetroceder(true)}>
+        <Button type="submit" onClick={prevStep}>
           Retroceder
         </Button>
-        <Button type="submit" onClick={() => setIsAvancar(true)}>
-          Cadastrar
-        </Button>
+        <Button type="submit">Cadastrar</Button>
       </div>
     </Step2>,
     <div
@@ -130,30 +113,29 @@ const CadastroUsuario = () => {
         <div className={`w-2/5  px-10 py-10 `}>
           <div className={`flex flex-col gap-y-4 `}>
             <h2
-              className={`text-center text-2xl ${stateAtual == 2 && "hidden"}`}
+              className={`text-center text-2xl ${
+                currentStep() == 2 && "hidden"
+              }`}
             >
               Informações do usuário
             </h2>
 
-            <div className={`w-5/12 mx-auto ${stateAtual == 2 && "hidden"}`}>
-              <StepperRoot.Content>
-                <StepperRoot.Step number={1} stateAtual={stateAtual}>
-                  <div className="text-center">
-                    Info.
-                    <br />
-                    Pessoais
-                  </div>
-                </StepperRoot.Step>
-                <StepperRoot.Step number={2} stateAtual={stateAtual}>
-                  <div className="text-center">
-                    Info.
-                    <br />
-                    Acesso
-                  </div>
-                </StepperRoot.Step>
-              </StepperRoot.Content>
+            <div
+              className={`w-10/12 mx-auto ${currentStep() == 2 && "hidden"}`}
+            >
+              <ProgressRoot.Content currentStep={() => 0}>
+                <ProgressRoot.Step className="text-white">
+                  Info. Pessoais
+                </ProgressRoot.Step>
+                <ProgressRoot.Step className="text-white">
+                  Info. Acesso
+                </ProgressRoot.Step>
+                <ProgressRoot.Step className="text-white">
+                  Cadastro Realizado
+                </ProgressRoot.Step>
+              </ProgressRoot.Content>
             </div>
-            {steps[stateAtual]}
+            {steps[curr]}
           </div>
         </div>
       </main>
