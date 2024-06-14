@@ -46,7 +46,6 @@ const Step6 = () => {
   const [isApplyDefault, setIsApplyDefault] = useState(false);
   useEffect(() => {
     if (!isApplyDefault && Object.keys(storage).length > 0) {
-
       if (storage?.images) {
         (async () => {
           const base64 = await converterInputImageToBase64(storage?.images[0]);
@@ -59,7 +58,6 @@ const Step6 = () => {
   }, [storage]);
 
   useEffect(() => {
-    console.log(imagem);
     if (imagem?.length > 0) {
       (async () => {
         const file = imagem[0];

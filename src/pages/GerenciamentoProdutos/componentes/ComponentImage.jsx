@@ -1,10 +1,9 @@
-import { converterFileTOBase64 } from "@/utils/conversores";
-import { useRef } from "react";
+import { compressorImage, converterFileTOBase64 } from "@/utils/conversores";
 import ImagemDefault from "@assets/default-image.jpeg";
 
 const ComponentImage = ({ index, setImage, preview }) => {
   const handleImagem = async (e) => {
-    const file = e.target.files[0];
+    const file = await compressorImage(e.target.files[0], 0.4);
     const preview = await converterFileTOBase64(file);
 
     setImage((prev) => {

@@ -136,3 +136,5 @@ export const compressorImage = (fileImg, scale) =>
       reject(e);
     }
   });
+
+//Quero fazer um compressor que comprima um File de imagem e retorne um File de imagem

@@ -11,7 +11,7 @@ import moment from "moment";
 import { toast } from "react-toastify";
 import ProgressRoot from "@/componentes/Progress/ProgressRoot";
 import useProgress from "@/hooks/useProgress";
-import { converterImageToFile } from "@/utils/conversores";
+import { compressorImage, converterImageToFile } from "@/utils/conversores";
 
 const ModalLojaUpdate = ({ closeModal, getLista, id }) => {
   const [storage, setStorage] = useState({});
@@ -66,7 +66,7 @@ const ModalLojaUpdate = ({ closeModal, getLista, id }) => {
             }
 
             const request = response.data.imagens.map((imagem) =>
-              converterImageToFile(imagem, imagem)
+              converterImageToFile  (imagem, imagem)
             );
 
             const images = await Promise.all(request);
@@ -92,6 +92,7 @@ const ModalLojaUpdate = ({ closeModal, getLista, id }) => {
               numero: response.data?.endereco?.numero,
             };
             setStorage(model);
+            console.log(model);
           })
           .catch((error) => {
             console.log(error);

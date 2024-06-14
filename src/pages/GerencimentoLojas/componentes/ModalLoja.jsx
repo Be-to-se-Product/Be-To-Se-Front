@@ -49,6 +49,7 @@ const ModalLoja = ({ closeModal, getLista }) => {
       metodoPagamento: storage.metodosPagamento,
     };
 
+
     try {
       const response = await api.post("/estabelecimentos", estabelecimento);
 
