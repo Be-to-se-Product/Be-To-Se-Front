@@ -3,7 +3,6 @@ import FormAdicionar from "./componentes/FormAdicionar";
 import FormUpdate from "./componentes/FormUpdate";
 import ContentDelete from "./componentes/ContentDelete";
 import { useEffect, useState } from "react";
-import searchIcon from "@assets/search.svg";
 import { MenuItem, Select } from "@mui/material";
 import api from "@/services/api/services";
 import { ToastContainer, toast } from "react-toastify";
@@ -217,7 +216,7 @@ const GerenciamentoProdutos = () => {
           <div className="  relative w-[346px] h-max  bg-white-principal  rounded-lg  shadow-lg">
             <div className="cursor-pointer absolute right-5 top-0 w-6 h-full flex  items-center justify-center">
               <img
-                src={searchIcon}
+                src={"/search.svg"}
                 alt="Icone de pesquisar"
                 className="w-full "
               />

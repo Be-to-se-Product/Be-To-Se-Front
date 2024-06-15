@@ -1,7 +1,5 @@
-import React from "react";
-
 const AvisoContent = () => {
-  return <div className="">{children}</div>;
+  return <div className=""></div>;
 };
 
 export default AvisoContent;
