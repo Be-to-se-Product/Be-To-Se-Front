@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-import IconSearch from "@assets/search.svg";
 import NavbarRoot from "@componentes/Navbar/NavbarRoot";
 import { FormControlLabel, Radio, RadioGroup, Skeleton } from "@mui/material";
 import InputRoot from "@componentes/Input/InputRoot";
@@ -226,7 +225,7 @@ const PedidosUsuario = () => {
 
             <div className="flex h-max  w-1/3  ">
               <InputRoot.ContentInput
-                icon={IconSearch}
+                icon={"/search.svg"}
                 onChange={debounce}
                 placeholder={"Informe o nome da loja"}
               />
