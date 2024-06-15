@@ -104,62 +104,64 @@ function TelaPesquisa() {
         </NavbarRoot.Menu>
       </NavbarRoot.Content>
 
-      <section className="px-24 flex py-10 relative">
-        <div className="flex flex-col justify-start gap-y-4 w-[300px]">
-          <h2 className="text-xl font-medium">Filtros</h2>
-          <div className="flex flex-col">
-            <form className="flex flex-col gap-y-3">
-              <div>
-                <div className="flex flex-col gap-y-2">
-                  <h2 className="text-lg font-medium text">Distancia</h2>
-                  <DistanceFilter
-                    distancia={distanciaOptions}
-                    onChange={setDistanciaOptions}
-                    clear={distanciaOptions == 50}
-                  />
-                </div>
-                <h2 className="text-lg font-medium text">
-                  Método de pagamento
-                </h2>
-                <RadioGroup
-                  aria-labelledby="demo-radio-buttons-group-label"
-                  name="radio-buttons-group"
-                >
-                  {metodoPagamento.map((metodo) => (
-                    <FormControlLabel
-                      key={metodo.id}
-                      value={metodo.id}
-                      checked={metodoOptions == metodo.id}
-                      {...register("metodoPagamento")}
-                      control={
-                        <Radio
-                          sx={{
-                            "& .MuiSvgIcon-root": {
-                              color: "#FCA622",
-                            },
-                            // pintar efeito Ripple
-                            "&.Mui-checked": {
-                              color: "#FCA622",
-                            },
-                          }}
-                        />
-                      }
-                      label={metodo.descricao}
+      <section className="px-24 flex py-10  max-w-[1366px] gap-x-4 mx-auto ">
+        <div className="flex flex-col justify-start  w-[350px] ">
+          <div className=" flex flex-col gap-y-4 sticky top-[20px]">
+            <h2 className="text-xl font-medium">Filtros</h2>
+            <div className="flex flex-col">
+              <form className="flex flex-col gap-y-3">
+                <div>
+                  <div className="flex flex-col gap-y-2">
+                    <h2 className="text-lg font-medium text">Distancia</h2>
+                    <DistanceFilter
+                      distancia={distanciaOptions}
+                      onChange={setDistanciaOptions}
+                      clear={distanciaOptions == 50}
                     />
-                  ))}
-                </RadioGroup>
+                  </div>
+                  <h2 className="text-lg font-medium text">
+                    Método de pagamento
+                  </h2>
+                  <RadioGroup
+                    aria-labelledby="demo-radio-buttons-group-label"
+                    name="radio-buttons-group"
+                  >
+                    {metodoPagamento.map((metodo) => (
+                      <FormControlLabel
+                        key={metodo.id}
+                        value={metodo.id}
+                        checked={metodoOptions == metodo.id}
+                        {...register("metodoPagamento")}
+                        control={
+                          <Radio
+                            sx={{
+                              "& .MuiSvgIcon-root": {
+                                color: "#FCA622",
+                              },
+                              // pintar efeito Ripple
+                              "&.Mui-checked": {
+                                color: "#FCA622",
+                              },
+                            }}
+                          />
+                        }
+                        label={metodo.descricao}
+                      />
+                    ))}
+                  </RadioGroup>
+                </div>
+              </form>
+              <div className="w-10/12">
+                <Button
+                  onClick={() => {
+                    setDistanciaOptions(50);
+                    setNome("");
+                    setValue("metodoPagamento", 0);
+                  }}
+                >
+                  Limpar Filtros
+                </Button>
               </div>
-            </form>
-            <div className="w-10/12">
-              <Button
-                onClick={() => {
-                  setDistanciaOptions(50);
-                  setNome("");
-                  setValue("metodoPagamento", 0);
-                }}
-              >
-                Limpar Filtros
-              </Button>
             </div>
           </div>
         </div>
@@ -172,7 +174,7 @@ function TelaPesquisa() {
             />
             Mostrar
           </div>
-          <div className="grid grid-cols-4 w-full gap-y-10">
+          <div className="flex  justify-between flex-wrap  gap-y-10 w-full h-max">
             {produtos.map((produto) => (
               <CardProduto key={produto.id} id={produto.id} produto={produto} />
             ))}

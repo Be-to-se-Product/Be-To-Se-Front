@@ -36,7 +36,7 @@ const Step4 = ({ setTeste, teste }) => {
       .get("/metodos-pagamentos")
       .then((response) => {
         setMetodosPagamento(response.data || []);
-        console.log(response.data);
+        console.error(response.data);
       })
       .catch((error) => {
         console.log(error);

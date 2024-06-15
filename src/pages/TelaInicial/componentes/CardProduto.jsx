@@ -2,7 +2,6 @@ import { Rating } from "@mui/material";
 import Carro from "@assets/carro.svg";
 import Pe from "@assets/pe.svg";
 import Bike from "@assets/bike.svg";
-import Shop from "@assets/shop.svg";
 import { useNavigate } from "react-router";
 import imgProduto from "@assets/default-image.jpeg";
 import { conversorTime } from "@/utils/conversores";
@@ -37,13 +36,10 @@ const CardProduto = ({ produto }) => {
 
   return (
     <div
-      className=" w-[280px] shadow-md h-max gap-y-4 z-0   p-6 border-2 rounded-md bg-white-principal flex flex-col "
+      className=" w-[280px] shadow-md  gap-y-4    p-6 border-2 rounded-md bg-white-principal flex flex-col "
       onClick={() => navigate(`/produto/${produto?.id}`)}
     >
-      <div className="flex flex-col gap-y-4 relative">
-        <div className="rounded-full bg-orange-principal top-2 left-2 w-7 h-7 text-center flex items-center justify-center absolute ">
-          <img src={Shop} alt="" />
-        </div>
+      <div className="flex flex-col gap-y-4 ">
         <div className=" border rounded-md">
           <img
             src={mapper.imagem}

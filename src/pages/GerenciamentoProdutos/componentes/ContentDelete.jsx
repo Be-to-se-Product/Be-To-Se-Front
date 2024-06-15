@@ -4,7 +4,7 @@ const ContentDelete = ({ id, fecharModal, getProdutos }) => {
   function deletarProduto() {
     api
       .delete(`/produtos/${id}`)
-      .then((res) => {
+      .then(() => {
         fecharModal("fechar");
         getProdutos();
       })

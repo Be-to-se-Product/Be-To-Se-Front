@@ -10,10 +10,12 @@ import ContainerCard from "@componentes/CardUser/ContainerCard";
 import apiGithub from "@/services/api/apiGithub";
 import IconVector from "@assets/vector.png";
 import ImageSquad from "@assets/squad.jpeg";
+import { useNavigate } from "react-router-dom";
 
 const Insitucional = () => {
   const [userDetails, setUserDetails] = useState({});
   const [isVisible, setIsVisible] = useState(false);
+  const navigate = useNavigate();
   const retornarInformacoesUsuario = async (username) => {
     return apiGithub
       .get(`/users/${username}`)
@@ -21,7 +23,7 @@ const Insitucional = () => {
         return response.data;
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
         return error;
       });
   };
@@ -50,7 +52,6 @@ const Insitucional = () => {
       <NavbarRoot.Content>
         <NavbarRoot.ContentTop>
           <NavbarRoot.Logo />
-          <NavbarRoot.Pesquisa />
           {sessionStorage.USERDETAILS ? (
             <NavbarRoot.Authenticated />
           ) : (
@@ -77,12 +78,14 @@ const Insitucional = () => {
                 simplificando a busca por produtos e fortalecendo o mercado
                 local impulsionando o empreenderismo
               </p>
-              <Button>Saiba mais</Button>
+              <a href="#saiba">
+                <Button>Saiba mais</Button>
+              </a>
             </article>
           </div>
         </section>
 
-        <section className="flex w-10/12 mx-auto">
+        <section id="saiba" className="flex w-10/12 mx-auto">
           <div className="flex h-full   w-1/2 flex-col gap-4">
             <img src={city} alt="" />
             <p className="w-10/12 text-base leading-9 px-10">
@@ -97,7 +100,7 @@ const Insitucional = () => {
               Nós mostramos o que você precisa. Temos um compromisso com a sua
               experiencia de compra
             </h2>
-            <img src={men} alt="" />
+            <img src={men} alt="Imagem de homem sorrindo" />
           </div>
         </section>
 
@@ -109,16 +112,22 @@ const Insitucional = () => {
               <div className="p-[30px] flex flex-col justify-between w-1/2 ">
                 <h2 className="text-2xl text-orange-principal font-medium mb-2">
                   {" "}
-                  Para clientes
+                  Clientes
                 </h2>
                 <p className="text-base text-white-principal">
                   Busce por qualquer produto de acordo com a sua localização e
                   veja as ofertas, melhores classificados e os mais perto de
                   vocẽ
                 </p>
-                <div className="flex items-center gap-x-3 ">
+                <div
+                  className="flex items-center gap-x-3 cursor-pointer "
+                  onClick={() => navigate("/cadastro/usuario")}
+                >
                   <h3 className="text-white-principal ">Saiba mais</h3>
-                  <button className="rounded-full bg-orange-principal w-10 h-10"></button>
+                  <button className="rounded-full bg-orange-principal w-10 h-10">
+                    {" "}
+                    {">"}
+                  </button>
                 </div>
               </div>
 
@@ -134,14 +143,16 @@ const Insitucional = () => {
             <div className="bg-black-900 flex w-1/2 h-[300px] rounded gap-y-2 ">
               <div className="p-[30px] flex flex-col justify-between w-1/2 ">
                 <h2 className="text-2xl text-orange-principal font-medium mb-2">
-                  Para clientes
+                  Comerciantes
                 </h2>
                 <p className="text-base text-white-principal">
-                  Busce por qualquer produto de acordo com a sua localização e
-                  veja as ofertas, melhores classificados e os mais perto de
-                  vocẽ
+                  Alcance clientes próximos e conecte-se com compradores locais
+                  e aumente suas vendas com facilidade!
                 </p>
-                <div className="flex items-center gap-x-3 ">
+                <div
+                  className="flex items-center gap-x-3 cursor-pointer "
+                  onClick={() => navigate("/cadastro/comerciante")}
+                >
                   <h3 className="text-white-principal ">Saiba mais</h3>
                   <button className="rounded-full bg-orange-principal w-10 h-10">
                     {">"}
@@ -204,7 +215,7 @@ const Insitucional = () => {
         </section>
 
         <section className="flex items-center w-full flex-col relative  gap-y-10 text-2xl h-screen">
-          <h2 className="font-semibold text-3xl">Quem é a EasyFind</h2>
+          <h2 className="font-semibold text-3xl">Quem é a EasyFind?</h2>
           <div
             className="absolute top-[200px] left-[770px] w-[120px] h-[319px] cursor-pointer"
             onClick={(e) => abrirCard("rafaelaldolizarbe", e)}

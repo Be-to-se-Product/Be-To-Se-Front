@@ -102,8 +102,7 @@ function Login() {
     return () => {
       document.removeEventListener("keypress", handleEnter);
     };
-    // eslint-disable-next-line
-  }, []);
+  }, [handleEnter]);
 
   return (
     <main

@@ -6,7 +6,7 @@ function CoverCard({ img }) {
       <img
         src={img}
         alt="logo placeholder"
-        className="w-full h-full object-cover  "
+        className="w-full h-full object-cover rounded-t-md  "
       />
     </div>
   );

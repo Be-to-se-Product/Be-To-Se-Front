@@ -38,7 +38,7 @@ const GerenciamentoLoja = () => {
         setEstabelecimento(resposta.data.length ? resposta.data : []);
       })
       .catch((erro) => {
-        console.log(erro);
+        console.error(erro);
       })
       .finally(() => {
         setIsLoading(false);
@@ -57,7 +57,7 @@ const GerenciamentoLoja = () => {
         toast.success("Loja deletada com sucesso");
       })
       .catch((erro) => {
-        console.log(erro);
+        console.error(erro);
       });
   };
 

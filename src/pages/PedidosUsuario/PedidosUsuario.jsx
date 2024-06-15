@@ -80,7 +80,7 @@ const PedidosUsuario = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       })
       .finally(() => {
         setIsLoading(false);
@@ -109,7 +109,6 @@ const PedidosUsuario = () => {
       <NavbarRoot.Content>
         <NavbarRoot.ContentTop>
           <NavbarRoot.Logo />
-          <NavbarRoot.Pesquisa />
           {sessionStorage.USERDETAILS ? (
             <NavbarRoot.Authenticated />
           ) : (

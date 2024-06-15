@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Button from "@componentes/Button/Button";
-import BotaoSwitch from "@/componentes/Switch/BotaoSwitch";
 
 const FilterBar = ({ getProduto }) => {
   const [showFilter, setShowFilter] = useState(false);
@@ -13,7 +12,6 @@ const FilterBar = ({ getProduto }) => {
 
   return (
     <div className="fixed right-10 top-3 z-10 flex flex-col w-[300px] gap-y-4">
-      
       <Button onClick={() => setShowFilter(!showFilter)}>
         Todos os filtros
       </Button>
@@ -53,6 +51,7 @@ const FilterBar = ({ getProduto }) => {
             <input
               type="radio"
               name="metodo_pagamento"
+              value={1}
               className="accent-white-principal"
               onChange={(e) => {
                 setFiltro((prev) => {
@@ -67,7 +66,7 @@ const FilterBar = ({ getProduto }) => {
             <span>Vale Refeição</span>
             <input
               type="radio"
-              value={"Vale Refeição"}
+              value={2}
               name="metodo_pagamento"
               className="accent-white-principal"
               onChange={(e) => {
@@ -84,7 +83,7 @@ const FilterBar = ({ getProduto }) => {
             <input
               type="radio"
               name="metodo_pagamento"
-              value={"Vale alimentação"}
+              value={3}
               className="accent-white-principal"
               onChange={(e) => {
                 setFiltro((prev) => {
@@ -100,7 +99,7 @@ const FilterBar = ({ getProduto }) => {
             <input
               type="radio"
               name="metodo_pagamento"
-              value={"Cartão de crédito"}
+              value={4}
               className="accent-white-principal"
               onChange={(e) => {
                 setFiltro((prev) => {

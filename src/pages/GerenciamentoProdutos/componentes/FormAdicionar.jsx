@@ -55,9 +55,7 @@ const FormAdicionar = ({ fecharModal, getProdutos }) => {
     const formData = new FormData();
     const imagens = dadosSalvar.imagens.map((imagem) => imagem.file);
 
-    imagens.forEach((imagem) => {
-      formData.append("imagens", imagem);
-    });
+    imagens.forEach((imagem) => formData.append("imagens", imagem));
     api
       .post("/produtos", produto)
       .then((response) => {

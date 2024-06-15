@@ -103,7 +103,7 @@ function TelaProduto() {
         setAvaliacoes(res.data.length == 0 ? [] : res.data.reverse());
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   }, [idProduto]);
 
@@ -135,7 +135,6 @@ function TelaProduto() {
       <NavbarRoot.Content>
         <NavbarRoot.ContentTop>
           <NavbarRoot.Logo />
-          <NavbarRoot.Pesquisa />
           {sessionStorage.USERDETAILS ? (
             <NavbarRoot.Authenticated />
           ) : (

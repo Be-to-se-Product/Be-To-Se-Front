@@ -34,7 +34,7 @@ const Step2 = ({ getDataForm, children, data }) => {
 
   return (
     <form
-      className={`flex flex-col gap-y-4 bg-white-principal p-10 rounded-sm `}
+      className={`flex flex-col gap-y-4 bg-white-principal p-10 rounded-md shadow-md `}
       onSubmit={handleSubmit(getData)}
       autoComplete={"off"}
     >
