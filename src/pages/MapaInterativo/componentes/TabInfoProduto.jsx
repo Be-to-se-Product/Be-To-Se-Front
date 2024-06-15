@@ -1,9 +1,7 @@
 import { Rating, Tab, Tabs } from "@mui/material";
-import React, { useState } from "react";
-import Avaliacao from "@componentes/Avaliacao/Avaliacao";
+import { useState } from "react";
 import ContentAvaliacao from "./ContentAvaliacao";
 import InfoLoja from "./InfoLoja";
-import RatingComponent from "@/pages/TelaProduto/componentes/StarAvaliacao";
 
 const TabInfoProduto = ({ produtoSelecionado }) => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -66,7 +64,7 @@ const TabInfoProduto = ({ produtoSelecionado }) => {
 
       {currentPage == 0 && (
         <div className="p-5">
-          <h2 className="font-medium text-xl mb-4">Coca Cola</h2>
+          <h2 className="font-medium text-xl mb-4">Descrição</h2>
           <p className="text-xs">{produtoSelecionado?.descricao}</p>
         </div>
       )}

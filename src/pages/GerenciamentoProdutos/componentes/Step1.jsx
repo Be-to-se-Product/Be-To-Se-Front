@@ -119,7 +119,7 @@ const Step1 = ({ setData, children, infoBanco, dataStorage }) => {
             >
               <MenuItem value={"Roupas"}>Roupas</MenuItem>
               <MenuItem value={"Eletronicos"}>Eletronicos</MenuItem>
-              <MenuItem value={"Utensilhos"}>Utensilhos</MenuItem>
+              <MenuItem value={"Utensilhos"}>Utensílhos</MenuItem>
             </Select>
             <span className="text-xs text-red-600 font-medium">
               {formState?.errors?.categoria?.type &&
