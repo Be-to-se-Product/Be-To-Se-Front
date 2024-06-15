@@ -44,14 +44,13 @@ const FormAdicionar = ({ fecharModal, getProdutos }) => {
       nome: dadosSalvar.nome,
       codigoSku: dadosSalvar.codigoSku,
       preco: dadosSalvar.preco,
-      descricao: data.descricao,
+      descricao: dadosSalvar.descricao,
       precoOferta: dadosSalvar.precoOferta,
       codigoBarras: dadosSalvar.codigoBarras,
       categoria: dadosSalvar.categoria,
       secao: dadosSalvar.secao,
       tags: dadosSalvar.tags ? dadosSalvar.tags : null,
     };
-
 
     const formData = new FormData();
     const imagens = dadosSalvar.imagens.map((imagem) => imagem.file);
