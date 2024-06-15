@@ -49,7 +49,6 @@ const ModalLoja = ({ closeModal, getLista }) => {
       metodoPagamento: storage.metodosPagamento,
     };
 
-
     try {
       const response = await api.post("/estabelecimentos", estabelecimento);
 
@@ -70,7 +69,6 @@ const ModalLoja = ({ closeModal, getLista }) => {
         getLista();
       }
     } catch (error) {
-      console.log(error);
       toast.error("Erro ao cadastrar loja", {
         autoClose: 2000,
       });
@@ -92,7 +90,9 @@ const ModalLoja = ({ closeModal, getLista }) => {
           </ProgressRoot.Step>
           <ProgressRoot.Step className="text-white">Endereço</ProgressRoot.Step>
           <ProgressRoot.Step className="text-white">Agenda</ProgressRoot.Step>
-          <ProgressRoot.Step className="text-white">Seções</ProgressRoot.Step>
+          <ProgressRoot.Step className="text-white">
+            Método Pag.
+          </ProgressRoot.Step>
           <ProgressRoot.Step className="text-white">Seções</ProgressRoot.Step>
           <ProgressRoot.Step className="text-white">Foto</ProgressRoot.Step>
         </ProgressRoot.Content>

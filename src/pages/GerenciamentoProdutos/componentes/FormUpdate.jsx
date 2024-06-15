@@ -28,8 +28,6 @@ const FormUpdate = ({ fecharModal, getProdutos, produto }) => {
       imagens: [],
     });
 
-  console.log(produto);
-
   const current = currentStep() < 4 ? currentStep() : 3;
   const [infoBanco, setInfoBanco] = useState({
     sessoes: [],
@@ -52,8 +50,6 @@ const FormUpdate = ({ fecharModal, getProdutos, produto }) => {
       setData((prev) => ({ ...prev, imagens: formatImagens }));
     })();
   }, [produto.imagens, setData]);
-
-  console.log(data);
 
   const steps = [
     <Step1
@@ -155,7 +151,7 @@ const FormUpdate = ({ fecharModal, getProdutos, produto }) => {
           toast.dismiss();
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
         toast.dismiss();
       }
     },
@@ -177,29 +173,13 @@ const FormUpdate = ({ fecharModal, getProdutos, produto }) => {
         X
       </div>
       <ProgressRoot.Content currentStep={currentStep}>
-        <ProgressRoot.Step
-          size={3}
-          currentStep={currentStep}
-          className="text-white-principal"
-        >
-          Teste
+        <ProgressRoot.Step className="text-white">
+          Dados <br />
+          do Produto
         </ProgressRoot.Step>
-        <ProgressRoot.Step
-          size={3}
-          currentStep={currentStep}
-          className="text-white-principal"
-        >
-          Teste
-        </ProgressRoot.Step>
-        <ProgressRoot.Step
-          size={3}
-          currentStep={currentStep}
-          className="text-white-principal"
-        >
-          Teste
-        </ProgressRoot.Step>
+        <ProgressRoot.Step className="text-white">Imagens</ProgressRoot.Step>
+        <ProgressRoot.Step className="text-white">Descrição</ProgressRoot.Step>
       </ProgressRoot.Content>
-
       {steps[current]}
     </div>
   );

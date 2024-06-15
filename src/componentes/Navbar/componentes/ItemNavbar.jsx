@@ -1,14 +1,17 @@
-import React from "react";
-import icon from "@assets/mingcute_down-fill.svg";
+import { useNavigate } from "react-router-dom";
 const ItemNavbar = ({ children }) => {
+  const navigate = useNavigate();
   return (
-    <li className="flex  justify-center gap-x-2">
-      <img src={icon} alt="" />
-      Utensílios
-      <img src={icon} alt="" />
-      Roupas
-      <img src={icon} alt="" />
-      Eletronicos
+    <li className="flex  justify-center gap-x-6">
+      <span className="cursor-pointer" onClick={() => navigate("/")}>
+        Institucional
+      </span>
+      <span className="cursor-pointer" onClick={() => navigate("/pesquisa")}>
+        Produtos
+      </span>
+      <span className="cursor-pointer" onClick={() => navigate("/mapa")}>
+        Mapa
+      </span>
       {children}
     </li>
   );

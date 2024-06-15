@@ -1,5 +1,7 @@
+import Button from "@/componentes/Button/Button";
 import { ProgressContext } from "@/context/Progress/ProgressContext";
 import { TIPO_FLUXO } from "@/utils/utils";
+import { Tooltip } from "@mui/material";
 import { useContext } from "react";
 
 const Step1 = () => {
@@ -13,13 +15,35 @@ const Step1 = () => {
       <div className="flex flex-col gap-y-4">
         <label
           htmlFor="tipo"
-          className="flex flex-row px-8 py-4 gap-x-6 bg-black-100 w-full rounded-lg"
+          className="flex text-gray-400 bg-black-200 flex-row justify-between px-8 py-4 gap-x-6 bg-black-100 w-full rounded-lg"
           onClick={() => {
             setData({ tipoFluxo: TIPO_FLUXO.RETIRE_LOJA });
           }}
         >
-          <input type="radio" name="tipoFluxo" id="tipo" />
-          <p className="text-lg font-medium">Pague aqui e retire na loja</p>
+          <div className="flex gap-x-6">
+            <input type="radio" name="tipoFluxo" disabled id="tipo" />
+            <p className="text-lg font-medium">Pague aqui e retire na loja</p>
+          </div>
+
+          <Tooltip
+            title={
+              <span className="text-lg ">
+                Essa funcionalidade está em desenvolvimento...
+              </span>
+            }
+          >
+            <div>
+              <Button
+                variants={{
+                  colors: "primary",
+                  sizes: "xs",
+                  class: " text-black font-medium w-[25px]  rounded-full",
+                }}
+              >
+                ?
+              </Button>
+            </div>
+          </Tooltip>
         </label>
 
         <label

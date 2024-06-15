@@ -10,10 +10,10 @@ function Button({ children, variants, ...props }) {
       colors: {
         primary: "text-black-full  bg-orange-principal ",
         secondary: "bg-none text-white-principal",
-        error: "bg-red-500 text-white-principal ",
+        error: "bg-red-500 text-white-principal border-none ",
         close: "bg-red-500 text-white-principal rounded-full ",
         sucess: "bg-green-500 t rounded-md border-none text-white-principal",
-        neutral: "bg-gray-75 text-black-full border-gray bg-transparent",
+        neutral: "bg-gray-75 text-black-full border-gray-400 bg-transparent",
       },
       effects: {
         hover:

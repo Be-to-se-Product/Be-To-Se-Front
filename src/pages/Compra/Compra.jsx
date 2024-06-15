@@ -41,7 +41,7 @@ function Compra() {
         setItens(mapper);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   }, [location.state]);
 
@@ -73,11 +73,15 @@ function Compra() {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       })
       .finally(() => {});
   };
 
+  const valorTotal = itens.reduce(
+    (acc, el) => el.produto?.preco * el.produto?.quantidade + acc,
+    0
+  );
   return (
     <>
       <NavbarRoot.Content>
@@ -98,13 +102,13 @@ function Compra() {
         <div className="w-1/2 mx-auto">
           <ProgressRoot.Content currentStep={currentStep}>
             <ProgressRoot.Step className="text-white">
-              Primeira Fase
+              Modo de compra
             </ProgressRoot.Step>
             <ProgressRoot.Step className="text-white">
-              Segunda Fase
+              Metodo Pagamento
             </ProgressRoot.Step>
             <ProgressRoot.Step className="text-white">
-              Terceira Fase
+              Concluir Compra
             </ProgressRoot.Step>
           </ProgressRoot.Content>
           <form>
@@ -155,7 +159,12 @@ function Compra() {
           </div>
 
           <div className="px-6 py-4 flex justify-end absolute bottom-0 bg-black-100 w-full border-t-orange-principal border-4 ">
-            <h2>Total: R$ 12,00</h2>
+            <h2>
+              {valorTotal.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+              })}
+            </h2>
           </div>
         </div>
       </ModalRoot.Content>

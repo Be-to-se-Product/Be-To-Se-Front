@@ -92,10 +92,9 @@ const ModalLojaUpdate = ({ closeModal, getLista, id }) => {
               numero: response.data?.endereco?.numero,
             };
             setStorage(model);
-            console.log(model);
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
           });
       }
     })();
@@ -174,7 +173,7 @@ const ModalLojaUpdate = ({ closeModal, getLista, id }) => {
         autoClose: 2000,
       });
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   };
   return (
@@ -197,7 +196,9 @@ const ModalLojaUpdate = ({ closeModal, getLista, id }) => {
           </ProgressRoot.Step>
           <ProgressRoot.Step className="text-white">Endereço</ProgressRoot.Step>
           <ProgressRoot.Step className="text-white">Agenda</ProgressRoot.Step>
-          <ProgressRoot.Step className="text-white">Seções</ProgressRoot.Step>
+          <ProgressRoot.Step className="text-white">
+            Método Pag.
+          </ProgressRoot.Step>
           <ProgressRoot.Step className="text-white">Seções</ProgressRoot.Step>
           <ProgressRoot.Step className="text-white">Foto</ProgressRoot.Step>
         </ProgressRoot.Content>

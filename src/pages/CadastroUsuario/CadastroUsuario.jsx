@@ -1,5 +1,3 @@
-import { useState } from "react";
-import StepperRoot from "@componentes/Stepper/StepperRoot";
 import Button from "@componentes/Button/Button";
 import Step1 from "./componentes/Step1";
 import Step2 from "./componentes/Step2";
@@ -12,7 +10,10 @@ import NavbarRoot from "@componentes/Navbar/NavbarRoot";
 import api from "@/services/api/services";
 import ProgressRoot from "@/componentes/Progress/ProgressRoot";
 import useProgress from "@/hooks/useProgress";
+import { ToastContainer, toast } from "react-toastify";
+import { injectStyle } from "react-toastify/dist/inject-style";
 const CadastroUsuario = () => {
+  injectStyle();
   const { currentStep, data, nextStep, prevStep, setData } = useProgress(3);
 
   const navigate = useNavigate();
@@ -42,11 +43,17 @@ const CadastroUsuario = () => {
           );
 
           setTimeout(() => {
-            navigate("/index");
+            navigate("/pesquisa");
           }, 3000);
         }
       })
       .catch((error) => {
+        if (error?.response?.status === 409) {
+          toast.error(error.response.data?.message);
+        } else {
+          toast.error("Erro ao cadastrar usuário");
+        }
+        prevStep();
         console.log(error);
       });
   };
@@ -97,7 +104,6 @@ const CadastroUsuario = () => {
       <NavbarRoot.Content>
         <NavbarRoot.ContentTop>
           <NavbarRoot.Logo />
-          <NavbarRoot.Pesquisa />
           {sessionStorage.USERDETAILS ? (
             <NavbarRoot.Authenticated />
           ) : (
@@ -109,36 +115,33 @@ const CadastroUsuario = () => {
         </NavbarRoot.Menu>
       </NavbarRoot.Content>
 
-      <main className="w-full h-[89vh] bg-black-200 flex justify-center ">
-        <div className={`w-2/5  px-10 py-10 `}>
+      <main className="w-full h-[89vh] bg-black-100  flex justify-center ">
+        <div className={`w-2/5  px-10 py-10 flex flex-col gap-y-7 `}>
           <div className={`flex flex-col gap-y-4 `}>
             <h2
               className={`text-center text-2xl ${
                 currentStep() == 2 && "hidden"
               }`}
             >
-              Informações do usuário
+              Cadastro de usuário
             </h2>
 
-            <div
-              className={`w-10/12 mx-auto ${currentStep() == 2 && "hidden"}`}
-            >
-              <ProgressRoot.Content currentStep={() => 0}>
-                <ProgressRoot.Step className="text-white">
-                  Info. Pessoais
-                </ProgressRoot.Step>
-                <ProgressRoot.Step className="text-white">
-                  Info. Acesso
-                </ProgressRoot.Step>
-                <ProgressRoot.Step className="text-white">
-                  Cadastro Realizado
-                </ProgressRoot.Step>
-              </ProgressRoot.Content>
-            </div>
-            {steps[curr]}
+            <ProgressRoot.Content currentStep={currentStep}>
+              <ProgressRoot.Step className="text-white">
+                Info. Pessoais
+              </ProgressRoot.Step>
+              <ProgressRoot.Step className="text-white">
+                Info. Acesso
+              </ProgressRoot.Step>
+              <ProgressRoot.Step className="text-white">
+                Conclusão <br />
+              </ProgressRoot.Step>
+            </ProgressRoot.Content>
           </div>
+          {steps[curr]}
         </div>
       </main>
+      <ToastContainer />
     </>
   );
 };

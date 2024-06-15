@@ -44,7 +44,7 @@ const FormAdicionar = ({ fecharModal, getProdutos }) => {
       nome: dadosSalvar.nome,
       codigoSku: dadosSalvar.codigoSku,
       preco: dadosSalvar.preco,
-      descricao: data.descricao,
+      descricao: dadosSalvar.descricao,
       precoOferta: dadosSalvar.precoOferta,
       codigoBarras: dadosSalvar.codigoBarras,
       categoria: dadosSalvar.categoria,
@@ -52,13 +52,10 @@ const FormAdicionar = ({ fecharModal, getProdutos }) => {
       tags: dadosSalvar.tags ? dadosSalvar.tags : null,
     };
 
-
     const formData = new FormData();
     const imagens = dadosSalvar.imagens.map((imagem) => imagem.file);
 
-    imagens.forEach((imagem) => {
-      formData.append("imagens", imagem);
-    });
+    imagens.forEach((imagem) => formData.append("imagens", imagem));
     api
       .post("/produtos", produto)
       .then((response) => {

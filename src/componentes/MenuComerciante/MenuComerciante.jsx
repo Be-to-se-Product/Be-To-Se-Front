@@ -19,7 +19,7 @@ const MenuComerciante = ({ children, isLogo }) => {
       })
 
       .catch((erro) => {
-        console.log(erro);
+        console.error(erro);
       });
   };
 
@@ -43,7 +43,7 @@ const MenuComerciante = ({ children, isLogo }) => {
                 <img
                   src={logoEstabelecimento}
                   alt=""
-                  className="w-[150px] h-[150px] rounded-full"
+                  className="w-[150px] h-[150px] object-cover rounded-full"
                 />
                 <h2 className="font-medium py-2 text-base text-white-principal">
                   {user.nome}

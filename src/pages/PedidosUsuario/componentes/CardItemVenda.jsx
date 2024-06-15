@@ -21,7 +21,12 @@ const CardItemVenda = ({ produto }) => {
           <h2 className="text-base">{produto?.produto?.nome}</h2>
 
           <h3 className="text-xs font-normal">
-            R$ {produto?.produto?.preco?.toFixed(2)} X{" "}
+            R$
+            {produto?.produto?.preco?.toLocaleString({
+              style: "currency",
+              currency: "BRL",
+            })}{" "}
+            X{" "}
             {produto?.produto?.quantidade === 1
               ? "1 unidade"
               : `${produto?.produto?.quantidade} unidades`}

@@ -119,7 +119,6 @@ const Step2 = () => {
   };
 
   const handleCep = async (cep) => {
-    console.log(cep);
     if (cep && cep.length == 8) {
       const data = await getEndereco(cep);
       if (data.erro) {

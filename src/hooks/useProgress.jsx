@@ -4,8 +4,6 @@ const useProgress = (steps, storage) => {
   const [step, setStep] = useState(0);
   const [data, setData] = useState(storage);
 
-  console.log(storage);
-
   const nextStep = () => {
     if (step + 1 >= steps) return;
     setStep(step + 1);

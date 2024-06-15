@@ -53,7 +53,6 @@ const HistoricoVendas = () => {
           toast.info("Não existem vendas.");
           return;
         }
-        console.log(responseData);
         setVendas(responseData.content ? responseData.content : []);
         setPage(responseData.number);
         setSize(responseData.size);

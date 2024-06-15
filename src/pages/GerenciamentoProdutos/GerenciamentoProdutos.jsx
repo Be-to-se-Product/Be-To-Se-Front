@@ -41,21 +41,6 @@ const GerenciamentoProdutos = () => {
     toast.dismiss();
   };
 
-  // const getProdutosDescription = () => {
-  //   api
-  //     .get(
-  //       "/produtos/pesquisa/" +
-  //         idEstabelecimento +
-  //         "?pesquisa=" +
-  //     )
-  //     .then((res) => {
-  //       setProdutos(res?.data?.length == 0 ? [] : res?.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
-
   const handleCsvImport = (event) => {
     const file = event.target.files[0];
     const formData = new FormData();
@@ -231,7 +216,11 @@ const GerenciamentoProdutos = () => {
         <div className="flex py-20 justify-between ">
           <div className="  relative w-[346px] h-max  bg-white-principal  rounded-lg  shadow-lg">
             <div className="cursor-pointer absolute right-5 top-0 w-6 h-full flex  items-center justify-center">
-              <img src={searchIcon} alt="" className="w-full " />
+              <img
+                src={searchIcon}
+                alt="Icone de pesquisar"
+                className="w-full "
+              />
             </div>
             <input
               type="text"
