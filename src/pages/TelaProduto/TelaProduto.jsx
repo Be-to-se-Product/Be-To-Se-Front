@@ -72,7 +72,7 @@ function TelaProduto() {
 
   const getProduto = useCallback(
     (latitude, longitude) => {
-      toast.loading("Carregando...");
+      toast.loading("Carregando informações do produto...");
 
       const params = {};
       if (latitude && longitude) {
@@ -95,7 +95,7 @@ function TelaProduto() {
   );
 
   const getAvaliacao = useCallback(() => {
-    toast.loading("Carregando...");
+    toast.loading("Carregando avaliações...");
     api
       .get(`/avaliacoes/${idProduto}`)
       .then((res) => {
@@ -199,7 +199,7 @@ function TelaProduto() {
                         colors: "neutral",
                       }}
                       onClick={() =>
-                        setQtd((prev) => (prev > 0 ? prev - 1 : 0))
+                        setQtd((prev) => (prev > 1 ? prev - 1 : 1))
                       }
                     >
                       <Remove fontSize="small" />
