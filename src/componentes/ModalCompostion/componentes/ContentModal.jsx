@@ -23,7 +23,7 @@ function ContentModal({ children, show }) {
 
   return (
     <div
-      className={`w-full h-full absolute bg-[rgba(0,0,0,0.5)] top-0 transition-all  ${
+      className={`w-full h-full absolute z-10 bg-[rgba(0,0,0,0.5)] top-0 transition-all  ${
         !show ? " opacity-0 invisible  " : "  visible  opacity-100 "
       }`}
     >
