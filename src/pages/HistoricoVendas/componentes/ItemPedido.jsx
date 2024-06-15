@@ -17,7 +17,7 @@ const ItemPedido = (produto) => {
           </p>
         </div>
       </div>
-      <Button className={"h-max"}>Ver item</Button>
+      <Button>Ver item</Button>
     </div>
   );
 };

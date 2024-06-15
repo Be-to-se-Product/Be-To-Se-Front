@@ -49,10 +49,7 @@ const HistoricoVendas = () => {
       .get(`/historico-vendas/filtro/${idEstabelecimento}`, { params })
       .then((response) => {
         const responseData = response.data;
-        if (responseData.length === 0) {
-          toast.info("Não existem vendas.");
-          return;
-        }
+
         setVendas(responseData.content ? responseData.content : []);
         setPage(responseData.number);
         setSize(responseData.size);
@@ -70,10 +67,12 @@ const HistoricoVendas = () => {
       .get(`historico-vendas/${idEstabelecimento}/metodos-pagamento`)
       .then((response) => {
         setMetodosPagamentos(response.data ? response.data : []);
+        toast.dismiss();
       })
       .catch((error) => {
         console.error(error);
         toast.dismiss();
+
         toast.error("Erro ao carregar os métodos de pagamento.");
       });
   };
@@ -142,7 +141,7 @@ const HistoricoVendas = () => {
       <Button
         variants={{
           colors: "sucess",
-          class: "w-max cursor-pointer",
+          class: "w-max cursor-pointer mb-4",
         }}
         onClick={exportar}
       >
@@ -229,7 +228,7 @@ const HistoricoVendas = () => {
           {vendas?.map((venda) => (
             <TableRoot.Row
               key={venda.id}
-              className="grid-cols-[1.5fr,0.9fr,1fr,1fr,1fr,0.5fr,0.8fr,0.6fr] font-medium  border-gray-75 border-b-1 border-t-0 border-l-0 border-r-0 px-5 py-4 "
+              className="grid-cols-[1fr,1.5fr,2fr,2fr,3fr,2fr,1.5fr] font-medium  border-gray-75 border-b-1 border-t-0 border-l-0 border-r-0 px-5 py-4 "
             >
               <TableRoot.Cell>{venda.id}</TableRoot.Cell>
               <TableRoot.Cell>{venda.pedido.dataHoraPedido}</TableRoot.Cell>

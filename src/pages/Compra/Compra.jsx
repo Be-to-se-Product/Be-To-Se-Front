@@ -87,8 +87,7 @@ function Compra() {
       <NavbarRoot.Content>
         <NavbarRoot.ContentTop>
           <NavbarRoot.Logo />
-          <NavbarRoot.Pesquisa />
-          {sessionStorage.USERDETAILS ? (
+            {sessionStorage.USERDETAILS ? (
             <NavbarRoot.Authenticated />
           ) : (
             <NavbarRoot.Sign />
