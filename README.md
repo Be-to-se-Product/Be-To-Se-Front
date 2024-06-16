@@ -7,6 +7,7 @@ Recursos Principal
 
 
 
+
 A busca de produtos leva em consideração a localização do usuário, garantindo que os resultados sejam pertinentes à sua região. Isso facilita a descoberta de produtos próximos e incentiva a compra local.
 ## 2. Rotas Personalizadas
 
