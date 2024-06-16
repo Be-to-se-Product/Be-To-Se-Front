@@ -172,7 +172,7 @@ function TelaPesquisa() {
                 if (value) setTimeout(() => navigate("/mapa"), 1000);
               }}
             />
-            Mostrar
+            Mostrar no mapa
           </div>
           <div className="flex  justify-between flex-wrap  gap-y-10 w-full h-max">
             {produtos.map((produto) => (
