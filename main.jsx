@@ -7,7 +7,7 @@ import VLibras from "@djpfs/react-vlibras";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <>
+    <VLibras />
     <Router />
-    <VLibras forceOnload={true} />
   </>
 );
