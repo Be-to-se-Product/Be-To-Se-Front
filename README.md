@@ -3,7 +3,6 @@
 
 Bem-vindo ao Marketplace Local, uma plataforma inovadora que conecta usuários a lojas locais, facilitando a divulgação de produtos e a busca por itens específicos. Nosso foco é proporcionar uma experiência de compra única, considerando a geolocalização do usuário para oferecer resultados relevantes e promover a economia local.
 Recursos Principal
-
 ## 1. Geolocalizaçã
 
 
