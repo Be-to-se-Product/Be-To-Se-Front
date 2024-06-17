@@ -44,7 +44,6 @@ const Step4 = ({ setTeste, teste }) => {
   };
   const submit = (data, callback) => {
     const metodosPagamento = [];
-    console.log(data);
     for (const [key, value] of Object.entries(data)) {
       if (value) {
         metodosPagamento.push(key);
