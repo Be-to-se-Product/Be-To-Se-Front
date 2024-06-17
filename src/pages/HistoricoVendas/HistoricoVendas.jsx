@@ -92,9 +92,7 @@ const HistoricoVendas = () => {
   };
 
   const handleAteChange = (event) => {
-    const formattedDate = moment
-      .utc(event.target.value)
-      .format("YYYY-MM-DDTHH:mm:ss");
+    const formattedDate = moment.utc(event.target.value).format("YYYY-MM-DD");
     setAte(formattedDate);
   };
 
@@ -131,6 +129,14 @@ const HistoricoVendas = () => {
       .finally(() => {
         toast.dismiss();
       });
+  };
+  const ocultarParteCpf = (cpf = "") => {
+    return cpf.substring(0, 3) + "..." + cpf.substring(9, 11);
+  };
+
+  const formatarData = (data) => {
+    const dataForm = moment(data).format("DD/MM/YYYY");
+    return dataForm == "Invalid Date " ? "Data não informada" : dataForm;
   };
 
   return (
@@ -231,8 +237,12 @@ const HistoricoVendas = () => {
               className="grid-cols-[1fr,1.5fr,2fr,2fr,3fr,2fr,1.5fr] font-medium  border-gray-75 border-b-1 border-t-0 border-l-0 border-r-0 px-5 py-4 "
             >
               <TableRoot.Cell>{venda.id}</TableRoot.Cell>
-              <TableRoot.Cell>{venda.pedido.dataHoraPedido}</TableRoot.Cell>
-              <TableRoot.Cell>{venda.pedido.cpfCliente}</TableRoot.Cell>
+              <TableRoot.Cell>
+                {formatarData(venda.pedido.dataHoraPedido)}
+              </TableRoot.Cell>
+              <TableRoot.Cell>
+                {ocultarParteCpf(venda.pedido.cpfCliente)}
+              </TableRoot.Cell>
               <TableRoot.Cell>
                 {venda.pedido.isPagamentoOnline ? "Online" : "Presencial"}
               </TableRoot.Cell>
