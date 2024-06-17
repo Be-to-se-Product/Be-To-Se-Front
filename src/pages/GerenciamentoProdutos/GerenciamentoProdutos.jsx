@@ -23,12 +23,12 @@ const GerenciamentoProdutos = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const getProdutos = () => {
-    toast.loading("Carregando...");
+    const toastId = toast.loading("Carregando...");
     setIsLoading(true);
     api
       .get("/produtos/estabelecimento/" + idEstabelecimento)
       .then((res) => {
-        toast.dismiss();
+        toast.dismiss(toastId);
         setProdutos(res.data ? res.data : []);
       })
       .catch((err) => {
@@ -36,8 +36,8 @@ const GerenciamentoProdutos = () => {
       })
       .finally(() => {
         setIsLoading(false);
+        toast.dismiss(toastId);
       });
-    toast.dismiss();
   };
 
   const handleCsvImport = (event) => {

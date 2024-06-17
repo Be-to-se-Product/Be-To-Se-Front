@@ -145,10 +145,11 @@ const FormUpdate = ({ fecharModal, getProdutos, produto }) => {
             `/produtos/promocao/${produto.id}?status=${produtoSave?.promocao}`
           );
 
-          getProdutos();
           resetData();
           fecharModal("fechar");
           toast.dismiss();
+          toast.success("Produto atualizado com sucesso!");
+          getProdutos();
         }
       } catch (error) {
         console.error(error);

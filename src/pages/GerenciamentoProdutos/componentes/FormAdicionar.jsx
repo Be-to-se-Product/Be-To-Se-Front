@@ -5,6 +5,7 @@ import Step2 from "./Step2";
 import Step3 from "./Step3";
 import Button from "@componentes/Button/Button";
 import api from "@/services/api/services";
+import { ToastContainer, toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import ProgressRoot from "@/componentes/Progress/ProgressRoot";
 import useProgress from "@/hooks/useProgress";
@@ -40,6 +41,7 @@ const FormAdicionar = ({ fecharModal, getProdutos }) => {
   }, []);
 
   const saveData = (dadosSalvar) => {
+    toast.loading("Salvando produto ...");
     const produto = {
       nome: dadosSalvar.nome,
       codigoSku: dadosSalvar.codigoSku,
@@ -60,15 +62,20 @@ const FormAdicionar = ({ fecharModal, getProdutos }) => {
       .post("/produtos", produto)
       .then((response) => {
         if (response.status === 201) {
-          api
-            .post(`/produtos/${response.data.id}/imagens`, formData)
-            .then(() => {
-              getProdutos();
-              fecharModal("fechar");
-            })
-            .catch((error) => {
-              console.error(error);
-            });
+          if(formData){
+            api
+              .post(`/produtos/${response.data.id}/imagens`, formData)
+              .then(() => {
+                toast.dismiss();
+                fecharModal("fechar");
+                toast.success("Produto cadastrado com sucesso!");
+                getProdutos();
+              })
+          }
+          toast.dismiss();
+          fecharModal("fechar");
+          toast.success("Produto cadastrado com sucesso!");
+          getProdutos();
         }
       })
       .catch((error) => {
@@ -135,6 +142,7 @@ const FormAdicionar = ({ fecharModal, getProdutos }) => {
       </ProgressRoot.Content>
 
       {steps[current]}
+      <ToastContainer />
     </div>
   );
 };

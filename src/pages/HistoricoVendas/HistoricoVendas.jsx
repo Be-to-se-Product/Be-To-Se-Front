@@ -62,7 +62,7 @@ const HistoricoVendas = () => {
   };
 
   const getMetodosPagamento = () => {
-    toast.loading("Carregan do métodos de pagamento...");
+    toast.loading("Carregando métodos de pagamento...");
     api
       .get(`historico-vendas/${idEstabelecimento}/metodos-pagamento`)
       .then((response) => {

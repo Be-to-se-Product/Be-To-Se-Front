@@ -50,7 +50,17 @@ const ModalLoja = ({ closeModal, getLista }) => {
     };
 
     try {
+      toast.loading("Criando loja");
       const response = await api.post("/estabelecimentos", estabelecimento);
+
+      if(response.status == 201 && !storage.imagem.length > 0){
+          toast.dismiss();
+          toast.success("Loja cadastrada com sucesso", {
+            autoClose: 2000,
+          });
+          closeModal(false)
+          getLista();
+      }
 
       if (response.status == 201 && storage.imagem.length > 0) {
         const formData = new FormData();
@@ -61,6 +71,7 @@ const ModalLoja = ({ closeModal, getLista }) => {
         );
 
         if (responseImage.status == 204) {
+          toast.dismiss();
           toast.success("Loja cadastrada com sucesso", {
             autoClose: 2000,
           });

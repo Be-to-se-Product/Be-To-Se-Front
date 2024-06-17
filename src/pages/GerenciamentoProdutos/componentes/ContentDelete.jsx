@@ -1,12 +1,16 @@
 import api from "@/services/api/services";
+import { toast } from "react-toastify";
 
 const ContentDelete = ({ id, fecharModal, getProdutos }) => {
   function deletarProduto() {
+    toast.loading("Excluindo produto ...");
     api
       .delete(`/produtos/${id}`)
       .then(() => {
         fecharModal("fechar");
         getProdutos();
+        toast.dismiss();
+        toast.success("Produto excluído com sucesso!");
       })
       .catch((err) => {
         console.log(err);
