@@ -63,7 +63,11 @@ const PedidosComerciante = () => {
               id: item.id,
               nome: item.produto.nome,
               quantidade: item.quantidade,
-              produto: item.produto,
+              ...item.produto,
+              imagem:
+                item?.produto?.imagens?.length > 0
+                  ? item?.produto?.imagens[0]
+                  : "",
             };
           });
 
@@ -178,7 +182,7 @@ const PedidosComerciante = () => {
           </div>
         </div>
 
-        <div className=" flex flex-col overflow-auto gap-y-6">
+        <div className=" flex flex-col overflow-auto gap-y-6 max-h-[700px]">
           {isLoading ? (
             <div className="flex flex-col justify-center items-center mt-[180px]">
               <CircularProgress
