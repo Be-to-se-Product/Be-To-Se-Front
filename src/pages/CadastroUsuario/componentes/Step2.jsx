@@ -42,7 +42,7 @@ const Step2 = ({ getDataForm, children, data }) => {
         <InputRoot.Label>Email</InputRoot.Label>
         <InputRoot.ContentInput
           type="text"
-          placeholder="Nome"
+          placeholder="Email"
           defaultValue={data?.email}
           register={register("email", schemaValidation.email)}
         />
@@ -57,7 +57,7 @@ const Step2 = ({ getDataForm, children, data }) => {
         <InputRoot.Label>Senha</InputRoot.Label>
         <InputRoot.ContentInput
           type="password"
-          placeholder="Nome"
+          placeholder="Digite uma senha"
           defaultValue={data?.senha}
           register={register("senha", schemaValidation.senha)}
         />
@@ -72,7 +72,7 @@ const Step2 = ({ getDataForm, children, data }) => {
         <InputRoot.Label>Confirme sua senha</InputRoot.Label>
         <InputRoot.ContentInput
           type="password"
-          placeholder="Nome"
+          placeholder="Repita a senha"
           defaultValue={data?.confSenha}
           register={register("confSenha", schemaValidation.confSenha)}
         />

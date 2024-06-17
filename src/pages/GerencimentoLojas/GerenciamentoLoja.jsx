@@ -46,6 +46,7 @@ const GerenciamentoLoja = () => {
   };
 
   const deleteByLoja = (id) => {
+    toast.loading("Excluindo loja");
     api
       .delete(`/estabelecimentos/${id}`)
       .then(() => {
@@ -54,6 +55,7 @@ const GerenciamentoLoja = () => {
           open: false,
           id: "",
         });
+        toast.dismiss()
         toast.success("Loja deletada com sucesso");
       })
       .catch((erro) => {
