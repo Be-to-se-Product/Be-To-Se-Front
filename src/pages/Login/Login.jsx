@@ -169,13 +169,7 @@ function Login() {
             <h2 className="text-3xl font-medium">Bem vindo a EasyFind</h2>
             <p className="text-xl">Conectando você ao comercio local</p>
           </div>
-          <Button>Fazer Login com o Google</Button>
-          <div className="relative w-full">
-            <h2 className="bg-white-full text-center  relative z-10 w-max mx-auto px-4   ">
-              Ou entre com seu e-mail
-            </h2>
-            <div className="w-full h-[1px] bg-black-50 absolute left-0 top-1/2  " />
-          </div>
+
           <div className="w-full flex flex-col gap-x-2">
             <InputRoot.Label>{TEXTS.TITLES.LOGIN}</InputRoot.Label>
             <InputRoot.ContentInput
